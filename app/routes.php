@@ -4,6 +4,7 @@ use App\Middlewares\AuthMiddleware;
 use App\Middlewares\GuestMiddleware;
 
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
+$app->get('/kalendar', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
 
 $app->group('', function () {
     $this->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');
