@@ -1,6 +1,6 @@
 <?php
 
-define('APP_NAME', 'Ordinacija');
+define('APP_NAME', 'Rezervacije');
 
 define('DS', DIRECTORY_SEPARATOR);
 define('DIR', dirname(__DIR__) . DS);

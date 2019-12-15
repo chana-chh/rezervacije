@@ -8,7 +8,7 @@ $config = [
             'cache_path' => false,
         ],
         'db' => [
-            'dsn' => 'mysql:host=127.0.0.1;dbname=ordinacija;charset=utf8mb4',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=rezervacije;charset=utf8mb4',
             'username' => 'root',
             'password' => '',
             'options' => [

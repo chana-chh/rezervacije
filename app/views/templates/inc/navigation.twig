@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-info text-light navbar-expand-lg sticky-top">
   <a href="{{ path_for('pocetna') }}" class="navbar-brand"
-    ><i class="fas fa-syringe"></i> Ordinacija</a
+    ><i class="fas fa-calendar-check"></i> Rezervacije</a
   >
   <button
     class="navbar-toggler"
@@ -18,80 +18,20 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <a class="nav-link" href="{{ path_for('pocetna') }}"
-          ><i class="fas fa-clinic-medical"></i> Početna</a
+          ><i class="fas fa-home"></i> Početna</a
         >
       </li>
-
-      {% if auth.logged %} {% if auth.user.nivo == 100 or auth.user.nivo == 0 %}
-      <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('pocetna') }}"
+          ><i class="fas fa-calendar-alt"></i> Pregled</a
         >
-          <i class="fas fa-user-nurse"></i> Tehničar
-        </a>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="navbarDropdown"
-        >
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
       </li>
-      {% endif %} {% if auth.user.nivo == 200 or auth.user.nivo == 0 %}
-      <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('pocetna') }}"
+          ><i class="fas fa-calendar-plus"></i> Zakazivanje</a
         >
-          <i class="fas fa-user-md"></i> Lekar
-        </a>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="navbarDropdown"
-        >
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
       </li>
-      {% endif %} {% if auth.user.nivo == 300 or auth.user.nivo == 0 %}
-      <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <i class="fas fa-user-tie"></i> Vlasnik
-        </a>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="navbarDropdown"
-        >
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      {% endif %} {% if auth.user.nivo == 0 %}
+      {% if auth.user.korisnicko_ime == 'admin' %}
       <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
@@ -115,6 +55,8 @@
         </div>
       </li>
       {% endif %}
+
+      {% if auth.logged %}
       <li class="nav-item">
         <a class="nav-link" href="{{ path_for('odjava') }}"
           ><i class="fas fa-sign-out-alt"></i> Odjava</a
