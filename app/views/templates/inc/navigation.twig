@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-info text-light navbar-expand-lg sticky-top">
+<nav class="navbar navbar-dark bg-success text-light navbar-expand-lg sticky-top">
   <a href="{{ path_for('pocetna') }}" class="navbar-brand"
     ><i class="fas fa-calendar-check"></i> Rezervacije</a
   >
@@ -48,15 +48,15 @@
           class="dropdown-menu dropdown-menu-right"
           aria-labelledby="navbarDropdown"
         >
-          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="{{ path_for('admin.korisnik.lista') }}"
+            >Korisnici</a
+          >
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
-      {% endif %}
-
-      {% if auth.logged %}
+      {% endif %} {% if auth.logged %}
       <li class="nav-item">
         <a class="nav-link" href="{{ path_for('odjava') }}"
           ><i class="fas fa-sign-out-alt"></i> Odjava</a
