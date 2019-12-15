@@ -12,4 +12,5 @@ $app->group('', function () {
 
 $app->group('', function () {
     $this->get('/odjava', '\App\Controllers\AuthController:getOdjava')->setName('odjava');
+    $this->get('/admin/korisnik-lista', '\App\Controllers\KorisnikController:getKorisnikLista')->setName('admin.korisnik.lista');
 })->add(new AuthMiddleware($container));
