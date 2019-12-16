@@ -1,3 +1,3 @@
 # TODO
 
-test push
+Kapara ne znači ništa kod preklapajućih događaja

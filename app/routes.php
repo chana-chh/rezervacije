@@ -6,6 +6,9 @@ use App\Middlewares\GuestMiddleware;
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
 $app->get('/kalendar', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
 
+//Sale
+$app->get('/sifarnici/sale', '\App\Controllers\SalaController:getSale')->setName('sale');
+
 $app->group('', function () {
     $this->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');
     $this->post('/prijava', '\App\Controllers\AuthController:postPrijava');
