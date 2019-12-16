@@ -1,21 +1,20 @@
 {% extends "templates/app.twig" %} {% block stil %} {% endblock stil %} {% block
 naslov %}
-<h1 class="text-center display-1">
-  <i class="fas fa-calendar-check"></i> Rezervacije
-</h1>
+<h1 class="text-center"><i class="fas fa-calendar-check"></i> Rezervacije</h1>
 <hr />
-<p>
-  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam omnis unde
-  eum culpa sint dolor, fugiat incidunt aliquam dolorem ad deserunt eveniet non,
-  error asperiores iusto voluptatem itaque tempore quaerat nisi tempora eaque!
-  Quo aspernatur sunt, veritatis nemo dignissimos tempora laborum libero nobis
-  hic, vitae quibusdam mollitia, cum consequatur aperiam. Blanditiis tempora in
-  laborum consectetur quia, temporibus voluptatibus totam eaque, quasi non
-  quidem mollitia, minus rerum distinctio maxime recusandae necessitatibus saepe
-  laboriosam impedit! Impedit fugiat minima, architecto libero repudiandae atque
-  illum accusamus, sed sint ipsam est, magni quas eum consequuntur rem dolore!
-  Molestiae ratione obcaecati hic minus enim, dolorem sint!
-</p>
+<div id="display"></div>
+<div id="calendar" class="calendar">
+  <div class="day-list">
+    <ul class="days"></ul>
+  </div>
+</div>
 
 {% endblock naslov %} {% block sadrzaj %} {% endblock sadrzaj %} {% block
-traka%} {% endblock traka %} {% block skripta %} {% endblock skripta %}
+traka%} {% endblock traka %} {% block skripta %}
+<script src="{{ base_url() }}/js/calendar.js"></script>
+<script>
+  const cal1 = new CSCalendar({
+    id: "calendar"
+  });
+</script>
+{% endblock skripta %}
