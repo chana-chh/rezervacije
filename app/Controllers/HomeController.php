@@ -9,4 +9,11 @@ class HomeController extends Controller
         // $this->flash->addMessage('success', 'Dobrodošli u Ordinaciju');
         $this->render($response, 'home.twig', compact('password', 'hash'));
     }
+
+    //Za sada ovde
+    public function getKalendar($request, $response)
+    {
+
+        $this->render($response, 'kalendar.twig');
+    }
 }

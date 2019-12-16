@@ -1,0 +1,53 @@
+{% extends "templates/app.twig" %} 
+{% block stil %}
+  <link href="{{ base_url()}}/css/fullcalendar.css" rel="stylesheet">
+  <link href="{{ base_url()}}/css/fullcalendar.print.css" rel="stylesheet" media="print">
+{% endblock stil %}
+{% block naslov %}
+<h1 class="text-center display-1">
+  <i class="fas fa-calendar-check"></i> Kalendar
+</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12" id='kalendar'></div>
+</div>
+
+{% endblock naslov %}
+{% block skripta %}
+  <script src="{{base_url()}}/js/moment.min.js"></script>
+  <script src="{{base_url()}}/js/fullcalendar.min.js"></script>
+  <script src="{{base_url()}}/js/sr.js"></script>
+
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#kalendar').fullCalendar({
+      themeSystem: 'bootstrap4',
+    customButtons: {
+        myCustomButton: {
+            text: 'Štampaj',
+            click: function() {
+                window.print();
+            }
+        }
+    },
+header: {
+left: 'prev,next today myCustomButton',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listDay'
+},
+        views: {
+        month: {
+        columnFormat:'dddd'
+        }
+        },
+        defaultView: 'month',
+        weekends: true,
+        height: 630,
+        dayNames: ['nedelja', 'ponedeljak', 'utorak', 'sreda', 'četvrtak', 'petak', 'subota'],
+        dayNamesShort: ['nedelja', 'ponedeljak', 'utorak', 'sreda', 'četvrtak', 'petak', 'subota'],
+        monthNames: ['januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar'],
+        monthNamesShort: ['januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar']
+})
+        });
+  </script>
+{% endblock skripta %}
