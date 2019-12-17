@@ -4,18 +4,17 @@ namespace App\Middlewares;
 
 class Middleware
 {
+    protected $container;
 
-	protected $container;
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
 
-	function __construct($container)
-	{
-		$this->container = $container;
-	}
-
-	public function __get($ime)
-	{
-		if ($this->container->get($ime)) {
-			return $this->container->get($ime);
-		}
-	}
+    public function __get($ime)
+    {
+        if ($this->container->get($ime)) {
+            return $this->container->get($ime);
+        }
+    }
 }
