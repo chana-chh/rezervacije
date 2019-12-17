@@ -7,7 +7,9 @@ $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
 $app->get('/kalendar', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
 
 //Sale
-$app->get('/sifarnici/sale', '\App\Controllers\SalaController:getSale')->setName('sale');
+$app->get('/administracija/sale', '\App\Controllers\SalaController:getSale')->setName('sale');
+$app->post('/administracija/sale/dodavanje', '\App\Controllers\SalaController:postSalaDodavanje')->setName('sale.dodavanje');
+$app->post('/administracija/sale/brisanje', '\App\Controllers\SalaController:postSalaBrisanje')->setName('sale.brisanje');
 
 $app->group('', function () {
     $this->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');

@@ -8,6 +8,7 @@ use App\Classes\Config;
 class Validator
 {
     protected $items;
+    protected $db;
     protected $convert = false;
     protected $errors = [];
     protected $rules = [
@@ -151,7 +152,7 @@ class Validator
 
         $where = implode(' AND ', $wheres);
         $sql = "SELECT COUNT(*) AS broj FROM $table WHERE {$where};";
-        $res = Db::fetch($sql, $params);
+        $res = $this->db->fetch($sql, $params);
         return (int)$res[0]->broj > 0 ? false : true;
     }
 
@@ -184,7 +185,7 @@ class Validator
         }
         $where = implode(' AND ', $wheres);
         $sql = "SELECT COUNT(*) AS broj FROM {$table} WHERE {$where};";
-        $res = Db::fetch($sql, $params);
+        $res = $this->db->fetch($sql, $params);
         return (int)$res[0]->broj > 0 ? false : true;
     }
 

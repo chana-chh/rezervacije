@@ -1,6 +1,6 @@
 {% extends "templates/app.twig" %} 
 {% block naslov %}
-<h1 class="text-center display-1">
+<h1>
   <i class="fas fa-warehouse"></i> Sale
 </h1>
 <hr />
@@ -23,29 +23,81 @@
       <td >{{ sala.id }}</td>
       <td>{{ sala.naziv }}</td>
       <td>{{ sala.max_kapacitet }}</td>
-      <td><i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i></td>
+      <td style="text-align:right;">
+        <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-danger btn-sm otvori-brisanje"
+                data-toggle="modal" data-target="#brisanjeModal"
+                value="{{ sala.id }}">
+                <i class="fas fa-trash-alt"></i>
+        </button>
+
+
     </tr>
     {% endfor %}
   </tbody>
 </table>
+
+{# Modal za brisanje #}
+<div id = "brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger">Upozorenje!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Da li želite trajno da obrišete salu? *</h3>
+                <p class = "text-danger">* Ova akcija je nepovratna!</p>
+                <form id="brisanje-forma" action="{{ path_for('sale.brisanje') }}" method="POST">
+                    {{ csrf|raw }}
+                    <input type="hidden" id="idBrisanje" name="idBrisanje">
+                    <hr style="margin-top: 30px;">
+
+                    <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
+                            <div class="form-group">
+                                    <button id = "btn-brisanje-obrisi" type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i>&emsp;Obriši
+                                    </button>
+                                    <a class="btn btn-secondary" data-dismiss="modal">
+                                        <i class="fas fa-ban"></i>&emsp;Otkaži
+                                    </a>
+                            </div>
+                    </div>
+                </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock sadrzaj %} 
 {% block traka %}
   <div class="card border-dark mb-3">
   <div class="card-header">Dodavanje nove sale</div>
   <div class="card-body text-dark">
-    <form>
+    <form action="{{ path_for('sale.dodavanje') }}" method="POST">
+      {{ csrf|raw }}
   <div class="form-group">
     <label for="naziv">Naziv</label>
-    <input type="text" class="form-control" id="naziv" aria-describedby="naziv sale">
-    <small id="naziv" class="form-text text-muted">Ovde cemo da sinemo gresku!</small>
+    <input type="text" class="form-control" name="naziv" id="naziv" aria-describedby="naziv sale">
+    <small id="greska" class="form-text text-muted">Ovde cemo da sinemo gresku!</small>
   </div>
   <div class="form-group">
-    <label for="kapacitet">Kapacitet sale</label>
-    <input type="number" class="form-control" id="kapacitet">
+    <label for="max_kapacitet">Kapacitet sale</label>
+    <input type="number" class="form-control" name="max_kapacitet" id="max_kapacitet">
   </div>
   <button type="submit" class="btn btn-primary"><i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
 </form>
   </div>
 </div>
 {% endblock traka %}
+{% block skripta %}
+  <script>
+   $(document).on('click', '.otvori-brisanje', function () {
+            var id = $(this).val();
+            $('#idBrisanje').val(id);
+        });
+   </script>
+{% endblock skripta %}
 
