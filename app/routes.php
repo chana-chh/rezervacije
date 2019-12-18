@@ -26,6 +26,7 @@ $app->group('', function () {
     $this->get('/administracija/sale', '\App\Controllers\SalaController:getSale')->setName('sale');
     $this->post('/administracija/sale/dodavanje', '\App\Controllers\SalaController:postSalaDodavanje')->setName('sale.dodavanje');
     $this->post('/administracija/sale/brisanje', '\App\Controllers\SalaController:postSalaBrisanje')->setName('sale.brisanje');
+    $this->post('/administracija/sale/detalj', '\App\Controllers\SalaController:postSalaDetalj')->setName('sale.detalj');
 })->add(new UserLevelMiddleware($container, [0]));
 
 // PREGLED
