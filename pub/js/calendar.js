@@ -27,14 +27,6 @@ class CSCalendar {
   constructor(options) {
     this.options = options;
     this.display = document.getElementById("display");
-    // this.elements = {
-    //   days: this.getFirstElementInsideIdByClassName("days"),
-    //   week: this.getFirstElementInsideIdByClassName("week"),
-    //   month: this.getFirstElementInsideIdByClassName("month"),
-    //   year: this.getFirstElementInsideIdByClassName("current-year"),
-    //   prevYear: this.getFirstElementInsideIdByClassName("prev-year"),
-    //   nextYear: this.getFirstElementInsideIdByClassName("next-year")
-    // };
     this.elements = {};
     this.date = +new Date();
     this.options.maxDays = 35;
@@ -58,9 +50,28 @@ class CSCalendar {
 
   createYearSlider() {
     const changeYearWrapper = document.createElement("div");
-    changeYearWrapper.classList.add("text-right");
+    changeYearWrapper.classList.add("text-right", "form-inline", "mt-2");
+
+    const inputDate = document.createElement("div");
+    inputDate.classList.add("col-lg-8", "col-sm-12", "text-left", "p-0");
+    const input = document.createElement("input");
+    input.setAttribute("type", "date");
+    input.setAttribute("readonly", "readonly");
+    input.classList.add("form-control", "mr-2");
+    this.elements.input = input;
+
+    const button = document.createElement("button");
+    button.classList.add("btn", "btn-outline-secondary");
+    button.innerText = "Danas";
+    this.elements.today = button;
+
+    inputDate.appendChild(input);
+    inputDate.appendChild(button);
+
+    changeYearWrapper.appendChild(inputDate);
+
     const slider = document.createElement("div");
-    slider.classList.add("change-year");
+    slider.classList.add("change-year", "col");
     const prev = document.createElement("i");
     prev.classList.add("fas", "fa-caret-left", "prev-year", "pointer");
     this.elements.prevYear = prev;
@@ -144,6 +155,11 @@ class CSCalendar {
       this.updateTime(strDate);
       this.drawAll();
     });
+
+    this.elements.today.addEventListener("click", e => {
+      this.date = +new Date();
+      this.drawAll();
+    });
   }
 
   drawAll() {
@@ -156,6 +172,7 @@ class CSCalendar {
   drawYear() {
     let calendar = this.getCalendar();
     this.elements.year.innerHTML = calendar.active.year;
+    this.elements.input.setAttribute("value", calendar.active.formattedSQL);
   }
 
   drawMonths() {
@@ -269,6 +286,7 @@ class CSCalendar {
         year: time.getFullYear(), // godina
         formatted: this.getFormattedDate(time), // formatirani datum
         formattedFull: this.getFormattedDate(time, true), // formatirani datum mesec slovima
+        formattedSQL: this.getFormattedDateSQL(time), // formatirani datum za input i SQL
         tm: +time // unix timestamp
       },
       pMonth: new Date(time.getFullYear(), time.getMonth() - 1, 1), // prethodni mesec
@@ -304,6 +322,16 @@ class CSCalendar {
     const datum =
       ("0" + date.getDate()).slice(-2) + "." + mesec + date.getFullYear();
     return datum;
+  }
+
+  getFormattedDateSQL(date) {
+    return (
+      date.getFullYear() +
+      "-" +
+      ("0" + (date.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + date.getDate()).slice(-2)
+    );
   }
 
   updateTime(time) {
