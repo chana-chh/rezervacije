@@ -27,16 +27,17 @@ class CSCalendar {
   constructor(options) {
     this.options = options;
     this.display = document.getElementById("display");
-    this.elements = {
-      days: this.getFirstElementInsideIdByClassName("days"),
-      week: this.getFirstElementInsideIdByClassName("week"),
-      month: this.getFirstElementInsideIdByClassName("month"),
-      year: this.getFirstElementInsideIdByClassName("current-year"),
-      prevYear: this.getFirstElementInsideIdByClassName("prev-year"),
-      nextYear: this.getFirstElementInsideIdByClassName("next-year")
-    };
+    // this.elements = {
+    //   days: this.getFirstElementInsideIdByClassName("days"),
+    //   week: this.getFirstElementInsideIdByClassName("week"),
+    //   month: this.getFirstElementInsideIdByClassName("month"),
+    //   year: this.getFirstElementInsideIdByClassName("current-year"),
+    //   prevYear: this.getFirstElementInsideIdByClassName("prev-year"),
+    //   nextYear: this.getFirstElementInsideIdByClassName("next-year")
+    // };
+    this.elements = {};
     this.date = +new Date();
-    this.options.maxDays = 42;
+    this.options.maxDays = 35;
     this.init();
   }
 
@@ -52,6 +53,7 @@ class CSCalendar {
     this.createYearSlider();
     this.createMonthSelect();
     this.createWeekdays();
+    this.createDays();
   }
 
   createYearSlider() {
@@ -99,6 +101,16 @@ class CSCalendar {
     this.calendarElement.appendChild(table);
   }
 
+  createDays() {
+    const table = document.createElement("table");
+    table.classList.add("table", "table-bordered");
+    const tbody = document.createElement("tbody");
+    tbody.classList.add("days");
+    this.elements.days = tbody;
+    table.appendChild(tbody);
+    this.calendarElement.appendChild(table);
+  }
+
   eventsTrigger() {
     this.elements.prevYear.addEventListener("click", e => {
       let calendar = this.getCalendar();
@@ -137,7 +149,7 @@ class CSCalendar {
   drawAll() {
     this.drawWeekDays();
     this.drawMonths();
-    // this.drawDays();
+    this.drawDays();
     this.drawYear();
   }
 
@@ -171,7 +183,9 @@ class CSCalendar {
   drawDays() {
     let calendar = this.getCalendar();
 
-    let latestDaysInPrevMonth = this.range(calendar.active.startWeek)
+    let numForRange =
+      calendar.active.startWeek === 0 ? 6 : calendar.active.startWeek - 1;
+    let latestDaysInPrevMonth = this.range(numForRange)
       .map((day, idx) => {
         return {
           dayNumber: this.countOfDaysInMonth(calendar.pMonth) - idx,
@@ -198,9 +212,16 @@ class CSCalendar {
       };
     });
 
+    if (latestDaysInPrevMonth.length + daysInActiveMonth.length > 35) {
+      this.options.maxDays = 42;
+    } else {
+      this.options.maxDays = 35;
+    }
+
     let countOfDays =
       this.options.maxDays -
       (latestDaysInPrevMonth.length + daysInActiveMonth.length);
+
     let daysInNextMonth = this.range(countOfDays).map((day, idx) => {
       return {
         dayNumber: idx + 1,
@@ -216,24 +237,21 @@ class CSCalendar {
       ...daysInNextMonth
     ];
 
-    days = days.map(day => {
-      let newDayParams = day;
-      //   let formatted = this.getFormattedDate(
-      //     new Date(`${Number(day.month) + 1}/${day.dayNumber}/${day.year}`)
-      //   );
-      //   newDayParams.hasEvent = this.eventList[formatted];
-      return newDayParams;
-    });
-
     let daysTemplate = "";
-    days.forEach(day => {
-      daysTemplate += `<li class="${day.currentMonth ? "" : "another-month"}${
+    days.forEach((day, idx) => {
+      if (idx % 7 === 0) {
+        daysTemplate += `<tr>`;
+      }
+      daysTemplate += `<td class="${day.currentMonth ? "" : "another-month"}${
         day.today ? " active-day " : ""
       }${day.selected ? "selected-day" : ""}${
         day.hasEvent ? " event-day" : ""
       }" data-day="${day.dayNumber}" data-month="${day.month}" data-year="${
         day.year
-      }">${day.dayNumber}</li>`;
+      }">${day.dayNumber}</td>`;
+      if (idx % 7 === 6) {
+        daysTemplate += `</tr>`;
+      }
     });
 
     this.elements.days.innerHTML = daysTemplate;

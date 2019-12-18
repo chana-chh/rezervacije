@@ -115,10 +115,31 @@ body {
   text-align: right;
   font-weight: bold;
   text-transform: uppercase;
+  width: 14.2857%;
+  background-color: #eeeeee;
 }
 
 .calendar .week td.weekend {
   color: red;
+}
+
+.calendar .days tr td {
+  width: 14.2857%;
+  text-align: right;
+  height: 6rem;
+}
+
+.calendar .days tr td.another-month {
+  color: #cccccc;
+}
+
+.calendar .days tr td.active-day {
+  color: red;
+  font-weight: bold;
+}
+
+.calendar .days tr td.selected-day {
+  background-color: #eeeeff;
 }
 
 /*
