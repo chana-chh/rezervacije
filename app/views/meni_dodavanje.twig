@@ -1,29 +1,79 @@
 {% extends "templates/app.twig" %} 
 {% block naslov %}
-
+<div class="row mt-md-5">
+    <div class="col">
       <h1>
         <i class="fas fa-drumstick-bite"></i> Dodavanje menija
       </h1>
-      <hr/>
+    </div>
+    <div class="col justify-content-end text-right">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <button type="button" class="btn btn-secondary btn-sm" onclick="window.history.back();"><i class="fas fa-chevron-circle-left"></i> Nazad</button>
+  <a href="{{ path_for('meni') }}" class="btn btn-secondary btn-sm"><i class="fas fa-drumstick-bite"></i> SVI meniji</a>
+</div>
+    </div>
+  </div>
+<hr />
   <div class="card border-dark mb-3">
-  <div class="card-header">Dodavanje nove sale</div>
+  <div class="card-header">Forma za unos</div>
   <div class="card-body text-dark">
-    <form action="{{ path_for('sale.dodavanje') }}" method="POST">
+    <form action="{{ path_for('meni.dodavanje.post') }}" method="POST">
       {{ csrf|raw }}
-  <div class="form-group">
-    <label for="naziv">Naziv</label>
+
+      <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="naziv">Naziv</label>
     <input type="text" class="form-control" name="naziv" id="naziv" aria-describedby="naziv sale">
     <small id="greska" class="form-text text-muted">Ovde cemo da sinemo gresku!</small>
+    </div>
+    </div>
+    <hr>
+    <div class="form-row">
+    <div class="col">
+      <label for="hleb"><i class="fas fa-bread-slice text-warning"></i> <strong>Hleb</strong></label>
+      <textarea class="form-control"  name="hleb" id="hleb" rows="3"></textarea>
+    </div>
+    <div class="col">
+      <label for="hladno_predjelo"><i class="fas fa-bacon text-warning"></i> <strong>Hladno predjelo</strong></label>
+      <textarea class="form-control"  name="hladno_predjelo" id="hladno_predjelo" rows="3"></textarea>
+    </div>
+    <div class="col">
+      <label for="sirevi"><i class="fas fa-cheese text-warning"></i> <strong>Sirevi</strong></label>
+      <textarea class="form-control"  name="sirevi" id="sirevi" rows="3"></textarea>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="max_kapacitet">Kapacitet sale</label>
-    <input type="number" class="form-control" name="max_kapacitet" id="max_kapacitet">
+  <div class="form-row">
+      <div class="col">
+      <label for="corba"><i class="fas fa-utensil-spoon text-warning"></i> <strong>Čorba</strong></label>
+      <textarea class="form-control"  name="corba" id="corba" rows="3"></textarea>
+    </div>
+    <div class="col">
+      <label for="glavno_jelo"><i class="fas fa-utensils text-warning"></i> <strong>Glavno jelo</strong></label>
+      <textarea class="form-control"  name="glavno_jelo" id="glavno_jelo" rows="3"></textarea>
+    </div>
+    <div class="col">
+      <label for="meso"><i class="fas fa-drumstick-bite text-warning"></i> <strong>Meso</strong></label>
+      <textarea class="form-control"  name="meso" id="meso" rows="3"></textarea>
+    </div>
   </div>
-  <div class="form-group">
+    <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="karta_pica"><i class="fas fa-wine-glass text-warning"></i> <strong>Karta pića</strong></label>
+      <textarea class="form-control"  name="karta_pica" id="karta_pica" rows="3"></textarea>
+    </div>
+    </div>
+    <hr>
+  <div class="form-row">
+    <div class="form-group col-md-4">
     <label for="napomena">Napomena</label>
     <textarea class="form-control"  name="napomena" id="napomena" rows="3"></textarea>
   </div>
+</div>
+<div class="row">
+  <div class="col text-right justify-content-end">
   <button type="submit" class="btn btn-primary"><i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
+  </div>
+</div>
 </form>
   </div>
 </div>
