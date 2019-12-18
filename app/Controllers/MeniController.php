@@ -35,9 +35,9 @@ class MeniController extends Controller
             'naziv' => [
                 'required' => true,
                 'minlen' => 5,
-                'maxlen' => 70,
+                'maxlen' => 50,
                 'alnum' => true,
-                'unique' => 'sale.naziv'
+                'unique' => 's_meniji.naziv'
             ]
         ];
 
@@ -49,8 +49,8 @@ class MeniController extends Controller
             return $response->withRedirect($this->router->pathFor('meni'));
         } else {
             $this->flash->addMessage('success', 'Nov meni je uspešno dodat.');
-            $modelSale = new Sala();
-            $modelSale->insert($data);
+            $modelMenija = new Meni();
+            $modelMenija->insert($data);
             return $response->withRedirect($this->router->pathFor('meni'));
         }
     }
