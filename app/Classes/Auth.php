@@ -6,7 +6,6 @@ use App\Models\Korisnik;
 
 class Auth
 {
-    private $user;
     private $model;
 
     public function __construct()
@@ -22,6 +21,7 @@ class Auth
         }
         if ($this->checkPassword($password, $user->lozinka)) {
             $_SESSION['user'] = $user->id;
+
             return true;
         }
         return false;
