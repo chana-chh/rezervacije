@@ -61,4 +61,13 @@ class SalaController extends Controller
             return $response->withRedirect($this->router->pathFor('sale'));
         }
     }
+
+    public function postSalaDetalj($request, $response)
+    {
+            $data = $request->getParams();
+            $id = $data['id'];
+            $modelSale = new Sala();
+            $sala = $modelSale->find($id);
+            return $response->withJson($sala);
+    }
 }
