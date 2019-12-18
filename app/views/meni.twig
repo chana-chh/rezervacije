@@ -1,0 +1,81 @@
+{% extends "templates/app.twig" %} 
+{% block naslov %}
+<div class="row">
+    <div class="col">
+      <h1>
+        <i class="fas fa-drumstick-bite"></i> Pregled dostupnih menija
+      </h1>
+    </div>
+    <div class="col justify-content-end text-right">
+              <a href="{{ path_for('meni.dodavanje.get') }}" class="btn btn-primary mt-3">
+                <i class="fas fa-plus-square"></i>&emsp;Dodaj novi meni
+        </a>
+    </div>
+  </div>
+<hr />
+  <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th class="w-3" scope="col">#</th>
+      <th class="w-11" scope="col">Naziv</th>
+      <th class="w-11" scope="col">Hladno predjelo</th>
+      <th class="w-11" scope="col">Sirevi</th>
+      <th class="w-12" scope="col">Čorba</th>
+      <th class="w-12" scope="col">Glavno jelo</th>
+      <th class="w-11" scope="col">Meso</th>
+      <th class="w-11" scope="col">Hleb</th>
+      <th class="w-11" scope="col">Karta pića</th>
+      <th class="w-7" scope="col" style="text-align:right;">Akcije</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for me in meni.data %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>{{ me.naziv }}</td>
+      <td>{{ me.hladno_predjelo|nl2br }}</td>
+      <td>{{ me.sirevi|nl2br }}</td>
+      <td>{{ me.corba|nl2br }}</td>
+      <td>{{ me.glavno_jelo|nl2br }}</td>
+      <td>{{ me.meso|nl2br }}</td>
+      <td>{{ me.hleb|nl2br }}</td>
+      <td>{{ me.karta_pica|nl2br }}</td>
+      <td style="text-align:right;">
+        <button class="btn btn-success btn-sm otvori-izmenu"
+        data-toggle="modal" data-target="#izmenaModal"
+        data-id="{{ me.id }}">
+                <i class="fas fa-edit"></i></button>
+        <button class="btn btn-danger btn-sm otvori-brisanje"
+                data-toggle="modal" data-target="#brisanjeModal"
+                value="{{ me.id }}">
+                <i class="fas fa-trash-alt"></i>
+        </button>
+        <button class="btn btn-primary btn-sm">
+                <i class="fas fa-eye"></i>
+        </button>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="row">
+<nav class="col">
+  <ul class="pagination">
+    {% for button in meni.links.buttons %}
+    <li class="page-item{{ button.current ? ' active' : '' }}">
+      <a class="page-link" href="{{ button.url }}">{{ button.page }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+<p class="col justify-content-end text-right text-primary lead mr-1"><strong>
+  Prikazani redovi od
+            <em>{{ meni.links.row_from }}</em> do
+            <em>{{ meni.links.row_to }}</em> od ukupno
+            <em>{{ meni.links.total_rows }}</em>
+</strong>
+</p>
+</div>
+{% endblock naslov %}
+
+

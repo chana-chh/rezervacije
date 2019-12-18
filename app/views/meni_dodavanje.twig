@@ -1,0 +1,32 @@
+{% extends "templates/app.twig" %} 
+{% block naslov %}
+
+      <h1>
+        <i class="fas fa-drumstick-bite"></i> Dodavanje menija
+      </h1>
+      <hr/>
+  <div class="card border-dark mb-3">
+  <div class="card-header">Dodavanje nove sale</div>
+  <div class="card-body text-dark">
+    <form action="{{ path_for('sale.dodavanje') }}" method="POST">
+      {{ csrf|raw }}
+  <div class="form-group">
+    <label for="naziv">Naziv</label>
+    <input type="text" class="form-control" name="naziv" id="naziv" aria-describedby="naziv sale">
+    <small id="greska" class="form-text text-muted">Ovde cemo da sinemo gresku!</small>
+  </div>
+  <div class="form-group">
+    <label for="max_kapacitet">Kapacitet sale</label>
+    <input type="number" class="form-control" name="max_kapacitet" id="max_kapacitet">
+  </div>
+  <div class="form-group">
+    <label for="napomena">Napomena</label>
+    <textarea class="form-control"  name="napomena" id="napomena" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary"><i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
+</form>
+  </div>
+</div>
+{% endblock naslov %}
+
+

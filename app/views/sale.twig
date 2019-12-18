@@ -10,19 +10,19 @@
   <thead class="thead-dark">
     <tr>
       <th class="w-5" scope="col">#</th>
-      <th class="w-5" scope="col">ID</th>
-      <th class="w-50" scope="col">Naziv</th>
-      <th class="w-20" scope="col">Kapacitet</th>
-      <th class="w-20" scope="col">Akcije</th>
+      <th class="w-30" scope="col">Naziv</th>
+      <th class="w-15" scope="col">Kapacitet</th>
+      <th class="w-30" scope="col">Napomena</th>
+      <th class="w-20" scope="col" style="text-align:right;">Akcije</th>
     </tr>
   </thead>
   <tbody>
     {% for sala in sale %}
     <tr>
       <th scope="row">{{ loop.index }}</th>
-      <td >{{ sala.id }}</td>
       <td>{{ sala.naziv }}</td>
       <td>{{ sala.max_kapacitet }}</td>
+      <td >{{ sala.napomena }}</td>
       <td style="text-align:right;">
         <button class="btn btn-success btn-sm otvori-izmenu"
         data-toggle="modal" data-target="#izmenaModal"
@@ -86,7 +86,7 @@
         </button>
       </div>
       <div class="modal-body">
-                <form id="izmena-forma" action="" method="POST">
+                <form id="izmena-forma" action="{{ path_for('sale.izmena') }}" method="POST">
                     {{ csrf|raw }}
                     <input type="hidden" id="idIzmena" name="idIzmena">
                     <div class="form-group">
@@ -98,6 +98,10 @@
                               <label for="max_kapacitet_Modal">Kapacitet sale</label>
                               <input type="number" class="form-control" name="max_kapacitet_Modal" id="max_kapacitet_Modal">
                             </div>
+                            <div class="form-group">
+                            <label for="napomenaModal">Napomena</label>
+                            <textarea class="form-control"  name="napomenaModal" id="napomenaModal" rows="3"></textarea>
+                          </div>
                     <hr style="margin-top: 30px;">
                     <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
                             <div class="form-group">
@@ -132,6 +136,10 @@
     <label for="max_kapacitet">Kapacitet sale</label>
     <input type="number" class="form-control" name="max_kapacitet" id="max_kapacitet">
   </div>
+  <div class="form-group">
+    <label for="napomena">Napomena</label>
+    <textarea class="form-control"  name="napomena" id="napomena" rows="3"></textarea>
+  </div>
   <button type="submit" class="btn btn-primary"><i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
 </form>
   </div>
@@ -150,11 +158,11 @@
 
   $(document).on('click','.otvori-izmenu',function(){
 
-        var csrfName = $( ".csrf_name" ).val();
-        var csrfValue = $( ".csrf_value" ).val();
+        var csrfName = $(".csrf_name" ).val();
+        var csrfValue = $(".csrf_value" ).val();
         var id = $(this).data("id");
 
-        var csrfAndData = {"csrf_name" : csrfName,"csrf_value" : csrfValue, "id" : id};
+        var csrfAndData = {"csrf_name":csrfName, "csrf_value":csrfValue, "id":id};
 
         var ruta = ["{{ path_for('sale.detalj') }}"];
 
@@ -163,9 +171,12 @@
         type:"POST", 
         data: csrfAndData,
         success: function(data){
-          $("#idIzmena").val(data.id);
-          $("#nazivModal").val(data.naziv);
-          $("#max_kapacitet_Modal").val(data.max_kapacitet);
+          $( ".csrf_name" ).val(data.cname);
+          $( ".csrf_value" ).val(data.cvalue);
+          $("#idIzmena").val(data.sala.id);
+          $("#nazivModal").val(data.sala.naziv);
+          $("#max_kapacitet_Modal").val(data.sala.max_kapacitet);
+          $("#napomenaModal").val(data.sala.napomena);
         }
       });
 

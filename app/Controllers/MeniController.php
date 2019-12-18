@@ -2,20 +2,30 @@
 
 namespace App\Controllers;
 
-use App\Models\Sala;
+use App\Models\Meni;
 Use App\Classes\Db;
 
-class SalaController extends Controller
+class MeniController extends Controller
 {
-    public function getSale($request, $response)
+    public function getMeni($request, $response)
     {
-        $model = new Sala();
-        $sale = $model->all();
-       
-        $this->render($response, 'sale.twig', compact('sale'));
+        $query = [];
+        parse_str($request->getUri()->getQuery(), $query);
+        $page = isset($query['page']) ? (int)$query['page'] : 1;
+
+        $modelMeni = new Meni;
+        $sql = "SELECT * FROM s_meniji";
+        $meni = $modelMeni->paginate($page, $sql);
+
+        $this->render($response, 'meni.twig', compact('meni'));
     }
 
-    public function postSalaDodavanje($request, $response)
+    public function getMeniDodavanje($request, $response)
+    {
+        $this->render($response, 'meni_dodavanje.twig');
+    }
+
+    public function postMeniDodavanje($request, $response)
     {
         $data = $request->getParams();
         unset($data['csrf_name']);
@@ -28,9 +38,6 @@ class SalaController extends Controller
                 'maxlen' => 70,
                 'alnum' => true,
                 'unique' => 'sale.naziv'
-            ],
-            'max_kapacitet' => [
-                'required' => true
             ]
         ];
 
@@ -38,17 +45,17 @@ class SalaController extends Controller
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
-            $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja sale.');
-            return $response->withRedirect($this->router->pathFor('sale'));
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja menija.');
+            return $response->withRedirect($this->router->pathFor('meni'));
         } else {
-            $this->flash->addMessage('success', 'Nova sala je uspešno dodata.');
+            $this->flash->addMessage('success', 'Nov meni je uspešno dodat.');
             $modelSale = new Sala();
             $modelSale->insert($data);
-            return $response->withRedirect($this->router->pathFor('sale'));
+            return $response->withRedirect($this->router->pathFor('meni'));
         }
     }
 
-    public function postSalaBrisanje($request, $response)
+    public function postMeniBrisanje($request, $response)
     {
         $id = (int)$request->getParam('idBrisanje');
         $modelSale = new Sala();
@@ -62,7 +69,7 @@ class SalaController extends Controller
         }
     }
 
-    public function postSalaDetalj($request, $response)
+    public function getMeniDetalj($request, $response)
     {
             $data = $request->getParams();
             $cName = $this->csrf->getTokenName();
@@ -74,39 +81,34 @@ class SalaController extends Controller
             return $response->withJson($ar);
     }
 
-    public function postSalaIzmena($request, $response)
+    public function postMeniIzmena($request, $response)
     {
         $data = $request->getParams();
-        $id = $data['idIzmena'];
-        unset($data['idIzmena']);
+        $id = $data['id'];
+        unset($data['id']);
         unset($data['csrf_name']);
         unset($data['csrf_value']);
-
-        $datam = ["naziv"=>$data['nazivModal'], "max_kapacitet"=>$data['max_kapacitet_Modal'], "napomena"=>$data['napomenaModal']];
 
         $validation_rules = [
             'naziv' => [
                 'required' => true,
                 'minlen' => 5,
-                'maxlen' => 70,
+                'maxlen' => 190,
                 'alnum' => true,
-                'unique' => 'sale.naziv#id:' . $id,
+                'unique' => 'groblja.naziv#id:' . $id,
             ],
-            'max_kapacitet' => [
-                'required' => true
-            ]
         ];
 
-        $this->validator->validate($datam, $validation_rules);
+        $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
-            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka sale.');
-            return $response->withRedirect($this->router->pathFor('sale'));
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka groblja.');
+            return $response->withRedirect($this->router->pathFor('groblja.izmena', ['id' => $id]));
         } else {
-            $this->flash->addMessage('success', 'Podaci o sali su uspešno izmenjeni.');
-            $modelSale = new Sala();
-            $modelSale->update($datam, $id);
-            return $response->withRedirect($this->router->pathFor('sale'));
+            $this->flash->addMessage('success', 'Podaci o groblju su uspešno izmenjeni.');
+            $modelGroblja = new Meni();
+            $modelGroblja->update($data, $id);
+            return $response->withRedirect($this->router->pathFor('groblja'));
         }
     }
 }
