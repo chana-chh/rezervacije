@@ -69,16 +69,12 @@ class MeniController extends Controller
         }
     }
 
-    public function getMeniDetalj($request, $response)
+    public function getMeniDetalj($request, $response, $args)
     {
-            $data = $request->getParams();
-            $cName = $this->csrf->getTokenName();
-            $cValue = $this->csrf->getTokenValue();
-            $id = $data['id'];
-            $modelSale = new Sala();
-            $sala = $modelSale->find($id);
-            $ar = ["cname" => $cName, "cvalue"=>$cValue, "sala"=>$sala];
-            return $response->withJson($ar);
+        $id = (int)$args['id'];
+        $modelMeni = new Meni();
+        $meni = $modelMeni->find($id);
+        $this->render($response, 'meni_pregled.twig', compact('meni'));
     }
 
     public function postMeniIzmena($request, $response)

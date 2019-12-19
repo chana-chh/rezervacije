@@ -33,7 +33,7 @@ $app->group('', function () {
     $this->get('/administracija/meni/dodavanje', '\App\Controllers\MeniController:getMeniDodavanje')->setName('meni.dodavanje.get');
     $this->post('/administracija/meni/dodavanje', '\App\Controllers\MeniController:postMeniDodavanje')->setName('meni.dodavanje.post');
     $this->post('/administracija/meni/brisanje', '\App\Controllers\MeniController:postMeniBrisanje')->setName('meni.brisanje');
-    $this->get('/administracija/meni/detalj', '\App\Controllers\MeniController:getMeniDetalj')->setName('meni.detalj');
+    $this->get('/administracija/meni/detalj/{id}', '\App\Controllers\MeniController:getMeniDetalj')->setName('meni.detalj');
 })->add(new UserLevelMiddleware($container, [0]));
 
 // PREGLED
