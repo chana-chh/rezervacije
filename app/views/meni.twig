@@ -58,7 +58,7 @@
 </table>
 <div class="row">
   <nav class="col">
-    <ul class="pagination">
+    <ul class="pagination pagination-sm">
       {% for button in meni.links.buttons %}
       <li class="page-item{{ button.current ? ' active' : '' }}">
         <a class="page-link" href="{{ button.url }}">{{ button.page }}</a>
@@ -66,7 +66,7 @@
       {% endfor %}
     </ul>
   </nav>
-  <p class="col justify-content-end text-right text-info lead mr-1"><strong>
+  <p class="col justify-content-end text-right text-info"><strong>
       Prikazani redovi od
       <em>{{ meni.links.row_from }}</em> do
       <em>{{ meni.links.row_to }}</em> od ukupno
