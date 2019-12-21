@@ -44,11 +44,10 @@
         <div class="btn-group btn-group-sm">
           <a class="btn btn-info btn-sm" href="{{ path_for('meni.detalj', { id: me.id }) }}" title="Detaljni pregled odabranog menija"><i
               class="fas fa-eye"></i></a>
-          <button class="btn btn-success btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
-            data-id="{{ me.id }}" title="Izmena odabranog menija">
-            <i class="fas fa-edit"></i></button>
+          <a class="btn btn-success btn-sm" href="{{ path_for('meni.izmena.get', { id: me.id }) }}" title="Izmena odabranog menija"><i
+              class="fas fa-edit"></i></a>
           <button class="btn btn-warning btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
-            value="{{ me.id }}" title="Brisanje odabranog menija">
+            data-id="{{ me.id }}" title="Brisanje odabranog menija">
             <i class="fas fa-trash-alt"></i>
           </button>
         </div>
@@ -74,6 +73,52 @@
     </strong>
   </p>
 </div>
+{# Modal za brisanje #}
+  <div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger">Upozorenje!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h3>Da li želite trajno da obrišete meni?</h3>
+          <p class="text-danger">* Ova akcija je nepovratna!</p>
+          <form id="brisanje-forma" action="{{ path_for('meni.brisanje') }}" method="POST">
+            {{ csrf|raw }}
+            <input type="hidden" id="idBrisanje" name="idBrisanje">
+            <hr style="margin-top: 30px;">
+
+            <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
+              <div class="form-group">
+                <button id="btn-brisanje-obrisi" type="submit" class="btn btn-outline-warning">
+                  <i class="fas fa-trash-alt"></i>&emsp;Obriši
+                </button>
+                <a class="btn btn-outline-secondary" data-dismiss="modal">
+                  <i class="fas fa-ban"></i>&emsp;Otkaži
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {# Kraj modala za brisanje #}
 {% endblock naslov %}
+{% block skripta %}
+  <script>
+    $(document).ready(function () {
+
+      $(document).on('click', '.otvori-brisanje', function () {
+        var id = $(this).data("id");
+        $('#idBrisanje').val(id);
+      });
+
+    });
+  </script>
+{% endblock skripta %}
 
 

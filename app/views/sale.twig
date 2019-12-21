@@ -33,7 +33,7 @@
             data-id="{{ sala.id }}" title="Izmena podataka odabrane sale">
             <i class="fas fa-edit"></i></button>
             <button class="btn btn-warning btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
-            value="{{ sala.id }}" title="Brisanje odabrane sale">
+            data-id="{{ sala.id }}" title="Brisanje odabrane sale">
             <i class="fas fa-trash-alt"></i>
             </button>
           </div>
@@ -158,7 +158,7 @@
 
 
       $(document).on('click', '.otvori-brisanje', function () {
-        var id = $(this).val();
+        var id = $(this).data("id");
         $('#idBrisanje').val(id);
       });
 
