@@ -58,27 +58,31 @@ class MeniController extends Controller
     public function postMeniBrisanje($request, $response)
     {
         $id = (int)$request->getParam('idBrisanje');
-        $modelSale = new Sala();
-        $success = $modelSale->deleteOne($id);
+        $model = new Meni();
+        $success = $model->deleteOne($id);
         if ($success) {
-            $this->flash->addMessage('success', "Sala je uspešno obrisana.");
-            return $response->withRedirect($this->router->pathFor('sale'));
+            $this->flash->addMessage('success', "Meni je uspešno obrisan.");
+            return $response->withRedirect($this->router->pathFor('meni'));
         } else {
-            $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja sale.");
-            return $response->withRedirect($this->router->pathFor('sale'));
+            $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja menija.");
+            return $response->withRedirect($this->router->pathFor('meni'));
         }
     }
 
-    public function getMeniDetalj($request, $response)
+    public function getMeniDetalj($request, $response, $args)
     {
-            $data = $request->getParams();
-            $cName = $this->csrf->getTokenName();
-            $cValue = $this->csrf->getTokenValue();
-            $id = $data['id'];
-            $modelSale = new Sala();
-            $sala = $modelSale->find($id);
-            $ar = ["cname" => $cName, "cvalue"=>$cValue, "sala"=>$sala];
-            return $response->withJson($ar);
+        $id = (int)$args['id'];
+        $modelMeni = new Meni();
+        $meni = $modelMeni->find($id);
+        $this->render($response, 'meni_pregled.twig', compact('meni'));
+    }
+
+    public function getMeniIzmena($request, $response, $args)
+    {
+        $id = (int)$args['id'];
+        $modelMeni = new Meni();
+        $meni = $modelMeni->find($id);
+        $this->render($response, 'meni_izmena.twig', compact('meni'));
     }
 
     public function postMeniIzmena($request, $response)
@@ -93,22 +97,22 @@ class MeniController extends Controller
             'naziv' => [
                 'required' => true,
                 'minlen' => 5,
-                'maxlen' => 190,
+                'maxlen' => 50,
                 'alnum' => true,
-                'unique' => 'groblja.naziv#id:' . $id,
+                'unique' => 's_meniji.naziv#id:' . $id,
             ],
         ];
 
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
-            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka groblja.');
-            return $response->withRedirect($this->router->pathFor('groblja.izmena', ['id' => $id]));
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka menija.');
+            return $response->withRedirect($this->router->pathFor('meni.izmena', ['id' => $id]));
         } else {
-            $this->flash->addMessage('success', 'Podaci o groblju su uspešno izmenjeni.');
-            $modelGroblja = new Meni();
-            $modelGroblja->update($data, $id);
-            return $response->withRedirect($this->router->pathFor('groblja'));
+            $this->flash->addMessage('success', 'Podaci menija su uspešno izmenjeni.');
+            $model = new Meni();
+            $model->update($data, $id);
+            return $response->withRedirect($this->router->pathFor('meni'));
         }
     }
 }
