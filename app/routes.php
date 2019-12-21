@@ -42,4 +42,6 @@ $app->group('', function () {
 
 // IZMENA
 $app->group('', function () {
+    $this->get('/termin', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
+    $this->post('/termin', '\App\Controllers\TerminController:postTerminDodavanje')->setName('termin.dodavanje.post');
 })->add(new UserLevelMiddleware($container, [200]));

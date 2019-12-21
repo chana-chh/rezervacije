@@ -1,0 +1,64 @@
+{% extends "templates/app.twig" %} {% block stil %} {% endblock stil %} {% block
+naslov %}
+
+<h1><i class="fas fa-calendar-check"></i> Zakazivanje</h1>
+<hr />
+
+<form action="{{ path_for('termin.dodavanje.post') }}" method="POST">
+  {{ csrf | raw }}
+  <div class="form-row">
+    <div class="form-group col-lg-3">
+      <label for="sala">Sala</label>
+      <select name="sala" id="sala" class="custom-select">
+        {% for sala in sale %}
+        <option value="{{ sala.id }}">{{ sala.naziv }}</option>
+        {% endfor %}
+      </select>
+      <small class="form-text{{ errors.sala[0] ? ' is-invalid' : '' }}">{{
+        errors.sala[0]
+      }}</small>
+    </div>
+    <div class="form-group col-lg-3">
+      <label for="datum">Datum</label>
+      <input type="date" id="datum" class="form-control" />
+      <small class="form-text{{ errors.datum[0] ? ' is-invalid' : '' }}">{{
+        errors.datum[0]
+      }}</small>
+    </div>
+    <div class="form-group col-lg-3">
+      <label for="pocetak">Početak</label>
+      <input type="time" id="pocetak" class="form-control" />
+      <small class="form-text{{ errors.pocetak[0] ? ' is-invalid' : '' }}">{{
+        errors.pocetak[0]
+      }}</small>
+    </div>
+    <div class="form-group col-lg-3">
+      <label for="kraj">Kraj</label>
+      <input type="time" id="kraj" class="form-control" />
+      <small class="form-text{{ errors.kraj[0] ? ' is-invalid' : '' }}">{{
+        errors.kraj[0]
+      }}</small>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="opis">Kratak opis događaja</label>
+      <input type="text" id="opis" class="form-control" />
+      <small class="form-text{{ errors.opis[0] ? ' is-invalid' : '' }}">{{
+        errors.opis[0]
+      }}</small>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="napomena">Napomena</label>
+      <textarea type="text" id="napomena" class="form-control"></textarea>
+      <small class="form-text{{ errors.napomena[0] ? ' is-invalid' : '' }}">{{
+        errors.napomena[0]
+      }}</small>
+    </div>
+  </div>
+</form>
+
+{% endblock naslov %} {% block sadrzaj %} {% endblock sadrzaj %} {% block
+traka%} {% endblock traka %} {% block skripta %} {% endblock skripta %}

@@ -1,29 +1,45 @@
-const DANI = [
-  "ponedeljak",
-  "utorak",
-  "sreda",
-  "četvrtak",
-  "petak",
-  "subota",
-  "nedelja"
-];
-
-const MESECI = [
-  "januar",
-  "februar",
-  "mart",
-  "april",
-  "maj",
-  "jun",
-  "jul",
-  "avgust",
-  "septembar",
-  "oktobar",
-  "novembar",
-  "decembar"
-];
+/**
+ * ChaSha Calendar
+ */
 
 class CSCalendar {
+  DANI = [
+    "ponedeljak",
+    "utorak",
+    "sreda",
+    "četvrtak",
+    "petak",
+    "subota",
+    "nedelja"
+  ];
+
+  MESECI = [
+    "januar",
+    "februar",
+    "mart",
+    "april",
+    "maj",
+    "jun",
+    "jul",
+    "avgust",
+    "septembar",
+    "oktobar",
+    "novembar",
+    "decembar"
+  ];
+
+  /*
+    opcije
+    {
+      id: "id elementa na strani koji ce sadrzati kalendar",
+      url: "url rute koja vraca podatke/dogadjaje za kalendar",
+    }
+  */
+
+  /**
+   * Kreiranje kalendar objekta
+   * @param {object} options opcije kalendara
+   */
   constructor(options) {
     this.options = options;
     this.display = document.getElementById("display");
@@ -178,7 +194,7 @@ class CSCalendar {
   drawMonths() {
     let calendar = this.getCalendar();
     let monthTemplate = "";
-    MESECI.forEach((month, idx) => {
+    this.MESECI.forEach((month, idx) => {
       monthTemplate += `<td class="text-center pointer${
         idx === calendar.active.month ? " active" : ""
       }" data-month="${idx}">${month.slice(0, 3)}</td>`;
@@ -188,7 +204,7 @@ class CSCalendar {
 
   drawWeekDays() {
     let weekTemplate = "";
-    DANI.forEach((week, idx) => {
+    this.DANI.forEach((week, idx) => {
       weekTemplate += `<td class="${idx > 4 ? "weekend" : ""}">${week.slice(
         0,
         3
@@ -317,7 +333,7 @@ class CSCalendar {
   getFormattedDate(date, month = false) {
     let mesec = ("0" + (date.getMonth() + 1)).slice(-2) + ".";
     if (month) {
-      mesec = " " + MESECI[date.getMonth()] + " ";
+      mesec = " " + this.MESECI[date.getMonth()] + " ";
     }
     const datum =
       ("0" + date.getDate()).slice(-2) + "." + mesec + date.getFullYear();
