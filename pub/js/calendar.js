@@ -130,7 +130,7 @@ class CSCalendar {
 
   createDays() {
     const table = document.createElement("table");
-    table.classList.add("table", "table-bordered");
+    table.classList.add("table", "table-bordered", "table-sm");
     const tbody = document.createElement("tbody");
     tbody.classList.add("days");
     this.elements.days = tbody;
@@ -162,7 +162,14 @@ class CSCalendar {
     });
 
     this.elements.days.addEventListener("click", e => {
+      e.stopPropagation();
+      e.preventDefault();
       let element = e.srcElement;
+      let nodeName = element.nodeName;
+      if (nodeName === "DIV") {
+        element = element.parentElement;
+      }
+      // unutar td elementa moze da bude samo jedan nivo div elemenata da bi radio click i na njih
       let day = element.getAttribute("data-day");
       let month = element.getAttribute("data-month");
       let year = element.getAttribute("data-year");
@@ -281,7 +288,9 @@ class CSCalendar {
         day.hasEvent ? " event-day" : ""
       }" data-day="${day.dayNumber}" data-month="${day.month}" data-year="${
         day.year
-      }">${day.dayNumber}</td>`;
+      }"><div class="dan pb-2">${
+        day.dayNumber
+      }</div><div class="sala bg-danger">CRYSTAL HALL</div><div class="sala bg-warning">DIAMOND HALL</div><div class="sala bg-success">GREEN SAPPHIRE HALL</div></td>`;
       if (idx % 7 === 6) {
         daysTemplate += `</tr>`;
       }

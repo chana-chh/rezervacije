@@ -57,11 +57,26 @@
   color: #cccccc;
 }
 
-.calendar .days tr td.active-day {
+.calendar .days tr td.active-day .dan {
   color: red;
   font-weight: bold;
 }
 
 .calendar .days tr td.selected-day {
   background-color: #eeeeff;
+}
+
+.calendar .days tr td.selected-day .dan {
+  font-weight: bold;
+}
+
+.calendar .days tr td .dan {
+  font-size: 1.2rem;
+}
+
+.calendar .days tr td div.sala {
+  text-align: left;
+  font-size: 0.75rem;
+  padding: 0.2rem;
+  color: white;
 }
