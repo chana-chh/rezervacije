@@ -13,9 +13,8 @@ class MeniController extends Controller
         parse_str($request->getUri()->getQuery(), $query);
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
-        $modelMeni = new Meni;
-        $sql = "SELECT * FROM s_meniji";
-        $meni = $modelMeni->paginate($page, $sql);
+        $model = new Meni();
+        $meni = $model->paginate($page);
 
         $this->render($response, 'meni.twig', compact('meni'));
     }

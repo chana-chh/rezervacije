@@ -1,0 +1,82 @@
+{% extends "templates/app.twig" %} 
+{% block naslov %}
+<div class="row mt-md-5">
+  <div class="col">
+    <h1>
+      <i class="fas fa-history text-secondary"></i> Pregled logova
+    </h1>
+    {% if data %}
+    <small><em class="text-warning">[filtrirano]</em></small>
+    {% else %}
+    <small><em class="text-success">[svi logovi]</em></small>
+    {% endif %}
+  </div>
+</div>
+<hr />
+<div class="card border-dark mb-3">
+    <div class="card-header">Filtriranje logova</div>
+    <div class="card-body text-dark">
+    <form action="{{ path_for('logovi.pretraga') }}" method="POST">
+        {{ csrf|raw }}
+        <div class="row">
+        <div class="col">
+        <input type="text" name="opis" id="opis"
+            value="{{ data.opis }}" autocomplete="off" placeholder="Opis">
+        </div>
+        <div class="col">
+        <input type="text" name="tip" id="tip"
+            value="{{ data.tip }}" autocomplete="off" placeholder="Tip">
+        </div>
+        <div class="col text-right">
+        <div class="btn-group">
+            <input type="submit" value="Filtriraj" class="btn btn-info btn-sm">
+            <a href="{{ path_for('logovi') }}" class="btn btn-outline-warning btn-sm">Svi logovi</a>
+        </div>
+        </div>
+        </div>
+    </form>
+  </div>
+</div>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th class="w-10" scope="col">#</th>
+      <th class="w-30" scope="col">Opis</th>
+      <th class="w-20" scope="col">Tip</th>
+      <th class="w-20" scope="col">Korisnik</th>
+      <th class="w-20" scope="col">Datum</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for log in logovi.data %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>{{ log.opis }}</td>
+      <td>{{ log.tip }}</td>
+      <td>{{ log.korisnik.ime }}</td>
+      <td>{{ log.datum }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="row">
+  <nav class="col">
+    <ul class="pagination pagination-sm">
+      {% for button in logovi.links.buttons %}
+      <li class="page-item{{ button.current ? ' active' : '' }}">
+        <a class="page-link" href="{{ button.url }}">{{ button.page }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <p class="col justify-content-end text-right text-info"><strong>
+      Prikazani redovi od
+      <em>{{ logovi.links.row_from }}</em> do
+      <em>{{ logovi.links.row_to }}</em> od ukupno
+      <em>{{ logovi.links.total_rows }}</em>
+    </strong>
+  </p>
+</div>
+{% endblock naslov %}
+
+

@@ -46,7 +46,10 @@ $app->group('', function () {
     $this->post('/admin/tip/brisanje', '\App\Controllers\TipDogadjajaController:postTipBrisanje')->setName('tip_dogadjaja.brisanje');
     $this->post('/admin/tip/detalj', '\App\Controllers\TipDogadjajaController:postTipDetalj')->setName('tip_dogadjaja.detalj');
     $this->post('/admin/tip/izmena', '\App\Controllers\TipDogadjajaController:postTipIzmena')->setName('tip_dogadjaja.izmena');
-    //Meniji
+    //Logovi
+    $this->get('/admin/logovi', '\App\Controllers\LogController:getLog')->setName('logovi');
+    $this->get('/admin/logovi/pretraga', '\App\Controllers\LogController:getLogPretraga')->setName('logovi.pretraga');
+    $this->post('/admin/logovi/pretraga', '\App\Controllers\LogController:postLogPretraga');
 })->add(new UserLevelMiddleware($container, [0]));
 
 // PREGLED

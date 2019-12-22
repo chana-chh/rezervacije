@@ -340,6 +340,26 @@ abstract class Model
         return $result;
     }
 
+    /**
+     * Vraca naziv tabele Model-a
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
+
+    /**
+     * Vraca naziv primarnog kljuca tabele Model-a
+     *
+     * @return string
+     */
+    public function getPrimaryKey()
+    {
+        return $this->pk;
+    }
+
     public function table()
     {
         return $this->table;
