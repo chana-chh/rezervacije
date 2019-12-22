@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Log;
+use App\Models\Korisnik;
 Use App\Classes\Db;
 
 class LogController extends Controller
@@ -16,7 +17,10 @@ class LogController extends Controller
         $model = new Log();
         $logovi = $model->paginate($page);
 
-        $this->render($response, 'logovi.twig', compact('logovi'));
+        $model_korisnici = new Korisnik();
+        $korisnici = $model_korisnici->all();
+
+        $this->render($response, 'logovi.twig', compact('logovi', 'korisnici'));
     }
 
     public function postLogPretraga($request, $response)
@@ -55,6 +59,20 @@ class LogController extends Controller
             }
             $where .= "tip LIKE :tip";
             $params[':tip'] = $tip;
+        }
+        if (!empty($data['datum'])) {
+            if ($where !== " WHERE ") {
+                $where .= " AND ";
+            }
+            $where .= "datum = :datum";
+            $params[':datum'] = $data['datum'];
+        }
+        if (!empty($data['korisnik_id'])) {
+            if ($where !== " WHERE ") {
+                $where .= " AND ";
+            }
+            $where .= "korisnik_id = :korisnik_id";
+            $params[':korisnik_id'] = $data['korisnik_id'];
         }
 
         $where = $where === " WHERE " ? "" : $where;

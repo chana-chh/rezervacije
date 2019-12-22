@@ -20,12 +20,26 @@
         {{ csrf|raw }}
         <div class="row">
         <div class="col">
+        <label for="opis">Opis loga: </label>
         <input type="text" name="opis" id="opis"
             value="{{ data.opis }}" autocomplete="off" placeholder="Opis">
         </div>
         <div class="col">
+        <label for="tip">Tip akcije: </label>
         <input type="text" name="tip" id="tip"
             value="{{ data.tip }}" autocomplete="off" placeholder="Tip">
+        </div>
+        <div class="col">
+          <select class="custom-select" name="korisnik_id" id="korisnik_id">
+            {% for korinik in korisnici %}
+          <option value="{{ korinik.id }}" {{ data.korinik_id == korinik.id ? ' selected' : '' }}>{{ korinik.ime }}
+          </option>
+          {% endfor %}
+          </select>
+        </div>
+        <div class="col">
+          <label for="tip">Datum: </label>
+          <input type="date" name="datum" id="datum">
         </div>
         <div class="col text-right">
         <div class="btn-group">

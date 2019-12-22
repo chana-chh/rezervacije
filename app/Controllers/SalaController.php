@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Sala;
+use App\Models\Log;
 Use App\Classes\Db;
+use App\Classes\Auth;
 
 class SalaController extends Controller
 {
@@ -44,6 +46,14 @@ class SalaController extends Controller
             $this->flash->addMessage('success', 'Nova sala je uspešno dodata.');
             $modelSale = new Sala();
             $modelSale->insert($data);
+
+            $id_sale = $modelSale->lastId();
+            $modelLog= new Log();
+            $k = new Auth();
+            $id_korisnika = $k->user()->id;
+            $ime_korisnika = $k->user()->ime;
+            $modelLog->insert(['opis' => $ime_korisnika." je dodao novu salu sa id brojem ".$id_sale,  'tip' => "dodavanje", 'korisnik_id' => $id_korisnika]);
+
             return $response->withRedirect($this->router->pathFor('sale'));
         }
     }

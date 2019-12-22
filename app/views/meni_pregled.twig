@@ -1,6 +1,6 @@
 {% extends "templates/app.twig" %} 
 {% block naslov %}
-<div class="row mt-md-5">
+<div class="row mt-md-5 ne_stampaj">
   <div class="col">
     <h1>
       <i class="fas fa-drumstick-bite text-secondary"></i> Pregled menija - <strong
@@ -8,17 +8,22 @@
     </h1>
   </div>
   <div class="col justify-content-end text-right mt-3">
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <div class="btn-group">
       <button type="button" class="btn btn-secondary btn-sm" onclick="window.history.back();" title="Povratak na prethodnu stranu"><i
           class="fas fa-chevron-circle-left"></i> Nazad</button>
       <a href="{{ path_for('meni') }}" class="btn btn-secondary btn-sm" title="Povratak na tabelarni prikaz menija"><i class="fas fa-drumstick-bite"></i> SVI
         meniji</a>
-      <button type="button" class="btn btn-secondary btn-sm" title="Štampanje menija">
+      <button type="button" class="btn btn-secondary btn-sm" title="Štampanje menija" onclick="window.print();">
       <i class="fas fa-print"></i> Štampaj</button>
     </div>
   </div>
 </div>
-<hr />
+<hr class="ne_stampaj" />
+<div class="row justify-content-center mt-4 mb-2 prikazi" style="visibility: hidden">
+  <h1>
+      <strong class="text-capitalize"> {{ meni.naziv }} meni</strong>
+  </h1>
+</div>
 <div class="row justify-content-center">
   <div class="col-5 bg-light text-dark">
     <h3 class="font-italic">Hladno predjelo</h3>
@@ -79,9 +84,11 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <div class="card border-warning mb-3 text-center">
+  </div>
+  </div>
+    <div class="row justify-content-center mt-4 ne_stampaj">
+      <div class="col-6">
+        <div class="card border-warning text-center">
           <div class="card-header">Napomena:</div>
           <div class="card-body text-warning">
             <p class="card-text">{{ meni.napomena }}</p>
@@ -89,9 +96,6 @@
         </div>
       </div>
     </div>
-  </div>
-  </div>
 </div>
 {% endblock naslov %}
-
 

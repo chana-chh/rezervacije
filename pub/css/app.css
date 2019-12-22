@@ -116,3 +116,16 @@ body {
   border-color: #f7f7f7;
  
 }
+
+@media print {
+  
+    .ne_stampaj {
+        display: none !important;
+    }
+    a[href]:after {
+    content: none !important;
+  }
+  .prikazi {
+    visibility: visible !important;
+  }
+}

@@ -6,7 +6,7 @@
     </h1>
   </div>
   <div class="col justify-content-end text-right">
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <div class="btn-group btn-group">
       <button type="button" class="btn btn-secondary btn-sm" onclick="window.history.back();" title="Povratak na prethodnu stranu"><i
           class="fas fa-chevron-circle-left"></i> Nazad</button>
       <a href="{{ path_for('meni') }}" class="btn btn-secondary btn-sm" title="Povratak na tabelarni prikaz menija"><i class="fas fa-drumstick-bite"></i> SVI
@@ -25,7 +25,7 @@
         <div class="form-group col">
           <label for="naziv">Naziv</label>
           <input type="text" class="form-control" name="naziv" id="naziv" aria-describedby="naziv sale">
-          <small id="greska" class="form-text text-muted">Ovde cemo da sinemo gresku!</small>
+          <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo grešku!</small>
         </div>
         <div class="form-group col">
           <label for="napomena">Napomena</label>
@@ -35,36 +35,36 @@
       <hr>
       <div class="form-row">
         <div class="col">
-          <label for="hleb"><i class="fas fa-bread-slice text-warning"></i> <strong>Hleb</strong></label>
+          <label for="hleb"><i class="fas fa-bread-slice fa-lg text-warning"></i>&emsp;<strong>Hleb</strong></label>
           <textarea class="form-control" name="hleb" id="hleb" rows="3"></textarea>
         </div>
         <div class="col">
-          <label for="hladno_predjelo"><i class="fas fa-bacon text-warning"></i> <strong>Hladno
+          <label for="hladno_predjelo"><i class="fas fa-bacon fa-lg text-warning"></i>&emsp;<strong>Hladno
               predjelo</strong></label>
           <textarea class="form-control" name="hladno_predjelo" id="hladno_predjelo" rows="3"></textarea>
         </div>
         <div class="col">
-          <label for="sirevi"><i class="fas fa-cheese text-warning"></i> <strong>Sirevi</strong></label>
+          <label for="sirevi"><i class="fas fa-cheese fa-lg text-warning"></i>&emsp;<strong>Sirevi</strong></label>
           <textarea class="form-control" name="sirevi" id="sirevi" rows="3"></textarea>
         </div>
       </div>
       <div class="form-row">
-        <div class="col">
-          <label for="corba"><i class="fas fa-utensil-spoon text-warning"></i> <strong>Čorba</strong></label>
+        <div class="col mt-2">
+          <label for="corba"><i class="fas fa-utensil-spoon fa-lg text-warning"></i>&emsp;<strong>Čorba</strong></label>
           <textarea class="form-control" name="corba" id="corba" rows="3"></textarea>
         </div>
-        <div class="col">
-          <label for="glavno_jelo"><i class="fas fa-utensils text-warning"></i> <strong>Glavno jelo</strong></label>
+        <div class="col mt-2">
+          <label for="glavno_jelo"><i class="fas fa-utensils fa-lg text-warning"></i>&emsp;<strong>Glavno jelo</strong></label>
           <textarea class="form-control" name="glavno_jelo" id="glavno_jelo" rows="3"></textarea>
         </div>
-        <div class="col">
-          <label for="meso"><i class="fas fa-drumstick-bite text-warning"></i> <strong>Meso</strong></label>
+        <div class="col mt-2">
+          <label for="meso"><i class="fas fa-drumstick-bite fa-lg text-warning"></i>&emsp;<strong>Meso</strong></label>
           <textarea class="form-control" name="meso" id="meso" rows="3"></textarea>
         </div>
       </div>
-      <div class="form-row justify-content-between">
+      <div class="form-row justify-content-between mt-2">
         <div class="col-4">
-          <label for="karta_pica"><i class="fas fa-wine-glass text-warning"></i> <strong>Karta pića</strong></label>
+          <label for="karta_pica"><i class="fas fa-wine-glass fa-lg text-warning"></i>&emsp;<strong>Karta pića</strong></label>
           <textarea class="form-control" name="karta_pica" id="karta_pica" rows="3"></textarea>
         </div>
         <div class="col-4 text-right align-self-end">
