@@ -1,0 +1,177 @@
+{% extends "templates/app.twig" %} 
+{% block naslov %}
+<div class="row mt-md-5">
+  <div class="col">
+    <h1>
+      <i class="fas fa-birthday-cake text-secondary"></i> Pregled tipova događaja
+    </h1>
+  </div>
+</div>
+<hr />
+{% endblock naslov %} 
+{% block sadrzaj %}
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th class="w-10" scope="col">#</th>
+        <th class="w-70" scope="col">Tip</th>
+        <th class="w-20" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tip in tipovi %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ tip.tip }}</td>
+        <td style="text-align:right;">
+          <div class="btn-group btn-group-sm">
+            <button class="btn btn-success btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
+            data-id="{{ tip.id }}" title="Izmena podataka odabranog tipa događaja">
+            <i class="fas fa-edit"></i></button>
+            <button class="btn btn-warning btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
+            data-id="{{ tip.id }}" title="Brisanje odabrananog tipa događaja">
+            <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {# Modal za brisanje #}
+  <div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger">Upozorenje!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h3>Da li želite trajno da obrišete tip događaja?</h3>
+          <p class="text-danger">* Ova akcija je nepovratna!</p>
+          <form id="brisanje-forma" action="{{ path_for('tip_dogadjaja.brisanje') }}" method="POST">
+            {{ csrf|raw }}
+            <input type="hidden" id="idBrisanje" name="idBrisanje">
+            <hr style="margin-top: 30px;">
+
+            <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
+              <div class="form-group">
+                <button id="btn-brisanje-obrisi" type="submit" class="btn btn-outline-warning">
+                  <i class="fas fa-trash-alt"></i>&emsp;Obriši
+                </button>
+                <a class="btn btn-outline-secondary" data-dismiss="modal">
+                  <i class="fas fa-ban"></i>&emsp;Otkaži
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {# Kraj modala za brisanje #}
+
+  {# Modal za izmenu #}
+  <div id="izmenaModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger">Izmeni stavku</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="izmena-forma" action="{{ path_for('tip_dogadjaja.izmena') }}" method="POST">
+            {{ csrf|raw }}
+            <input type="hidden" id="idIzmena" name="idIzmena">
+            <div class="form-group">
+              <label for="tipModal">Tip događaja</label>
+              <input type="text" class="form-control" name="tipModal" id="tipModal" aria-describedby="tip događaja">
+              <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo grešku!</small>
+            </div>
+            <hr style="margin-top: 30px;">
+            <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
+              <div class="form-group">
+                <a class="btn btn-outline-secondary" data-dismiss="modal">
+                  <i class="fas fa-ban"></i>&emsp;Otkaži
+                </a>
+                <button id="btn-brisanje-izmeni" type="submit" class="btn btn-outline-success">
+                  <i class="fas fa-edit"></i>&emsp;Izmeni
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {# Kraj modala za izmenu #}
+
+{% endblock sadrzaj %} 
+{% block traka %}
+  <div class="card border-dark mb-3">
+    <div class="card-header">Dodavanje novog tipa događaja</div>
+    <div class="card-body text-dark">
+      <form action="{{ path_for('tip_dogadjaja.dodavanje') }}" method="POST">
+        {{ csrf|raw }}
+        <div class="form-group">
+          <label for="tip">Tip događaja</label>
+          <input type="text" class="form-control" name="tip" id="tip" aria-describedby="tip događaja">
+          <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo grešku!</small>
+        </div>
+         <div class="row justify-content-end text-right">
+            <div class="col">
+              <button type="submit" class="btn btn-info text-right"><i class="fas fa-plus-square" title="Dodavanje novog tipa događaja"></i> &emsp;Dodaj</button>
+              <a href="{{ path_for('tip_dogadjaja') }}" class="btn btn-outline-warning"><i class="fas fa-ban"></i> &emsp;Otkaži</a>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock traka %}
+{% block skripta %}
+  <script>
+    $(document).ready(function () {
+
+
+      $(document).on('click', '.otvori-brisanje', function () {
+        var id = $(this).data("id");
+        $('#idBrisanje').val(id);
+      });
+
+
+      $(document).on('click', '.otvori-izmenu', function () {
+
+        var csrfName = $(".csrf_name").val();
+        var csrfValue = $(".csrf_value").val();
+        var id = $(this).data("id");
+
+        var csrfAndData = {
+          "csrf_name": csrfName,
+          "csrf_value": csrfValue,
+          "id": id
+        };
+
+        var ruta = ["{{ path_for('tip_dogadjaja.detalj') }}"];
+
+        $.ajax({
+          url: ruta,
+          type: "POST",
+          data: csrfAndData,
+          success: function (data) {
+            $(".csrf_name").val(data.cname);
+            $(".csrf_value").val(data.cvalue);
+            $("#idIzmena").val(data.tip.id);
+            $("#tipModal").val(data.tip.tip);
+          }
+        });
+
+      });
+
+    });
+  </script>
+{% endblock skripta %}
+
