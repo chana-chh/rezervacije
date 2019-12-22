@@ -17,7 +17,8 @@ class TerminController extends Controller
 
     public function postTerminDodavanje($request, $response)
     {
-        // $data = $request->getParams();
+        $data = $request->getParams();
+        dd($data);
         // unset($data['csrf_name']);
         // unset($data['csrf_value']);
 

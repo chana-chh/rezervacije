@@ -6,21 +6,19 @@
   media="print"
 />
 {% endblock stil %} {% block naslov %}
-<h1 class="text-center display-1">
-  <i class="fas fa-calendar-check"></i> Kalendar
-</h1>
+<h1><i class="fas fa-calendar-check"></i> Pregled zakazanih termina</h1>
 <hr />
 <div class="row">
   <div class="col-md-12" id="kalendar"></div>
 </div>
 {# Modal za dodavanje dogadjaja #}
 <div id="zakaziModal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-danger">
-          Dodavanje događaja - rezervacija
-        </h5>
+        <h2 class="modal-title text-success">
+          Zakazivanje termina
+        </h2>
         <button
           type="button"
           class="close"
@@ -31,63 +29,87 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="izmena-forma" action="" method="POST">
+        <form action="{{ path_for('termin.dodavanje.post') }}" method="POST" id="forma-dodavanje-termina">
           {{ csrf | raw }}
-          <div class="form-group">
-            <label for="datum">Datum:</label>
-            <input
-              type="date"
-              id="datum"
-              name="datum"
-              min="2018-01-01"
-              max="2020-12-31"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="pocetak">Početak:</label>
-            <input
-              type="time"
-              id="pocetak"
-              name="pocetak"
-              min="09:00"
-              max="18:00"
-              required
-            />
-            <small>Od 9am do 6pm npr.</small>
-          </div>
-
-          <div class="form-group">
-            <label for="kraj">Kraj:</label>
-            <input
-              type="time"
-              id="kraj"
-              name="kraj"
-              min="22:00"
-              max="24:00"
-              required
-            />
-            <small>Od 10pm do 12pm</small>
-          </div>
-          <hr style="margin-top: 30px;" />
-          <div
-            class="row justify-content-end"
-            style="margin-top: 30px; padding: 10px;"
-          >
-            <div class="form-group">
-              <a class="btn btn-outline-secondary" data-dismiss="modal">
-                <i class="fas fa-ban"></i>&emsp;Otkaži
-              </a>
-              <button
-                id="btn-brisanje-izmeni"
-                type="submit"
-                class="btn btn-outline-success"
+          <div class="form-row">
+            <div class="form-group col-lg-3">
+              <label for="sala">Sala</label>
+              <select name="sala" id="sala" class="custom-select">
+                {% for sala in sale %}
+                <option value="{{ sala.id }}">{{ sala.naziv }}</option>
+                {% endfor %}
+              </select>
+              <small
+                class="form-text{{ errors.sala[0] ? ' is-invalid' : '' }}"
+                >{{ errors.sala[0] }}</small
               >
-                <i class="fas fa-edit"></i>&emsp;Dodaj
-              </button>
+            </div>
+            <div class="form-group col-lg-3">
+              <label for="datum">Datum</label>
+              <input type="date" id="datum" class="form-control" />
+              <small
+                class="form-text{{ errors.datum[0] ? ' is-invalid' : '' }}"
+                >{{ errors.datum[0] }}</small
+              >
+            </div>
+            <div class="form-group col-lg-3">
+              <label for="pocetak">Početak</label>
+              <input type="time" id="pocetak" class="form-control" />
+              <small
+                class="form-text{{ errors.pocetak[0] ? ' is-invalid' : '' }}"
+                >{{ errors.pocetak[0] }}</small
+              >
+            </div>
+            <div class="form-group col-lg-3">
+              <label for="kraj">Kraj</label>
+              <input type="time" id="kraj" class="form-control" />
+              <small
+                class="form-text{{ errors.kraj[0] ? ' is-invalid' : '' }}"
+                >{{ errors.kraj[0] }}</small
+              >
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="opis">Kratak opis događaja</label>
+              <input type="text" id="opis" class="form-control" />
+              <small
+                class="form-text{{ errors.opis[0] ? ' is-invalid' : '' }}"
+                >{{ errors.opis[0] }}</small
+              >
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="napomena">Napomena</label>
+              <textarea
+                type="text"
+                id="napomena"
+                class="form-control"
+              ></textarea>
+              <small
+                class="form-text{{ errors.napomena[0] ? ' is-invalid' : '' }}"
+                >{{ errors.napomena[0] }}</small
+              >
             </div>
           </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          id="btn-modal-dodavanje-submit"
+          class="btn btn-info"
+          title="Snimanje novog termina"
+        >
+          <i class="fas fa-plus-square"></i> Upiši termin
+        </button>
+        <button
+          id="btn-modal-dodavanje-cancel"
+          class="btn btn-outline-warning"
+          data-dismiss="modal"
+        >
+          <i class="fas fa-ban"></i> Otkaži
+        </button>
       </div>
     </div>
   </div>
@@ -170,12 +192,16 @@
         "decembar"
       ],
       dayClick: function(date, jsEvent, view) {
-        $(this).css("background-color", "#f0ad4e");
-
         $("#zakaziModal").modal("show");
         $("#datum").val(date.format());
       }
     });
+
+    document
+      .getElementById("btn-modal-dodavanje-submit")
+      .addEventListener("click", e => {
+        document.getElementById("forma-dodavanje-termina").submit();
+      });
   });
 </script>
 {% endblock skripta %}

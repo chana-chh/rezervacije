@@ -5,7 +5,6 @@ use App\Middlewares\GuestMiddleware;
 use App\Middlewares\UserLevelMiddleware;
 
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
-$app->get('/kalendar', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
 
 $app->group('', function () {
     $this->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');
@@ -54,6 +53,7 @@ $app->group('', function () {
 
 // PREGLED
 $app->group('', function () {
+    $this->get('/kalendar', '\App\Controllers\PregledController:getKalendar')->setName('kalendar');
 })->add(new UserLevelMiddleware($container, [100,200]));
 
 // IZMENA
