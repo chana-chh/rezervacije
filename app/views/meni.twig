@@ -13,7 +13,8 @@
   </div>
 </div>
 <hr />
-<table class="table">
+<div class="table-responsive">
+<table class="table table-hover table-sm">
   <thead class="thead-dark">
     <tr>
       <th class="w-3" scope="col">#</th>
@@ -32,7 +33,11 @@
     {% for me in meni.data %}
     <tr>
       <th scope="row">{{ loop.index }}</th>
-      <td>{{ me.naziv }}</td>
+      <td><strong class="text-info napomena_tool" data-toggle="napomena_tool" 
+        title="Napomena:" data-content="{{ me.napomena }}">
+                    {{ me.naziv }}
+          </strong>
+      </td>
       <td>{{ me.hladno_predjelo|nl2br }}</td>
       <td>{{ me.sirevi|nl2br }}</td>
       <td>{{ me.corba|nl2br }}</td>
@@ -56,6 +61,7 @@
     {% endfor %}
   </tbody>
 </table>
+</div>
 <div class="row">
   <nav class="col">
     <ul class="pagination pagination-sm">
@@ -112,6 +118,11 @@
 {% block skripta %}
   <script>
     $(document).ready(function () {
+
+      $('.napomena_tool').popover({
+            placement: 'right',
+            trigger: 'hover'
+        });
 
       $(document).on('click', '.otvori-brisanje', function () {
         var id = $(this).data("id");
