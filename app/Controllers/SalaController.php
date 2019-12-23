@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Sala;
+use App\Models\Log;
 Use App\Classes\Db;
+use App\Classes\Auth;
 
 class SalaController extends Controller
 {
@@ -44,17 +46,37 @@ class SalaController extends Controller
             $this->flash->addMessage('success', 'Nova sala je uspešno dodata.');
             $modelSale = new Sala();
             $modelSale->insert($data);
+
+            $id_sale = $modelSale->lastId();
+            $modelLog= new Log();
+            $k = new Auth();
+            $id_korisnika = $k->user()->id;
+            $ime_korisnika = $k->user()->ime;
+            $sala = $modelSale->find($id_sale);
+            $modelLog->insert(['opis' => $ime_korisnika." je dodao salu ".$sala->naziv." sa id brojem ".$id_sale,  'tip' => "dodavanje", 'korisnik_id' => $id_korisnika]);
+
             return $response->withRedirect($this->router->pathFor('sale'));
         }
     }
 
     public function postSalaBrisanje($request, $response)
     {
-        $id = (int)$request->getParam('idBrisanje');
+        $id_sale = (int)$request->getParam('idBrisanje');
         $modelSale = new Sala();
-        $success = $modelSale->deleteOne($id);
+        $sala = $modelSale->find($id_sale);
+        $naziv_sale = $sala->naziv;
+        $success = $modelSale->deleteOne($id_sale);
         if ($success) {
+
             $this->flash->addMessage('success', "Sala je uspešno obrisana.");
+
+            $modelLog= new Log();
+            $k = new Auth();
+            $id_korisnika = $k->user()->id;
+            $ime_korisnika = $k->user()->ime;
+            
+            $modelLog->insert(['opis' => $ime_korisnika." je obrisao salu ".$naziv_sale." sa id brojem ".$id_sale,  'tip' => "brisanje", 'korisnik_id' => $id_korisnika]);
+
             return $response->withRedirect($this->router->pathFor('sale'));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja sale.");
@@ -106,6 +128,16 @@ class SalaController extends Controller
             $this->flash->addMessage('success', 'Podaci o sali su uspešno izmenjeni.');
             $modelSale = new Sala();
             $modelSale->update($datam, $id);
+
+            $sala = $modelSale->find($id);
+            $naziv_sale = $sala->naziv;
+
+            $modelLog= new Log();
+            $k = new Auth();
+            $id_korisnika = $k->user()->id;
+            $ime_korisnika = $k->user()->ime;
+            
+            $modelLog->insert(['opis' => $ime_korisnika." je izmenio podatke o sali ".$naziv_sale." sa id brojem ".$id,  'tip' => "izmena", 'korisnik_id' => $id_korisnika]);
             return $response->withRedirect($this->router->pathFor('sale'));
         }
     }
