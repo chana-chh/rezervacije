@@ -19,6 +19,7 @@ class TerminController extends Controller
     {
         $data = $request->getParams();
         dd($data);
+
         // unset($data['csrf_name']);
         // unset($data['csrf_value']);
 

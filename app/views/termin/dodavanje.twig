@@ -20,21 +20,21 @@ naslov %}
     </div>
     <div class="form-group col-lg-3">
       <label for="datum">Datum</label>
-      <input type="date" id="datum" class="form-control" />
+      <input name="datum" type="date" id="datum" class="form-control" />
       <small class="form-text{{ errors.datum[0] ? ' is-invalid' : '' }}">{{
         errors.datum[0]
       }}</small>
     </div>
     <div class="form-group col-lg-3">
       <label for="pocetak">Početak</label>
-      <input type="time" id="pocetak" class="form-control" />
+      <input name="pocetak" type="time" id="pocetak" class="form-control" />
       <small class="form-text{{ errors.pocetak[0] ? ' is-invalid' : '' }}">{{
         errors.pocetak[0]
       }}</small>
     </div>
     <div class="form-group col-lg-3">
       <label for="kraj">Kraj</label>
-      <input type="time" id="kraj" class="form-control" />
+      <input name="kraj" type="time" id="kraj" class="form-control" />
       <small class="form-text{{ errors.kraj[0] ? ' is-invalid' : '' }}">{{
         errors.kraj[0]
       }}</small>
@@ -43,7 +43,7 @@ naslov %}
   <div class="form-row">
     <div class="form-group col">
       <label for="opis">Kratak opis događaja</label>
-      <input type="text" id="opis" class="form-control" />
+      <input name="opis" type="text" id="opis" class="form-control" />
       <small class="form-text{{ errors.opis[0] ? ' is-invalid' : '' }}">{{
         errors.opis[0]
       }}</small>
@@ -52,7 +52,7 @@ naslov %}
   <div class="form-row">
     <div class="form-group col">
       <label for="napomena">Napomena</label>
-      <textarea type="text" id="napomena" class="form-control"></textarea>
+      <textarea name="napomena" type="text" id="napomena" class="form-control"></textarea>
       <small class="form-text{{ errors.napomena[0] ? ' is-invalid' : '' }}">{{
         errors.napomena[0]
       }}</small>
