@@ -37,6 +37,7 @@ class LogController extends Controller
         if (empty($data['opis']) && empty($data['tip'])) {
             $this->getLog($request, $response);
         }
+
         $data['opis'] = str_replace('%', '', $data['opis']);
         $data['tip'] = str_replace('%', '', $data['tip']);
 
@@ -78,7 +79,8 @@ class LogController extends Controller
         $where = $where === " WHERE " ? "" : $where;
         $model = new Log();
         $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY datum DESC;";
-        $logovi = $model->paginate($page, $page, $sql, $params);
+        $strana = $request->getUri()->getPath();
+        $logovi = $model->paginate($page, $strana, $sql, $params);
 
         $this->render($response, 'logovi.twig', compact('logovi', 'data'));
     }

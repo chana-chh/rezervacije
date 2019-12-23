@@ -1,7 +1,7 @@
 {% extends "templates/app.twig" %} {% block naslov %}
 <div class="row">
   <div class="col-lg-4 offset-lg-4">
-    <h1 class="display-1 text-primary">
+    <h1 class="display-3 text-info">
       <i class="fas fa-sign-in-alt"></i> Prijava
     </h1>
     <hr />
@@ -30,8 +30,8 @@
         />
       </div>
       <div class="btn-group float-right">
-        <input type="submit" value="Prijavi se" class="btn btn-primary" />
-        <a href="{{ path_for('pocetna') }}" class="btn btn-danger"
+        <input type="submit" value="Prijavi se" class="btn btn-info" />
+        <a href="{{ path_for('pocetna') }}" class="btn btn-warning"
           >Otkaži prijavu</a
         >
       </div>

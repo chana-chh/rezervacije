@@ -2,7 +2,7 @@
 {% block naslov %}
 <div class="row mt-md-5">
   <div class="col">
-    <h1>
+   <h1>
       <i class="fas fa-history text-secondary"></i> Pregled logova
     </h1>
     {% if data %}
@@ -11,39 +11,55 @@
     <small><em class="text-success">[svi logovi]</em></small>
     {% endif %}
   </div>
+  <div class="col justify-content-end text-right">
+    <div class="btn-group btn-group mt-3">
+      <button type="button" class="btn btn-secondary btn-sm" id="prikazi" title="Prikaži formu za filtriranje">
+        <i class="fas fa-filter"></i> Filter</button>
+      <a href="{{ path_for('logovi') }}" class="btn btn-warning btn-sm pretraga_div">Svi logovi</a>
+    </div>
+  </div>
 </div>
 <hr />
-<div class="card border-dark mb-3">
+<div class="card border-dark mb-3 pretraga_div" style="display: none;">
     <div class="card-header">Filtriranje logova</div>
     <div class="card-body text-dark">
     <form action="{{ path_for('logovi.pretraga') }}" method="POST">
         {{ csrf|raw }}
-        <div class="row">
-        <div class="col">
+        <div class="form-row">
+        <div class="form-group col-md-2">
         <label for="opis">Opis loga: </label>
-        <input type="text" name="opis" id="opis"
+        <input type="text" name="opis" id="opis" class="form-control"
             value="{{ data.opis }}" autocomplete="off" placeholder="Opis">
         </div>
-        <div class="col">
-        <label for="tip">Tip akcije: </label>
-        <input type="text" name="tip" id="tip"
-            value="{{ data.tip }}" autocomplete="off" placeholder="Tip">
-        </div>
-        <div class="col">
-          <select class="custom-select" name="korisnik_id" id="korisnik_id">
+        <div class="form-group col-md-2">
+          <label for="korisnik_id">Korisnik</label>
+          <select class="custom-select mb-2" name="korisnik_id" id="korisnik_id" class="form-control">
+            <option value=""></option>
             {% for korinik in korisnici %}
           <option value="{{ korinik.id }}" {{ data.korinik_id == korinik.id ? ' selected' : '' }}>{{ korinik.ime }}
           </option>
           {% endfor %}
           </select>
         </div>
-        <div class="col">
-          <label for="tip">Datum: </label>
-          <input type="date" name="datum" id="datum">
+        <div class="form-group col-md-2">
+          <label for="tip">Tip akcije:</label>
+          <select class="custom-select mb-2" name="tip" id="tip" class="form-control"> 
+          <option value=""></option>
+          <option value="dodavanje">Dodavanje novog zapisa</option>
+          <option value="izmena">Izmena zapisa</option>
+          <option value="brisanje">Brisanje zapisa</option>
+          <option value="upload">Otpremanje podataka</option>
+          </select>
         </div>
-        <div class="col text-right">
+        <div class="form-group col-md-2">
+          <label for="tip">Datum: </label>
+          <input type="date" name="datum" id="datum" class="form-control">
+        </div>
+        <div class="col-md-4 text-right mt-4">
         <div class="btn-group">
-            <input type="submit" value="Filtriraj" class="btn btn-info btn-sm">
+          <button type="submit" class="btn btn-info btn-sm">
+          <i class="fas fa-filter"></i> Filtriraj
+          </button>
             <a href="{{ path_for('logovi') }}" class="btn btn-outline-warning btn-sm">Svi logovi</a>
         </div>
         </div>
@@ -92,5 +108,16 @@
   </p>
 </div>
 {% endblock naslov %}
+{% block skripta %}
+  <script>
+    $(document).ready(function () {
+
+    $('#prikazi').click(function () {
+        $('.pretraga_div').toggle();
+    });
+
+    });
+  </script>
+{% endblock skripta %}
 
 
