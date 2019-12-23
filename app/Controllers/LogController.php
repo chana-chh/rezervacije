@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Log;
 use App\Models\Korisnik;
-Use App\Classes\Db;
+use App\Classes\Db;
 
 class LogController extends Controller
 {
@@ -79,7 +79,7 @@ class LogController extends Controller
         $where = $where === " WHERE " ? "" : $where;
         $model = new Log();
         $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY datum DESC;";
-        $logovi = $model->paginate($page, 'page', $sql, $params,1);
+        $logovi = $model->paginate($page, 'page', $sql, $params, 1);
 
         $this->render($response, 'logovi.twig', compact('logovi', 'data'));
     }

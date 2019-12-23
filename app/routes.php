@@ -53,7 +53,7 @@ $app->group('', function () {
 
 // PREGLED
 $app->group('', function () {
-    $this->get('/kalendar', '\App\Controllers\PregledController:getKalendar')->setName('kalendar');
+    $this->get('/kalendar[/{datum}]', '\App\Controllers\PregledController:getKalendar')->setName('kalendar');
 })->add(new UserLevelMiddleware($container, [100,200]));
 
 // IZMENA

@@ -29,7 +29,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{ path_for('termin.dodavanje.post') }}" method="POST" id="forma-dodavanje-termina">
+        <form
+          action="{{ path_for('termin.dodavanje.post') }}"
+          method="POST"
+          id="forma-dodavanje-termina"
+        >
           {{ csrf | raw }}
           <div class="form-row">
             <div class="form-group col-lg-3">
@@ -192,10 +196,27 @@
         "decembar"
       ],
       dayClick: function(date, jsEvent, view) {
-        $("#zakaziModal").modal("show");
-        $("#datum").val(date.format());
+        // Pozivam unos termina sa datumom. Na termin rutu dodati datum kao argument
+        // U dodavanju termina prebacim datum iz rute u datum input
+        // let loc = `/rezervacije/pub/termin/${date.format()}`;
+        // window.location = loc;
       }
     });
+
+    var cal = $("#kalendar").fullCalendar("getCalendar");
+    // Citam poslednjih 10 karaktera iz trenutne rute
+    var d = window.location.href.substr(-10);
+    // Trazim crticu
+    var crtica = d.search("-");
+    // Ako postoji crtica onda je verovatno datum :)
+    if (crtica !== -1) {
+      // Pravim datum iz kalendarovog momenta
+      var datum = cal.moment(d);
+      // Teram kalendar na datum (vraca se na mesec odakle je unet termin)
+      cal.gotoDate(datum);
+      // Opciono selektujem datum
+      // cal.select(datum);
+    }
 
     document
       .getElementById("btn-modal-dodavanje-submit")
