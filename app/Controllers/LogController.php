@@ -64,7 +64,7 @@ class LogController extends Controller
             if ($where !== " WHERE ") {
                 $where .= " AND ";
             }
-            $where .= "datum = :datum";
+            $where .= "DATE(datum) = :datum";
             $params[':datum'] = $data['datum'];
         }
         if (!empty($data['korisnik_id'])) {

@@ -58,7 +58,7 @@
       <th class="w-30" scope="col">Opis</th>
       <th class="w-20" scope="col">Tip</th>
       <th class="w-20" scope="col">Korisnik</th>
-      <th class="w-20" scope="col">Datum</th>
+      <th class="w-20" scope="col">Datum i vreme</th>
     </tr>
   </thead>
   <tbody>
@@ -68,7 +68,7 @@
       <td>{{ log.opis }}</td>
       <td>{{ log.tip }}</td>
       <td>{{ log.korisnik.ime }}</td>
-      <td>{{ log.datum }}</td>
+      <td>{{ log.datum|date('d.m.Y H:m') }}</td>
     </tr>
     {% endfor %}
   </tbody>
