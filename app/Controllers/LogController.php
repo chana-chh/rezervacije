@@ -79,8 +79,7 @@ class LogController extends Controller
         $where = $where === " WHERE " ? "" : $where;
         $model = new Log();
         $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY datum DESC;";
-        $strana = $request->getUri()->getPath();
-        $logovi = $model->paginate($page, $strana, $sql, $params);
+        $logovi = $model->paginate($page, 'page', $sql, $params,1);
 
         $this->render($response, 'logovi.twig', compact('logovi', 'data'));
     }
