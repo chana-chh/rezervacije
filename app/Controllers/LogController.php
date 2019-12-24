@@ -34,7 +34,7 @@ class LogController extends Controller
         $data = $_SESSION['DATA_LOGOVI_PRETRAGA'];
         array_shift($data);
         array_shift($data);
-        if (empty($data['opis']) && empty($data['tip'])) {
+        if (empty($data['opis']) && empty($data['tip']) && empty($data['datum']) && empty($data['korisnik_id'])) {
             $this->getLog($request, $response);
         }
 
@@ -79,7 +79,7 @@ class LogController extends Controller
         $where = $where === " WHERE " ? "" : $where;
         $model = new Log();
         $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY datum DESC;";
-        $logovi = $model->paginate($page, 'page', $sql, $params, 1);
+        $logovi = $model->paginate($page, 'page', $sql, $params);
 
         $this->render($response, 'logovi.twig', compact('logovi', 'data'));
     }
