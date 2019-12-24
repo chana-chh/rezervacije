@@ -1558,3 +1558,5 @@
 [23-Dec-2019 18:13:24 Europe/Belgrade] PHP  35. call_user_func:{D:\xampp\htdocs\rezervacije\vendor\slim\slim\Slim\Handlers\Strategies\RequestResponse.php:40}() D:\xampp\htdocs\rezervacije\vendor\slim\slim\Slim\Handlers\Strategies\RequestResponse.php:40
 [23-Dec-2019 18:13:24 Europe/Belgrade] PHP  36. App\Controllers\TerminController->postTerminDodavanje() D:\xampp\htdocs\rezervacije\vendor\slim\slim\Slim\Handlers\Strategies\RequestResponse.php:40
 [23-Dec-2019 18:13:24 Europe/Belgrade] PHP  37. date_format() D:\xampp\htdocs\rezervacije\app\Controllers\TerminController.php:23
+[24-Dec-2019 08:07:02 Europe/Belgrade] PHP Notice:  Undefined index: datum in C:\xampp\htdocs\rezervacije\app\Controllers\TerminController.php on line 12
+[24-Dec-2019 08:07:57 Europe/Belgrade] PHP Notice:  Undefined index: datum in C:\xampp\htdocs\rezervacije\app\Controllers\TerminController.php on line 12

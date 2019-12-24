@@ -198,8 +198,8 @@
       dayClick: function(date, jsEvent, view) {
         // Pozivam unos termina sa datumom. Na termin rutu dodati datum kao argument
         // U dodavanju termina prebacim datum iz rute u datum input
-        // let loc = `/rezervacije/pub/termin/${date.format()}`;
-        // window.location = loc;
+        let loc = `{{ url }}/${date.format()}`;
+        window.location = loc;
       }
     });
 
@@ -215,7 +215,7 @@
       // Teram kalendar na datum (vraca se na mesec odakle je unet termin)
       cal.gotoDate(datum);
       // Opciono selektujem datum
-      // cal.select(datum);
+      cal.select(datum);
     }
 
     document
