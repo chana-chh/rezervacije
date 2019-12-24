@@ -11,8 +11,10 @@ class PregledController extends Controller
         $model_sala = new Sala();
         $sale = $model_sala->all();
 
-        // dd($args);
+        $datum = isset($args['datum']) ? $args['datum'] : null;
 
-        $this->render($response, 'kalendar.twig', compact('sale'));
+        $url = $this->router->pathFor('termin.dodavanje.get');
+
+        $this->render($response, 'kalendar.twig', compact('sale', 'url', 'datum'));
     }
 }
