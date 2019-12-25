@@ -126,6 +126,34 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+
+    var naslovi = {{naslovie|raw}};
+    var idijevi = {{idijevie|raw}};
+    var datumi = {{datumie|raw}};
+    var poceci = {{pocecie|raw}};
+    var krajevi = {{krajevie|raw}};
+    var detalji = {{detaljie|raw}};
+
+    var duzina = idijevi.length;
+    var dogadjaji = [];
+
+    for (var i = 0; i < duzina; i++) {
+    var idd = idijevi[i];
+    var naslov = naslovi[i];
+    var pocetak = moment(datumi[i]).add(moment.duration(poceci[i]).asSeconds(), 's');
+    var kraj = moment(datumi[i]).add(moment.duration(krajevi[i]).asSeconds(), 's');
+    var detalj = detalji[i];
+    var dodajDogadjaj = {};
+    dodajDogadjaj = {
+        id: idd,
+        title: naslov,
+        start: pocetak,
+        end: kraj,
+        description: detalj
+    }
+    dogadjaji.push(dodajDogadjaj);
+    }
+
     $("#kalendar").fullCalendar({
       themeSystem: "bootstrap4",
       customButtons: {
@@ -149,6 +177,7 @@
       defaultView: "month",
       weekends: true,
       height: 630,
+      events: dogadjaji,
       dayNames: [
         "nedelja",
         "ponedeljak",
