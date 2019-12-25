@@ -13,7 +13,8 @@
 <script src="{{ base_url() }}/js/sr.js"></script>
 
 <script type="text/javascript">
-  $(document).ready(function() {
+  
+    $(document).ready(function() {
 
     var naslovi = {{naslovie|raw}};
     var idijevi = {{idijevie|raw}};
@@ -42,7 +43,7 @@
     dogadjaji.push(dodajDogadjaj);
     }
 
-    $("#kalendar").fullCalendar({
+$("#kalendar").fullCalendar({
       themeSystem: "bootstrap4",
       customButtons: {
         myCustomButton: {
@@ -65,30 +66,9 @@
       defaultView: "month",
       weekends: true,
       height: 630,
-<<<<<<< HEAD
-      events: dogadjaji,
-      dayNames: [
-        "nedelja",
-        "ponedeljak",
-        "utorak",
-        "sreda",
-        "četvrtak",
-        "petak",
-        "subota"
-      ],
-      dayNamesShort: [
-        "nedelja",
-        "ponedeljak",
-        "utorak",
-        "sreda",
-        "četvrtak",
-        "petak",
-        "subota"
-      ],
-=======
+      events:dogadjaji,
       dayNames: ["nedelja", "ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota"],
       dayNamesShort: ["nedelja", "ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota"],
->>>>>>> 3280ebd88ad247d802ae478e96946a0fbe19a459
       monthNames: [
         "januar",
         "februar",
