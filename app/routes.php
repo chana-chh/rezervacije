@@ -5,6 +5,8 @@ use App\Middlewares\GuestMiddleware;
 use App\Middlewares\UserLevelMiddleware;
 
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
+$app->get('/validation', '\App\Controllers\ValidationController:getValidation')->setName('valid');
+$app->post('/validation', '\App\Controllers\ValidationController:postValidation');
 
 $app->group('', function () {
     $this->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');
@@ -58,6 +60,7 @@ $app->group('', function () {
 
 // IZMENA
 $app->group('', function () {
-    $this->get('/termin[/{datum}]', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
-    $this->post('/termin', '\App\Controllers\TerminController:postTerminDodavanje')->setName('termin.dodavanje.post');
+    $this->get('/termin/pregled[/{datum}]', '\App\Controllers\TerminController:getTerminPregled')->setName('termin.pregled.get');
+    $this->get('/termin/dodavanje[/{datum}]', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
+    $this->post('/termin/dodavanje', '\App\Controllers\TerminController:postTerminDodavanje')->setName('termin.dodavanje.post');
 })->add(new UserLevelMiddleware($container, [200]));

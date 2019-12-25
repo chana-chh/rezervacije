@@ -7,6 +7,14 @@ use App\Models\Sala;
 
 class TerminController extends Controller
 {
+    public function getTerminPregled($request, $response, $args)
+    {
+        $datum = isset($args['datum']) ? $args['datum'] : null;
+        $url_termin_dodavanje = $this->router->pathFor('termin.dodavanje.get');
+
+        $this->render($response, 'termin/pregled.twig', compact('datum','url_termin_dodavanje'));
+    }
+
     public function getTerminDodavanje($request, $response, $args)
     {
         $datum = isset($args['datum']) ? $args['datum'] : null;
@@ -21,6 +29,6 @@ class TerminController extends Controller
         $data = $request->getParams();
         $datum = isset($data['datum']) ? $data['datum'] : null;
 
-        return $response->withRedirect($this->router->pathFor('kalendar', ['datum' => $datum]));
+        return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $datum]));
     }
 }

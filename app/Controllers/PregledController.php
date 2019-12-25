@@ -5,10 +5,13 @@ namespace App\Controllers;
 use App\Models\Sala;
 use App\Models\Termin;
 
-class PregledController extends Controller
-{
-    public function getKalendar($request, $response, $args)
+
+	class PregledController extends Controller
+	{
+
+    public function getKalendar($request, $response)
     {
+
         $model_sala = new Sala();
         $sale = $model_sala->all();
 
