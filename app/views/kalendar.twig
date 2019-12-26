@@ -2,8 +2,22 @@
 <link href="{{ base_url() }}/css/fullcalendar.css" rel="stylesheet" />
 <link href="{{ base_url() }}/css/fullcalendar.print.css" rel="stylesheet" media="print" />
 {% endblock stil %} {% block naslov %}
-<h1><i class="fas fa-calendar-check"></i> Pregled zakazanih termina</h1>
+<div class="row mt-md-5">
+  <div class="col">
+    <h1>
+      <i class="fas fa-calendar-check text-secondary"></i> Pregled zakazanih termina</h1>
+    </h1>
+  </div>
+  <div class="col">
+    <ul>
+  <li><h5><i class="fas fa-calendar-minus" style="color: #0275d8"></i>&emsp;Zatražena informacija o terminu!</h5></li>
+  <li><h5><i class="fas fa-calendar-plus" style="color: #5cb85c"></i>&emsp;Započeti pregovori o terminu!</h5></li>
+  <li><h5><i class="fas fa-calendar-check" style="color: #d9534f"></i>&emsp;Termin je zauzet!</h5></li>
+</ul>
+  </div>
+</div>
 <hr />
+
 <div class="row">
   <div class="col-md-12" id="kalendar"></div>
 </div>
@@ -22,6 +36,8 @@
     var poceci = {{pocecie|raw}};
     var krajevi = {{krajevie|raw}};
     var detalji = {{detaljie|raw}};
+
+    console.log(detalji);
 
     var duzina = idijevi.length;
     var dogadjaji = [];
@@ -72,8 +88,16 @@ $("#kalendar").fullCalendar({
       minTime:'07:00:00',
       eventBackgroundColor: "#FFFFFF",
       eventBorderColor: "#f0ad4e",
-      eventTextColor: "#5bc0de",
+      eventTextColor: "#f0ad4e",
       eventRender: function (event, element, view) {
+        // if(event.description == 0) 
+        //         {
+        //             element.css('background-color', '#d9534f');
+        //         }else if(event.description == 1){
+        //             element.css('background-color', '#5cb85c');
+        //         }else{
+        //             element.css('background-color', '#292b2c');
+        //         }
         element.find('.fc-list-item-title').html(event.title); 
         var title = element.find( '.fc-title' );
         title.html( title.text() );
