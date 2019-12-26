@@ -30,12 +30,12 @@ use App\Models\Termin;
         $detalji = array();
 
         foreach ($termini as $termin) {
-            $naslovi[] = $termin->sala()->naziv;
+            $naslovi[] = [($termin->pocetak ? '<strong style="text-align: center; font-size: 1.4em !important"><center>'. date('H:i', strtotime($termin->pocetak)). '</center></strong><center>' : '').$termin->sala()->naziv.'</center>'];
             $idijevi[] = $termin->id;
             $datumi[] = $termin->datum;
             $poceci[] = $termin->pocetak;
             $krajevi[] = $termin->kraj;
-            $detalji[] = $termin->opis;
+            $detalji[] = '<strong style="font-size: 1.4em !important">'.$termin->opis.'</strong><br><span><img src=" /rezervacije/pub/img/res.jpg" class="img-fluid" alt="Responsive image"></span>';
         }
 
         $naslovie = json_encode($naslovi);

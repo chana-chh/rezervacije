@@ -67,6 +67,20 @@ $("#kalendar").fullCalendar({
       weekends: true,
       height: 630,
       events:dogadjaji,
+      slotEventOverlap:false,
+      slotDuration:'01:00:00',
+      minTime:'07:00:00',
+      eventBackgroundColor: "#FFFFFF",
+      eventBorderColor: "#f0ad4e",
+      eventTextColor: "#5bc0de",
+      eventRender: function (event, element, view) {
+        element.find('.fc-list-item-title').html(event.title); 
+        var title = element.find( '.fc-title' );
+        title.html( title.text() );
+        title.attr('style', 'font-size: 1.3em !important');
+        $(element).css("margin-top", "5px");
+        element.find('.fc-title').append('<hr style="margin: 5px 0;"><span style="font-size: 12px">' + event.description + '</span></div>');
+        },
       dayNames: ["nedelja", "ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota"],
       dayNamesShort: ["nedelja", "ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota"],
       monthNames: [
