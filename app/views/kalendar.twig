@@ -90,6 +90,11 @@ $("#kalendar").fullCalendar({
       eventBorderColor: "#f0ad4e",
       eventTextColor: "#f0ad4e",
       eventRender: function (event, element, view) {
+        if(view.name == "listDay")
+          {
+            event.title = 'Ovo je probni TEXT u slučaju da je pregled LISTVIEW  '.concat(event.description);
+          }
+        // OVO je u slučaju da hoćemo da menjamo pozadinu događaja!!!
         // if(event.description == 0) 
         //         {
         //             element.css('background-color', '#d9534f');
