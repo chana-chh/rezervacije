@@ -85,7 +85,7 @@
     {% for ugovor in ugovori.data %}
     <tr>
       <th scope="row">{{ loop.index }}</th>
-      <td><strong>{{ ugovor.broj_ugovora }}</strong></td>{{ karton.dugZaTakse() | number_format(2, '.', ',') }}
+      <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
       <td class="text-info"><strong>{{ ugovor.kapara | number_format(2, '.', ',') }}</strong></td>
       <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>
       <td>{{ ugovor.telefon }}</td>
