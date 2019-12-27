@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Ugovor;
+use App\Models\Termin;
 Use App\Classes\Db;
 
 class UgovorController extends Controller
@@ -40,6 +41,7 @@ class UgovorController extends Controller
             empty($data['napomena']) && 
             empty($data['broj_ugovora']) && 
             empty($data['datum']) && 
+            empty($data['termin_id']) && 
             empty($data['korisnik_id'])) {
             $this->getLog($request, $response);
         }
@@ -119,6 +121,13 @@ class UgovorController extends Controller
             }
             $where .= "korisnik_id = :korisnik_id";
             $params[':korisnik_id'] = $data['korisnik_id'];
+        }
+        if (!empty($data['termin_id'])) {
+            if ($where !== " WHERE ") {
+                $where .= " AND ";
+            }
+            $where .= "termin_id = :termin_id";
+            $params[':termin_id'] = $data['termin_id'];
         }
 
         $where = $where === " WHERE " ? "" : $where;

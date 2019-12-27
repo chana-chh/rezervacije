@@ -51,6 +51,16 @@ $app->group('', function () {
     $this->get('/admin/logovi', '\App\Controllers\LogController:getLog')->setName('logovi');
     $this->get('/admin/logovi/pretraga', '\App\Controllers\LogController:getLogPretraga')->setName('logovi.pretraga');
     $this->post('/admin/logovi/pretraga', '\App\Controllers\LogController:postLogPretraga');
+    //Ugovori
+    $this->get('/ugovori', '\App\Controllers\UgovorController:getUgovor')->setName('ugovori');
+    $this->get('/ugovori/pretraga', '\App\Controllers\UgovorController:getUgovorPretraga')->setName('ugovori.pretraga');
+    $this->post('/ugovori/pretraga', '\App\Controllers\UgovorController:postUgovorPretraga');
+    $this->get('/ugovori/dodavanje', '\App\Controllers\UgovorController:getUgovorDodavanje')->setName('ugovor.dodavanje.get');
+    $this->post('/ugovori/dodavanje', '\App\Controllers\UgovorController:postUgovorDodavanje')->setName('ugovor.dodavanje.post');
+    $this->get('/ugovori/izmena/{id}', '\App\Controllers\UgovorController:getUgovorIzmena')->setName('ugovor.izmena.get');
+    $this->post('/ugovori/izmena', '\App\Controllers\UgovorController:postUgovorIzmena')->setName('ugovor.izmena.post');
+    $this->post('/ugovori/brisanje', '\App\Controllers\UgovorController:postUgovorBrisanje')->setName('ugovor.brisanje');
+    $this->get('/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('ugovor.detalj');
 })->add(new UserLevelMiddleware($container, [0]));
 
 // PREGLED
