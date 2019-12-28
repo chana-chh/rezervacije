@@ -23,13 +23,17 @@
       {{ csrf|raw }}
       <input type="hidden" name="id" id="id" value="{{ meni.id }}" required>
       <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group col-md-3">
           <label for="naziv">Naziv</label>
           <input type="text" class="form-control" value="{{ old.naziv ? : meni.naziv }}"
           name="naziv" id="naziv" aria-describedby="naziv sale" required>
           <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo gresku!</small>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-md-3">
+          <label for="cena">Cena</label>
+          <input type="number" class="form-control" name="cena" id="cena" value="{{ old.cena ? : meni.cena }}" min="0" step="100" autocomplete="off" required>
+        </div>
+        <div class="form-group col-md-6">
           <label for="napomena">Napomena</label>
           <textarea class="form-control" name="napomena" id="napomena"
           rows="3">{{ old.napomena ? : meni.napomena }}</textarea>

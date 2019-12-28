@@ -21,6 +21,9 @@ class TipDogadjajaController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
+        $multi_ugovori = isset($data['multi_ugovori']) ? 1 : 0;
+        $data['multi_ugovori'] = $multi_ugovori;
+
         $validation_rules = [
             'tip' => [
                 'required' => true,
@@ -28,7 +31,11 @@ class TipDogadjajaController extends Controller
                 'maxlen' => 50,
                 'alnum' => true,
                 'unique' => 's_tip_dogadjaja.tip'
+            ],
+            'multi_ugovori' => [
+                'required' => true,
             ]
+
         ];
 
 
@@ -79,7 +86,9 @@ class TipDogadjajaController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
-        $datam = ["tip"=>$data['tipModal']];
+        $multi_ugovori = isset($data['multi_ugovoriM']) ? 1 : 0;
+
+        $datam = ["tip"=>$data['tipModal'], "multi_ugovori"=>$multi_ugovori];
 
         $validation_rules = [
             'tip' => [
@@ -88,6 +97,9 @@ class TipDogadjajaController extends Controller
                 'maxlen' => 50,
                 'alnum' => true,
                 'unique' => 's_tip_dogadjaja.tip#id:' . $id,
+            ],
+            'multi_ugovori' => [
+                'required' => true,
             ]
         ];
 

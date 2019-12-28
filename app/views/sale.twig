@@ -14,18 +14,20 @@
     <thead class="thead-dark">
       <tr>
         <th class="w-5" scope="col">#</th>
-        <th class="w-30" scope="col">Naziv</th>
-        <th class="w-15" scope="col">Kapacitet</th>
+        <th class="w-20" scope="col">Naziv</th>
+        <th class="w-15" scope="col">Kapacitet (mesta)</th>
+        <th class="w-15" scope="col">Kapacitet (stolovi)</th>
         <th class="w-30" scope="col">Napomena</th>
-        <th class="w-20" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
+        <th class="w-10" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
       </tr>
     </thead>
     <tbody>
       {% for sala in sale %}
       <tr>
         <th scope="row">{{ loop.index }}</th>
-        <td>{{ sala.naziv }}</td>
-        <td>{{ sala.max_kapacitet }}</td>
+        <td><strong>{{ sala.naziv }}</strong></td>
+        <td>{{ sala.max_kapacitet_mesta }}</td>
+        <td>{{ sala.max_kapacitet_stolova }}</td>
         <td>{{ sala.napomena }}</td>
         <td style="text-align:right;">
           <div class="btn-group btn-group-sm">
@@ -97,8 +99,12 @@
               <small id="greska" class="form-text text-muted">Ovde cemo da sinemo gresku!</small>
             </div>
             <div class="form-group">
-              <label for="max_kapacitet_Modal">Kapacitet sale</label>
-              <input type="number" class="form-control" name="max_kapacitet_Modal" id="max_kapacitet_Modal">
+              <label for="mk_mesta_Modal">Kapacitet sale (mesta)</label>
+              <input type="number" class="form-control" name="mk_mesta_Modal" id="mk_mesta_Modal">
+            </div>
+            <div class="form-group">
+              <label for="mk_stolova_Modal">Kapacitet sale (stolovi)</label>
+              <input type="number" class="form-control" name="mk_stolova_Modal" id="mk_stolova_Modal">
             </div>
             <div class="form-group">
               <label for="napomenaModal">Napomena</label>
@@ -135,8 +141,12 @@
           <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo grešku!</small>
         </div>
         <div class="form-group">
-          <label for="max_kapacitet">Kapacitet sale</label>
-          <input type="number" class="form-control" name="max_kapacitet" id="max_kapacitet">
+          <label for="max_kapacitet_mesta">Kapacitet sale (mesta)</label>
+          <input type="number" class="form-control" name="max_kapacitet_mesta" id="max_kapacitet_mesta">
+        </div>
+        <div class="form-group">
+          <label for="max_kapacitet_stolova">Kapacitet sale (stolovi)</label>
+          <input type="number" class="form-control" name="max_kapacitet_stolova" id="max_kapacitet_stolova">
         </div>
         <div class="form-group">
           <label for="napomena">Napomena</label>
