@@ -94,6 +94,10 @@ $("#kalendar").fullCalendar({
           {
             event.title = 'Ovo je probni TEXT u slučaju da je pregled LISTVIEW  '.concat(event.description);
           }
+          else if(view.name == "agendaWeek")
+          {
+            event.description = '<p style="writing-mode: tb-rl;">NAZIV NEKE SALE!!!</p>';
+          }
         // OVO je u slučaju da hoćemo da menjamo pozadinu događaja!!!
         // if(event.description == 0)
         //         {

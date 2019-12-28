@@ -72,11 +72,12 @@
     <tr>
       <th class="w-5" scope="col">#</th>
       <th class="w-15" scope="col">Broj ugovora</th>
-      <th class="w-15" scope="col">Kapara</th>
-      <th class="w-20" scope="col">Ime i prezime</th>
+      <th class="w-10" scope="col">Iznos</th>
+      <th class="w-10" scope="col">Kapara</th>
+      <th class="w-15" scope="col">Ime i prezime</th>
       <th class="w-10" scope="col">Telefon</th>
       <th class="w-10" scope="col">E-mail</th>
-      <th class="w-10" scope="col">Broj mesta</th>
+      <th class="w-10" scope="col"><small>Broj mesta, stolova/stolica</small></th>
       <th class="w-10" scope="col">Datum</th>
       <th class="w-5" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
     </tr>
@@ -86,11 +87,12 @@
     <tr>
       <th scope="row">{{ loop.index }}</th>
       <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
-      <td class="text-info"><strong>{{ ugovor.kapara | number_format(2, '.', ',') }}</strong></td>
+      <td class="text-info"><strong>{{ ugovor.iznos | number_format(2, '.', ',') }}</strong></td>
+      <td class="text-success"><strong>{{ ugovor.kapara | number_format(2, '.', ',') }}</strong></td>
       <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>
       <td>{{ ugovor.telefon }}</td>
       <td><a href="mailto:{{ ugovor.email }}">{{ ugovor.email }}</a></td>
-      <td>{{ ugovor.broj_mesta }}</td>
+      <td>{{ ugovor.broj_mesta }}, {{ ugovor.broj_stolova }}/{{ ugovor.broj_mesta_po_stolu }}</td>
       <td>{{ ugovor.datum|date('d.m.Y') }}</td>
       <td style="text-align:right;">
         <div class="btn-group btn-group-sm">
