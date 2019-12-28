@@ -5,6 +5,12 @@
   rel="stylesheet"
   media="print"
 />
+<style>
+  .fc-day-grid-event:hover {
+    background-color: #c2e3ff !important;
+    cursor: pointer;
+  }
+</style>
 {% endblock stil %} {% block naslov %}
 <div class="row">
   <div class="col-lg-6">
@@ -13,20 +19,14 @@
   <div class="col-lg-6 text-right">
     <ul class="list-inline lead pt-3 mb-0">
       <li class="list-inline-item ml-4">
-        <i class="fas fa-calendar-minus text-primary"></i> Zatražena informacija
-        o terminu!
+        <i class="fas fa-calendar-plus text-danger"></i> Termin u pripremi
       </li>
       <li class="list-inline-item ml-4">
-        <i class="fas fa-calendar-plus text-success"></i> Započeti pregovori o
-        terminu!
-      </li>
-      <li class="list-inline-item ml-4">
-        <i class="fas fa-calendar-check text-danger"></i> Termin je zauzet!
+        <i class="fas fa-calendar-check text-success"></i> Zaključen termin
       </li>
     </ul>
   </div>
 </div>
-
 <hr />
 <div class="row">
   <div class="col-lg-12" id="kalendar"></div>
@@ -36,12 +36,12 @@
 <script src="{{ base_url() }}/js/fullcalendar.min.js"></script>
 <script src="{{ base_url() }}/js/sr.js"></script>
 
-<script type="text/javascript">
+<script>
   $(document).ready(function() {
     $("#kalendar").fullCalendar({
       themeSystem: "bootstrap4",
       customButtons: {
-        myCustomButton: {
+        buttonStampa: {
           text: "Štampaj",
           click: function() {
             window.print();
@@ -49,9 +49,8 @@
         }
       },
       header: {
-        left: "prev,next today myCustomButton",
-        center: "title",
-        right: "month,agendaWeek,agendaDay,listDay"
+        left: "buttonStampa",
+        center: "title"
       },
       views: {
         month: {
@@ -107,12 +106,39 @@
         "novembar",
         "decembar"
       ],
+      events: JSON.parse(`{{ data|raw }}`),
+      eventBackgroundColor: "#e7f4ff",
+      eventBorderColor: "#000000",
+      eventTextColor: "#000000",
+      eventRender: function(event, element, view) {
+        // ovde dodam na element onclick za nesto (izmena termina, dodavanje ugovora ...)
+        element.on("click", function() {
+          alert(event.start.format("YYYY-MM-DD"));
+        });
+        let title = element.find(".fc-title");
+        const html = `
+        <div class="clearfix">
+          <div class="float-left text-wrap">
+            ${event.start.format("HH:mm")} - ${event.end.format("HH:mm")}
+          </div>
+          <div class="float-right">
+            <i class="${event.description}"></i>
+          </div>
+        </div>
+        <div class="text-wrap">
+          ${event.title}
+        </div>
+        `;
+        title.html(html);
+        element.addClass("p-1");
+      },
       dayClick: function(date, jsEvent, view) {
         // Pozivam unos termina sa datumom. Na termin rutu dodati datum kao argument
         // U dodavanju termina prebacim datum iz rute u datum input
         let loc = `{{ url_termin_dodavanje }}/${date.format()}`;
         window.location = loc;
-      }
+      },
+      displayEventTime: false
     });
 
     var cal = $("#kalendar").fullCalendar("getCalendar");
@@ -127,14 +153,8 @@
       // Teram kalendar na datum (vraca se na mesec odakle je unet termin)
       cal.gotoDate(datum);
       // Opciono selektujem datum
-      cal.select(datum);
+      // cal.select(datum);
     }
-
-    document
-      .getElementById("btn-modal-dodavanje-submit")
-      .addEventListener("click", e => {
-        document.getElementById("forma-dodavanje-termina").submit();
-      });
   });
 </script>
 {% endblock skripta %}
