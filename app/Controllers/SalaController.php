@@ -31,7 +31,10 @@ class SalaController extends Controller
                 'alnum' => true,
                 'unique' => 'sale.naziv'
             ],
-            'max_kapacitet' => [
+            'max_kapacitet_mesta' => [
+                'required' => true
+            ],
+            'max_kapacitet_stolova' => [
                 'required' => true
             ]
         ];
@@ -104,7 +107,7 @@ class SalaController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
-        $datam = ["naziv"=>$data['nazivModal'], "max_kapacitet"=>$data['max_kapacitet_Modal'], "napomena"=>$data['napomenaModal']];
+        $datam = ["naziv"=>$data['nazivModal'], "max_kapacitet_mesta"=>$data['mk_mesta_Modal'], "max_kapacitet_stolova"=>$data['mk_stolova_Modal'],"napomena"=>$data['napomenaModal']];
 
         $validation_rules = [
             'naziv' => [
@@ -114,9 +117,12 @@ class SalaController extends Controller
                 'alnum' => true,
                 'unique' => 'sale.naziv#id:' . $id,
             ],
-            'max_kapacitet' => [
+            'max_kapacitet_mesta' => [
                 'required' => true
-            ]
+            ],
+            'max_kapacitet_stolova' => [
+                'required' => true
+            ],
         ];
 
         $this->validator->validate($datam, $validation_rules);
