@@ -27,7 +27,7 @@
 <script src="{{ base_url() }}/js/sr.js"></script>
 
 <script type="text/javascript">
-  
+
     $(document).ready(function() {
 
     var naslovi = {{naslovie|raw}};
@@ -95,7 +95,7 @@ $("#kalendar").fullCalendar({
             event.title = 'Ovo je probni TEXT u slučaju da je pregled LISTVIEW  '.concat(event.description);
           }
         // OVO je u slučaju da hoćemo da menjamo pozadinu događaja!!!
-        // if(event.description == 0) 
+        // if(event.description == 0)
         //         {
         //             element.css('background-color', '#d9534f');
         //         }else if(event.description == 1){
@@ -103,7 +103,7 @@ $("#kalendar").fullCalendar({
         //         }else{
         //             element.css('background-color', '#292b2c');
         //         }
-        element.find('.fc-list-item-title').html(event.title); 
+        element.find('.fc-list-item-title').html(event.title);
         var title = element.find( '.fc-title' );
         title.html( title.text() );
         title.attr('style', 'font-size: 1.3em !important');
