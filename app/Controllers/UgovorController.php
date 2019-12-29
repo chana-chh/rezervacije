@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Ugovor;
 use App\Models\Termin;
+use App\Models\Meni;
 Use App\Classes\Db;
 
 class UgovorController extends Controller
@@ -140,7 +141,13 @@ class UgovorController extends Controller
 
     public function getUgovorDodavanje($request, $response)
     {
-        $this->render($response, 'ugovor_dodavanje.twig');
+        $model = new Termin();
+        $termin = $model->find(1);
+
+        $modelMeni = new Meni();
+        $meniji = $modelMeni->all();
+
+        $this->render($response, 'ugovor_dodavanje.twig', compact('termin', 'meniji'));
     }
 
     public function postUgovorDodavanje($request, $response)

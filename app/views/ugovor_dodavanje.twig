@@ -1,0 +1,140 @@
+{% extends "templates/app.twig" %} 
+{% block naslov %}
+<div class="row mt-md-5">
+  <div class="col">
+    <h1>
+      <i class="fas fa-file-signature text-secondary"></i> Dodavanje ugovora
+    </h1>
+  </div>
+  <div class="col justify-content-end text-right">
+    <div class="btn-group btn-group">
+      <button type="button" class="btn btn-secondary btn-sm" onclick="window.history.back();" title="Povratak na prethodnu stranu"><i
+          class="fas fa-chevron-circle-left"></i> Nazad</button>
+      <a href="{{ path_for('ugovori') }}" class="btn btn-secondary btn-sm" title="Povratak na tabelarni prikaz ugovora"><i class="fas fa-file-signature"></i> SVI
+        ugovori</a>
+    </div>
+  </div>
+</div>
+<hr />
+{% endblock naslov %}
+{% block sadrzaj %}
+<div class="card border-dark mb-3">
+  <div class="card-header text-warning"><h4>Termin: {{termin.datum}} {{termin.pocetak}} {{termin.kraj}} {{termin.tip.tip}}</h4></div>
+  <div class="card-body text-dark">
+    <form action="{{ path_for('ugovor.dodavanje.post') }}" method="POST">
+      {{ csrf | raw }}
+      <div class="form-row">
+        <div class="col-md-3">
+          <i class="fas fa-file-contract fa-lg text-info"></i>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="broj_ugovora">Broj ugovora</label>
+          <input type="text" class="form-control" name="broj_ugovora" id="broj_ugovora" aria-describedby="broj ugovora" autocomplete="off" required>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="datum">Datum</label>
+          <input name="datum" type="date" id="datum" class="form-control" value="{{ datum }}" />
+          <small class="form-text{{ errors.datum[0] ? ' is-invalid' : '' }}">{{errors.datum[0]}}</small>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="meni_id">Meni</label>
+          <select class="custom-select mb-2" name="meni_id" id="meni_id" class="form-control">
+            <option value=""></option>
+            {% for meni in meniji %}
+          <option value="{{ meni.id }}" {{ data.meni_id == meni.id ? ' selected' : '' }} data-cenamenija="{{ meni.cena }}">{{ meni.naziv }}&emsp;({{ meni.cena }})
+          </option>
+          {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="iznos">Iznos</label>
+          <input type="number" class="form-control" name="iznos" id="iznos" value="{{ old.iznos ? : 0 }}" min="0" step="100" autocomplete="off" required>
+        </div>
+      </div>
+      <hr>
+      <div class="form-row">
+        <div class="col-md-3">
+          <i class="fas fa-user fa-lg text-info"></i>
+        </div>
+      </div>
+       <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="ime">Ime</label>
+          <input type="text" class="form-control" name="ime" id="ime" aria-describedby="ime" autocomplete="off" required>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="prezime">Prezime</label>
+          <input type="text" class="form-control" name="prezime" id="prezime" aria-describedby="prezime" autocomplete="off" required>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="telefon">Telefon</label>
+          <input type="text" class="form-control" name="telefon" id="telefon" aria-describedby="telefon" autocomplete="off" required>
+        </div>
+         <div class="form-group col-md-3">
+          <label for="email">E-mail</label>
+          <input type="text" class="form-control" name="email" id="email" aria-describedby="email" autocomplete="off" required>
+        </div>
+      </div>
+      <hr>
+      <div class="form-row">
+        <div class="col-md-3">
+          <i class="fas fa-chair fa-lg text-info"></i>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="broj_mesta">Broj mesta</label>
+          <input type="number" class="form-control" name="broj_mesta" id="broj_mesta" value="{{ old.broj_mesta ? : 0 }}" min="0" step="1" autocomplete="off" required>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="broj_stolova">Broj stolova</label>
+          <input type="number" class="form-control" name="broj_stolova" id="broj_stolova" value="{{ old.broj_stolova ? : 0 }}" min="0" step="1" autocomplete="off" required>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="broj_mesta_po_stolu">Broj stolica za stolom</label>
+          <input type="number" class="form-control" name="broj_mesta_po_stolu" id="broj_mesta_po_stolu" value="{{ old.broj_mesta_po_stolu ? : 0 }}" min="0" step="1" autocomplete="off" required>
+        </div>
+      </div>
+      <div class="form-row justify-content-between mt-2">
+        <div class="col-12 text-right align-self-end">
+          <button type="submit" class="btn btn-info" title="Dodaj novi ugovor"><i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
+          <a href="{{ path_for('ugovori') }}" class="btn btn-outline-warning"><i class="fas fa-ban"></i> &emsp;Otkaži</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock sadrzaj %}
+{% block traka %}
+  <div class="card border-dark mb-3">
+    <div class="card-header">Kalkulacije/preporuke</div>
+    <div class="card-body text-dark">
+      <div class="row">
+        <div class="col-md-8">
+          <label for="preporucena">Preporučena cena <small class="text-info">(broj mesta * cena menija)</small></label>
+          <input type="number" class="form-control" name="preporucena" id="preporucena" value="{{ old.preporucena ? : 0 }}" min="0" step="1" autocomplete="off" required>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock traka %}
+{% block skripta %}
+  <script>
+    $(document).ready(function () {
+      
+      $('#broj_mesta').keyup(preporucenaCena);
+
+      $('#meni_id').change(function(){
+         preporucenaCena();
+      });
+
+    });
+
+    function preporucenaCena()
+    {
+      $('#preporucena').val($('#meni_id').children('option:selected').data('cenamenija') * $('#broj_mesta').val());
+    }
+  </script>
+{% endblock skripta %}

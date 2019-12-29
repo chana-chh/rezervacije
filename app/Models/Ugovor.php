@@ -13,8 +13,6 @@ class Ugovor extends Model
         return $this->belongsTo('App\Models\Ugovor', 'termin_id');
     }
 
-    // tip_dogadjaja ???
-
     public function korisnik()
     {
         return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');

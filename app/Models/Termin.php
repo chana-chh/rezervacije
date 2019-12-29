@@ -9,9 +9,9 @@ class Termin extends Model
 {
     protected $table = 'termini';
 
-    public function ugovori()
+    public function tip()
     {
-        return $this->hasMany('App\Models\Ugovor', 'termin_id');
+        return $this->belongsTo('App\Models\TipDogadjaja', 'tip_dogadjaja_id');
     }
 
     public function sala()
