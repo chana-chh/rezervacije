@@ -145,6 +145,10 @@
         element.addClass("p-1");
       },
       selectable: true,
+      selectConstraint: {
+        start: "00:00",
+        end: "24:00"
+      },
       dayClick: function(date, jsEvent, view) {
         $("#kalendar").select(date);
       },

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Termin;
 use App\Models\Sala;
+use App\Models\TipDogadjaja;
 
 class TerminController extends Controller
 {
@@ -12,8 +13,8 @@ class TerminController extends Controller
         $datum = isset($args['datum']) ? $args['datum'] : null;
         $url_termin_dodavanje = $this->router->pathFor('termin.dodavanje.get');
 
-        $modelTermin = new Termin();
-        $termini = $modelTermin->all();
+        $model_termin = new Termin();
+        $termini = $model_termin->all();
 
         $data = [];
 
@@ -46,14 +47,49 @@ class TerminController extends Controller
         $datum = isset($args['datum']) ? $args['datum'] : null;
         $model_sala = new Sala();
         $sale = $model_sala->all();
+        $model_tip = new TipDogadjaja();
+        $tipovi = $model_tip->all();
 
-        $this->render($response, 'termin/dodavanje.twig', compact('sale', 'datum'));
+        $this->render($response, 'termin/dodavanje.twig', compact('sale', 'tipovi', 'datum'));
     }
 
     public function postTerminDodavanje($request, $response)
     {
-        $data = $request->getParams();
         $datum = isset($data['datum']) ? $data['datum'] : null;
+
+        $data = $request->getParams();
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+
+        $validation_rules = [
+            'sala' => [
+                'required' => true
+            ],
+            'datum' => [
+                'required' => true
+            ],
+            'pocetak' => [
+                'required' => true
+            ],
+            'kraj' => [
+                'required' => true
+            ],
+        ];
+        $this->validator->validate($data, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja termina.');
+            return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
+        } else {
+            // upisujem u bazu
+            $model_termin = new Termin();
+            $data['korisnik_id'] = $this->auth->user()->id;
+            $data['created_at'] = time();
+            $model_termin->insert($data);
+            $this->flash->addMessage('success', 'Termin je uspešno dodat.');
+            return $response->withRedirect($this->router->pathFor('termin.pregled.get'));
+        }
+
 
         return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $datum]));
     }
