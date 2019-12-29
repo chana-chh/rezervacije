@@ -10,6 +10,15 @@
     background-color: #c2e3ff !important;
     cursor: pointer;
   }
+  a.fc-day-number {
+    border-radius: 50%;
+    text-decoration: none !important;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    background-color: #dddddd;
+  }
 </style>
 {% endblock stil %} {% block naslov %}
 <div class="row">
@@ -110,11 +119,10 @@
       eventBackgroundColor: "#e7f4ff",
       eventBorderColor: "#000000",
       eventTextColor: "#000000",
+      eventClick: function(event, jsEvent, view) {
+        alert(event.id);
+      },
       eventRender: function(event, element, view) {
-        // ovde dodam na element onclick za nesto (izmena termina, dodavanje ugovora ...)
-        element.on("click", function() {
-          alert(event.start.format("YYYY-MM-DD"));
-        });
         let title = element.find(".fc-title");
         const html = `
         <div class="clearfix">
@@ -132,28 +140,26 @@
         title.html(html);
         element.addClass("p-1");
       },
+      selectable: true,
       dayClick: function(date, jsEvent, view) {
-        // Pozivam unos termina sa datumom. Na termin rutu dodati datum kao argument
-        // U dodavanju termina prebacim datum iz rute u datum input
+        $("#kalendar").select(date);
+      },
+      navLinks: true,
+      navLinkDayClick: function(date, jsEvent) {
         let loc = `{{ url_termin_dodavanje }}/${date.format()}`;
         window.location = loc;
       },
-      displayEventTime: false
+      displayEventTime: false,
+      showNonCurrentDates: false
     });
 
     var cal = $("#kalendar").fullCalendar("getCalendar");
-    // Citam poslednjih 10 karaktera iz trenutne rute
     var d = window.location.href.substr(-10);
-    // Trazim crticu
     var crtica = d.search("-");
-    // Ako postoji crtica onda je verovatno datum :)
     if (crtica !== -1) {
-      // Pravim datum iz kalendarovog momenta
       var datum = cal.moment(d);
-      // Teram kalendar na datum (vraca se na mesec odakle je unet termin)
       cal.gotoDate(datum);
-      // Opciono selektujem datum
-      // cal.select(datum);
+      cal.select(datum);
     }
   });
 </script>
