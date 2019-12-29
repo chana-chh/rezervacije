@@ -16,6 +16,7 @@
       <button type="button" class="btn btn-secondary btn-sm" id="prikazi" title="Prikaži formu za filtriranje">
         <i class="fas fa-filter"></i> Filter</button>
       <a href="{{ path_for('ugovori') }}" class="btn btn-warning btn-sm pretraga_div">Svi ugovori</a>
+      <a href="{{ path_for('ugovor.dodavanje.get') }}" class="btn btn-outline-success btn-sm pretraga_div"><i class="fas fa-plus-square"></i>&emsp;Dodavanje za sada</a>
     </div>
   </div>
 </div>
@@ -77,7 +78,7 @@
       <th class="w-15" scope="col">Ime i prezime</th>
       <th class="w-10" scope="col">Telefon</th>
       <th class="w-10" scope="col">E-mail</th>
-      <th class="w-10" scope="col"><small>Broj mesta, stolova/stolica</small></th>
+      <th class="w-10" scope="col">Mesta</th>
       <th class="w-10" scope="col">Datum</th>
       <th class="w-5" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
     </tr>
@@ -92,7 +93,7 @@
       <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>
       <td>{{ ugovor.telefon }}</td>
       <td><a href="mailto:{{ ugovor.email }}">{{ ugovor.email }}</a></td>
-      <td>{{ ugovor.broj_mesta }}, {{ ugovor.broj_stolova }}/{{ ugovor.broj_mesta_po_stolu }}</td>
+      <td>{{ ugovor.broj_mesta }} ({{ ugovor.broj_stolova }}/{{ ugovor.broj_mesta_po_stolu }})</td>
       <td>{{ ugovor.datum|date('d.m.Y') }}</td>
       <td style="text-align:right;">
         <div class="btn-group btn-group-sm">

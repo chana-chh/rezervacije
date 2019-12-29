@@ -36,7 +36,7 @@
           <select class="custom-select mb-2" name="korisnik_id" id="korisnik_id" class="form-control">
             <option value=""></option>
             {% for korinik in korisnici %}
-          <option value="{{ korinik.id }}" {{ data.korinik_id == korinik.id ? ' selected' : '' }}>{{ korinik.ime }}
+          <option value="{{ korinik.id }}" {{ data.korisnik_id == korinik.id ? ' selected' : '' }}>{{ korinik.ime }}
           </option>
           {% endfor %}
           </select>
