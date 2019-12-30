@@ -1,0 +1,64 @@
+{% extends "templates/app.twig" %} {% block stil %}
+<link href="{{ base_url() }}/css/fullcalendar.css" rel="stylesheet" />
+<link
+  href="{{ base_url() }}/css/fullcalendar.print.css"
+  rel="stylesheet"
+  media="print"
+/>
+{% endblock stil %} {% block naslov %}
+
+<h1><i class="fas fa-calendar-check"></i> Pregled termina</h1>
+<hr />
+<p><strong>Sala</strong> {{ termin.sala().naziv }}</p>
+<p><strong>Vreme</strong> {{ termin.datum|date() }} od {{ termin.pocetak|date("H:i") }} do {{ termin.kraj|date("H:i") }}</p>
+<p>
+	<div class="custom-control custom-checkbox">
+	  <input class="custom-control-input" type="checkbox" value="" id="zauzet"{{
+	    termin.zauzet == 1 ? " checked" : ""
+	  }}
+	  disabled>
+	  <label class="custom-control-label" for="zauzet"><strong>Zakljucen termin</strong></label>
+	</div>
+</p>
+<p><strong>Kratak opis</strong> {{ termin.opis }}</p>
+<p><strong>Napomena</strong><br> {{ termin.napomena|nl2br }}</p>
+
+
+{% if termin.ugovori()|length > 1 %}
+<h2>Ugovori za termin</h2>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th class="w-5">#</th>
+      <th class="w-10">Broj</th>
+      <th class="w-10">Datum</th>
+      <th class="w-25">Ime</th>
+      <th class="w-25">Telefon</th>
+      <th class="w-25">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ugovor in termin.ugovori() %}
+    <tr>
+      <th>{{ ugovor.id }}</th>
+      <td>{{ ugovor.broj_ugovora }}</td>
+      <td>{{ ugovor.datum|date() }}</td>
+      <td>{{ ugovor.punoIme() }}</td>
+      <td>{{ ugovor.telefon }}</td>
+      <td>{{ ugovor.email }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+{% set ugovor = termin.ugovori()|first %}
+<h2>Ugovor za termin</h2>
+<p><strong>Broj ugovora</strong> {{ ugovor.broj_ugovora }}</p>
+<p><strong>Datum zakljucenja</strong> {{ ugovor.datum|date() }}</p>
+<p><strong>Broj ugovora</strong> {{ ugovor.broj_ugovora }}</p>
+<p><strong>Organizator</strong> {{ ugovor.punoIme() }}</p>
+<p><strong>Telefon</strong> {{ ugovor.telefon }}</p>
+<p><strong>Email</strong> <a href="mailto:{{ ugovor.email }}">{{ ugovor.email }}</a></p>
+{% endif %}
+
+{% endblock naslov %} {% block skripta %} {% endblock skripta %}

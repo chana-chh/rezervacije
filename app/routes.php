@@ -71,6 +71,7 @@ $app->group('', function () {
 // IZMENA
 $app->group('', function () {
     $this->get('/termin/pregled[/{datum}]', '\App\Controllers\TerminController:getTerminPregled')->setName('termin.pregled.get');
+    $this->get('/termin/detalj[/{id}]', '\App\Controllers\TerminController:getTerminDetalj')->setName('termin.detalj.get');
     $this->get('/termin/dodavanje[/{datum}]', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
     $this->post('/termin/dodavanje', '\App\Controllers\TerminController:postTerminDodavanje')->setName('termin.dodavanje.post');
 })->add(new UserLevelMiddleware($container, [200]));

@@ -13,6 +13,11 @@ class Ugovor extends Model
         return $this->belongsTo('App\Models\Ugovor', 'termin_id');
     }
 
+    public function punoIme()
+    {
+        return "{$this->prezime} {$this->ime}";
+    }
+
     public function korisnik()
     {
         return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');

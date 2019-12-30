@@ -8,7 +8,7 @@ use App\Models\TipDogadjaja;
 
 class TerminController extends Controller
 {
-    public function getTerminPregled($request, $response, $args)
+    public function getTerminPregled($request, $response, $args) // Kalendar
     {
         $datum = isset($args['datum']) ? $args['datum'] : null;
         $url_termin_dodavanje = $this->router->pathFor('termin.dodavanje.get');
@@ -40,6 +40,18 @@ class TerminController extends Controller
         $data = json_encode($data);
 
         $this->render($response, 'termin/pregled.twig', compact('data', 'url_termin_dodavanje'));
+    }
+
+    public function getTerminDetalj($request, $response, $args)
+    {
+        $id = $args['id'];
+        if ($id) {
+            $model_termin = new Termin();
+            $termin = $model_termin->find($id);
+            $this->render($response, 'termin/detalj.twig', compact('termin'));
+        } else {
+            return $response->withRedirect($this->router->pathFor('termin.pregled.get'));
+        }
     }
 
     public function getTerminDodavanje($request, $response, $args)
@@ -74,6 +86,9 @@ class TerminController extends Controller
             'kraj' => [
                 'required' => true
             ],
+            'opis' => [
+                'required' => true
+            ],
         ];
         $this->validator->validate($data, $validation_rules);
 
@@ -81,16 +96,12 @@ class TerminController extends Controller
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja termina.');
             return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
         } else {
-            // upisujem u bazu
             $model_termin = new Termin();
             $data['korisnik_id'] = $this->auth->user()->id;
-            $data['created_at'] = time();
+            $data['created_at'] = date("Y-m-d H:i:s");
             $model_termin->insert($data);
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
-            return $response->withRedirect($this->router->pathFor('termin.pregled.get'));
+            return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));
         }
-
-
-        return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $datum]));
     }
 }
