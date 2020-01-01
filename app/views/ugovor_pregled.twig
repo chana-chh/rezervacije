@@ -19,17 +19,88 @@
 {% endblock naslov %}
 {% block sadrzaj %}
 <div class="card border-dark mb-3">
-  <div class="card-header text-warning"><h4>Termin: {{termin.datum}} {{termin.pocetak}} {{termin.kraj}} {{termin.tip.tip}}</h4></div>
+  <div class="card-header text-warning"><h4>Termin: {{ugovor.termin().datum|date()}} od {{ ugovor.termin.pocetak|date("H:i") }} do {{ ugovor.termin.kraj|date("H:i") }}</h4></div>
   <div class="card-body text-dark">
-   PERA
+  <table class="table table-sm">
+     <tr style="font-size: 1.2em">
+            <th style="width: 20%;"><strong>Ime i prezime:</strong></th>
+            <td style="width: 70%;">{{ugovor.punoIme()}}</td>
+            <td style="width: 10%;"></td>
+      </tr>
+      <tr style="font-size: 1.2em">
+            <th style="width: 20%;"><strong>Meni:</strong></th>
+            <td style="width: 70%;">{{ugovor.meni.naziv}}</td>
+            <td style="width: 10%;"></td>
+      </tr>
+  </table>
   </div>
 </div>
 {% endblock sadrzaj %}
 {% block traka %}
   <div class="card border-dark mb-3">
-    <div class="card-header">Neshto</div>
+    <div class="card-header">Detalji vezani za organizaciju</div>
     <div class="card-body text-dark">
-      AAAAA
+       <div class="row">
+        <h5 class="ml-3 text-warning">Pregled uslova</h5>
+      </div>
+      <div class="row">
+      <div class="col-md-12">
+      <table class="table table-sm table-striped" style="font-size: 0.75rem;">
+      <thead>
+      <tr>
+        <th class="w-10" scope="col">#</th>
+        <th class="w-25" scope="col">Usluga</th>
+        <th class="w-25 text-center" scope="col">Status</th>
+        <th class="w-40" scope="col">Opis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td><strong>Muzika</strong></td>
+        <td class="text-center">{{ (ugovor.muzika_chk == 1) ? '<i class=\"fas fa-check fa-lg text-success\"></i>' : '' }}</td>
+        <td>{{ ugovor.muzika_opis }}</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td><strong>Fotograf</strong></td>
+        <td class="text-center">{{ (ugovor.fotograf_chk == 1) ? '<i class=\"fas fa-check fa-lg text-success\"></i>' : '' }}</td>
+        <td>{{ ugovor.fotograf_opis }}</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td><strong>Torta</strong></td>
+        <td class="text-center">{{ (ugovor.torta_chk == 1) ? '<i class=\"fas fa-check fa-lg text-success\"></i>' : '' }}</td>
+        <td>{{ ugovor.torta_opis }}</td>
+      </tr>
+      <tr>
+        <th scope="row">4</th>
+        <td><strong>Dekoracija</strong></td>
+        <td class="text-center">{{ (ugovor.dekoracija_chk == 1) ? '<i class=\"fas fa-check fa-lg text-success\"></i>' : '' }}</td>
+        <td>{{ ugovor.dekoracija_opis }}</td>
+      </tr>
+      <tr>
+        <th scope="row">5</th>
+        <td><strong>Kokteli</strong></td>
+        <td class="text-center">{{ (ugovor.kokteli_chk == 1) ? '<i class=\"fas fa-check fa-lg text-success\"></i>' : '' }}</td>
+        <td>{{ ugovor.kokteli_opis }}</td>
+      </tr>
+      <tr>
+        <th scope="row">6</th>
+        <td><strong>Slatki sto</strong></td>
+        <td class="text-center">{{ (ugovor.slatki_sto_chk == 1) ? '<i class=\"fas fa-check fa-lg text-success\"></i>' : '' }}</td>
+        <td>{{ ugovor.slatki_sto_opis }}</td>
+      </tr>
+      <tr>
+        <th scope="row">7</th>
+        <td><strong>Voćni sto</strong></td>
+        <td class="text-center">{{ (ugovor.vocni_sto_chk == 1) ? '<i class=\"fas fa-check fa-lg text-success\"></i>' : '' }}</td>
+        <td>{{ ugovor.vocni_sto_opis }}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  </div>
     </div>
   </div>
 {% endblock traka %}

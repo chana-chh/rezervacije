@@ -10,7 +10,7 @@ class Ugovor extends Model
 
     public function termin()
     {
-        return $this->belongsTo('App\Models\Ugovor', 'termin_id');
+        return $this->belongsTo('App\Models\Termin', 'id');
     }
 
     public function punoIme()
@@ -21,5 +21,10 @@ class Ugovor extends Model
     public function korisnik()
     {
         return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
+    }
+
+    public function meni()
+    {
+        return $this->hasOne('App\Models\Meni', 'id');
     }
 }
