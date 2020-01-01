@@ -83,7 +83,7 @@
       <button type="submit" class="btn btn-info" title="Snimanje novog termina">
         <i class="fas fa-plus-square"></i> Upiši termin
       </button>
-      <a href="{{ path_for('termin.pregled.get') }}" class="btn btn-outline-warning"
+      <a href="{{ path_for('termin.pregled.get', {datum: datum}) }}" class="btn btn-outline-warning"
         ><i class="fas fa-ban"></i> Otkaži</a
       >
     </div>
