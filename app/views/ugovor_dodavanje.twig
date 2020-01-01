@@ -70,11 +70,11 @@
         </div>
         <div class="form-group col-md-3">
           <label for="telefon">Telefon</label>
-          <input type="text" class="form-control" name="telefon" id="telefon" aria-describedby="telefon" autocomplete="off" required>
+          <input type="text" class="form-control" name="telefon" id="telefon" aria-describedby="telefon" autocomplete="off">
         </div>
          <div class="form-group col-md-3">
           <label for="email">E-mail</label>
-          <input type="text" class="form-control" name="email" id="email" aria-describedby="email" autocomplete="off" required>
+          <input type="text" class="form-control" name="email" id="email" aria-describedby="email" autocomplete="off">
         </div>
       </div>
       <hr>
@@ -85,7 +85,7 @@
       </div>
       <div class="form-row">
         <div class="form-group col-md-3">
-          <label for="broj_mesta">Broj mesta</label>
+          <label for="broj_mesta">Broj mesta (zvanica)</label>
           <input type="number" class="form-control" name="broj_mesta" id="broj_mesta" value="{{ old.broj_mesta ? : 0 }}" min="0" step="1" autocomplete="off" required>
         </div>
         <div class="form-group col-md-3">
@@ -216,14 +216,32 @@
     <div class="card-header">Kalkulacije/preporuke</div>
     <div class="card-body text-dark">
       <div class="row">
-        <div class="col-md-8">
-          <label for="preporucena">Preporučena cena (iznos) <small class="text-info">(broj mesta * cena menija)</small></label>
+        <h5 class="ml-3 text-warning">Kapacitet</h5>
+      </div>
+      <div class="row">
+        <ul>
+          <li class="ml-3">Maksimalni kapacitet sale (stolovi) :<span class="text-info"><strong>{{termin.sala.max_kapacitet_stolova}}</strong></span></li>
+          <li class="ml-3">Maksimalni kapacitet sale (zvanice) :<span class="text-info"><strong>{{termin.sala.max_kapacitet_mesta}}</strong></span></li>
+          <li class="ml-3">Iskorišćeno stolova :<span class="text-info"><strong>{{termin.popunjeniStolovi()}}</strong></span></li>
+          <li class="ml-3">Iskorišćeno zvanica :<span class="text-info"><strong>{{termin.popunjenaMesta()}}</strong></span></li>
+        </ul>
+        <ul>
+          <li class="ml-3">Slobodnih stolova :<span class="text-success"><strong>{{termin.sala.max_kapacitet_stolova - termin.popunjeniStolovi()}}</strong></span></li>
+          <li class="ml-3">Slobodnih mesta za zvanice :<span class="text-success"><strong>{{termin.sala.max_kapacitet_mesta - termin.popunjenaMesta()}}</strong></span></li>
+        </ul>
+      </div>
+      <div class="row">
+        <h5 class="ml-3 text-warning">Preporučena cena (iznos)</h5>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="preporucena"><small class="text-info">(broj mesta * cena menija)</small></label>
           <input type="number" class="form-control" name="preporucena" id="preporucena" value="{{ old.preporucena ? : 0 }}" min="0" step="1" autocomplete="off" required>
         </div>
       </div>
       <hr>
       <div class="row">
-        <p class="ml-3">Podjednaka raspodela</p>
+        <h5 class="ml-3 text-warning">Predlog raspodele stolica</h5>
       </div>
       <div class="row">
         <div class="col-md-6">
@@ -246,6 +264,39 @@
         </div>
       </div>
       <hr>
+      {% if ugovori|length > 0 %}
+      <div class="row">
+        <h5 class="ml-3 text-warning">Prethodno sklopljeni ugovori u ovom terminu</h5>
+      </div>
+      <div class="row">
+      <div class="col-md-12">
+      <table class="table table-sm table-striped" style="font-size: 0.75rem;">
+      <thead>
+      <tr>
+        <th class="w-5" scope="col">#</th>
+        <th class="w-20" scope="col">Broj</th>
+        <th class="w-20" scope="col">Datum</th>
+        <th class="w-20" scope="col">Ime i prezime</th>
+        <th class="w-15" scope="col">Telefon, e-mail</th>
+        <th class="w-20" scope="col">Napomena</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ugovor in ugovori %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
+        <td>{{ ugovor.datum }}</td>
+        <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>
+        <td>{{ ugovor.telefon }}, <a href="mailto:{{ ugovor.email }}">{{ ugovor.email }}</a></td>
+        <td>{{ ugovor.napomena }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  </div>
+  {% endif %}
     </div>
   </div>
 {% endblock traka %}
