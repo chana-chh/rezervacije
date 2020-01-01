@@ -19,6 +19,11 @@ class Termin extends Model
         return $this->belongsTo('App\Models\Sala', 'sala_id');
     }
 
+    public function ugovori()
+    {
+        return $this->hasMany('App\Models\Ugovor', 'termin_id');
+    }
+
     public function korisnik()
     {
         return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
