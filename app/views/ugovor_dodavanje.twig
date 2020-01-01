@@ -48,9 +48,9 @@
           {% endfor %}
           </select>
         </div>
-        <div class="form-group col-md-3">
-          <label for="iznos">Iznos</label>
-          <input type="number" class="form-control" name="iznos" id="iznos" value="{{ old.iznos ? : 0 }}" min="0" step="100" autocomplete="off" required>
+         <div class="form-group col-md-3">
+          <label for="prosek_godina">Prosečna starost</label>
+          <input type="number" class="form-control" name="prosek_godina" id="prosek_godina" value="{{ old.prosek_godina ? : 0 }}" min="0" step="1" autocomplete="off" required>
         </div>
       </div>
       <hr>
@@ -70,11 +70,11 @@
         </div>
         <div class="form-group col-md-3">
           <label for="telefon">Telefon</label>
-          <input type="text" class="form-control" name="telefon" id="telefon" aria-describedby="telefon" autocomplete="off" required>
+          <input type="text" class="form-control" name="telefon" id="telefon" aria-describedby="telefon" autocomplete="off">
         </div>
          <div class="form-group col-md-3">
           <label for="email">E-mail</label>
-          <input type="text" class="form-control" name="email" id="email" aria-describedby="email" autocomplete="off" required>
+          <input type="text" class="form-control" name="email" id="email" aria-describedby="email" autocomplete="off">
         </div>
       </div>
       <hr>
@@ -84,19 +84,123 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="broj_mesta">Broj mesta</label>
+        <div class="form-group col-md-3">
+          <label for="broj_mesta">Broj mesta (zvanica)</label>
           <input type="number" class="form-control" name="broj_mesta" id="broj_mesta" value="{{ old.broj_mesta ? : 0 }}" min="0" step="1" autocomplete="off" required>
         </div>
-        <div class="form-group col-md-4">
-          <label for="broj_stolova">Broj stolova</label>
-          <input type="number" class="form-control" name="broj_stolova" id="broj_stolova" value="{{ old.broj_stolova ? : 0 }}" min="0" step="1" autocomplete="off" required>
-        </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <label for="broj_mesta_po_stolu">Broj stolica za stolom</label>
           <input type="number" class="form-control" name="broj_mesta_po_stolu" id="broj_mesta_po_stolu" value="{{ old.broj_mesta_po_stolu ? : 0 }}" min="0" step="1" autocomplete="off" required>
         </div>
+        <div class="form-group col-md-3">
+          <label for="broj_stolova">Broj stolova</label>
+          <input type="number" class="form-control" name="broj_stolova" id="broj_stolova" value="{{ old.broj_stolova ? : 0 }}" min="0" step="1" autocomplete="off" required>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="iznos">Cena (iznos)</label>
+          <input type="number" class="form-control" name="iznos" id="iznos" value="{{ old.iznos ? : 0 }}" min="0" step="100" autocomplete="off" required>
+        </div>
       </div>
+       <hr>
+      <div class="form-row">
+        <div class="col-md-3">
+          <i class="fas fa-tasks fa-lg text-info"></i>
+        </div>
+      </div>
+       <div class="form-row">
+        <div class="form-group col-md-2">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="muzika_chk" id="muzika_chk">
+                &emsp;Muzika
+          </label>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="muzika_ugovor">Muzika ugovor</label>
+          <input type="text" class="form-control" name="muzika_ugovor" id="muzika_ugovor" aria-describedby="muzika_ugovor" autocomplete="off">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="muzika_opis">Muzika opis</label>
+          <input type="text" class="form-control" name="muzika_opis" id="muzika_opis" aria-describedby="muzika_opis" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-row bg-light">
+        <div class="form-group col-md-2">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="fotograf_chk" id="fotograf_chk">
+                &emsp;Fotograf
+          </label>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="fotograf_opis">Fotograf opis</label>
+          <input type="text" class="form-control" name="fotograf_opis" id="fotograf_opis" aria-describedby="fotograf_opis" autocomplete="off">
+        </div>
+        <div class="form-group col-md-2">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="torta_chk" id="torta_chk">
+                &emsp;Torta
+          </label>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="torta_opis">Torta opis</label>
+          <input type="text" class="form-control" name="torta_opis" id="torta_opis" aria-describedby="torta_opis" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="dekoracija_chk" id="dekoracija_chk">
+                &emsp;Dekoracije
+          </label>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="dekoracija_opis">Dekoracije opis</label>
+          <input type="text" class="form-control" name="dekoracija_opis" id="dekoracija_opis" aria-describedby="dekoracija_opis" autocomplete="off">
+        </div>
+        <div class="form-group col-md-2">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="kokteli_chk" id="kokteli_chk">
+                &emsp;Kokteli
+          </label>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="kokteli_opis">Kokteli opis</label>
+          <input type="text" class="form-control" name="kokteli_opis" id="kokteli_opis" aria-describedby="kokteli_opis" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-row bg-light">
+        <div class="form-group col-md-2">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="slatki_sto_chk" id="slatki_sto_chk">
+                &emsp;Slatki sto
+          </label>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="slatki_sto_opis">Slatki sto opis</label>
+          <input type="text" class="form-control" name="slatki_sto_opis" id="slatki_sto_opis" aria-describedby="slatki_sto_opis" autocomplete="off">
+        </div>
+        <div class="form-group col-md-2">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="vocni_sto_chk" id="vocni_sto_chk">
+                &emsp;Voćni sto
+          </label>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="vocni_sto_opis">Voćni sto opis</label>
+          <input type="text" class="form-control" name="vocni_sto_opis" id="vocni_sto_opis" aria-describedby="vocni_sto_opis" autocomplete="off">
+        </div>
+      </div>
+      <hr>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="posebni_zahtevi">Posebni zahtevi</label>
+          <textarea class="form-control" name="posebni_zahtevi" id="posebni_zahtevi" rows="3"></textarea>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="napomena">Napomena</label>
+          <textarea class="form-control" name="napomena" id="napomena" rows="3"></textarea>
+        </div>
+      </div>
+      <hr>
       <div class="form-row justify-content-between mt-2">
         <div class="col-12 text-right align-self-end">
           <button type="submit" class="btn btn-info" title="Dodaj novi ugovor"><i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
@@ -112,19 +216,131 @@
     <div class="card-header">Kalkulacije/preporuke</div>
     <div class="card-body text-dark">
       <div class="row">
-        <div class="col-md-8">
-          <label for="preporucena">Preporučena cena <small class="text-info">(broj mesta * cena menija)</small></label>
+        <h5 class="ml-3 text-warning">Kapacitet</h5>
+      </div>
+      <div class="row">
+        <ul>
+          <li class="ml-3">Maksimalni kapacitet sale (stolovi) :<span class="text-info"><strong>{{termin.sala.max_kapacitet_stolova}}</strong></span></li>
+          <li class="ml-3">Maksimalni kapacitet sale (zvanice) :<span class="text-info"><strong>{{termin.sala.max_kapacitet_mesta}}</strong></span></li>
+          <li class="ml-3">Iskorišćeno stolova :<span class="text-info"><strong>{{termin.popunjeniStolovi()}}</strong></span></li>
+          <li class="ml-3">Iskorišćeno zvanica :<span class="text-info"><strong>{{termin.popunjenaMesta()}}</strong></span></li>
+        </ul>
+        <ul>
+          <li class="ml-3">Slobodnih stolova :<span class="text-success"><strong>{{termin.sala.max_kapacitet_stolova - termin.popunjeniStolovi()}}</strong></span></li>
+          <li class="ml-3">Slobodnih mesta za zvanice :<span class="text-success"><strong>{{termin.sala.max_kapacitet_mesta - termin.popunjenaMesta()}}</strong></span></li>
+        </ul>
+      </div>
+      <div class="row">
+        <h5 class="ml-3 text-warning">Preporučena cena (iznos)</h5>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="preporucena"><small class="text-info">(broj mesta * cena menija)</small></label>
           <input type="number" class="form-control" name="preporucena" id="preporucena" value="{{ old.preporucena ? : 0 }}" min="0" step="1" autocomplete="off" required>
         </div>
       </div>
+      <hr>
+      <div class="row">
+        <h5 class="ml-3 text-warning">Predlog raspodele stolica</h5>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="stolovi">Popunjeni stolovi</label>
+          <input type="number" class="form-control" name="stolovi" id="stolovi" min="0">
+        </div>
+         <div class="col-md-6">
+          <label for="stolice">Stolice za popunjenim stolovima</label>
+          <input type="number" class="form-control" name="stolice" id="stolice" min="0" >
+        </div>
+      </div>
+       <div class="row">
+        <div class="col-md-6 stolice01">
+          <label for="stolice01">Stolice za dodatnim stolom I</label>
+          <input type="number" class="form-control" name="stolice01" id="stolice01" min="0">
+        </div>
+         <div class="col-md-6 stolice02">
+          <label for="stolice02">Stolice za dodatnim stolom II</label>
+          <input type="number" class="form-control" name="stolice02" id="stolice02" min="0" >
+        </div>
+      </div>
+      <hr>
+      {% if ugovori|length > 0 %}
+      <div class="row">
+        <h5 class="ml-3 text-warning">Prethodno sklopljeni ugovori u ovom terminu</h5>
+      </div>
+      <div class="row">
+      <div class="col-md-12">
+      <table class="table table-sm table-striped" style="font-size: 0.75rem;">
+      <thead>
+      <tr>
+        <th class="w-5" scope="col">#</th>
+        <th class="w-20" scope="col">Broj</th>
+        <th class="w-20" scope="col">Datum</th>
+        <th class="w-20" scope="col">Ime i prezime</th>
+        <th class="w-15" scope="col">Telefon, e-mail</th>
+        <th class="w-20" scope="col">Napomena</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ugovor in ugovori %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
+        <td>{{ ugovor.datum }}</td>
+        <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>
+        <td>{{ ugovor.telefon }}, <a href="mailto:{{ ugovor.email }}">{{ ugovor.email }}</a></td>
+        <td>{{ ugovor.napomena }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  </div>
+  {% endif %}
     </div>
   </div>
 {% endblock traka %}
 {% block skripta %}
   <script>
     $(document).ready(function () {
+
+      $('.stolice01').hide();
+      $('.stolice02').hide();
       
-      $('#broj_mesta').keyup(preporucenaCena);
+      $('#broj_mesta').keyup(function(event) { 
+        preporucenaCena();
+        if($('#broj_mesta_po_stolu').val()){
+          raspodela();
+        }
+        if($('#stolice01').val() != 0 && $('#stolice02').val() != 0){
+          $('.stolice01').show();
+          $('.stolice02').show();
+        }else if($('#stolice01').val() != 0 && $('#stolice02').val() == 0){
+          $('.stolice01').show();
+          $('.stolice02').hide();
+        }else{
+          $('.stolice01').hide();
+          $('.stolice02').hide();
+        }
+        
+      });
+
+       $('#broj_mesta_po_stolu').keyup(function(event) { 
+        if($('#broj_mesta').val()){
+          raspodela();
+        }
+        if($('#stolice01').val() != 0 && $('#stolice02').val() != 0){
+          $('.stolice01').show();
+          $('.stolice02').show();
+        }else if($('#stolice01').val() != 0 && $('#stolice02').val() == 0){
+          $('.stolice01').show();
+          $('.stolice02').hide();
+        }else{
+          $('.stolice01').hide();
+          $('.stolice02').hide();
+        }
+        
+      }); 
 
       $('#meni_id').change(function(){
          preporucenaCena();
@@ -135,6 +351,40 @@
     function preporucenaCena()
     {
       $('#preporucena').val($('#meni_id').children('option:selected').data('cenamenija') * $('#broj_mesta').val());
+    }
+    function raspodela()
+    {
+
+        $('#stolovi').val(0);
+        $('#stolice').val(0);
+        $('#stolice01').val(0);
+        $('#stolice02').val(0);
+
+
+        var brm = $('#broj_mesta').val();
+        var brs = $('#broj_mesta_po_stolu').val();
+        var ostatak = 0;
+        
+
+        if (brm % brs == 0)
+        {
+           $('#stolovi').val(Math.floor(brm/brs));
+           $('#stolice').val(brs);
+        }
+        else if (brm % brs >= 6)
+        {
+           $('#stolovi').val(Math.floor(brm/brs));
+           $('#stolice').val(brs);
+           $('#stolice01').val(brm % brs);
+        }
+        else 
+        {
+            $('#stolovi').val((Math.floor(brm/brs))-1);
+            $('#stolice').val(brs);
+            ostatak = brm%brs;
+            $('#stolice01').val(Math.floor((parseInt(ostatak)+parseInt(brs))/2));
+            $('#stolice02').val(Math.ceil((parseInt(ostatak)+parseInt(brs))/2));
+        }
     }
   </script>
 {% endblock skripta %}

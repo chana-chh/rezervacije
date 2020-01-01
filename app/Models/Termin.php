@@ -28,4 +28,16 @@ class Termin extends Model
     {
         return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
     }
+
+    public function popunjenaMesta()
+    {
+        $sql = "SELECT SUM(broj_mesta) AS pm FROM ugovori WHERE termin_id = {$this->id};";
+        return $this->fetch($sql)[0]->pm;
+    }
+
+    public function popunjeniStolovi()
+    {
+        $sql = "SELECT SUM(broj_stolova) AS ps FROM ugovori WHERE termin_id = {$this->id};";
+        return $this->fetch($sql)[0]->ps;
+    }
 }
