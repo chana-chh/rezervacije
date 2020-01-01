@@ -96,7 +96,36 @@ class TerminController extends Controller
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja termina.');
             return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
         } else {
+            // Preklapanje termina
             $model_termin = new Termin();
+            $preklapanje = false;
+            $pocetak = strtotime("{$data['datum']} {$data['pocetak']}");
+            $kraj = strtotime("{$data['datum']} {$data['kraj']}");
+            $sql = "SELECT datum, pocetak, kraj FROM termini WHERE datum = :dat AND sala_id = :sal";
+            $params = [
+            ':dat' => $data['datum'],
+            ':sal' => $data['sala_id'],
+            ];
+            $postojeci_termini = $model_termin->fetch($sql, $params);
+            // Uporedjivanje
+            foreach ($postojeci_termini as $pt) {
+                $pt_pocetak = strtotime("{$pt->datum} {$pt->pocetak}");
+                $pt_kraj = strtotime("{$pt->datum} {$pt->kraj}");
+                if ($pocetak >= $pt_pocetak && $pocetak < $pt_kraj) {
+                    $preklapanje = true;
+                }
+                if ($kraj > $pt_pocetak && $kraj <= $pt_kraj) {
+                    $preklapanje = true;
+                }
+                if ($pocetak <= $pt_pocetak && $kraj >= $pt_kraj) {
+                    $preklapanje = true;
+                }
+            }
+            if ($preklapanje) {
+                $this->flash->addMessage('danger', 'Termin se preklapa sa nekim od postojećih termina.');
+                return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
+            }
+            // Upisivanje u bazu
             $data['korisnik_id'] = $this->auth->user()->id;
             $data['created_at'] = date("Y-m-d H:i:s");
             $model_termin->insert($data);

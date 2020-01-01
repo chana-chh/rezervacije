@@ -19,14 +19,14 @@ class UserLevelMiddleware extends Middleware
             $url = (string)$request->getUri();
             $_SESSION['LOGIN_URL'] = $url;
             $this->flash->addMessage('warning', 'Samo za prijavljene korisnike određenog nivoa pristupa');
-            return $response->withRedirect($this->router->pathFor('pocetna'));
+            return $response->withRedirect($this->router->pathFor('prijava'));
         }
 
         if (!in_array($this->auth->user()->nivo, $this->levels, true)) {
             $url = (string)$request->getUri();
             $_SESSION['LOGIN_URL'] = $url;
             $this->flash->addMessage('warning', 'Samo za prijavljene korisnike određenog nivoa pristupa');
-            return $response->withRedirect($this->router->pathFor('pocetna'));
+            return $response->withRedirect($this->router->pathFor('prijava'));
         }
         return $next($request, $response);
     }
