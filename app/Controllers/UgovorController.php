@@ -5,7 +5,9 @@ namespace App\Controllers;
 use App\Models\Ugovor;
 use App\Models\Termin;
 use App\Models\Meni;
+use App\Models\Korisnik;
 Use App\Classes\Db;
+Use App\Classes\Auth;
 
 class UgovorController extends Controller
 {
@@ -156,24 +158,52 @@ class UgovorController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
+        $k = new Auth();
+        $id_korisnika = $k->user()->id;
+
+        $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
+        $data['muzika_chk'] = $muzika_chk;
+        $fotograf_chk = isset($data['fotograf_chk']) ? 1 : 0;
+        $data['fotograf_chk'] = $fotograf_chk;
+        $torta_chk = isset($data['torta_chk']) ? 1 : 0;
+        $data['torta_chk'] = $torta_chk;
+        $dekoracija_chk = isset($data['dekoracija_chk']) ? 1 : 0;
+        $data['dekoracija_chk'] = $dekoracija_chk;
+        $kokteli_chk = isset($data['kokteli_chk']) ? 1 : 0;
+        $data['kokteli_chk'] = $kokteli_chk;
+        $slatki_sto_chk = isset($data['slatki_sto_chk']) ? 1 : 0;
+        $data['slatki_sto_chk'] = $slatki_sto_chk;
+        $vocni_sto_chk = isset($data['vocni_sto_chk']) ? 1 : 0;
+        $data['vocni_sto_chk'] = $vocni_sto_chk;
+        
+        $data['termin_id'] = 1; //Za sada !!!
+        $data['korisnik_id'] = $id_korisnika;
+
+        //dd($data);
+
         $validation_rules = [
-            'termin_id' => [
-                'required' => true,
-                'min' => 1,
-            ],
+            'termin_id' => ['required' => true,],
             'broj_ugovora' => [
                 'required' => true,
-                'minlen' => 5,
                 'maxlen' => 50,
-                'alnum' => true,
-                'unique' => 'ugovori.broj_ugovora'
-            ],
-            'prezime' => [
-                'required' => true,
-            ],
-            'ime' => [
-                'required' => true,
-            ]
+                'unique' => 'ugovori.broj_ugovora'],
+            'datum' => ['required' => true,],
+            'meni_id' => ['required' => true,],
+            'prezime' => ['required' => true,],
+            'ime' => ['required' => true,],
+            'broj_mesta' => ['required' => true,],
+            'broj_stolova' => ['required' => true,],
+            'broj_mesta_po_stolu' => ['required' => true,],
+            'iznos' => ['required' => true,],
+            'prosek_godina' => ['required' => true,],
+            'muzika_chk' => ['required' => true,],
+            'fotograf_chk' => ['required' => true,],
+            'torta_chk' => ['required' => true,],
+            'dekoracija_chk' => ['required' => true,],
+            'kokteli_chk' => ['required' => true,],
+            'slatki_sto_chk' => ['required' => true,],
+            'vocni_sto_chk' => ['required' => true,],
+            'korisnik_id' => ['required' => true,]
         ];
 
 
