@@ -67,6 +67,7 @@ abstract class Model
         return $this->fetch($sql, $params) === [] ? null : $this->fetch($sql, $params)[0];
     }
 
+    // TODO: prepraviti na simple sql query (where, order, limit ...)
     public function select(array $columns)
     {
         $cols = implode(', ', $columns);
