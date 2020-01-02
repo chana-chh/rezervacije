@@ -51,6 +51,16 @@ $app->group('', function () {
     $this->get('/admin/logovi', '\App\Controllers\LogController:getLog')->setName('logovi');
     $this->get('/admin/logovi/pretraga', '\App\Controllers\LogController:getLogPretraga')->setName('logovi.pretraga');
     $this->post('/admin/logovi/pretraga', '\App\Controllers\LogController:postLogPretraga');
+
+})->add(new UserLevelMiddleware($container, [0]));
+
+// PREGLED
+$app->group('', function () {
+    $this->get('/kalendar[/{datum}]', '\App\Controllers\PregledController:getKalendar')->setName('kalendar');
+})->add(new UserLevelMiddleware($container, [100,200]));
+
+// IZMENA
+$app->group('', function () {
     //Ugovori
     $this->get('/ugovori', '\App\Controllers\UgovorController:getUgovor')->setName('ugovori');
     $this->get('/ugovori/pretraga', '\App\Controllers\UgovorController:getUgovorPretraga')->setName('ugovori.pretraga');
@@ -62,15 +72,7 @@ $app->group('', function () {
     $this->post('/ugovori/brisanje', '\App\Controllers\UgovorController:postUgovorBrisanje')->setName('ugovor.brisanje');
     $this->get('/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('ugovor.detalj');
     $this->post('/ugovori/uplata', '\App\Controllers\UgovorController:postUgovorUplata')->setName('ugovor.uplata');
-})->add(new UserLevelMiddleware($container, [0]));
-
-// PREGLED
-$app->group('', function () {
-    $this->get('/kalendar[/{datum}]', '\App\Controllers\PregledController:getKalendar')->setName('kalendar');
-})->add(new UserLevelMiddleware($container, [100,200]));
-
-// IZMENA
-$app->group('', function () {
+    // Termini
     $this->get('/termin/pregled[/{datum}]', '\App\Controllers\TerminController:getTerminPregled')->setName('termin.pregled.get');
     $this->get('/termin/detalj[/{id}]', '\App\Controllers\TerminController:getTerminDetalj')->setName('termin.detalj.get');
     $this->get('/termin/dodavanje[/{datum}]', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
