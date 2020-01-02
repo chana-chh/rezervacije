@@ -18,18 +18,25 @@
 <div class="card border-dark mb-3">
   <div class="card-header text-warning">* Ako navodite više stavki u nekoj od kategorija razdvojite ih zarezom.</div>
   <div class="card-body text-dark">
-    <form action="{{ path_for('meni.dodavanje.post') }}" method="POST">
+    <form action="{{ path_for('meni.dodavanje.post') }}" method="POST" class="needs-validation" novalidate>
       {{ csrf | raw }}
 
       <div class="form-row">
         <div class="form-group col-md-3">
           <label for="naziv">Naziv</label>
-          <input type="text" class="form-control" name="naziv" id="naziv" aria-describedby="naziv sale" autocomplete="off" required>
-          <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo grešku!</small>
+          <input type="text" class="form-control{{ errors.naziv[0] ? ' is-invalid' : '' }}" value="{{ old.naziv ? : '' }}" name="naziv" id="naziv" aria-describedby="Naziv sale" autocomplete="off" required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">
+            {{ errors.naziv[0] ? : 'Obavezno polje' }}
+          </div>
         </div>
         <div class="form-group col-md-3">
           <label for="cena">Cena</label>
-          <input type="number" class="form-control" name="cena" id="cena" value="{{ old.cena ? : 0 }}" min="0" step="100" autocomplete="off" required>
+          <input type="number" class="form-control{{ errors.cena[0] ? ' is-invalid' : '' }}" value="{{ old.cena ? : '' }}" name="cena" id="cena" value="{{ old.cena ? : 0 }}" min="0" step="100" autocomplete="off" required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">
+            {{ errors.cena[0] ? : 'Obavezno polje' }}
+          </div>
         </div>
         <div class="form-group col-md-6">
           <label for="napomena">Napomena</label>
@@ -80,3 +87,33 @@
   </div>
 </div>
 {% endblock naslov %}
+{% block skripta %}
+  <script type="text/javascript">
+  $(document).ready(function () {
+    (function() {
+            "use strict";
+            window.addEventListener(
+              "load",
+              function() {
+                var forms = document.getElementsByClassName("needs-validation");
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                  form.addEventListener(
+                    "submit",
+                    function(event) {
+                      if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                      }
+                      form.classList.add("was-validated");
+                    },
+                    false
+                  );
+                });
+              },
+              false
+            );
+          })();
+  });
+  </script>
+{% endblock skripta %}
+
