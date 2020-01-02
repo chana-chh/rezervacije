@@ -37,6 +37,9 @@ class MeniController extends Controller
                 'maxlen' => 50,
                 'alnum' => true,
                 'unique' => 's_meniji.naziv'
+            ],
+            'cena' => [
+                'required' => true
             ]
         ];
 
@@ -100,6 +103,9 @@ class MeniController extends Controller
                 'alnum' => true,
                 'unique' => 's_meniji.naziv#id:' . $id,
             ],
+            'cena' => [
+                'required' => true
+            ]
         ];
 
         $this->validator->validate($data, $validation_rules);

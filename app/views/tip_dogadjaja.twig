@@ -90,13 +90,16 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="izmena-forma" action="{{ path_for('tip_dogadjaja.izmena') }}" method="POST">
+          <form id="izmena-forma" action="{{ path_for('tip_dogadjaja.izmena') }}" method="POST" class="needs-validation" novalidate>
             {{ csrf|raw }}
             <input type="hidden" id="idIzmena" name="idIzmena">
             <div class="form-group">
               <label for="tipModal">Tip događaja</label>
-              <input type="text" class="form-control" name="tipModal" id="tipModal" aria-describedby="tip događaja">
-              <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo grešku!</small>
+              <input type="text" class="form-control{{ errors.tip[0] ? ' is-invalid' : '' }}" name="tipModal" id="tipModal" aria-describedby="tip događaja" required>
+              <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">
+            {{ errors.tipModal[0] ? : 'Obavezno polje' }}
+          </div>
             </div>
             <div class="form-group">
             <label>
@@ -127,12 +130,15 @@
   <div class="card border-dark mb-3">
     <div class="card-header">Dodavanje novog tipa događaja</div>
     <div class="card-body text-dark">
-      <form action="{{ path_for('tip_dogadjaja.dodavanje') }}" method="POST">
+      <form action="{{ path_for('tip_dogadjaja.dodavanje') }}" method="POST" class="needs-validation" novalidate>
         {{ csrf|raw }}
         <div class="form-group">
           <label for="tip">Tip događaja</label>
-          <input type="text" class="form-control" name="tip" id="tip" aria-describedby="tip događaja">
-          <small id="greska" class="form-text text-muted">Ovde ćemo da šinemo grešku!</small>
+          <input type="text" class="form-control{{ errors.tip[0] ? ' is-invalid' : '' }}" value="{{ old.tip ? : '' }}" name="tip" id="tip" aria-describedby="tip događaja" required>
+           <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">
+            {{ errors.tip[0] ? : 'Obavezno polje' }}
+          </div>
         </div>
         <div class="form-group">
             <label>
@@ -153,6 +159,30 @@
 {% block skripta %}
   <script>
     $(document).ready(function () {
+
+        (function() {
+            "use strict";
+            window.addEventListener(
+              "load",
+              function() {
+                var forms = document.getElementsByClassName("needs-validation");
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                  form.addEventListener(
+                    "submit",
+                    function(event) {
+                      if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                      }
+                      form.classList.add("was-validated");
+                    },
+                    false
+                  );
+                });
+              },
+              false
+            );
+          })();
 
 
       $(document).on('click', '.otvori-brisanje', function () {
