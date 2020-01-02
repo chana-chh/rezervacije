@@ -11,6 +11,6 @@ class Meni extends Model
 
     public function ugovor()
     {
-        return $this->belongsTo('App\Models\Ugovor', 'meni_id');
+        return $this->hasMany('App\Models\Ugovor', 'meni_id');
     }
 }

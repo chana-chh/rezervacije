@@ -101,6 +101,45 @@
   </table>
   </div>
   </div>
+  <hr>
+  <div class="row">
+        <h5 class="ml-3 text-warning">Pregled uplata</h5>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <table class="table table-sm" style="font-size: 0.75rem;">
+          <thead class="thead-dark">
+            <tr>
+              <th class="w-10" scope="col">#</th>
+              <th class="w-30" scope="col">Datum</th>
+              <th class="w-30" scope="col">Iznos</th>
+              <th class="w-30" scope="col">Način plaćanja</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for uplata in ugovor.uplate %}
+            <tr>
+              <th scope="row">{{ loop.index }}</th>
+              <td><strong>{{ uplata.datum|date() }}</strong></td>
+              <td>{{ uplata.iznos| number_format(2, '.', ',') }}</td>
+              <td>{{ uplata.nacin_placanja }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  </div>
+  <div class="row bg-light text-right">
+      <div class="col-md-5">
+        <h5>Suma uplata: <span class="text-success">{{ ugovor.uplateSuma()| number_format(2, '.', ',') }}</span> </h5>
+      </div>
+      <div class="col-md-2">
+        
+      </div>
+      <div class="col-md-5">
+        <h5>Dug po ugovoru: <span class="text-danger">{{ ugovor.uplateDug()| number_format(2, '.', ',') }}</span> </h5>
+      </div>
+    </div>
     </div>
   </div>
 {% endblock traka %}

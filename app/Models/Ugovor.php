@@ -10,7 +10,7 @@ class Ugovor extends Model
 
     public function termin()
     {
-        return $this->belongsTo('App\Models\Termin', 'id');
+        return $this->belongsTo('App\Models\Termin', 'termin_id');
     }
 
     public function punoIme()
@@ -25,6 +25,22 @@ class Ugovor extends Model
 
     public function meni()
     {
-        return $this->hasOne('App\Models\Meni', 'id');
+        return $this->belongsTo('App\Models\Meni', 'meni_id');
+    }
+
+    public function uplate()
+    {
+        return $this->hasMany('App\Models\Uplata', 'ugovor_id');
+    }
+
+    public function uplateSuma()
+    {
+        $sql = "SELECT SUM(iznos) AS uplateSuma FROM uplate WHERE ugovor_id = {$this->id};";
+        return (float) $this->fetch($sql)[0]->uplateSuma;
+    }
+
+    public function uplateDug()
+    {
+        return $this->iznos - $this->uplateSuma();
     }
 }
