@@ -28,6 +28,14 @@ class Ugovor extends Model
         return $this->belongsTo('App\Models\Meni', 'meni_id');
     }
 
+    public function kapara()
+    {
+        $sql = "SELECT iznos FROM uplate WHERE ugovor_id = {$this->id} AND opis = 'kapara';";
+        $kapara = $this->fetch($sql);
+        $iznos = empty($kapara) ? 0 : $kapara[0]->iznos;
+        return (float) $iznos;
+    }
+
     public function uplate()
     {
         return $this->hasMany('App\Models\Uplata', 'ugovor_id');

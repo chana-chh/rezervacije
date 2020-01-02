@@ -63,13 +63,9 @@
         }
       },
       header: {
-        left: "buttonStampa",
-        center: "title"
-      },
-      views: {
-        month: {
-          columnFormat: "dddd"
-        }
+        left: "prev,next today buttonStampa",
+        center: "title",
+        right: "month"
       },
       defaultView: "month",
       weekends: true,
@@ -121,7 +117,7 @@
         "decembar"
       ],
       events: JSON.parse(`{{ data|raw }}`),
-      eventBackgroundColor: "#f8f9fa", // #e7f4ff
+      eventBackgroundColor: "#f8f9fa",
       eventBorderColor: "#000000",
       eventTextColor: "#000000",
       eventClick: function(event, jsEvent, view) {
