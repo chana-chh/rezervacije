@@ -6,6 +6,7 @@ use App\Models\Ugovor;
 use App\Models\Termin;
 use App\Models\Meni;
 use App\Models\Korisnik;
+use App\Models\Uplata;
 Use App\Classes\Db;
 Use App\Classes\Auth;
 
@@ -313,6 +314,51 @@ class UgovorController extends Controller
             $model = new Ugovor();
             $model->update($data, $id);
             return $response->withRedirect($this->router->pathFor('ugovori'));
+        }
+    }
+
+    public function postUgovorUplata($request, $response)
+    {
+        $id = (int)$request->getParam('idUgovora');
+        $data = $request->getParams();
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+        unset($data['idUgovora']);
+
+        $k = new Auth();
+        $id_korisnika = $k->user()->id;
+
+        $data['ugovor_id'] = $id;
+        $data['korisnik_id'] = $id_korisnika;
+
+        $validation_rules = [
+            'ugovor_id' => [
+                'required' => true
+            ],
+            'datum' => [
+                'required' => true
+            ],
+            'iznos' => [
+                'required' => true
+            ],
+            'nacin_placanja' => [
+                'required' => true
+            ],
+            'korisnik_id' => [
+                'required' => true
+            ]
+        ];
+
+        $this->validator->validate($data, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            $this->flash->addMessage('danger', "Došlo je do greške prilikom evidentiranja uplate.");
+            return $response->withRedirect($this->router->pathFor('ugovor.detalj', ['id' => $id]));
+        } else {
+            $this->flash->addMessage('success', "Uplata je uspešno evidentirana.");
+            $modelUplate = new Uplata();
+            $modelUplate->insert($data);
+            return $response->withRedirect($this->router->pathFor('ugovor.detalj', ['id' => $id]));
         }
     }
 }

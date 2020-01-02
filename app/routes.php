@@ -61,6 +61,7 @@ $app->group('', function () {
     $this->post('/ugovori/izmena', '\App\Controllers\UgovorController:postUgovorIzmena')->setName('ugovor.izmena.post');
     $this->post('/ugovori/brisanje', '\App\Controllers\UgovorController:postUgovorBrisanje')->setName('ugovor.brisanje');
     $this->get('/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('ugovor.detalj');
+    $this->post('/ugovori/uplata', '\App\Controllers\UgovorController:postUgovorUplata')->setName('ugovor.uplata');
 })->add(new UserLevelMiddleware($container, [0]));
 
 // PREGLED
