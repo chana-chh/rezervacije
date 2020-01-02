@@ -89,9 +89,21 @@ naslov %}
       <div class="modal-body">
         <h6>Da li želite trajno da obrišete termin?</h6>
         <p class="text-danger">* Ova akcija je nepovratna!</p>
+        <form
+          action="{{ path_for('termin.brisanje.post') }}"
+          method="POST"
+          id="modal-forma-brisanje-tetmina"
+        >
+          {{ csrf | raw }}
+          <input
+            type="hidden"
+            name="modal_termin_brisanje_id"
+            id="modal-termin-brisanje-id"
+          />
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger">
+        <button type="button" class="btn btn-danger" id="modal-obrisi-termin">
           <i class="fas fa-trash-alt"></i> Obriši
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -179,7 +191,10 @@ naslov %}
   $(document).ready(function() {
     $(".otvori-brisanje").on("click", function() {
       var id = "{{ termin.id }}";
-      // $('#idBrisanje').val(id);
+      $("#modal-termin-brisanje-id").val(id);
+    });
+    $("#modal-obrisi-termin").on("click", function() {
+      $("#modal-forma-brisanje-tetmina").submit();
     });
   });
 </script>
