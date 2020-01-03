@@ -145,7 +145,7 @@ class UgovorController extends Controller
     public function getUgovorDodavanje($request, $response)
     {
         $model = new Termin();
-        $termin = $model->find(10);
+        $termin = $model->find(1);
 
         $ugovori = $termin->ugovori();
 

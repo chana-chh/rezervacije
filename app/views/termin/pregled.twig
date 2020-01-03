@@ -128,15 +128,24 @@
         let title = element.find(".fc-title");
         const html = `
         <div class="clearfix">
-          <div class="float-left text-wrap">
-            ${event.start.format("HH:mm")} - ${event.end.format("HH:mm")}
+          <div class="d-none d-sm-flex float-left text-wrap">
+            ${event.start.format("HH:mm")} ${event.end.format("HH:mm")}
           </div>
-          <div class="float-right">
+          <div class="d-sm-none float-left text-wrap">
+            <small>${event.start.format("HH:mm")} ${event.end.format("HH:mm")}</small>
+          </div>
+          <div class="d-none d-sm-flex float-right">
             <i class="${event.description}"></i>
           </div>
         </div>
-        <div class="text-wrap">
+        <div class="d-none d-sm-flex text-wrap">
           ${event.title}
+        </div>
+        <div class="d-sm-none text-wrap text-truncate">
+          <small><strong>${event.title}</strong></small>
+        </div>
+        <div class="d-sm-none float-right">
+            <i class="${event.description}"></i>
         </div>
         `;
         title.html(html);
