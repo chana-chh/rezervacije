@@ -7,8 +7,8 @@ use App\Models\Termin;
 use App\Models\Meni;
 use App\Models\Korisnik;
 use App\Models\Uplata;
-Use App\Classes\Db;
-Use App\Classes\Auth;
+use App\Classes\Db;
+use App\Classes\Auth;
 
 class UgovorController extends Controller
 {
@@ -38,14 +38,14 @@ class UgovorController extends Controller
         $data = $_SESSION['DATA_UGOVORI_PRETRAGA'];
         array_shift($data);
         array_shift($data);
-        if (empty($data['prezime']) && 
-            empty($data['ime']) && 
-            empty($data['telefon']) && 
-            empty($data['email']) && 
-            empty($data['napomena']) && 
-            empty($data['broj_ugovora']) && 
-            empty($data['datum']) && 
-            empty($data['termin_id']) && 
+        if (empty($data['prezime']) &&
+            empty($data['ime']) &&
+            empty($data['telefon']) &&
+            empty($data['email']) &&
+            empty($data['napomena']) &&
+            empty($data['broj_ugovora']) &&
+            empty($data['datum']) &&
+            empty($data['termin_id']) &&
             empty($data['korisnik_id'])) {
             $this->getLog($request, $response);
         }
@@ -145,7 +145,7 @@ class UgovorController extends Controller
     public function getUgovorDodavanje($request, $response)
     {
         $model = new Termin();
-        $termin = $model->find(1);
+        $termin = $model->find(10);
 
         $ugovori = $termin->ugovori();
 
@@ -155,14 +155,30 @@ class UgovorController extends Controller
         $this->render($response, 'ugovor_dodavanje.twig', compact('termin', 'meniji', 'ugovori'));
     }
 
+    public function getUgovorDodavanjeTermin($request, $response, $args)
+    {
+        $termin_id = (int) $args['termin_id'];
+        $model_termin = new Termin();
+        $termin = $model_termin->find($termin_id);
+
+        $model_meni = new Meni();
+        $meniji = $model_meni->all();
+
+        // provera da li postoji ugovor i da li je dozvoljeno vise ugovora za termin
+        $broj_ugovora_za_termin = count($termin->ugovori());
+        if (!$termin->multiUgovori() && $broj_ugovora_za_termin > 0) {
+            $this->flash->addMessage('warning', "Nije dozvoljeno dodavanje više od jednog ugovora.");
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
+        }
+        $this->render($response, 'ugovor/dodavanje.twig', compact('termin', 'meniji'));
+    }
+
     public function postUgovorDodavanje($request, $response)
     {
         $data = $request->getParams();
+
         unset($data['csrf_name']);
         unset($data['csrf_value']);
-
-        $k = new Auth();
-        $id_korisnika = $k->user()->id;
 
         $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
         $data['muzika_chk'] = $muzika_chk;
@@ -178,9 +194,9 @@ class UgovorController extends Controller
         $data['slatki_sto_chk'] = $slatki_sto_chk;
         $vocni_sto_chk = isset($data['vocni_sto_chk']) ? 1 : 0;
         $data['vocni_sto_chk'] = $vocni_sto_chk;
-        
-        $data['termin_id'] = 1; //Za sada !!!
-        $data['korisnik_id'] = $id_korisnika;
+
+        // $data['termin_id'] = 1; Za sada !!!
+        $data['korisnik_id'] = $this->auth->user()->id;
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
@@ -212,12 +228,12 @@ class UgovorController extends Controller
 
         if ($this->validator->hasErrors()) {
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja ugovora.');
-            return $response->withRedirect($this->router->pathFor('ugovori'));
+            return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id'=>(int)$data['termin_id']]));
         } else {
-            $this->flash->addMessage('success', 'Nov ugovor je uspešno dodat.');
-            $modelUgovora = new Ugovor();
-            $modelUgovora->insert($data);
-            return $response->withRedirect($this->router->pathFor('ugovori'));
+            $model_ugovor = new Ugovor();
+            $model_ugovor->insert($data);
+            $this->flash->addMessage('success', 'Novi ugovor je uspešno dodat.');
+            return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id'=>(int)$data['termin_id']]));
         }
     }
 
@@ -276,7 +292,7 @@ class UgovorController extends Controller
         $data['slatki_sto_chk'] = $slatki_sto_chk;
         $vocni_sto_chk = isset($data['vocni_sto_chk']) ? 1 : 0;
         $data['vocni_sto_chk'] = $vocni_sto_chk;
-        
+
         $data['korisnik_id'] = $id_korisnika;
 
         $validation_rules = [

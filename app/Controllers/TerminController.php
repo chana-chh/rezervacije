@@ -144,7 +144,8 @@ class TerminController extends Controller
             return $response->withRedirect($this->router->pathFor('termin.pregled.get'));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja termina.");
-            return $response->withRedirect($this->router->pathFor('ugovortermin.detalj.geti', ['id'=>$id]));
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id'=>$id]));
         }
     }
+
 }
