@@ -248,7 +248,11 @@ class UgovorController extends Controller
         $id = (int)$args['id'];
         $modelUgovor = new Ugovor();
         $ugovor = $modelUgovor->find($id);
-        $this->render($response, 'meni_izmena.twig', compact('ugovor'));
+
+        $modelMeni = new Meni();
+        $meniji = $modelMeni->all();
+
+        $this->render($response, 'ugovor_izmena.twig', compact('ugovor', 'meniji'));
     }
 
     public function postUgovorIzmena($request, $response)
