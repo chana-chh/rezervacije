@@ -26,9 +26,9 @@
   }
 </style>
 {% endblock stil %} {% block naslov %}
-<div class="row">
+<div class="row d-none d-sm-flex">
   <div class="col-lg-6">
-    <h1><i class="fas fa-calendar-check"></i> Zakazivanje termina</h1>
+    <h1><i class="fas fa-calendar-check text-secondary"></i> Zakazivanje termina</h1>
   </div>
   <div class="col-lg-6 text-right">
     <ul class="list-inline lead pt-3 mb-0">
@@ -41,9 +41,24 @@
     </ul>
   </div>
 </div>
+<div class="row d-sm-none ">
+  <div class="col-lg-6">
+    <h4><i class="fas fa-calendar-check text-secondary"></i> Zakazivanje termina</h4>
+  </div>
+  <div class="col-lg-6 text-right" style="font-size: 0.75rem;">
+    <ul class="list-inline pt-3 mb-0">
+      <li class="list-inline-item ml-4">
+        <i class="fas fa-calendar-plus text-danger"></i> Termin u pripremi
+      </li>
+      <li class="list-inline-item ml-4">
+        <i class="fas fa-calendar-check text-success"></i> Zaključen termin
+      </li>
+    </ul>
+  </div>
+</div>
 <hr />
 <div class="row mb-2">
-  <div class="col-lg-12" id="kalendar"></div>
+  <div class="col-lg-12" id="kalendar" style="min-width:500px;"></div>
 </div>
 {% endblock naslov %} {% block skripta %}
 <script src="{{ base_url() }}/js/moment.min.js"></script>
@@ -80,13 +95,13 @@
         "subota"
       ],
       dayNamesShort: [
-        "nedelja",
-        "ponedeljak",
-        "utorak",
-        "sreda",
-        "četvrtak",
-        "petak",
-        "subota"
+        "ned",
+        "pon",
+        "uto",
+        "sre",
+        "čet",
+        "pet",
+        "sub"
       ],
       monthNames: [
         "januar",
