@@ -14,8 +14,8 @@ naslov %}
         class="btn btn-secondary"
         ><i class="fas fa-arrow-alt-circle-left"></i> Termini</a
       >
-      <a href="#" class="btn btn-success" id="zakljuci-termin">
-        <i class="fas fa-check"></i> Zaključi
+      <a href="" class="btn btn-success" id="zakljuci-termin">
+        <i class="fas fa-check"></i> Zaključaj/otključaj termin
       </a>
       <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i> Izmeni</a>
       <a
@@ -45,22 +45,25 @@ naslov %}
         </td>
       </tr>
       <tr>
+        <th>Tip / vrsta</th>
+        <td>{{ termin.tip().tip }}</td>
+      </tr>
+      <tr>
+        <th>Kratak opis</th>
+        <td>{{ termin.opis }}</td>
+      </tr>
+      <tr>
         <th>Zaključen termin</th>
         <td>
           <div class="custom-control custom-checkbox">
-            <input class="custom-control-input" type="checkbox" id="zauzet"{{
-              termin.zauzet == 1 ? " checked" : ""
-            }}
+            <input class="custom-control-input" type="checkbox" id="zauzet"
+            {{ termin.zauzet == 1 ? ' checked="checked"' : "" }}
             disabled>
             <label class="custom-control-label" for="zauzet"
               ><strong></strong
             ></label>
           </div>
         </td>
-      </tr>
-      <tr>
-        <th>Kratak opis</th>
-        <td>{{ termin.opis }}</td>
       </tr>
       <tr>
         <th>Napomena</th>
@@ -211,6 +214,31 @@ naslov %}
     });
     $("#modal-obrisi-termin").on("click", function() {
       $("#modal-forma-brisanje-tetmina").submit();
+    });
+
+    $("#zakljuci-termin").on("click", function(e) {
+      e.preventDefault();
+      $.post(
+        "{{ path_for('termin.zakljucivanje.post') }}",
+        {
+          termin_id: "{{ termin.id }}",
+          csrf_name: document.querySelector(".csrf_name").value,
+          csrf_value: document.querySelector(".csrf_value").value
+        },
+        function(data) {
+          console.log(data);
+          data = JSON.parse(data);
+          document.querySelector(".csrf_name").value = data.csrf_name;
+          document.querySelector(".csrf_value").value = data.csrf_value;
+          if (data.zakljucen) {
+            document
+              .querySelector("#zauzet")
+              .setAttribute("checked", "checked");
+          } else {
+            document.querySelector("#zauzet").removeAttribute("checked");
+          }
+        }
+      );
     });
   });
 </script>
