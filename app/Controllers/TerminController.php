@@ -148,4 +148,100 @@ class TerminController extends Controller
         }
     }
 
+    public function postTerminZakljucivanje($request, $response)
+    {
+        $data = $request->getParams();
+        $termin_id = (int) $data['termin_id'];
+        $this->addCsrfToken($data);
+        // ovde zakljucavam/otkljucavam termin
+        $model = new Termin();
+        $termin = $model->find($termin_id);
+        $zakljucen = $termin->zakljucen();
+        $z = $zakljucen ? 0 : 1;
+        $data['zakljucen'] = $z == 1 ? true : false;
+        $model->update(['zauzet' => $z], $termin_id);
+        return json_encode($data);
+    }
+
+    public function getTerminIzmena($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+        $model_sala = new Sala();
+        $sale = $model_sala->all();
+        $model_tip = new TipDogadjaja();
+        $tipovi = $model_tip->all();
+        $model_termin = new Termin();
+        $termin = $model_termin->find($id);
+
+        $this->render($response, 'termin/izmena.twig', compact('sale', 'tipovi', 'termin'));
+    }
+
+    public function postTerminIzmena($request, $response)
+    {
+        $datum = isset($data['datum']) ? $data['datum'] : null;
+
+        $data = $request->getParams();
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+
+        $validation_rules = [
+            'sala' => [
+                'required' => true
+            ],
+            'datum' => [
+                'required' => true
+            ],
+            'pocetak' => [
+                'required' => true
+            ],
+            'kraj' => [
+                'required' => true
+            ],
+            'opis' => [
+                'required' => true
+            ],
+        ];
+        $this->validator->validate($data, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja termina.');
+            return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
+        } else {
+            // Preklapanje termina
+            $model_termin = new Termin();
+            $preklapanje = false;
+            $pocetak = strtotime("{$data['datum']} {$data['pocetak']}");
+            $kraj = strtotime("{$data['datum']} {$data['kraj']}");
+            $sql = "SELECT datum, pocetak, kraj FROM termini WHERE datum = :dat AND sala_id = :sal";
+            $params = [
+            ':dat' => $data['datum'],
+            ':sal' => $data['sala_id'],
+            ];
+            $postojeci_termini = $model_termin->fetch($sql, $params);
+            // Uporedjivanje
+            foreach ($postojeci_termini as $pt) {
+                $pt_pocetak = strtotime("{$pt->datum} {$pt->pocetak}");
+                $pt_kraj = strtotime("{$pt->datum} {$pt->kraj}");
+                if ($pocetak >= $pt_pocetak && $pocetak < $pt_kraj) {
+                    $preklapanje = true;
+                }
+                if ($kraj > $pt_pocetak && $kraj <= $pt_kraj) {
+                    $preklapanje = true;
+                }
+                if ($pocetak <= $pt_pocetak && $kraj >= $pt_kraj) {
+                    $preklapanje = true;
+                }
+            }
+            if ($preklapanje) {
+                $this->flash->addMessage('danger', 'Termin se preklapa sa nekim od postojećih termina.');
+                return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
+            }
+            // Upisivanje u bazu
+            $data['korisnik_id'] = $this->auth->user()->id;
+            $data['created_at'] = date("Y-m-d H:i:s");
+            $model_termin->insert($data);
+            $this->flash->addMessage('success', 'Termin je uspešno dodat.');
+            return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));
+        }
+    }
 }

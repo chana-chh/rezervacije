@@ -60,7 +60,7 @@ $app->group('', function () {
 
 // IZMENA
 $app->group('', function () {
-    //Ugovori
+    // Ugovori
     $this->get('/ugovori', '\App\Controllers\UgovorController:getUgovor')->setName('ugovori');
     $this->get('/ugovori/pretraga', '\App\Controllers\UgovorController:getUgovorPretraga')->setName('ugovori.pretraga');
     $this->post('/ugovori/pretraga', '\App\Controllers\UgovorController:postUgovorPretraga');
@@ -72,12 +72,15 @@ $app->group('', function () {
     $this->get('/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('ugovor.detalj');
     $this->post('/ugovori/uplata', '\App\Controllers\UgovorController:postUgovorUplata')->setName('ugovor.uplata');
 
+    // Termini
     $this->get('/ugovori/dodavanje/{termin_id}', '\App\Controllers\UgovorController:getUgovorDodavanjeTermin')->setName('termin.dodavanje.ugovor');
 
-    // Termini
     $this->get('/termin/pregled[/{datum}]', '\App\Controllers\TerminController:getTerminPregled')->setName('termin.pregled.get');
     $this->get('/termin/detalj[/{id}]', '\App\Controllers\TerminController:getTerminDetalj')->setName('termin.detalj.get');
     $this->get('/termin/dodavanje[/{datum}]', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
     $this->post('/termin/dodavanje', '\App\Controllers\TerminController:postTerminDodavanje')->setName('termin.dodavanje.post');
+    $this->get('/termin/izmena/{id}', '\App\Controllers\TerminController:getTerminIzmena')->setName('termin.izmena.get');
+    $this->post('/termin/izmena', '\App\Controllers\TerminController:postTerminIzmena')->setName('termin.izmena.post');
     $this->post('/termin/brisanje', '\App\Controllers\TerminController:postTerminBrisanje')->setName('termin.brisanje.post');
+    $this->post('/termin/zakljucivanje', '\App\Controllers\TerminController:postTerminZakljucivanje')->setName('termin.zakljucivanje.post');
 })->add(new UserLevelMiddleware($container, [200]));

@@ -14,6 +14,11 @@ class Termin extends Model
         return $this->belongsTo('App\Models\TipDogadjaja', 'tip_dogadjaja_id');
     }
 
+    public function zakljucen()
+    {
+        return $this->zauzet == 1 ? true : false;
+    }
+
     public function multiUgovori()
     {
         return $this->tip()->multi_ugovori == 1 ? true : false;
