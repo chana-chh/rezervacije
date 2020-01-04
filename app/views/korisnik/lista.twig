@@ -16,14 +16,14 @@
 }
   </style>
 {% endblock stil %}
-<div class="row mt-md-5 d-none d-sm-flex">
+<div class="row mt-md-4 d-none d-sm-flex">
   <div class="col">
     <h1>
       <i class="fas fa-users text-secondary"></i> Korisnici aplikacije
     </h1>
   </div>
 </div>
-<div class="row mt-md-5 d-sm-none">
+<div class="row mt-2 d-sm-none">
   <div class="col">
     <h4>
       <i class="fas fa-users text-secondary"></i> Korisnici aplikacije
@@ -60,10 +60,10 @@
       </td>
       <td class="text-right">
           <div class="btn-group btn-group-sm">
-            <button class="btn btn-success btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
+            <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
             data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
             <i class="fas fa-edit"></i></button>
-            <button class="btn btn-warning btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
+            <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
             value="{{ korisnik.id }}" title="Brisanje odabrane sale">
             <i class="fas fa-trash-alt"></i>
             </button>
@@ -113,10 +113,10 @@
 
             <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
               <div class="form-group">
-                <button id="btn-brisanje-obrisi" type="submit" class="btn btn-outline-warning">
+                <button id="btn-brisanje-obrisi" type="submit" class="btn btn-danger">
                   <i class="fas fa-trash-alt"></i>&emsp;Obriši
                 </button>
-                <a class="btn btn-outline-secondary" data-dismiss="modal">
+                <a class="btn btn-secondary" data-dismiss="modal">
                   <i class="fas fa-ban"></i>&emsp;Otkaži
                 </a>
               </div>
@@ -206,12 +206,12 @@
             <hr style="margin-top: 30px;">
             <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
               <div class="form-group">
-                <a class="btn btn-outline-secondary" data-dismiss="modal">
-                  <i class="fas fa-ban"></i>&emsp;Otkaži
-                </a>
-                <button id="btn-brisanje-izmeni" type="submit" class="btn btn-outline-success">
+                <button id="btn-brisanje-izmeni" type="submit" class="btn btn-warning">
                   <i class="fas fa-edit"></i>&emsp;Izmeni
                 </button>
+                <a class="btn btn-secondary" data-dismiss="modal">
+                  <i class="fas fa-ban"></i>&emsp;Otkaži
+                </a>
               </div>
             </div>
           </form>
@@ -307,8 +307,8 @@
   </div>
          <div class="row justify-content-end text-right">
             <div class="col">
-              <button type="submit" class="btn btn-info text-right"><i class="fas fa-plus-square" title="Dodavanje novog korisnika"></i> &emsp;Dodaj</button>
-              <a href="{{ path_for('admin.korisnik.lista') }}" class="btn btn-outline-warning"><i class="fas fa-ban"></i> &emsp;Otkaži</a>
+              <button type="submit" class="btn btn-primary text-right"><i class="fas fa-plus-square" title="Dodavanje novog korisnika"></i> &emsp;Dodaj</button>
+              <a href="{{ path_for('admin.korisnik.lista') }}" class="btn btn-secondary"><i class="fas fa-ban"></i> &emsp;Otkaži</a>
             </div>
         </div>
       </form>
