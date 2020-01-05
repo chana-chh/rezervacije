@@ -48,64 +48,64 @@ class MeniController extends Controller
         $params = [];
 
         if (!empty($data['upit'])) {
-            $where .= "naziv LIKE :upit";
-            $params[':upit'] = $upit;
+            $where .= "naziv LIKE :naziv";
+            $params[':naziv'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "hladno_predjelo LIKE :upita";
-            $params[':upita'] = $upit;
+            $where .= "hladno_predjelo LIKE :hladno_predjelo";
+            $params[':hladno_predjelo'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "sirevi LIKE :upitb";
-            $params[':upitb'] = $upit;
+            $where .= "sirevi LIKE :sirevi";
+            $params[':sirevi'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "corba LIKE :upitc";
-            $params[':upitc'] = $upit;
+            $where .= "corba LIKE :corba";
+            $params[':corba'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "glavno_jelo LIKE :upitd";
-            $params[':upitd'] = $upit;
+            $where .= "glavno_jelo LIKE :glavno_jelo";
+            $params[':glavno_jelo'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "meso LIKE :upite";
-            $params[':upite'] = $upit;
+            $where .= "meso LIKE :meso";
+            $params[':meso'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "hleb LIKE :upitf";
-            $params[':upitf'] = $upit;
+            $where .= "hleb LIKE :hleb";
+            $params[':hleb'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "karta_pica LIKE :upitg";
-            $params[':upitg'] = $upit;
+            $where .= "karta_pica LIKE :karta_pica";
+            $params[':karta_pica'] = $upit;
         }
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
-            $where .= "napomena LIKE :upith";
-            $params[':upith'] = $upit;
+            $where .= "napomena LIKE :napomena";
+            $params[':napomena'] = $upit;
         }
 
         $where = $where === " WHERE " ? "" : $where;
