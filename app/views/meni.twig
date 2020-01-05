@@ -18,29 +18,74 @@
 {% block naslov %}
 <div class="row mt-md-4 d-none d-sm-flex">
   <div class="col">
-    <h1>
+   <h1>
       <i class="fas fa-drumstick-bite text-secondary"></i> Pregled dostupnih menija
     </h1>
+    {% if data %}
+    <small><em class="text-warning">[filtrirano]</em></small>
+    {% else %}
+    <small><em class="text-success">[svi meniji]</em></small>
+    {% endif %}
   </div>
   <div class="col justify-content-end text-right">
-    <a href="{{ path_for('meni.dodavanje.get') }}" class="btn btn-primary mt-3">
-      <i class="fas fa-plus-square"></i>&emsp;Dodaj novi meni
-    </a>
+    <div class="btn-group btn-group mt-3">
+      <a href="{{ path_for('meni.dodavanje.get') }}" class="btn-sm btn btn-primary">
+      <i class="fas fa-plus-square"></i>&emsp;Dodaj
+      </a>
+      <button type="button" class="btn btn-success btn-sm prikazi" id="prikazi" title="Prikaži formu za filtriranje">
+        <i class="fas fa-filter"></i> Filter</button>
+      <a href="{{ path_for('meni') }}" class="btn btn-secondary btn-sm pretraga_div"><i class="fas fa-drumstick-bite"></i>&emsp;Svi meniji</a>
+    </div>
   </div>
 </div>
 <div class="row mt-2 d-sm-none">
   <div class="col">
-    <h4>
+   <h4>
       <i class="fas fa-drumstick-bite text-secondary"></i> Pregled dostupnih menija
     </h4>
+    {% if data %}
+    <small><em class="text-warning">[filtrirano]</em></small>
+    {% else %}
+    <small><em class="text-success">[svi meniji]</em></small>
+    {% endif %}
   </div>
+</div>
+<div class="row mt-2 d-sm-none">
   <div class="col justify-content-end text-right">
-    <a href="{{ path_for('meni.dodavanje.get') }}" class="btn-sm btn-primary mt-3">
-      <i class="fas fa-plus-square"></i>&emsp;Dodaj novi meni
-    </a>
+    <div class="btn-group btn-group">
+      <a href="{{ path_for('meni.dodavanje.get') }}" class="btn-sm btn btn-primary">
+        <i class="fas fa-plus-square"></i>&emsp;Dodaj
+      </a>
+      <button type="button" class="btn btn-secondary btn-sm prikazi" id="prikazi" title="Prikaži formu za filtriranje">
+        <i class="fas fa-filter"></i> Filter</button>
+      <a href="{{ path_for('meni') }}" class="btn btn-warning btn-sm pretraga_div"><i class="fas fa-drumstick-bite"></i>&emsp;Svi meniji</a>
+    </div>
   </div>
 </div>
 <hr />
+<div class="card border-dark mb-3 pretraga_div" style="display: none;">
+    <div class="card-header">Filtriranje menija</div>
+    <div class="card-body text-dark mobilni">
+    <form action="{{ path_for('meni.pretraga') }}" method="POST">
+        {{ csrf|raw }}
+        <div class="form-row">
+        <div class="form-group col-md-2">
+          <label for="upit">Ključna reč za pretragu: </label>
+        <input type="text" name="upit" id="upit" class="form-control"
+            value="{{ data.upit }}" autocomplete="off" placeholder="Opis" required>
+        </div>
+        <div class="col-md-10 text-right mt-4">
+        <div class="btn-group">
+          <button type="submit" class="btn btn-success btn-sm">
+          <i class="fas fa-filter"></i> Filtriraj
+          </button>
+            <a href="{{ path_for('meni') }}" class="btn btn-secondary btn-sm"><i class="fas fa-drumstick-bite"></i>&emsp;Svi meniji</a>
+        </div>
+        </div>
+        </div>
+    </form>
+  </div>
+</div>
 <div class="table-responsive mobilni">
 <table class="table table-hover table-sm">
   <thead class="thead-dark">
@@ -153,6 +198,10 @@
             placement: 'right',
             trigger: 'hover'
         });
+
+      $('.prikazi').click(function () {
+        $('.pretraga_div').toggle();
+    });
 
       $(document).on('click', '.otvori-brisanje', function () {
         var id = $(this).data("id");

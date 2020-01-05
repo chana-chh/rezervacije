@@ -21,6 +21,101 @@ class MeniController extends Controller
         $this->render($response, 'meni.twig', compact('meni'));
     }
 
+    public function postMeniPretraga($request, $response)
+    {
+        $_SESSION['DATA_MENI_PRETRAGA'] = $request->getParams();
+        return $response->withRedirect($this->router->pathFor('meni.pretraga'));
+    }
+
+        public function getMeniPretraga($request, $response)
+    {
+        $data = $_SESSION['DATA_MENI_PRETRAGA'];
+        array_shift($data);
+        array_shift($data);
+        if (empty($data['upit'])) {
+            $this->getMeni($request, $response);
+        }
+
+        $data['upit'] = str_replace('%', '', $data['upit']);
+
+        $upit = '%' . filter_var($data['upit'], FILTER_SANITIZE_STRING) . '%';
+
+        $query = [];
+        parse_str($request->getUri()->getQuery(), $query);
+        $page = isset($query['page']) ? (int)$query['page'] : 1;
+
+        $where = " WHERE ";
+        $params = [];
+
+        if (!empty($data['upit'])) {
+            $where .= "naziv LIKE :upit";
+            $params[':upit'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "hladno_predjelo LIKE :upita";
+            $params[':upita'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "sirevi LIKE :upitb";
+            $params[':upitb'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "corba LIKE :upitc";
+            $params[':upitc'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "glavno_jelo LIKE :upitd";
+            $params[':upitd'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "meso LIKE :upite";
+            $params[':upite'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "hleb LIKE :upitf";
+            $params[':upitf'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "karta_pica LIKE :upitg";
+            $params[':upitg'] = $upit;
+        }
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
+            $where .= "napomena LIKE :upith";
+            $params[':upith'] = $upit;
+        }
+
+        $where = $where === " WHERE " ? "" : $where;
+        $model = new Meni();
+        $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY id;";
+        $meni = $model->paginate($page, 'page', $sql, $params);
+
+        $this->render($response, 'meni.twig', compact('meni', 'data'));
+    }
+
     public function getMeniDodavanje($request, $response)
     {
         $this->render($response, 'meni_dodavanje.twig');
