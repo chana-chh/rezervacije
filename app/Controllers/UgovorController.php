@@ -179,6 +179,7 @@ class UgovorController extends Controller
 
         unset($data['csrf_name']);
         unset($data['csrf_value']);
+        unset($data['cekiraj_sve']);
 
         $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
         $data['muzika_chk'] = $muzika_chk;
