@@ -41,6 +41,8 @@ $app->group('', function () {
     $this->post('/admin/meni/izmena', '\App\Controllers\MeniController:postMeniIzmena')->setName('meni.izmena.post');
     $this->post('/admin/meni/brisanje', '\App\Controllers\MeniController:postMeniBrisanje')->setName('meni.brisanje');
     $this->get('/admin/meni/detalj/{id}', '\App\Controllers\MeniController:getMeniDetalj')->setName('meni.detalj');
+    $this->get('/admin/meni/pretraga', '\App\Controllers\MeniController:getMeniPretraga')->setName('meni.pretraga');
+    $this->post('/admin/meni/pretraga', '\App\Controllers\MeniController:postMeniPretraga');
     //Tipovi događaja
     $this->get('/admin/tip', '\App\Controllers\TipDogadjajaController:getTipove')->setName('tip_dogadjaja');
     $this->post('/admin/tip/dodavanje', '\App\Controllers\TipDogadjajaController:postTipDodavanje')->setName('tip_dogadjaja.dodavanje');

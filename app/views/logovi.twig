@@ -1,6 +1,15 @@
-{% extends "templates/app.twig" %} 
+{% extends "templates/app.twig" %}
+{% block stil %}
+  <style>
+  @media (max-width: 575.98px) {
+  .mobilni{
+    font-size: 0.75rem !important;
+  }
+  }
+  </style>
+{% endblock stil %}
 {% block naslov %}
-<div class="row mt-md-5">
+<div class="row mt-md-4 d-none d-sm-flex">
   <div class="col">
    <h1>
       <i class="fas fa-history text-secondary"></i> Pregled logova
@@ -13,7 +22,28 @@
   </div>
   <div class="col justify-content-end text-right">
     <div class="btn-group btn-group mt-3">
-      <button type="button" class="btn btn-secondary btn-sm" id="prikazi" title="Prikaži formu za filtriranje">
+      <button type="button" class="btn btn-secondary btn-sm prikazi" id="prikazi" title="Prikaži formu za filtriranje">
+        <i class="fas fa-filter"></i> Filter</button>
+      <a href="{{ path_for('logovi') }}" class="btn btn-warning btn-sm pretraga_div">Svi logovi</a>
+    </div>
+  </div>
+</div>
+<div class="row mt-2 d-sm-none">
+  <div class="col">
+   <h4>
+      <i class="fas fa-history text-secondary"></i> Pregled logova
+    </h4>
+    {% if data %}
+    <small><em class="text-warning">[filtrirano]</em></small>
+    {% else %}
+    <small><em class="text-success">[svi logovi]</em></small>
+    {% endif %}
+  </div>
+</div>
+<div class="row mt-2 d-sm-none">
+  <div class="col justify-content-end text-right">
+    <div class="btn-group btn-group">
+      <button type="button" class="btn btn-secondary btn-sm prikazi" id="prikazi" title="Prikaži formu za filtriranje">
         <i class="fas fa-filter"></i> Filter</button>
       <a href="{{ path_for('logovi') }}" class="btn btn-warning btn-sm pretraga_div">Svi logovi</a>
     </div>
@@ -22,7 +52,7 @@
 <hr />
 <div class="card border-dark mb-3 pretraga_div" style="display: none;">
     <div class="card-header">Filtriranje logova</div>
-    <div class="card-body text-dark">
+    <div class="card-body text-dark mobilni">
     <form action="{{ path_for('logovi.pretraga') }}" method="POST">
         {{ csrf|raw }}
         <div class="form-row">
@@ -67,7 +97,8 @@
     </form>
   </div>
 </div>
-<table class="table">
+<div class="table-responsive">
+<table class="table mobilni">
   <thead class="thead-dark">
     <tr>
       <th class="w-5" scope="col">#</th>
@@ -89,7 +120,8 @@
     {% endfor %}
   </tbody>
 </table>
-<div class="row">
+</div>
+<div class="row mobilni">
   <nav class="col">
     <ul class="pagination pagination-sm">
       {% for button in logovi.links.buttons %}
@@ -112,7 +144,7 @@
   <script>
     $(document).ready(function () {
 
-    $('#prikazi').click(function () {
+    $('.prikazi').click(function () {
         $('.pretraga_div').toggle();
     });
 
