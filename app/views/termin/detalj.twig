@@ -17,7 +17,11 @@ naslov %}
       <a href="" class="btn btn-success" id="zakljuci-termin">
         <i class="fas fa-check"></i> Zaključaj/otključaj termin
       </a>
-      <a href="" class="btn btn-warning"><i class="fas fa-edit"></i> Izmeni</a>
+      <a
+        href="{{ path_for('termin.izmena.get', { id: termin.id }) }}"
+        class="btn btn-warning"
+        ><i class="fas fa-edit"></i> Izmeni</a
+      >
       <a
         href=""
         class="btn btn-danger otvori-brisanje"
