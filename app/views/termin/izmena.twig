@@ -8,7 +8,7 @@
 
 <form action="{{ path_for('termin.izmena.post') }}" method="POST" class="needs-validation" novalidate>
   {{ csrf | raw }}
-
+  <input type="hidden" name="termin_id" value="{{ termin.id }}">
   <div class="form-row">
     <div class="form-group col-lg-3">
       <label for="sala_id">Sala</label>
@@ -81,7 +81,7 @@
   <div class="form-row">
     <div class="col text-right">
       <button type="submit" class="btn btn-info" title="Snimanje novog termina">
-        <i class="fas fa-plus-square"></i> Snimi izmene
+        <i class="fas fa-save"></i> Snimi izmene
       </button>
       <a href="{{ path_for('termin.detalj.get', {id: termin.id}) }}"
       class="btn btn-outline-warning">
