@@ -106,11 +106,17 @@
         <div class="col-md-3">
           <i class="fas fa-tasks fa-lg text-info"></i>
         </div>
+        <div class="col justify-content-end text-right">
+          <label class="mt-4 ml-3">
+                <input type="checkbox" name="cekiraj_sve" id="cekiraj_sve" title="Izaberi sve!">
+                <i class="fas fa-check-double text-warning"></i> Čekiraj sve!
+          </label>
+        </div>
       </div>
        <div class="form-row">
         <div class="form-group col-md-2">
           <label class="mt-4 ml-3">
-                <input type="checkbox" name="muzika_chk" id="muzika_chk">
+                <input type="checkbox" name="muzika_chk" id="muzika_chk" class="cekiraj">
                 &emsp;Muzika
           </label>
         </div>
@@ -126,7 +132,7 @@
       <div class="form-row bg-light">
         <div class="form-group col-md-2">
           <label class="mt-4 ml-3">
-                <input type="checkbox" name="fotograf_chk" id="fotograf_chk">
+                <input type="checkbox" name="fotograf_chk" id="fotograf_chk" class="cekiraj">
                 &emsp;Fotograf
           </label>
         </div>
@@ -136,7 +142,7 @@
         </div>
         <div class="form-group col-md-2">
           <label class="mt-4 ml-3">
-                <input type="checkbox" name="torta_chk" id="torta_chk">
+                <input type="checkbox" name="torta_chk" id="torta_chk" class="cekiraj">
                 &emsp;Torta
           </label>
         </div>
@@ -148,7 +154,7 @@
       <div class="form-row">
         <div class="form-group col-md-2">
           <label class="mt-4 ml-3">
-                <input type="checkbox" name="dekoracija_chk" id="dekoracija_chk">
+                <input type="checkbox" name="dekoracija_chk" id="dekoracija_chk" class="cekiraj">
                 &emsp;Dekoracije
           </label>
         </div>
@@ -158,7 +164,7 @@
         </div>
         <div class="form-group col-md-2">
           <label class="mt-4 ml-3">
-                <input type="checkbox" name="kokteli_chk" id="kokteli_chk">
+                <input type="checkbox" name="kokteli_chk" id="kokteli_chk" class="cekiraj">
                 &emsp;Kokteli
           </label>
         </div>
@@ -170,7 +176,7 @@
       <div class="form-row bg-light">
         <div class="form-group col-md-2">
           <label class="mt-4 ml-3">
-                <input type="checkbox" name="slatki_sto_chk" id="slatki_sto_chk">
+                <input type="checkbox" name="slatki_sto_chk" id="slatki_sto_chk" class="cekiraj">
                 &emsp;Slatki sto
           </label>
         </div>
@@ -180,7 +186,7 @@
         </div>
         <div class="form-group col-md-2">
           <label class="mt-4 ml-3">
-                <input type="checkbox" name="vocni_sto_chk" id="vocni_sto_chk">
+                <input type="checkbox" name="vocni_sto_chk" id="vocni_sto_chk" class="cekiraj">
                 &emsp;Voćni sto
           </label>
         </div>
@@ -303,6 +309,10 @@
 {% block skripta %}
   <script>
     $(document).ready(function () {
+
+      $('#cekiraj_sve').click(function () {    
+        $(':checkbox.cekiraj').not(this).prop('checked', this.checked);  
+      });
 
       $('.stolice01').hide();
       $('.stolice02').hide();
