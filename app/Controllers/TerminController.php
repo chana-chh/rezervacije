@@ -136,15 +136,23 @@ class TerminController extends Controller
 
     public function postTerminBrisanje($request, $response)
     {
-        $id = (int)$request->getParam('modal_termin_brisanje_id');
+        $id = (int) $request->getParam('modal_termin_brisanje_id');
         $model = new Termin();
+        $termin = $model->find($id);
+        $datum = $termin->datum;
+
+        if (count($termin->ugovori()) > 0) {
+            $this->flash->addMessage('danger', "Postoje ugovori vezani za ovaj termin. Da bi se obrisao termin nephodno je prethodno obrisati sve ugovore vezane za njega.");
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));
+        }
+
         $success = $model->deleteOne($id);
         if ($success) {
             $this->flash->addMessage('success', "Termin je uspešno obrisan.");
-            return $response->withRedirect($this->router->pathFor('termin.pregled.get'));
+            return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $datum]));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja termina.");
-            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id'=>$id]));
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));
         }
     }
 

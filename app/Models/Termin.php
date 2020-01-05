@@ -42,12 +42,12 @@ class Termin extends Model
     public function popunjenaMesta()
     {
         $sql = "SELECT SUM(broj_mesta) AS pm FROM ugovori WHERE termin_id = {$this->id};";
-        return $this->fetch($sql)[0]->pm;
+        return (int) $this->fetch($sql)[0]->pm;
     }
 
     public function popunjeniStolovi()
     {
         $sql = "SELECT SUM(broj_stolova) AS ps FROM ugovori WHERE termin_id = {$this->id};";
-        return $this->fetch($sql)[0]->ps;
+        return (int) $this->fetch($sql)[0]->ps;
     }
 }

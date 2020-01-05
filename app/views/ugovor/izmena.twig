@@ -1,29 +1,13 @@
 {% extends "templates/app.twig" %}
-{% block stil %}
-<style>
-  /* Chrome, Safari, Edge, Opera */
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  /* Firefox */
-  input[type=number] {
-    -moz-appearance:textfield;
-  }
-</style>
-{% endblock stil %}
-
 {% block naslov %}
 <div class="row">
   <div class="col">
     <h1>
-      <i class="fas fa-file-signature text-secondary"></i> Dodavanje ugovora
+      <i class="fas fa-file-signature text-secondary"></i> Izmena ugovora
     </h1>
   </div>
-  <div class="col text-right pt-3">
-    <div class="btn-group btn-group-sm">
+  <div class="col text-right">
+    <div class="btn-group btn-group-sm mt-3">
       <button type="button" class="btn btn-secondary" onclick="window.history.back();" title="Povratak na prethodnu stranu"><i
           class="fas fa-chevron-circle-left"></i> Nazad</button>
       <a
@@ -40,7 +24,7 @@
 <div class="card border-dark mb-3">
   <div class="card-header text-primary">
     <h4>
-      Termin: {{ termin.datum|date() }} od {{ termin.pocetak|date("H:i") }} do {{ termin.kraj|date("H:i") }} - {{termin.tip.tip}} [{{ termin.opis }}]
+      Termin: {{ termin.datum|date() }} od {{ termin.pocetak|date("H:i") }} do {{ termin.kraj|date("H:i") }} - {{termin.tip.tip}}
     </h4>
   </div>
   <div class="card-body text-dark">
@@ -61,7 +45,7 @@
             id="broj_ugovora"
             autocomplete="off"
             class="form-control{{ errors.broj_ugovora[0] ? ' is-invalid' : '' }}"
-            value="{{ old.broj_ugovora ? : '' }}"
+            value="{{ old.broj_ugovora ? : ugovor.broj_ugovora }}"
             maxlength="50"
             required/>
           <div class="valid-feedback">Odgovarajući podatak</div>
@@ -386,203 +370,179 @@
 </div>
 {% endblock sadrzaj %}
 {% block traka %}
-<div class="card border-dark">
-  <div class="card-header">Kalkulacije/preporuke</div>
-  <div class="card-body text-dark">
-    <div class="row">
-      <div class="col">
-        <h5 class="text-primary">Kapacitet</h5>
+  <div class="card border-dark mb-3">
+    <div class="card-header">Kalkulacije/preporuke</div>
+    <div class="card-body text-dark">
+      <div class="row">
+        <h5 class="ml-3 text-warning">Kapacitet</h5>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-      <ul>
-        <li>Maksimalni kapacitet sale (stolovi) : <strong class="text-info">{{termin.sala().max_kapacitet_stolova}}</strong></li>
-        <li>Maksimalni kapacitet sale (zvanice) : <strong class="text-info">{{termin.sala().max_kapacitet_mesta}}</strong></li>
-        <li>Iskorišćeno stolova : <strong class="text-info">{{termin.popunjeniStolovi()}}</strong></li>
-        <li>Iskorišćeno zvanica : <strong class="text-info">{{termin.popunjenaMesta()}}</strong></li>
-      </ul>
-      <ul class="mb-1">
-        <li>Slobodnih stolova : <strong class="text-success">{{termin.sala.max_kapacitet_stolova - termin.popunjeniStolovi()}}</strong></li>
-        <li>Slobodnih mesta za zvanice : <strong class="text-success">{{termin.sala.max_kapacitet_mesta - termin.popunjenaMesta()}}</strong></li>
-      </ul>
+      <div class="row">
+        <ul>
+          <li class="ml-3">Maksimalni kapacitet sale (stolovi) : <span class="text-info"><strong>{{termin.sala.max_kapacitet_stolova}}</strong></span></li>
+          <li class="ml-3">Maksimalni kapacitet sale (zvanice) : <span class="text-info"><strong>{{termin.sala.max_kapacitet_mesta}}</strong></span></li>
+          <li class="ml-3">Iskorišćeno stolova : <span class="text-info"><strong>{{termin.popunjeniStolovi()}}</strong></span></li>
+          <li class="ml-3">Iskorišćeno zvanica : <span class="text-info"><strong>{{termin.popunjenaMesta()}}</strong></span></li>
+        </ul>
+        <ul>
+          <li class="ml-3">Slobodnih stolova : <span class="text-success"><strong>{{termin.sala.max_kapacitet_stolova - termin.popunjeniStolovi()}}</strong></span></li>
+          <li class="ml-3">Slobodnih mesta za zvanice : <span class="text-success"><strong>{{termin.sala.max_kapacitet_mesta - termin.popunjenaMesta()}}</strong></span></li>
+        </ul>
       </div>
-    </div>
-    <hr>
-    <div class="row mb-2">
-      <div class="col-lg-6">
-        <h5 class="text-primary">Preporučena cena (iznos)</h5>
+      <div class="row">
+        <h5 class="ml-3 text-warning">Preporučena cena (iznos)</h5>
       </div>
-      <div class="col-lg-6">
-        <div class="btn-group btn-block">
-          <button class="btn btn-sm btn-primary" id="dugme-prebaci-iznos">
-            <i class="fas fa-angle-left"></i>
-            Prebaci iznos
-          </button>
-          <button class="btn btn-sm btn-success" id="dugme-izracunaj-iznos">
-            <i class="fas fa-calculator"></i>
-          </button>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="preporucena"><small class="text-info">(broj mesta * cena menija)</small></label>
+          <input type="number" class="form-control" name="preporucena" id="preporucena" value="{{ old.preporucena ? : 0 }}" min="0" step="1" autocomplete="off" required>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <input
-          type="number"
-          class="form-control"
-          name="preporucena"
-          id="preporucena"
-          value="0" min="0" step="0.01"
-          autocomplete="off">
-        <small class="text-info">(broj mesta * cena menija)</small>
+      <hr>
+      <div class="row">
+        <h5 class="ml-3 text-warning">Predlog raspodele stolica</h5>
       </div>
-    </div>
-    <hr>
-    <div class="row mb-2">
-      <div class="col-lg-6">
-        <h5 class="text-primary">Predlog raspodele stolica</h5>
-      </div>
-      <div class="col-lg-6">
-        <div class="btn-group btn-block">
-          <button class="btn btn-sm btn-primary" id="dugme-prebaci-raspored">
-            <i class="fas fa-angle-left"></i>
-            Prebaci raspored
-          </button>
-          <button class="btn btn-sm btn-success" id="dugme-izracunaj-raspored">
-            <i class="fas fa-calculator"></i>
-          </button>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="stolovi">Popunjeni stolovi</label>
+          <input type="number" class="form-control" name="stolovi" id="stolovi" min="0">
+        </div>
+         <div class="col-md-6">
+          <label for="stolice">Stolice za popunjenim stolovima</label>
+          <input type="number" class="form-control" name="stolice" id="stolice" min="0" >
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-lg-6">
-        <label for="stolovi">Popunjeni stolovi</label>
-        <input type="number" class="form-control" name="stolovi" id="stolovi" min="0" step="1" value="0">
+       <div class="row">
+        <div class="col-md-6 stolice01">
+          <label for="stolice01">Stolice za dodatnim stolom I</label>
+          <input type="number" class="form-control" name="stolice01" id="stolice01" min="0">
+        </div>
+         <div class="col-md-6 stolice02">
+          <label for="stolice02">Stolice za dodatnim stolom II</label>
+          <input type="number" class="form-control" name="stolice02" id="stolice02" min="0" >
+        </div>
       </div>
-      <div class="form-group col-lg-6">
-        <label for="stolice">Stolice za popunjenim stolovima</label>
-        <input type="number" class="form-control" name="stolice" id="stolice" min="0" step="1" value="0">
+      {#
+      {% if ugovori|length > 0 %}
+      <div class="row">
+        <h5 class="ml-3 text-warning">Prethodno sklopljeni ugovori u ovom terminu</h5>
       </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-lg-6 stolice01">
-        <label for="stolice01">Stolice za dodatnim stolom 1</label>
-        <input type="number" class="form-control" name="stolice01" id="stolice01" min="0" step="1" value="0">
-      </div>
-      <div class="form-group col-lg-6 stolice02">
-        <label for="stolice02">Stolice za dodatnim stolom 2</label>
-        <input type="number" class="form-control" name="stolice02" id="stolice02" min="0" step="1" value="0">
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-lg-6 offset-lg-6">
-        <label for="ukupno_stolova" class="text-success">Ukupan broj stolova</label>
-        <input type="number" class="form-control" name="ukupno_stolova" id="ukupno_stolova" min="0" step="1" value="0">
-      </div>
+      <div class="row">
+      <div class="col-md-12">
+      <table class="table table-sm table-striped" style="font-size: 0.75rem;">
+      <thead>
+      <tr>
+        <th class="w-5" scope="col">#</th>
+        <th class="w-20" scope="col">Broj</th>
+        <th class="w-20" scope="col">Datum</th>
+        <th class="w-20" scope="col">Ime i prezime</th>
+        <th class="w-15" scope="col">Telefon, e-mail</th>
+        <th class="w-20" scope="col">Napomena</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ugovor in ugovori %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
+        <td>{{ ugovor.datum }}</td>
+        <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>
+        <td>{{ ugovor.telefon }}, <a href="mailto:{{ ugovor.email }}">{{ ugovor.email }}</a></td>
+        <td>{{ ugovor.napomena }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  </div>
+  {% endif %}
+  #}
     </div>
   </div>
-</div>
 {% endblock traka %}
 {% block skripta %}
   <script>
 
     $(document).ready(function () {
 
-      $("#dugme-izracunaj-iznos").click(function(event) {
+      $('.stolice01').hide();
+      $('.stolice02').hide();
+
+      $('#broj_mesta').keyup(function(event) {
         preporucenaCena();
-      });
-      $("#dugme-prebaci-iznos").click(function(event) {
-        $("#iznos").val($('#preporucena').val());
+        if($('#broj_mesta_po_stolu').val()){
+          raspodela();
+        }
+        if($('#stolice01').val() != 0 && $('#stolice02').val() != 0){
+          $('.stolice01').show();
+          $('.stolice02').show();
+        }else if($('#stolice01').val() != 0 && $('#stolice02').val() == 0){
+          $('.stolice01').show();
+          $('.stolice02').hide();
+        }else{
+          $('.stolice01').hide();
+          $('.stolice02').hide();
+        }
+
       });
 
-      $("#dugme-izracunaj-raspored").click(function(event) {
-        raspodela();
-      });
-      $("#dugme-prebaci-raspored").click(function(event) {
-        // $("#iznos").val($('#preporucena').val());
-      });
+       $('#broj_mesta_po_stolu').keyup(function(event) {
+        if($('#broj_mesta').val()){
+          raspodela();
+        }
+        if($('#stolice01').val() != 0 && $('#stolice02').val() != 0){
+          $('.stolice01').show();
+          $('.stolice02').show();
+        }else if($('#stolice01').val() != 0 && $('#stolice02').val() == 0){
+          $('.stolice01').show();
+          $('.stolice02').hide();
+        }else{
+          $('.stolice01').hide();
+          $('.stolice02').hide();
+        }
 
-      $('#broj_mesta').change(function(event) {
-        preporucenaCena();
-        raspodela();
-      });
-
-      $('#broj_mesta_po_stolu').change(function(event) {
-        raspodela();
-      });
-
-      $('#broj_stolova').change(function(event) {
-        raspodela();
       });
 
       $('#meni_id').change(function(){
          preporucenaCena();
       });
+
     });
 
     function preporucenaCena()
     {
-      const cm = $('#meni_id').children('option:selected').data('cenamenija');
-      const br = $('#broj_mesta').val();
-      let cena = (cm === undefined) ? 0 : parseFloat(cm);
-      let broj = (cm === "") ? 0 : parseInt(br);
-      $('#preporucena').val((cena * broj).toFixed(2));
+      $('#preporucena').val($('#meni_id').children('option:selected').data('cenamenija') * $('#broj_mesta').val());
     }
 
     function raspodela()
     {
-      // pocetne vrednosti
-      const bm = $('#broj_mesta').val();
-      const bss = $('#broj_mesta_po_stolu').val();
-      const bs = $('#broj_stolova').val();
+        $('#stolovi').val(0);
+        $('#stolice').val(0);
+        $('#stolice01').val(0);
+        $('#stolice02').val(0);
 
-      let broj_mesta = (bm === "") ? 0 : parseInt(bm);
-      let broj_stolica = (bss === "") ? 0 : parseInt(bss);
-      let broj_stolova = (bs === "") ? 0 : parseInt(bs);
+        var brm = $('#broj_mesta').val();
+        var brs = $('#broj_mesta_po_stolu').val();
+        var ostatak = 0;
 
-      const razlika = (broj_stolica * broj_stolova) - broj_mesta;
-      let provera = true;
-      let provera_tekst = "";
-
-      if(razlika < 0) {
-        provera = false;
-        provera_tekst = "Broj zvanica je veci od broja mesta za stolovima";
-      }
-
-      if(razlika >= broj_stolica){
-        provera = false;
-        provera_tekst = "Broj stolova je veci od potrebnog za uneti broj zvanica";
-      }
-
-      if(!provera && broj_mesta > 0 && broj_stolica > 0 && broj_stolova > 0){
-        alert(provera_tekst);
-      }
-
-      let popunjeni = 0;
-      let stolice = 0;
-      let prvi = 0;
-      let drugi = 0;
-      let ukupno = 0;
-
-      if (broj_mesta % broj_stolica == 0)
-      {
-          $('#stolovi').val(Math.floor(brm/brs));
-          $('#stolice').val(brs);
-      }
-      else if (broj_mesta % broj_stolica >= 6)
-      {
-          $('#stolovi').val(Math.floor(brm/brs));
-          $('#stolice').val(brs);
-          $('#stolice01').val(brm % brs);
-      }
-      else
-      {
-          $('#stolovi').val((Math.floor(brm/brs))-1);
-          $('#stolice').val(brs);
-          ostatak = brm%brs;
-          $('#stolice01').val(Math.floor((parseInt(ostatak)+parseInt(brs))/2));
-          $('#stolice02').val(Math.ceil((parseInt(ostatak)+parseInt(brs))/2));
-      }
+        if (brm % brs == 0)
+        {
+           $('#stolovi').val(Math.floor(brm/brs));
+           $('#stolice').val(brs);
+        }
+        else if (brm % brs >= 6)
+        {
+           $('#stolovi').val(Math.floor(brm/brs));
+           $('#stolice').val(brs);
+           $('#stolice01').val(brm % brs);
+        }
+        else
+        {
+            $('#stolovi').val((Math.floor(brm/brs))-1);
+            $('#stolice').val(brs);
+            ostatak = brm%brs;
+            $('#stolice01').val(Math.floor((parseInt(ostatak)+parseInt(brs))/2));
+            $('#stolice02').val(Math.ceil((parseInt(ostatak)+parseInt(brs))/2));
+        }
     }
 
     // bootstrap validation

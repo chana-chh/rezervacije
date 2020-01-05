@@ -2,7 +2,9 @@
 naslov %}
 <div class="row">
   <div class="col">
-    <h1><i class="fas fa-calendar-check"></i> Pregled termina</h1>
+    <h1>
+      <i class="fas fa-calendar-check text-secondary"></i> Pregled termina
+    </h1>
   </div>
   <div class="col text-right">
     <div class="btn-group btn-group-sm mt-3">
@@ -14,7 +16,7 @@ naslov %}
         class="btn btn-secondary"
         ><i class="fas fa-arrow-alt-circle-left"></i> Termini</a
       >
-      <a href="" class="btn btn-success" id="zakljuci-termin">
+      <a href="" class="btn btn-primary" id="zakljuci-termin">
         <i class="fas fa-check"></i> Zaključaj/otključaj termin
       </a>
       <a
@@ -32,9 +34,8 @@ naslov %}
     </div>
   </div>
 </div>
-<hr />
 
-<div class="table-responsive">
+<div class="table-responsive mt-3">
   <table class="table">
     <tbody>
       <tr>
@@ -102,7 +103,7 @@ naslov %}
         <form
           action="{{ path_for('termin.brisanje.post') }}"
           method="POST"
-          id="modal-forma-brisanje-tetmina"
+          id="modal-forma-brisanje-termina"
         >
           {{ csrf | raw }}
           <input
@@ -127,12 +128,14 @@ naslov %}
 
 <div class="row">
   <div class="col-lg-8">
-    <h2>Ugovori za termin</h2>
+    <h2>
+      <i class="fas fa-file-signature text-secondary"></i> Ugovori za termin
+    </h2>
   </div>
   <div class="col-lg-4 text-right pt-1">
     <a
       href="{{ path_for('termin.dodavanje.ugovor', { termin_id: termin.id }) }}"
-      class="btn btn-success btn-sm pretraga_div"
+      class="btn btn-primary btn-sm"
     >
       <i class="fas fa-plus-square"></i> Dodavanje ugovora
     </a>
@@ -189,14 +192,14 @@ naslov %}
             ></a>
             <a
               class="btn btn-warning"
-              href="{{ path_for('ugovor.izmena.get', { id: ugovor.id }) }}"
+              href="{{ path_for('termin.ugovor.izmena.get', { id: ugovor.id }) }}"
               title="Izmena odabranog ugovora"
               ><i class="fas fa-edit"></i
             ></a>
             <button
-              class="btn btn-danger otvori-brisanje"
+              class="btn btn-danger otvori-brisanje-ugovora"
               data-toggle="modal"
-              data-target="#brisanjeModal"
+              data-target="#brisanje-ugovora-modal"
               data-id="{{ ugovor.id }}"
               title="Brisanje odabranog ugovora"
             >
@@ -209,15 +212,61 @@ naslov %}
     </tbody>
   </table>
 </div>
-{% endblock naslov %} {% block skripta %}
+
+{# Modal za brisanje ugovora #}
+<div id="brisanje-ugovora-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger">Upozorenje!</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>Da li želite trajno da obrišete ugovor?</h6>
+        <p class="text-danger">* Ova akcija je nepovratna!</p>
+        <form
+          action="{{ path_for('termin.ugovor.brisanje') }}"
+          method="POST"
+          id="modal-forma-brisanje-ugovora"
+        >
+          {{ csrf | raw }}
+          <input type="hidden" id="idBrisanje" name="idBrisanje" />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="modal-obrisi-ugovor">
+          <i class="fas fa-trash-alt"></i> Obriši
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <i class="fas fa-ban"></i> Otkaži
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{# Kraj modala za brisanje ugovora #} {% endblock naslov %} {% block skripta %}
 <script>
   $(document).ready(function() {
     $(".otvori-brisanje").on("click", function() {
       var id = "{{ termin.id }}";
       $("#modal-termin-brisanje-id").val(id);
     });
+    $(".otvori-brisanje-ugovora").on("click", function() {
+      var id = $(this).data("id");
+      $("#idBrisanje").val(id);
+    });
     $("#modal-obrisi-termin").on("click", function() {
-      $("#modal-forma-brisanje-tetmina").submit();
+      $("#modal-forma-brisanje-termina").submit();
+    });
+    $("#modal-obrisi-ugovor").on("click", function() {
+      $("#modal-forma-brisanje-ugovora").submit();
     });
 
     $("#zakljuci-termin").on("click", function(e) {
@@ -230,7 +279,6 @@ naslov %}
           csrf_value: document.querySelector(".csrf_value").value
         },
         function(data) {
-          console.log(data);
           data = JSON.parse(data);
           document.querySelector(".csrf_name").value = data.csrf_name;
           document.querySelector(".csrf_value").value = data.csrf_value;
