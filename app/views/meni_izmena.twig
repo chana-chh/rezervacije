@@ -1,10 +1,36 @@
-{% extends "templates/app.twig" %} {% block naslov %}
+{% extends "templates/app.twig" %}
+{% block stil %}
+  <style>
+  .btn-sm{
+    margin-top: .25rem;
+  }
+  @media (max-width: 575.98px) {
+  .mobilni{
+    font-size: 0.75rem !important;
+  }
+  .btn, .btn-sm{
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
+  }
+  textarea { font-size: 0.75rem !important; }
+  }
+  </style>
+{% endblock stil %}
+{% block naslov %}
 <div class="row mt-md-5">
-  <div class="col">
+  <div class="col d-none d-sm-flex">
     <h1>
       <i class="fas fa-drumstick-bite text-secondary"></i> Izmena podataka
       menija
     </h1>
+  </div>
+    <div class="col d-sm-none">
+    <h4>
+      <i class="fas fa-drumstick-bite text-secondary"></i> Izmena podataka
+      menija
+    </h4>
   </div>
   <div class="col justify-content-end text-right">
     <div class="btn-group btn-group">
@@ -27,10 +53,10 @@
 </div>
 <hr />
 <div class="card border-dark mb-3">
-  <div class="card-header text-warning">
+  <div class="card-header text-primary">
     * Ako navodite više stavki u nekoj od kategorija razdvojite ih zarezom.
   </div>
-  <div class="card-body text-dark">
+  <div class="card-body text-dark mobilni">
     <form
       action="{{ path_for('meni.izmena.post') }}"
       method="POST"
@@ -188,10 +214,10 @@
           >
         </div>
         <div class="col-4 text-right align-self-end">
-          <button type="submit" class="btn btn-info" title="Izmeni meni">
+          <button type="submit" class="btn btn-warning" title="Izmeni meni">
             <i class="fas fa-edit"></i> &emsp;Izmeni
           </button>
-          <a href="{{ path_for('meni') }}" class="btn btn-outline-warning"
+          <a href="{{ path_for('meni') }}" class="btn btn-secondary"
             ><i class="fas fa-ban"></i> &emsp;Otkaži</a
           >
         </div>
