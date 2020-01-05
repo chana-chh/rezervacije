@@ -178,9 +178,9 @@ class TerminController extends Controller
 
     public function postTerminIzmena($request, $response)
     {
-        $datum = isset($data['datum']) ? $data['datum'] : null;
-
         $data = $request->getParams();
+        $id = (int) $data['termin_id'];
+        unset($data['termin_id']);
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
@@ -204,18 +204,19 @@ class TerminController extends Controller
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
-            $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja termina.');
-            return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene termina.');
+            return $response->withRedirect($this->router->pathFor('termin.izmena.get', ['id' => $id]));
         } else {
             // Preklapanje termina
             $model_termin = new Termin();
             $preklapanje = false;
             $pocetak = strtotime("{$data['datum']} {$data['pocetak']}");
             $kraj = strtotime("{$data['datum']} {$data['kraj']}");
-            $sql = "SELECT datum, pocetak, kraj FROM termini WHERE datum = :dat AND sala_id = :sal";
+            $sql = "SELECT datum, pocetak, kraj FROM termini WHERE datum = :dat AND sala_id = :sal AND id != :iid";
             $params = [
             ':dat' => $data['datum'],
             ':sal' => $data['sala_id'],
+            ':iid' => $id,
             ];
             $postojeci_termini = $model_termin->fetch($sql, $params);
             // Uporedjivanje
@@ -238,10 +239,10 @@ class TerminController extends Controller
             }
             // Upisivanje u bazu
             $data['korisnik_id'] = $this->auth->user()->id;
-            $data['created_at'] = date("Y-m-d H:i:s");
-            $model_termin->insert($data);
-            $this->flash->addMessage('success', 'Termin je uspešno dodat.');
-            return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));
+            $data['zauzet'] = isset($data['zauzet']) ? 1 : 0;
+            $model_termin->update($data, $id);
+            $this->flash->addMessage('success', 'Termin je uspešno izmenjen.');
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));
         }
     }
 }
