@@ -18,4 +18,8 @@ Nisam siguran koliko ovaj proracun odgovara potrebama jer se dodaje sto za jedno
 
 Ovo videti sa Acom kako da se rasporedjuju mesta.
 
+Po meni:
 
+za jedan ugovor ako je brojMesta = Math.ceil(brojZvanica / broj stolova) <= optimalan broj po stolu ici na optimalan broj, inace ici na brojMesta.
+
+za vise ugovora ide se na optimalan broj za vise ugovora pa se ako ima viska oni rasporedjuju po popunjenim stolovima ako je visak <= od broja popunjenih stolova, a ako je visak veci onda se dodaje sto i racunaju se mesta za stolom na osnovu broja stolova +1
