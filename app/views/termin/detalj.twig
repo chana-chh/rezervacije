@@ -188,14 +188,18 @@ naslov %}
               class="btn btn-success"
               href="{{ path_for('ugovor.detalj', { id: ugovor.id }) }}"
               title="Detaljni pregled odabranog ugovora"
-              ><i class="fas fa-eye"></i
-            ></a>
+            >
+              <i class="fas fa-eye"></i>
+            </a>
             <a
               class="btn btn-warning"
-              href="{{ path_for('termin.ugovor.izmena.get', { id: ugovor.id }) }}"
+              href="{{
+                path_for('termin.ugovor.izmena.get', { id: ugovor.id })
+              }}"
               title="Izmena odabranog ugovora"
-              ><i class="fas fa-edit"></i
-            ></a>
+            >
+              <i class="fas fa-edit"></i>
+            </a>
             <button
               class="btn btn-danger otvori-brisanje-ugovora"
               data-toggle="modal"
