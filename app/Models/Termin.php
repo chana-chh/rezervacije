@@ -50,4 +50,14 @@ class Termin extends Model
         $sql = "SELECT SUM(broj_stolova) AS ps FROM ugovori WHERE termin_id = {$this->id};";
         return (int) $this->fetch($sql)[0]->ps;
     }
+
+    public function slobodnaMesta()
+    {
+        return (int) ($this->sala()->max_kapacitet_mesta - $this->popunjenaMesta());
+    }
+
+    public function slobodniStolovi()
+    {
+        return (int) ($this->sala()->max_kapacitet_stolova - $this->popunjeniStolovi());
+    }
 }

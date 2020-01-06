@@ -183,8 +183,9 @@
             name="broj_mesta"
             id="broj_mesta"
             value="{{ old.broj_mesta ? : 0 }}"
-            min="0" step="1"
+            min="1" step="1"
             autocomplete="off"
+            title="Broj mesta"
             required>
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.broj_mesta[0] ? : 'Obavezno polje' }}</div>
@@ -197,7 +198,7 @@
             name="broj_mesta_po_stolu"
             id="broj_mesta_po_stolu"
             value="{{ old.broj_mesta_po_stolu ? : 0 }}"
-            min="0" step="1"
+            min="1" step="1"
             autocomplete="off"
             required>
           <div class="valid-feedback">Odgovarajući podatak</div>
@@ -211,7 +212,7 @@
             name="broj_stolova"
             id="broj_stolova"
             value="{{ old.broj_stolova ? : 0 }}"
-            min="0" step="1"
+            min="1" step="1"
             autocomplete="off"
             required>
           <div class="valid-feedback">Odgovarajući podatak</div>
@@ -239,10 +240,10 @@
         </div>
                 <div class="col justify-content-end text-right">
           <label class="mt-4 ml-3">
-                <input 
-                type="checkbox" 
-                name="cekiraj_sve" 
-                id="cekiraj_sve" 
+                <input
+                type="checkbox"
+                name="cekiraj_sve"
+                id="cekiraj_sve"
                 title="Izaberi sve!">
                 <i class="fas fa-check-double text-success"></i> Čekiraj sve!
           </label>
@@ -407,14 +408,14 @@
     <div class="row">
       <div class="col">
       <ul>
-        <li>Maksimalni kapacitet sale (stolovi) : <strong class="text-info">{{termin.sala().max_kapacitet_stolova}}</strong></li>
-        <li>Maksimalni kapacitet sale (zvanice) : <strong class="text-info">{{termin.sala().max_kapacitet_mesta}}</strong></li>
-        <li>Iskorišćeno stolova : <strong class="text-info">{{termin.popunjeniStolovi()}}</strong></li>
-        <li>Iskorišćeno zvanica : <strong class="text-info">{{termin.popunjenaMesta()}}</strong></li>
+        <li>Maksimalni kapacitet sale (stolovi) : <strong class="text-info">{{ termin.sala().max_kapacitet_stolova }}</strong></li>
+        <li>Maksimalni kapacitet sale (zvanice) : <strong class="text-info">{{ termin.sala().max_kapacitet_mesta }}</strong></li>
+        <li>Iskorišćeno stolova : <strong class="text-info">{{ termin.popunjeniStolovi() }}</strong></li>
+        <li>Iskorišćeno zvanica : <strong class="text-info">{{ termin.popunjenaMesta() }}</strong></li>
       </ul>
       <ul class="mb-1">
-        <li>Slobodnih stolova : <strong class="text-success">{{termin.sala.max_kapacitet_stolova - termin.popunjeniStolovi()}}</strong></li>
-        <li>Slobodnih mesta za zvanice : <strong class="text-success">{{termin.sala.max_kapacitet_mesta - termin.popunjenaMesta()}}</strong></li>
+        <li>Slobodnih stolova : <strong class="text-success">{{ termin.slobodniStolovi() }}</strong></li>
+        <li>Slobodnih mesta za zvanice : <strong class="text-success">{{ termin.slobodnaMesta() }}</strong></li>
       </ul>
       </div>
     </div>
@@ -497,14 +498,28 @@
   <script>
 
     $(document).ready(function () {
+      var m = "{{ termin.multiUgovori() == true ? 1 : 0 }}";
+      var multi = (parseInt(m) === 1) ? true : false;
 
-      $('#cekiraj_sve').click(function () {    
-        $(':checkbox.cekiraj').not(this).prop('checked', this.checked);  
+      var slobodnaMesta = parseInt("{{ termin.slobodnaMesta() }}");
+      var slobodniStolovi = parseInt("{{ termin.slobodniStolovi() }}");
+      var maxStolova = parseInt("{{ termin.sala().max_kapacitet_stolova }}");
+      var maxMesta = parseInt("{{ termin.sala().max_kapacitet_mesta }}");
+
+      var minStolica = Math.ceil(maxMesta / maxStolova); // min stolica po stolu za odnos kapacitet stolovi
+      var minStolicaConf = 6; // min stolica po stolu
+      var optStolicaConf = 8; // optimalno stolica po stolu
+      var optStolicaMultiConf = 12; // optimalno stolica po stolu
+      var maxStolicaConf = 14; // max stolica po stolu
+
+      $('#cekiraj_sve').click(function () {
+        $(':checkbox.cekiraj').not(this).prop('checked', this.checked);
       });
 
       $("#dugme-izracunaj-iznos").click(function(event) {
         preporucenaCena();
       });
+
       $("#dugme-prebaci-iznos").click(function(event) {
         $("#iznos").val($('#preporucena').val());
       });
@@ -512,8 +527,13 @@
       $("#dugme-izracunaj-raspored").click(function(event) {
         raspodela();
       });
+
       $("#dugme-prebaci-raspored").click(function(event) {
-        // $("#iznos").val($('#preporucena').val());
+        //
+      });
+
+      $('#meni_id').change(function(){
+         preporucenaCena();
       });
 
       $('#broj_mesta').change(function(event) {
@@ -529,75 +549,80 @@
         raspodela();
       });
 
-      $('#meni_id').change(function(){
-         preporucenaCena();
-      });
+      function preporucenaCena()
+      {
+        const cm = $('#meni_id').children('option:selected').data('cenamenija');
+        const br = $('#broj_mesta').val();
+        let cena = (cm === undefined) ? 0 : parseFloat(cm);
+        let broj = (cm === "") ? 0 : parseInt(br);
+        $('#preporucena').val((cena * broj).toFixed(2));
+      }
+
+      function raspodela()
+      {
+        const bm = $('#broj_mesta').val();
+        const bss = $('#broj_mesta_po_stolu').val();
+        const bs = $('#broj_stolova').val();
+
+        let brojMesta = (bm === "") ? 0 : parseInt(bm);
+        let brojStolica = (bss === "") ? 0 : parseInt(bss);
+        let brojStolova = (bs === "") ? 0 : parseInt(bs);
+
+        const razlika = (brojStolica * brojStolova) - brojMesta;
+        let provera = true;
+        let proveraTekst = "";
+
+        // Provera ispravnosti unosa
+        if(brojMesta > maxMesta) {
+          provera = false;
+          proveraTekst += "Broj zvanica je veci od kapaciteta sale!\n";
+        }
+
+        if(brojStolova > maxStolova) {
+          provera = false;
+          proveraTekst += "Broj stolova je veci od kapaciteta sale!\n";
+        }
+        /*
+        if(brojStolica < minStolica) {
+          provera = false;
+          proveraTekst += "Broj mesta za stolom je manji od minimalnog!\n";
+        }
+        */
+        if(razlika < 0) {
+          provera = false;
+          proveraTekst += "Broj zvanica je veci od broja mesta za stolovima!\n";
+        }
+
+        if(razlika >= brojStolica) {
+          provera = false;
+          proveraTekst += "Broj stolova je veci od potrebnog za uneti broj zvanica!\n";
+        }
+
+        if(!provera && brojMesta > 0 && brojStolica > 0 && brojStolova > 0) {
+          alert(proveraTekst); // modal?
+        }
+
+        // PRORACUN MESTA ZA JEDAN UGOVOR - PREDLOG
+        let predlogStolica = 0;
+        let predlogStolova = 0;
+        let stolice = Math.ceil(brojMesta / maxStolova);
+        // ako je stolice <= opt i stolice >= min onda je predlogMin = stolice, prelogOpt = opt, predlogMax = max
+        // ako je stolice >= opt i stolice <= max onda je predlogMin = opt, prelogOpt = stolice, predlogMax = max
+        // ako je stolice <= min onda je predlogMin = min, prelogOpt = opt, predlogMax = max
+        // ako je stolice > max greska (ne bi smelo da se dogodi)
+
+
+        // PRORACUN MESTA ZA VISE UGOVORA - PREDLOG
+        let predlogStolica = 0;
+        let predlogStolova = 0;
+        let stolice = Math.ceil(brojMesta / slobodniStolovi);
+        // ide se na optimizaciju za sto manji broj stolova
+
+      }
+
     });
 
-    function preporucenaCena()
-    {
-      const cm = $('#meni_id').children('option:selected').data('cenamenija');
-      const br = $('#broj_mesta').val();
-      let cena = (cm === undefined) ? 0 : parseFloat(cm);
-      let broj = (cm === "") ? 0 : parseInt(br);
-      $('#preporucena').val((cena * broj).toFixed(2));
-    }
 
-    function raspodela()
-    {
-      // pocetne vrednosti
-      const bm = $('#broj_mesta').val();
-      const bss = $('#broj_mesta_po_stolu').val();
-      const bs = $('#broj_stolova').val();
-
-      let broj_mesta = (bm === "") ? 0 : parseInt(bm);
-      let broj_stolica = (bss === "") ? 0 : parseInt(bss);
-      let broj_stolova = (bs === "") ? 0 : parseInt(bs);
-
-      const razlika = (broj_stolica * broj_stolova) - broj_mesta;
-      let provera = true;
-      let provera_tekst = "";
-
-      if(razlika < 0) {
-        provera = false;
-        provera_tekst = "Broj zvanica je veci od broja mesta za stolovima";
-      }
-
-      if(razlika >= broj_stolica){
-        provera = false;
-        provera_tekst = "Broj stolova je veci od potrebnog za uneti broj zvanica";
-      }
-
-      if(!provera && broj_mesta > 0 && broj_stolica > 0 && broj_stolova > 0){
-        alert(provera_tekst);
-      }
-
-      let popunjeni = 0;
-      let stolice = 0;
-      let prvi = 0;
-      let drugi = 0;
-      let ukupno = 0;
-
-      if (broj_mesta % broj_stolica == 0)
-      {
-          $('#stolovi').val(Math.floor(brm/brs));
-          $('#stolice').val(brs);
-      }
-      else if (broj_mesta % broj_stolica >= 6)
-      {
-          $('#stolovi').val(Math.floor(brm/brs));
-          $('#stolice').val(brs);
-          $('#stolice01').val(brm % brs);
-      }
-      else
-      {
-          $('#stolovi').val((Math.floor(brm/brs))-1);
-          $('#stolice').val(brs);
-          ostatak = brm%brs;
-          $('#stolice01').val(Math.floor((parseInt(ostatak)+parseInt(brs))/2));
-          $('#stolice02').val(Math.ceil((parseInt(ostatak)+parseInt(brs))/2));
-      }
-    }
 
     // bootstrap validation
     (function() {
