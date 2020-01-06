@@ -14,12 +14,8 @@ vice iz uplata po opisu. Ovo mislim da olaksava kasnije operacije sa uplatama.
 
 ## RASPORED MESTA U SALI
 
-Nisam siguran koliko ovaj proracun odgovara potrebama jer se uvek dodaje sto.
+Nisam siguran koliko ovaj proracun odgovara potrebama jer se dodaje sto za jednog coveka (koji se moze uglaviti za neki sto ako je broj mesta manji od max).
 
-Kada je jedan ugovor (najcesci slucaj) treba uzeti max broj stolova i podeliti broj zvanica sa njim da se dobije priblizan broj mesta po stolu uz neki minimalni broj mesta za stolom (da ne bude po 3 coveka za stolom).
+Ovo videti sa Acom kako da se rasporedjuju mesta.
 
-Kada je vise ugovora treba obratiti paznju na preostale stolove i mesta. Odabrati neki broj mesta za stolom (10)
 
-- ako je ostatak <= zauzeti stolovi onda dodati po jos jedno mesto za stolom
-- ako je broj mesta za stolom veliki (12+) dodati jos jedan sto pa podeliti broj zvanica sa novim brojem stolova da se dobije broj mesta za stolom
-- broj mesta za stolom treba da bude okviran npr 12 +- 1

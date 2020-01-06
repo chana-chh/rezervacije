@@ -554,7 +554,10 @@
         const cm = $('#meni_id').children('option:selected').data('cenamenija');
         const br = $('#broj_mesta').val();
         let cena = (cm === undefined) ? 0 : parseFloat(cm);
+        console.log("TCL: cena", cena)
         let broj = (cm === "") ? 0 : parseInt(br);
+        console.log("TCL: broj", broj)
+
         $('#preporucena').val((cena * broj).toFixed(2));
       }
 
@@ -602,10 +605,11 @@
           alert(proveraTekst); // modal?
         }
 
-        // PRORACUN MESTA ZA JEDAN UGOVOR - PREDLOG
         let predlogStolica = 0;
         let predlogStolova = 0;
-        let stolice = Math.ceil(brojMesta / maxStolova);
+        let stolice = 0 ;
+        // PRORACUN MESTA ZA JEDAN UGOVOR - PREDLOG
+        stolice = Math.ceil(brojMesta / maxStolova);
         // ako je stolice <= opt i stolice >= min onda je predlogMin = stolice, prelogOpt = opt, predlogMax = max
         // ako je stolice >= opt i stolice <= max onda je predlogMin = opt, prelogOpt = stolice, predlogMax = max
         // ako je stolice <= min onda je predlogMin = min, prelogOpt = opt, predlogMax = max
@@ -613,9 +617,7 @@
 
 
         // PRORACUN MESTA ZA VISE UGOVORA - PREDLOG
-        let predlogStolica = 0;
-        let predlogStolova = 0;
-        let stolice = Math.ceil(brojMesta / slobodniStolovi);
+        stolice = Math.ceil(brojMesta / slobodniStolovi);
         // ide se na optimizaciju za sto manji broj stolova
 
       }
