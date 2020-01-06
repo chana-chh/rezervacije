@@ -477,13 +477,10 @@ class UgovorController extends Controller
     public function postUgovorIzmenaTermin($request, $response)
     {
         $data = $request->getParams();
-        $id = $data['id'];
+        $id = (int) $data['id'];
         unset($data['id']);
         unset($data['csrf_name']);
         unset($data['csrf_value']);
-
-        $k = new Auth();
-        $id_korisnika = $k->user()->id;
 
         $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
         $data['muzika_chk'] = $muzika_chk;
@@ -499,8 +496,6 @@ class UgovorController extends Controller
         $data['slatki_sto_chk'] = $slatki_sto_chk;
         $vocni_sto_chk = isset($data['vocni_sto_chk']) ? 1 : 0;
         $data['vocni_sto_chk'] = $vocni_sto_chk;
-
-        $data['korisnik_id'] = $id_korisnika;
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
@@ -524,19 +519,18 @@ class UgovorController extends Controller
             'kokteli_chk' => ['required' => true,],
             'slatki_sto_chk' => ['required' => true,],
             'vocni_sto_chk' => ['required' => true,],
-            'korisnik_id' => ['required' => true,]
         ];
 
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
-            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka ugovora.');
-            return $response->withRedirect($this->router->pathFor('ugovor.izmena', ['id' => $id]));
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene ugovora.');
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.izmena.get', ['id' => $id]));
         } else {
-            $this->flash->addMessage('success', 'Podaci ugovora su uspešno izmenjeni.');
             $model = new Ugovor();
             $model->update($data, $id);
-            return $response->withRedirect($this->router->pathFor('ugovori'));
+            $this->flash->addMessage('success', 'Ugovor je uspešno izmenjen.');
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => (int) $data['termin_id']]));
         }
     }
 }

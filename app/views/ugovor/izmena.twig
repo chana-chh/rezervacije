@@ -1,14 +1,12 @@
 {% extends "templates/app.twig" %}
 {% block stil %}
 <style>
-  /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
-  /* Firefox */
   input[type=number] {
     -moz-appearance:textfield;
   }
@@ -44,8 +42,9 @@
     </h4>
   </div>
   <div class="card-body text-dark">
-    <form action="{{ path_for('termin.izmena.ugovor.post') }}" method="POST" class="needs-validation" novalidate>
+    <form action="{{ path_for('termin.ugovor.izmena.post') }}" method="POST" class="needs-validation" novalidate>
       {{ csrf | raw }}
+      <input type="hidden" name="id" value="{{ ugovor.id }}">
       <input type="hidden" name="termin_id" value="{{ termin.id }}">
       <div class="form-row">
         <div class="col-md-3">
@@ -61,7 +60,7 @@
             id="broj_ugovora"
             autocomplete="off"
             class="form-control{{ errors.broj_ugovora[0] ? ' is-invalid' : '' }}"
-            value="{{ old.broj_ugovora ? : '' }}"
+            value="{{ old.broj_ugovora ? : ugovor.broj_ugovora }}"
             maxlength="50"
             required/>
           <div class="valid-feedback">Odgovarajući podatak</div>
@@ -74,7 +73,7 @@
             type="date"
             id="datum"
             class="form-control{{ errors.datum[0] ? ' is-invalid' : '' }}"
-            value="{{ old.datum ? : 'now'|date('Y-m-d') }}"
+            value="{{ old.datum ? : ugovor.datum }}"
             required/>
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.datum[0] ? : 'Obavezno polje' }}</div>
@@ -88,7 +87,7 @@
             required>
             <option value=""></option>
             {% for meni in meniji %}
-            <option value="{{ meni.id }}" {{ old.meni_id == meni.id ? ' selected' : '' }} data-cenamenija="{{ meni.cena }}">
+            <option value="{{ meni.id }}" {{ (old.meni_id == meni.id or ugovor.meni_id == meni.id) ? ' selected' : '' }} data-cenamenija="{{ meni.cena }}">
             {{ meni.naziv }} - ({{ meni.cena|number_format() }})
           </option>
           {% endfor %}
@@ -103,7 +102,7 @@
             class="form-control{{ errors.prosek_godina[0] ? ' is-invalid' : '' }}"
             name="prosek_godina"
             id="prosek_godina"
-            value="{{ old.prosek_godina ? : 0 }}"
+            value="{{ old.prosek_godina ? : ugovor.prosek_godina }}"
             min="0" step="1"
             autocomplete="off"
             required>
@@ -123,7 +122,7 @@
           <input
             type="text"
             class="form-control{{ errors.ime[0] ? ' is-invalid' : '' }}"
-            value="{{ old.ime ? : '' }}"
+            value="{{ old.ime ? : ugovor.ime }}"
             name="ime"
             id="ime"
             autocomplete="off"
@@ -136,7 +135,7 @@
           <input
             type="text"
             class="form-control{{ errors.prezime[0] ? ' is-invalid' : '' }}"
-            value="{{ old.prezime ? : '' }}"
+            value="{{ old.prezime ? : ugovor.prezime }}"
             name="prezime"
             id="prezime"
             autocomplete="off"
@@ -148,7 +147,7 @@
           <label for="telefon">Telefon</label>
           <input type="text"
             class="form-control{{ errors.telefon[0] ? ' is-invalid' : '' }}"
-            value="{{ old.telefon ? : '' }}"
+            value="{{ old.telefon ? : ugovor.telefon }}"
             name="telefon"
             id="telefon"
             autocomplete="off">
@@ -160,7 +159,7 @@
           <input
             type="email"
             class="form-control{{ errors.email[0] ? ' is-invalid' : '' }}"
-            value="{{ old.email ? : '' }}"
+            value="{{ old.email ? : ugovor.email }}"
             name="email"
             id="email"
             autocomplete="off">
@@ -182,7 +181,7 @@
             class="form-control{{ errors.broj_mesta[0] ? ' is-invalid' : '' }}"
             name="broj_mesta"
             id="broj_mesta"
-            value="{{ old.broj_mesta ? : 0 }}"
+            value="{{ old.broj_mesta ? : ugovor.broj_mesta }}"
             min="1" step="1"
             autocomplete="off"
             title="Broj mesta"
@@ -197,7 +196,7 @@
             class="form-control{{ errors.broj_mesta_po_stolu[0] ? ' is-invalid' : '' }}"
             name="broj_mesta_po_stolu"
             id="broj_mesta_po_stolu"
-            value="{{ old.broj_mesta_po_stolu ? : 0 }}"
+            value="{{ old.broj_mesta_po_stolu ? : ugovor.broj_mesta_po_stolu }}"
             min="1" step="1"
             autocomplete="off"
             required>
@@ -211,7 +210,7 @@
             class="form-control{{ errors.broj_stolova[0] ? ' is-invalid' : '' }}"
             name="broj_stolova"
             id="broj_stolova"
-            value="{{ old.broj_stolova ? : 0 }}"
+            value="{{ old.broj_stolova ? : ugovor.broj_stolova }}"
             min="1" step="1"
             autocomplete="off"
             required>
@@ -225,7 +224,7 @@
             class="form-control{{ errors.iznos[0] ? ' is-invalid' : '' }}"
             name="iznos"
             id="iznos"
-            value="{{ old.iznos ? : 0.00 }}"
+            value="{{ old.iznos ? : ugovor.iznos }}"
             min="0" step="0.01"
             autocomplete="off"
             required>
@@ -258,17 +257,17 @@
                   id="muzika_chk"
                   class="cekiraj form-check-input{{ errors.muzika_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
-                  {{ old.muzika_chk ? 'checked' : '' }}>
+                  {{ (old.muzika_chk or ugovor.muzika_chk) ? 'checked' : '' }}>
                 Muzika
           </label>
         </div>
         <div class="form-group col-md-4">
           <label for="muzika_ugovor">Muzika ugovor</label>
-          <input type="text" class="form-control" name="muzika_ugovor" id="muzika_ugovor" value="{{ old.muzika_ugovor ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="muzika_ugovor" id="muzika_ugovor" value="{{ old.muzika_ugovor ? : ugovor.muzika_ugovor }}" autocomplete="off">
         </div>
         <div class="form-group col-md-6">
           <label for="muzika_opis">Muzika opis</label>
-          <input type="text" class="form-control" name="muzika_opis" id="muzika_opis" value="{{ old.muzika_opis ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="muzika_opis" id="muzika_opis" value="{{ old.muzika_opis ? : ugovor.muzika_opis }}" autocomplete="off">
         </div>
       </div>
       <div class="form-row bg-light">
@@ -280,13 +279,13 @@
                   id="fotograf_chk"
                   class="cekiraj form-check-input{{ errors.fotograf_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
-                  {{ old.fotograf_chk ? 'checked' : '' }}>
+                  {{ (old.fotograf_chk or ugovor.fotograf_chk) ? 'checked' : '' }}>
                 Fotograf
           </label>
         </div>
         <div class="form-group col-md-4">
           <label for="fotograf_opis">Fotograf opis</label>
-          <input type="text" class="form-control" name="fotograf_opis" id="fotograf_opis" value="{{ old.fotograf_opis ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="fotograf_opis" id="fotograf_opis" value="{{ old.fotograf_opis ? : ugovor.fotograf_opis }}" autocomplete="off">
         </div>
         <div class="form-group col-md-2">
           <label class="mt-4 pl-5">
@@ -296,13 +295,13 @@
                   id="torta_chk"
                   class="cekiraj form-check-input{{ errors.torta_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
-                  {{ old.torta_chk ? 'checked' : '' }}>
+                  {{ (old.torta_chk or ugovor.torta_chk) ? 'checked' : '' }}>
                 Torta
           </label>
         </div>
         <div class="form-group col-md-4">
           <label for="torta_opis">Torta opis</label>
-          <input type="text" class="form-control" name="torta_opis" id="torta_opis" value="{{ old.torta_opis ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="torta_opis" id="torta_opis" value="{{ old.torta_opis ? : ugovor.torta_opis }}" autocomplete="off">
         </div>
       </div>
       <div class="form-row">
@@ -314,13 +313,13 @@
                   id="dekoracija_chk"
                   class="cekiraj form-check-input{{ errors.dekoracija_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
-                  {{ old.dekoracija_chk ? 'checked' : '' }}>
+                  {{ (old.dekoracija_chk or ugovor.dekoracija_chk) ? 'checked' : '' }}>
                 Dekoracija
           </label>
         </div>
         <div class="form-group col-md-4">
           <label for="dekoracija_opis">Dekoracija opis</label>
-          <input type="text" class="form-control" name="dekoracija_opis" id="dekoracija_opis" value="{{ old.dekoracija_opis ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="dekoracija_opis" id="dekoracija_opis" value="{{ old.dekoracija_opis ? : ugovor.dekoracija_opis }}" autocomplete="off">
         </div>
         <div class="form-group col-md-2">
           <label class="mt-4 pl-5">
@@ -330,13 +329,13 @@
                   id="kokteli_chk"
                   class="cekiraj form-check-input{{ errors.kokteli_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
-                  {{ old.kokteli_chk ? 'checked' : '' }}>
+                  {{ (old.kokteli_chk or ugovor.kokteli_chk) ? 'checked' : '' }}>
                 Kokteli
           </label>
         </div>
         <div class="form-group col-md-4">
           <label for="kokteli_opis">Kokteli opis</label>
-          <input type="text" class="form-control" name="kokteli_opis" id="kokteli_opis" value="{{ old.kokteli_opis ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="kokteli_opis" id="kokteli_opis" value="{{ old.kokteli_opis ? : ugovor.kokteli_opis }}" autocomplete="off">
         </div>
       </div>
       <div class="form-row bg-light">
@@ -348,13 +347,13 @@
                   id="slatki_sto_chk"
                   class="cekiraj form-check-input{{ errors.slatki_sto_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
-                  {{ old.slatki_sto_chk ? 'checked' : '' }}>
+                  {{ (old.slatki_sto_chk or ugovor.slatki_sto_chk) ? 'checked' : '' }}>
                 Slatki sto
           </label>
         </div>
         <div class="form-group col-md-4">
           <label for="slatki_sto_opis">Slatki sto opis</label>
-          <input type="text" class="form-control" name="slatki_sto_opis" id="slatki_sto_opis" value="{{ old.slatki_sto_opis ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="slatki_sto_opis" id="slatki_sto_opis" value="{{ old.slatki_sto_opis ? : ugovor.slatki_sto_opis }}" autocomplete="off">
         </div>
         <div class="form-group col-md-2">
           <label class="mt-4 pl-5">
@@ -364,31 +363,31 @@
                   id="vocni_sto_chk"
                   class="cekiraj form-check-input{{ errors.vocni_sto_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
-                  {{ old.vocni_sto_chk ? 'checked' : '' }}>
+                  {{ (old.vocni_sto_chk or ugovor.vocni_sto_chk) ? 'checked' : '' }}>
                 Voćni sto
           </label>
         </div>
         <div class="form-group col-md-4">
           <label for="vocni_sto_opis">Voćni sto opis</label>
-          <input type="text" class="form-control" name="vocni_sto_opis" id="vocni_sto_opis" value="{{ old.vocni_sto_opis ? : '' }}" autocomplete="off">
+          <input type="text" class="form-control" name="vocni_sto_opis" id="vocni_sto_opis" value="{{ old.vocni_sto_opis ? : ugovor.vocni_sto_opis }}" autocomplete="off">
         </div>
       </div>
       <hr>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="posebni_zahtevi">Posebni zahtevi</label>
-          <textarea class="form-control" name="posebni_zahtevi" id="posebni_zahtevi" rows="3">{{ old.posebni_zahtevi ?  : '' }}</textarea>
+          <textarea class="form-control" name="posebni_zahtevi" id="posebni_zahtevi" rows="3">{{ old.posebni_zahtevi ?  : ugovor.posebni_zahtevi }}</textarea>
         </div>
         <div class="form-group col-md-6">
           <label for="napomena">Napomena</label>
-          <textarea class="form-control" name="napomena" id="napomena" rows="3">{{ old.napomena ?  : '' }}</textarea>
+          <textarea class="form-control" name="napomena" id="napomena" rows="3">{{ old.napomena ?  : ugovor.napomena }}</textarea>
         </div>
       </div>
       <hr>
       <div class="form-row justify-content-between mt-2">
         <div class="col-12 text-right align-self-end">
-          <button type="submit" class="btn btn-info" title="Dodaj novi ugovor"><i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
-          <a href="{{ path_for('termin.detalj.get', { id: termin.id }) }}" class="btn btn-outline-warning">
+          <button type="submit" class="btn btn-primary" title="Dodaj novi ugovor"><i class="fas fa-save"></i> Snimi</button>
+          <a href="{{ path_for('termin.detalj.get', { id: termin.id }) }}" class="btn btn-secondary">
             <i class="fas fa-ban"></i> Otkaži</a>
         </div>
       </div>
@@ -424,8 +423,8 @@
       <div class="col-lg-6">
         <h5 class="text-primary">Preporučena cena (iznos)</h5>
       </div>
-      <div class="col-lg-6">
-        <div class="btn-group btn-block">
+      <div class="col-lg-6 text-right">
+        <div class="btn-group">
           <button class="btn btn-sm btn-primary" id="dugme-prebaci-iznos">
             <i class="fas fa-angle-left"></i>
             Prebaci iznos
@@ -453,8 +452,8 @@
       <div class="col-lg-6">
         <h5 class="text-primary">Predlog raspodele stolica</h5>
       </div>
-      <div class="col-lg-6">
-        <div class="btn-group btn-block">
+      <div class="col-lg-6 text-right">
+        <div class="btn-group">
           <button class="btn btn-sm btn-primary" id="dugme-prebaci-raspored">
             <i class="fas fa-angle-left"></i>
             Prebaci raspored

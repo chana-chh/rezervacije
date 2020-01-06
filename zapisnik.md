@@ -2,6 +2,10 @@
 
 Kod izmene sale ne vuce podatke.
 
+Kod izmena podataka da se ne menja korisnik_id posto je created_at treba da ostane onak korisnik koji je dodao
+
+!!! Dodati kaparu u ugovor !!!
+
 ## DATABASE
 
 Da li da u svakoj tabeli imamo korisnika i (mislim da je bolje) modified_at ili da se oslanjamo na log. Cenim da je lakse pronaci "pocinioca" ako je zapisana poslednja promena u tabeli.
@@ -20,6 +24,27 @@ Ovo videti sa Acom kako da se rasporedjuju mesta.
 
 Po meni:
 
-za jedan ugovor ako je brojMesta = Math.ceil(brojZvanica / broj stolova) <= optimalan broj po stolu ici na optimalan broj, inace ici na brojMesta.
+za jedan ugovor se racuna brojStolica i ako je on <= optimalan broj po stolu ici na optimalan broj, inace ici na brojStolica.
+
+```
+brojStolica = Math.ceil(brojZvanica / maxBrojStolova)
+if(brojStolica <= optBrojStolicaZaSingle) {
+	brojStolica = optBrojStolicaZaSingle
+} else {
+	brojStolica = brojStolica
+}
+```
 
 za vise ugovora ide se na optimalan broj za vise ugovora pa se ako ima viska oni rasporedjuju po popunjenim stolovima ako je visak <= od broja popunjenih stolova, a ako je visak veci onda se dodaje sto i racunaju se mesta za stolom na osnovu broja stolova +1
+
+```
+brojStolova = Math.flor(brojZvanica / optBrojStolicaZaMulti)
+visak = brojZvanica - (brojStolova * optBrojStolicaZaMulti)
+
+if(visak <= brojStolova) {
+	brojStolica = optBrojStolicaZaMulti + 1
+} else {
+	brojStolova++
+	brojStolica = Math.ceil(brojZvanica / brojStolova)
+}
+```
