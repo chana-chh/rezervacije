@@ -533,4 +533,50 @@ class UgovorController extends Controller
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => (int) $data['termin_id']]));
         }
     }
+
+    public function getUgovorDetaljTermin($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($id);
+        $this->render($response, 'ugovor/detalj.twig', compact('ugovor'));
+    }
+
+    public function postUgovorUplataTermin($request, $response)
+    {
+        $data = $request->getParams();
+        $ugovor_id = (int) $data['ugovor_id'];
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+
+        $data['korisnik_id'] = $this->auth->user()->id;
+
+        $validation_rules = [
+            'ugovor_id' => [
+                'required' => true
+            ],
+            'datum' => [
+                'required' => true
+            ],
+            'iznos' => [
+                'required' => true
+            ],
+            'nacin_placanja' => [
+                'required' => true
+            ],
+        ];
+
+        $this->validator->validate($data, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            $this->flash->addMessage('danger', "Došlo je do greške prilikom evidentiranja uplate.");
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+        } else {
+            $model_uplate = new Uplata();
+            $model_uplate->insert($data);
+            $this->flash->addMessage('success', "Uplata je uspešno evidentirana.");
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+
+        }
+    }
 }
