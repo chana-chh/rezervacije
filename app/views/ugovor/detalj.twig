@@ -75,9 +75,7 @@
 		<td></td>
 	</tr>
 </table>
-
 <hr>
-
 <div class="row">
 	<div class="col">
     	<h4>
@@ -85,20 +83,6 @@
 			Pregled uplata
 		</h4>
 	</div>
-	{#}
-	<div class="col text-right">
-		<button
-			class="btn btn-primary btn-sm otvori-uplatu"
-			data-toggle="modal"
-			data-target="#uplataModal"
-			data-id="{{ ugovor.id }}"
-			title="Evidetiranje uplate"
-		>
-			<i class="fas fa-money-bill"></i>
-			Evidetiranje uplate
-		</button>
-	</div>
-	#}
 </div>
 <div class="row">
     <div class="col">
@@ -150,7 +134,7 @@
       </div>
 </div>
 
-{# Modal za evidentiranje uplate
+{# Modal za izmenu uplate
 <div id="uplataModal" class="modal fade" tabindex="-1" role="dialog">
 <div class="modal-dialog" role="document">
 	<div class="modal-content">
@@ -203,7 +187,7 @@
 	</div>
 </div>
 </div>
- Kraj modala za evidentiranje uplate #}
+ Kraj modala za izmenu uplate #}
 {% endblock sadrzaj %}
 {% block traka %}
 <div class="card border-dark mb-3">
@@ -303,11 +287,11 @@
 			<div class="form-row">
 				<div class="col form-group">
 					<label for="datum">Datum</label>
-					<input name="datum" type="date" id="datum" class="form-control" value="{{ old.datum ? : 'now'|date('Y-m-d') }}">
+					<input name="datum" type="date" id="datum" class="form-control" value="{{ old.datum ? : 'now'|date('Y-m-d') }}" required>
 				</div>
 				<div class="col form-group">
 					<label for="nacin_placanja">Način plaćanja:</label>
-					<select class="custom-select mb-2" name="nacin_placanja" id="nacin_placanja">
+					<select class="custom-select mb-2" name="nacin_placanja" id="nacin_placanja" required>
 					<option value=""></option>
 					<option value="gotovina">Gotovina</option>
 					<option value="kartica">Kartica</option>
@@ -319,7 +303,13 @@
 			<div class="form-row">
 				<div class="col form-group">
 					<label for="iznos">Iznos</label>
-					<input type="number" class="form-control" name="iznos" id="iznos" min="0" step="0.01">
+					<input
+						type="number"
+						class="form-control"
+						name="iznos" id="iznos"
+						min="0.01" step="0.01"
+						value="{{ old.iznos ? : 0 }}"
+						required>
 				</div>
 			</div>
 			<div class="form-row">
