@@ -1,6 +1,26 @@
 {% extends "templates/app.twig" %} {% block stil %}
 <link href="{{ base_url() }}/css/fullcalendar.css" rel="stylesheet" />
 <link href="{{ base_url() }}/css/fullcalendar.print.css" rel="stylesheet" media="print" />
+<style>
+  .fc-day-grid-event:hover {
+    background-color: #ffc107 !important;
+    cursor: pointer;
+  }
+  a.fc-day-number {
+    margin: 0.2rem;
+    border-radius: 50%;
+    text-decoration: none !important;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    background-color: #6c757d;
+    color: #ffffff;
+  }
+  a.fc-day-number:hover {
+    background-color: #ffc107;
+  }
+</style>
 {% endblock stil %} {% block naslov %}
 <div class="row mt-md-5">
   <div class="col">
@@ -9,11 +29,14 @@
     </h1>
   </div>
   <div class="col">
-    <ul>
-  <li><h5><i class="fas fa-calendar-minus" style="color: #0275d8"></i>&emsp;Zatražena informacija o terminu!</h5></li>
-  <li><h5><i class="fas fa-calendar-plus" style="color: #5cb85c"></i>&emsp;Započeti pregovori o terminu!</h5></li>
-  <li><h5><i class="fas fa-calendar-check" style="color: #d9534f"></i>&emsp;Termin je zauzet!</h5></li>
-</ul>
+    <ul class="list-inline lead pt-3 mb-0">
+      <li class="list-inline-item ml-4">
+        <i class="fas fa-calendar-plus text-danger"></i> Termin u pripremi
+      </li>
+      <li class="list-inline-item ml-4">
+        <i class="fas fa-calendar-check text-success"></i> Zaključen termin
+      </li>
+    </ul>
   </div>
 </div>
 <hr />
@@ -30,35 +53,6 @@
 
     $(document).ready(function() {
 
-    var naslovi = {{naslovie|raw}};
-    var idijevi = {{idijevie|raw}};
-    var datumi = {{datumie|raw}};
-    var poceci = {{pocecie|raw}};
-    var krajevi = {{krajevie|raw}};
-    var detalji = {{detaljie|raw}};
-
-    console.log(detalji);
-
-    var duzina = idijevi.length;
-    var dogadjaji = [];
-
-    for (var i = 0; i < duzina; i++) {
-    var idd = idijevi[i];
-    var naslov = naslovi[i];
-    var pocetak = moment(datumi[i]).add(moment.duration(poceci[i]).asSeconds(), 's');
-    var kraj = moment(datumi[i]).add(moment.duration(krajevi[i]).asSeconds(), 's');
-    var detalj = detalji[i];
-    var dodajDogadjaj = {};
-    dodajDogadjaj = {
-        id: idd,
-        title: naslov,
-        start: pocetak,
-        end: kraj,
-        description: detalj
-    }
-    dogadjaji.push(dodajDogadjaj);
-    }
-
 $("#kalendar").fullCalendar({
       themeSystem: "bootstrap4",
       customButtons: {
@@ -74,45 +68,48 @@ $("#kalendar").fullCalendar({
         center: "title",
         right: "month,agendaWeek,agendaDay,listDay"
       },
-      views: {
-        month: {
-          columnFormat: "dddd"
-        }
-      },
       defaultView: "month",
       weekends: true,
-      height: 630,
-      events:dogadjaji,
+      height: 750,
+      events: JSON.parse(`{{ data|raw }}`),
       slotEventOverlap:false,
       slotDuration:'01:00:00',
       minTime:'07:00:00',
-      eventBackgroundColor: "#FFFFFF",
-      eventBorderColor: "#f0ad4e",
-      eventTextColor: "#f0ad4e",
+      eventBackgroundColor: "#f8f9fa",
+      eventBorderColor: "#000000",
+      eventTextColor: "#000000",
       eventRender: function (event, element, view) {
-        if(view.name == "listDay")
-          {
-            event.title = 'Ovo je probni TEXT u slučaju da je pregled LISTVIEW  '.concat(event.description);
-          }
-          else if(view.name == "agendaWeek")
-          {
-            event.description = '<p style="writing-mode: tb-rl;">NAZIV NEKE SALE!!!</p>';
-          }
-        // OVO je u slučaju da hoćemo da menjamo pozadinu događaja!!!
-        // if(event.description == 0)
-        //         {
-        //             element.css('background-color', '#d9534f');
-        //         }else if(event.description == 1){
-        //             element.css('background-color', '#5cb85c');
-        //         }else{
-        //             element.css('background-color', '#292b2c');
-        //         }
-        element.find('.fc-list-item-title').html(event.title);
-        var title = element.find( '.fc-title' );
-        title.html( title.text() );
-        title.attr('style', 'font-size: 1.3em !important');
-        $(element).css("margin-top", "5px");
-        element.find('.fc-title').append('<hr style="margin: 5px 0;"><span style="font-size: 12px">' + event.description + '</span></div>');
+        if (view.name == "listDay")
+  {
+     element.find('.fc-list-item-title').html(`<p>${event.advancedTitle}</p>`);
+  }
+        if (view.name == "month"){
+            let title = element.find(".fc-title");
+            element.find('.fc-time').hide();
+            const html = `
+            <div class="clearfix">
+              <div class="d-none d-sm-flex float-left text-wrap">
+                ${event.start.format("HH:mm")} ${event.end.format("HH:mm")}
+              </div>
+              <div class="d-sm-none float-left text-wrap">
+                <small>${event.start.format("HH:mm")} ${event.end.format("HH:mm")}</small>
+              </div>
+              <div class="d-none d-sm-flex float-right">
+                <i class="${event.description}"></i>
+              </div>
+            </div>
+            <div class="d-none d-sm-flex text-wrap">
+              ${event.title}
+            </div>
+            <div class="d-sm-none text-wrap text-truncate">
+              <small><strong>${event.title}</strong></small>
+            </div>
+            <div class="d-sm-none float-right">
+                <i class="${event.description}"></i>
+            </div>
+            `;
+            title.html(html);
+            element.addClass("p-1");}
         },
       dayNames: ["nedelja", "ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota"],
       dayNamesShort: ["nedelja", "ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota"],

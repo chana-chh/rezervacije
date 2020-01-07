@@ -1,7 +1,5 @@
 # TODO
 
-Kod izmene sale ne vuce podatke.
-
 Kod izmena podataka da se ne menja korisnik_id posto je created_at treba da ostane onak korisnik koji je dodao
 
 
