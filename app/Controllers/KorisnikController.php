@@ -114,10 +114,18 @@ class KorisnikController extends Controller
     public function postKorisnikIzmena($request, $response)
     {
         $data = $request->getParams();
-        $id = $data['id'];
-        unset($data['id']);
+        $id = $data['idIzmena'];
+        unset($data['idIzmena']);
         unset($data['csrf_name']);
         unset($data['csrf_value']);
+
+        $datam = [
+            "ime"=>$data['imeM'], 
+            "korisnicko_ime"=>$data['korisnicko_imeM'],
+            "lozinka"=>$data['lozinkaM'],
+            "lozinka_potvrda"=>$data['lozinka_potvrdaM'],
+            "nivo"=>$data['nivoM']
+        ];
 
         $validation_rules = [
             'ime' => [
@@ -147,11 +155,11 @@ class KorisnikController extends Controller
             ]
         ];
 
-        if (!empty($data['lozinka'])) {
+        if (!empty($datam['lozinka'])) {
             array_push($validation_rules, $validation_pass);
         }
 
-        $this->validator->validate($data, $validation_rules);
+        $this->validator->validate($datam, $validation_rules);
 
         if ($this->validator->hasErrors()) {
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka korisnika.');
@@ -159,13 +167,13 @@ class KorisnikController extends Controller
         } else {
             $this->flash->addMessage('success', 'Podaci o korisniku su uspešno izmenjeni.');
             $modelKorisnik = new Korisnik();
-            unset($data['lozinka_potvrda']);
-            if (!empty($data['lozinka'])) {
-                $data['lozinka'] = password_hash($data['lozinka'], PASSWORD_BCRYPT);
+            unset($datam['lozinka_potvrda']);
+            if (!empty($datam['lozinka'])) {
+                $datam['lozinka'] = password_hash($datam['lozinka'], PASSWORD_BCRYPT);
             } else{
-                unset($data['lozinka']);
+                unset($datam['lozinka']);
             }
-            $modelKorisnik->update($data, $id);
+            $modelKorisnik->update($datam, $id);
             return $response->withRedirect($this->router->pathFor('admin.korisnik.lista'));
         }
     }

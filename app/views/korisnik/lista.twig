@@ -173,10 +173,11 @@
               id="imeM"
               autocomplete="off"
               required
+              minlength=5
             />
             <div class="valid-feedback">Odgovarajući podatak</div>
             <div class="invalid-feedback">
-              {{ errors.imeM[0] ? : 'Obavezno polje' }}
+              {{ errors.imeM[0] ? : 'Obavezno polje sa najmanje 5 karaktera' }}
             </div>
           </div>
           <div class="form-group">
@@ -190,10 +191,11 @@
               id="korisnicko_imeM"
               autocomplete="off"
               required
+              minlength=3
             />
             <div class="valid-feedback">Odgovarajući podatak</div>
             <div class="invalid-feedback">
-              {{ errors.korisnicko_imeM[0] ? : 'Obavezno polje' }}
+              {{ errors.korisnicko_imeM[0] ? : 'Obavezno polje sa najmanje 3 karaktera' }}
             </div>
           </div>
           <div class="form-group">
@@ -279,10 +281,11 @@
           value="{{ old.ime ? : ''  }}"
           autocomplete="off"
           required
+          minlength=5
         />
         <div class="valid-feedback">Odgovarajući podatak</div>
         <div class="invalid-feedback">
-          {{ errors.ime[0] ? : 'Obavezno polje' }}
+          {{ errors.ime[0] ? : 'Obavezno polje sa najmanje 5 karaktera' }}
         </div>
       </div>
       <div class="form-group">
@@ -297,10 +300,11 @@
           value="{{ old.korisnicko_ime ? : '' }}"
           autocomplete="off"
           required
+          minlength=3
         />
         <div class="valid-feedback">Odgovarajući podatak</div>
         <div class="invalid-feedback">
-          {{ errors.korisnicko_ime[0] ? : 'Obavezno polje' }}
+          {{ errors.korisnicko_ime[0] ? : 'Obavezno polje sa najmanje 3 karaktera' }}
         </div>
       </div>
       <div class="form-group">

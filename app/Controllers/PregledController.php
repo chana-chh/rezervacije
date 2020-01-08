@@ -29,7 +29,7 @@ class PregledController extends Controller
                 "start" => $termin->datum . ' ' . $termin->pocetak,
                 "end" => $termin->datum . ' ' . $termin->kraj,
                 "description" => $ikonica,
-                "advancedTitle" => 'Pera je kralj ' . $termin->sala()->naziv,
+                "advancedTitle" => $termin->tip()->tip . ' će se odžati u ' . $termin->sala()->naziv,
             ];
         }
 
