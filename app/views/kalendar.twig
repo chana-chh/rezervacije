@@ -123,6 +123,13 @@ $("#kalendar").fullCalendar({
           <small>&emsp;od ${event.start.format("HH:mm")} do ${event.end.format("HH:mm")}</small>
           </strong></h5>`);
         }
+        if (view.name == "agendaDay")
+        {
+          element.find('.fc-time').hide();
+          element.find('.fc-title').html(`<h5><strong><i class="${event.description}"></i>&emsp;${event.title}<br> 
+          <small>&emsp;od ${event.start.format("HH:mm")} do ${event.end.format("HH:mm")}</small>
+          </strong></h5>`);
+        }
         if (view.name == "month"){
             let title = element.find(".fc-title");
             element.find('.fc-time').hide();
