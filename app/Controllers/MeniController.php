@@ -27,7 +27,7 @@ class MeniController extends Controller
         return $response->withRedirect($this->router->pathFor('meni.pretraga'));
     }
 
-        public function getMeniPretraga($request, $response)
+    public function getMeniPretraga($request, $response)
     {
         $data = $_SESSION['DATA_MENI_PRETRAGA'];
         array_shift($data);
@@ -137,10 +137,14 @@ class MeniController extends Controller
             ],
             'cena' => [
                 'required' => true
+            ],
+            'korisnik_id' => [
+                'required' => true,
             ]
         ];
 
-
+        $data['korisnik_id'] = $this->auth->user()->id;
+        
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {

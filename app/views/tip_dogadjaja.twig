@@ -118,10 +118,16 @@
             <input type="hidden" id="idIzmena" name="idIzmena">
             <div class="form-group">
               <label for="tipModal">Tip događaja</label>
-              <input type="text" class="form-control{{ errors.tip[0] ? ' is-invalid' : '' }}" name="tipModal" id="tipModal" aria-describedby="tip događaja" required>
+              <input type="text" 
+              class="form-control{{ errors.tip[0] ? ' is-invalid' : '' }}" 
+              name="tipModal" 
+              id="tipModal" 
+              aria-describedby="tip događaja" 
+              required
+              minlength=5>
               <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">
-            {{ errors.tipModal[0] ? : 'Obavezno polje' }}
+            {{ errors.tipModal[0] ? : 'Obavezno polje sa najmanje 5 karaktera' }}
           </div>
             </div>
             <div class="form-group">
@@ -157,10 +163,10 @@
         {{ csrf|raw }}
         <div class="form-group">
           <label for="tip">Tip događaja</label>
-          <input type="text" class="form-control{{ errors.tip[0] ? ' is-invalid' : '' }}" value="{{ old.tip ? : '' }}" name="tip" id="tip" aria-describedby="tip događaja" required>
+          <input type="text" class="form-control{{ errors.tip[0] ? ' is-invalid' : '' }}" value="{{ old.tip ? : '' }}" name="tip" id="tip" aria-describedby="tip događaja" required minlength=5>
            <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">
-            {{ errors.tip[0] ? : 'Obavezno polje' }}
+            {{ errors.tip[0] ? : 'Obavezno polje sa najmanje 5 karaktera' }}
           </div>
         </div>
         <div class="form-group">

@@ -36,10 +36,14 @@ class SalaController extends Controller
             ],
             'max_kapacitet_stolova' => [
                 'required' => true
+            ],
+            'korisnik_id' => [
+                'required' => true,
             ]
         ];
 
-
+        $data['korisnik_id'] = $this->auth->user()->id;
+        
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
@@ -122,7 +126,7 @@ class SalaController extends Controller
             ],
             'max_kapacitet_stolova' => [
                 'required' => true
-            ],
+            ]
         ];
 
         $this->validator->validate($datam, $validation_rules);

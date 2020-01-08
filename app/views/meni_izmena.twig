@@ -76,10 +76,11 @@
             id="naziv"
             aria-describedby="naziv sale"
             required
+            minlength=5
           />
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">
-            {{ errors.naziv[0] ? : 'Obavezno polje' }}
+            {{ errors.naziv[0] ? : 'Obavezno polje sa najmanje 5 karaktera' }}
           </div>
         </div>
         <div class="form-group col-md-3">

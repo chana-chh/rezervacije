@@ -48,7 +48,12 @@ class KorisnikController extends Controller
             'nivo' => [
                 'required' => true
             ],
+            'korisnik_id' => [
+                'required' => true,
+            ]
         ];
+
+        $data['korisnik_id'] = $this->auth->user()->id;
 
 
         $this->validator->validate($data, $validation_rules);
