@@ -143,6 +143,22 @@ class MeniController extends Controller
             ]
         ];
 
+        $data['hladno_predjelo'] = rtrim($data['hladno_predjelo']);
+        $data['sirevi'] = rtrim($data['sirevi']);
+        $data['corba'] = rtrim($data['corba']);
+        $data['glavno_jelo'] = rtrim($data['glavno_jelo']);
+        $data['meso'] = rtrim($data['meso']);
+        $data['hleb'] = rtrim($data['hleb']);
+        $data['karta_pica'] = rtrim($data['karta_pica']);
+
+        $data['hladno_predjelo'] = rtrim($data['hladno_predjelo'], ',');
+        $data['sirevi'] = rtrim($data['sirevi'], ',');
+        $data['corba'] = rtrim($data['corba'], ',');
+        $data['glavno_jelo'] = rtrim($data['glavno_jelo'], ',');
+        $data['meso'] = rtrim($data['meso'], ',');
+        $data['hleb'] = rtrim($data['hleb'], ',');
+        $data['karta_pica'] = rtrim($data['karta_pica'], ',');
+        
         $data['korisnik_id'] = $this->auth->user()->id;
         
         $this->validator->validate($data, $validation_rules);
