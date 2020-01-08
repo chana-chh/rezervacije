@@ -81,6 +81,8 @@ $app->group('', function () {
     $this->post('/termin/ugovori/izmena', '\App\Controllers\TerminUgovorController:postUgovorIzmenaTermin')->setName('termin.ugovor.izmena.post');
     $this->post('/termin/ugovori/brisanje', '\App\Controllers\TerminUgovorController:postUgovorBrisanjeTermin')->setName('termin.ugovor.brisanje');
     $this->get('/termin/ugovori/detalj/{id}', '\App\Controllers\TerminUgovorController:getUgovorDetaljTermin')->setName('termin.ugovor.detalj.get');
+
+
     $this->post('/termin/ugovori/uplata', '\App\Controllers\TerminUgovorController:postUgovorUplataTermin')->setName('termin.ugovor.uplata');
 
     $this->get('/termin/pregled[/{datum}]', '\App\Controllers\TerminController:getTerminPregled')->setName('termin.pregled.get');
