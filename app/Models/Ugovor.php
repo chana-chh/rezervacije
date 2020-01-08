@@ -51,4 +51,8 @@ class Ugovor extends Model
     {
         return $this->iznos - $this->uplateSuma();
     }
+
+    public function dokumenti(){
+        return $this->hasMany('App\Models\Dokument', 'ugovor_id');
+    }
 }

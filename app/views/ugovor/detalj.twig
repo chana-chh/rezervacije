@@ -1,4 +1,7 @@
 {% extends "templates/app.twig" %}
+{% block stil %}
+
+{% endblock stil %}
 {% block naslov %}
 <div class="row">
   <div class="col">
@@ -16,6 +19,11 @@
         href="{{ path_for('termin.detalj.get', { id: ugovor.termin_id }) }}"
         class="btn btn-secondary"
         ><i class="fas fa-arrow-alt-circle-left"></i> Termin</a
+      >
+      <a
+        href="{{ path_for('ugovor.uplate.lista', { id: ugovor.id }) }}"
+        class="btn btn-success"
+        ><i class="fas fa-money-bill"></i> Uplate</a
       >
     </div>
   </div>
@@ -76,128 +84,14 @@
 	</tr>
 </table>
 <hr>
-<div class="row">
-	<div class="col">
-    	<h4>
-			<i class="fas fa-credit-card text-secondary"></i>
-			Pregled uplata
-		</h4>
-	</div>
-</div>
-<div class="row">
-    <div class="col">
-        <table class="table table-sm table-striped">
-          <thead class="thead-dark">
-            <tr>
-              <th class="w-5">#</th>
-              <th class="w-20">Datum</th>
-              <th class="w-20">Iznos</th>
-              <th class="w-20">Način plaćanja</th>
-              <th class="w-20">Opis</th>
-              <th class="w-15 text-right text-warning">
-				  <i class="fas fa-cogs"></i>
-			  </th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for uplata in ugovor.uplate %}
-            <tr>
-              <th>{{ loop.index }}</th>
-              <td><strong>{{ uplata.datum|date }}</strong></td>
-              <td>{{ uplata.iznos|number_format }}</td>
-              <td>{{ uplata.nacin_placanja }}</td>
-			  <td>{{ uplata.opis }}</td>
-			  <td class="text-right">
-				<div class="btn-group btn-group-sm">
-					<a href="" class="btn btn-warning">
-						<i class="fas fa-edit"></i>
-					</a>
-					<a href="" class="btn btn-danger">
-						<i class="fas fa-trash"></i>
-					</a>
-				</div>
-			  </td>
-            </tr>
-            {% endfor %}
-		  </tbody>
-		  <tfoot>
-			<tr class="bg-dark text-light">
-              <th></th>
-              <td>Zbir</td>
-              <td>{{ ugovor.uplateSuma()|number_format }}</td>
-              <td></td>
-			  <td></td>
-			  <td></td>
-            </tr>
-		  </tfoot>
-        </table>
-      </div>
-</div>
-
-{# Modal za izmenu uplate
-<div id="uplataModal" class="modal fade" tabindex="-1" role="dialog">
-<div class="modal-dialog" role="document">
-	<div class="modal-content">
-	<div class="modal-header">
-		<h5 class="modal-title text-danger">Evidentiraj uplatu</h5>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	<div class="modal-body">
-		<form id="uplata-forma" action="{{ path_for('ugovor.uplata') }}" method="POST">
-		{{ csrf|raw }}
-		<input type="hidden" id="idUgovora" name="idUgovora">
-		<div class="form-group">
-			<label for="opis">Opis</label>
-			<input type="text" class="form-control" name="opis" id="opis" aria-describedby="opis">
-		</div>
-		<div class="form-group">
-			<label for="datum">Datum</label>
-			<input name="datum" type="date" id="datum" class="form-control" value="{{ datum }}" />
-			<small class="form-text{{ errors.datum[0] ? ' is-invalid' : '' }}">{{errors.datum[0]}}</small>
-		</div>
-		<div class="form-group">
-			<label for="iznos">Iznos</label>
-			<input type="number" class="form-control" name="iznos" id="iznos" min="0" step="0.01">
-		</div>
-		<div class="form-group">
-			<label for="nacin_placanja">Način plaćanja:</label>
-			<select class="custom-select mb-2" name="nacin_placanja" id="nacin_placanja" class="form-control">
-			<option value=""></option>
-			<option value="gotovina">Gotovina</option>
-			<option value="kartica">Kartica</option>
-			<option value="ček">Ček</option>
-			<option value="faktura">Faktura</option>
-			</select>
-		</div>
-		<hr style="margin-top: 30px;">
-		<div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
-			<div class="form-group">
-			<a class="btn btn-outline-secondary" data-dismiss="modal">
-				<i class="fas fa-ban"></i>&emsp;Otkaži
-			</a>
-			<button id="btn-brisanje-izmeni" type="submit" class="btn btn-outline-success">
-				<i class="fas fa-plus-square"></i>&emsp;Evidentiraj
-			</button>
-			</div>
-		</div>
-		</form>
-	</div>
-	</div>
-</div>
-</div>
- Kraj modala za izmenu uplate #}
-{% endblock sadrzaj %}
-{% block traka %}
-<div class="card border-dark mb-3">
+<div class="card border-dark mb-2">
     <div class="card-header">
 		Detalji vezani za organizaciju
 	</div>
     <div class="card-body text-dark">
       <div class="row">
       	<div class="col">
-      		<table class="table table-sm table-striped" style="font-size: 0.875rem;">
+      		<table class="table table-sm table-striped mb-0" style="font-size: 0.875rem;">
       			<thead>
 					<tr>
 						<th class="w-5">#</th>
@@ -269,15 +163,16 @@
   		</div>
 	</div>
 </div>
-
+{% endblock sadrzaj %}
+{% block traka %}
 <div class="card border-dark mb-3">
 	<div class="card-header text-primary">
-		Evidentiranje uplate
+		Dodavanje dokumenta
 	</div>
 	<div class="card-body text-dark">
-		<form id="uplata-forma" action="{{ path_for('termin.ugovor.uplata') }}" method="POST">
+		<form id="dokument-forma" action="{{ path_for('dokument.dodavanje') }}" method="POST" enctype="multipart/form-data">
 			{{ csrf|raw }}
-			<input type="hidden" id="idUgovora" name="ugovor_id" value="{{ ugovor.id }}">
+			<input type="hidden" id="ugovor_id" name="ugovor_id" value="{{ ugovor.id }}">
 			<div class="form-row">
 				<div class="col form-group">
 					<label for="opis">Opis</label>
@@ -285,37 +180,15 @@
 				</div>
 			</div>
 			<div class="form-row">
-				<div class="col form-group">
-					<label for="datum">Datum</label>
-					<input name="datum" type="date" id="datum" class="form-control" value="{{ old.datum ? : 'now'|date('Y-m-d') }}" required>
-				</div>
-				<div class="col form-group">
-					<label for="nacin_placanja">Način plaćanja:</label>
-					<select class="custom-select mb-2" name="nacin_placanja" id="nacin_placanja" required>
-					<option value=""></option>
-					<option value="gotovina">Gotovina</option>
-					<option value="kartica">Kartica</option>
-					<option value="ček">Ček</option>
-					<option value="faktura">Faktura</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="col form-group">
-					<label for="iznos">Iznos</label>
-					<input
-						type="number"
-						class="form-control"
-						name="iznos" id="iznos"
-						min="0.01" step="0.01"
-						value="{{ old.iznos ? : 0 }}"
-						required>
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="col form-group text-right mb-0">
+				<div class="form-group col-lg-6">
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" id="dokument" name="dokument" required>
+						<label id="file-label" class="custom-file-label" for="dokument" data-browse="Pronađi">Izaberi dokument</label>
+					</div>
+        		</div>
+				<div class="col-lg-6 form-group text-right mb-0">
 					<button type="submit" class="btn btn-primary">
-						<i class="fas fa-money-bill"></i> Evidentiraj uplatu
+						<i class="fas fa-plus-square"></i> Dodaj
 					</button>
 					<button type="reset" class="btn btn-secondary">
 						<i class="fas fa-ban"></i> Otkaži
@@ -325,36 +198,43 @@
 		</form>
 	</div>
 </div>
-
 <div class="card border-dark mb-3">
 	<div class="card-header">
-		Zbirni finansijski podaci
+		Dokumenti
 	</div>
 	<div class="card-body text-dark">
-		<div class="row">
-			<div class="col-lg-6">
-				Ukupan iznos:
-			</div>
-			<div class="col-lg-6 text-primary text-right">
-				<strong>{{ ugovor.iznos|number_format }}</strong>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				Zbir uplata:
-			</div>
-			<div class="col-lg-6 text-success text-right">
-				<strong>{{ ugovor.uplateSuma()|number_format }}</strong>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				Dug po ugovoru:
-			</div>
-			<div class="col-lg-6 text-danger text-right">
-				<strong>{{ ugovor.uplateDug()|number_format }}</strong>
-			</div>
-		</div>
+		<table class="table table-sm table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th class="w-10">#</th>
+              <th class="w-70">Dokument</th>
+              <th class="w-20 text-right text-warning">
+				  <i class="fas fa-cogs"></i>
+			  </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for dok in ugovor.dokumenti() %}
+            <tr>
+              <th>{{ loop.index }}</th>
+              <td>{{ dok.opis }}</td>
+			  <td class="text-right">
+				<div class="btn-group btn-group-sm">
+					<a href="{{ dok.link }}" class="btn btn-success"  target="_blank">
+						<i class="fas fa-eye"></i>
+					</a>
+					<a href="" class="btn btn-warning">
+						<i class="fas fa-edit"></i>
+					</a>
+					<a href="" class="btn btn-danger">
+						<i class="fas fa-trash"></i>
+					</a>
+				</div>
+			  </td>
+            </tr>
+            {% endfor %}
+		  </tbody>
+        </table>
 	</div>
 </div>
 {% endblock traka %}
@@ -364,7 +244,10 @@
       $(document).on('click', '.otvori-uplatu', function () {
        var id = $(this).data("id");
         $('#idUgovora').val(id);
-      });
+	  });
+	  $("#dokument").on("change", function(){
+		$("#file-label").text(this.files[0].name);
+	  })
     });
   </script>
 {% endblock skripta %}

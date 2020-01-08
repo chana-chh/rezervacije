@@ -215,12 +215,20 @@ class TerminUgovorController extends Controller
 
         if ($this->validator->hasErrors()) {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom evidentiranja uplate.");
-            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
         } else {
             $model_uplate = new Uplata();
             $model_uplate->insert($data);
             $this->flash->addMessage('success', "Uplata je uspešno evidentirana.");
-            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
         }
+    }
+
+    public function getUgovorUplateLista($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($id);
+        $this->render($response, 'ugovor/uplate.twig', compact('ugovor'));
     }
 }
