@@ -31,8 +31,12 @@ class HomeController extends Controller
                 $ikonica = 'fas fa-calendar-check text-success';
             }
 
-            if ($termin->zauzet == 0) {
+            if ($termin->zauzet == 0 && !empty($termin->ugovori())) {
                 $ikonica = 'fas fa-calendar-plus text-danger';
+            }
+
+            if ($termin->zauzet == 0 && empty($termin->ugovori())) {
+                $ikonica = 'fas fa-question-circle text-primary';
             }
 
             $data[] = (object) [
@@ -41,7 +45,8 @@ class HomeController extends Controller
                 "start" => $termin->datum . ' ' . $termin->pocetak,
                 "end" => $termin->datum . ' ' . $termin->kraj,
                 "description" => $ikonica,
-                "advancedTitle" => $termin->tip()->tip . ' će se odžati u ' . $termin->sala()->naziv,
+                "advancedTitle" => 'Ovaj događaj je ' . $termin->tip()->tip . ' i odžatiće se u ' . $termin->sala()->naziv . '. Trenutni broj zvanica je ' . $termin->popunjenaMesta() . ', a cena termina je: ' . number_format($termin->cenaTermina(), 2, ',', '.') . ' dinara',
+                "advancedDetalj" => 'Ovaj događaj je ' . $termin->tip()->tip . '. Trenutni broj zvanica je ' . $termin->popunjenaMesta() . ', a cena termina je: ' . number_format($termin->cenaTermina(), 2, ',', '.') . ' dinara',
             ];
         }
 
