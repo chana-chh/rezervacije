@@ -1,5 +1,7 @@
 # TODO
 
+Dodati relacije koje nedostaju u modelima
+
 ### PODSETNIK
 
 - !!! Dodati kaparu u ugovor !!!
