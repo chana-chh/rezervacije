@@ -50,6 +50,9 @@
   <div class="col-lg-6 text-right">
     <ul class="list-inline lead pt-3 mb-0">
       <li class="list-inline-item ml-4">
+        <i class="fas fa-question-circle text-primary"></i> Informacija o terminu
+      </li>
+      <li class="list-inline-item ml-4">
         <i class="fas fa-calendar-plus text-danger"></i> Termin u pripremi
       </li>
       <li class="list-inline-item ml-4">
@@ -65,6 +68,9 @@
   <div class="col-lg-6 text-right" style="font-size: 0.75rem;">
     <ul class="list-inline pt-3 mb-0">
       <li class="list-inline-item ml-4">
+        <i class="fas fa-question-circle text-primary"></i> Informacija o terminu
+      </li>
+      <li class="list-inline-item ml-4">
         <i class="fas fa-calendar-plus text-danger"></i> Termin u pripremi
       </li>
       <li class="list-inline-item ml-4">
@@ -76,6 +82,24 @@
 <hr />
 <div class="row mb-2">
   <div class="col-lg-12" id="kalendar"></div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="cenaModal">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Dodatne informacije o događaju</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="modalBody"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock naslov %} {% block skripta %}
 <script src="{{ base_url() }}/js/moment.min.js"></script>
@@ -99,7 +123,7 @@ $("#kalendar").fullCalendar({
       header: {
         left: "prev,next today myCustomButton",
         center: "title",
-        right: "month,agendaWeek,agendaDay,listMonth,listDay"
+        right: "month,agendaDay,listMonth,listDay"
       },
       defaultView: "month",
       weekends: true,
@@ -116,19 +140,12 @@ $("#kalendar").fullCalendar({
         {
            element.find('.fc-list-item-title').html(`<p>${event.advancedTitle} &emsp;<i class="${event.description}"></i></p>`);
         }
-        if (view.name == "agendaWeek")
-        {
-          element.find('.fc-time').hide();
-          element.find('.fc-title').html(`<h5 style="writing-mode: vertical-lr; margin-left: 0;"><strong><i class="${event.description}"></i>&emsp;${event.title}<br> 
-          <small>&emsp;od ${event.start.format("HH:mm")} do ${event.end.format("HH:mm")}</small>
-          </strong></h5>`);
-        }
         if (view.name == "agendaDay")
         {
           element.find('.fc-time').hide();
-          element.find('.fc-title').html(`<h5><strong><i class="${event.description}"></i>&emsp;${event.title}<br> 
+          element.find('.fc-title').html(`<h5 class="mt-4 mx-4"><strong><i class="${event.description}"></i>&emsp;${event.title}<br> 
           <small>&emsp;od ${event.start.format("HH:mm")} do ${event.end.format("HH:mm")}</small>
-          </strong></h5>`);
+          </strong></h5><h6 class="font-italic mt-4 mx-4">&emsp;${event.advancedDetalj}</h6>`);
         }
         if (view.name == "month"){
             let title = element.find(".fc-title");
@@ -141,7 +158,7 @@ $("#kalendar").fullCalendar({
               <div class="d-sm-none float-left text-wrap">
                 <small>${event.start.format("HH:mm")} ${event.end.format("HH:mm")}</small>
               </div>
-              <div class="d-none d-sm-flex float-right">
+              <div class="d-none d-sm-flex float-right mt-1">
                 <i class="${event.description}"></i>
               </div>
             </div>
@@ -188,7 +205,10 @@ $("#kalendar").fullCalendar({
         "novembar",
         "decembar"
       ],
-      dayClick: function(date, jsEvent, view) {}
+      eventClick: function(event) {
+        $('#modalBody').html(event.advancedTitle);
+        $('#cenaModal').modal('show');
+      }
     });
   });
 </script>

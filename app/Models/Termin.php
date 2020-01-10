@@ -60,4 +60,9 @@ class Termin extends Model
     {
         return (int) ($this->sala()->max_kapacitet_stolova - $this->popunjeniStolovi());
     }
+    public function cenaTermina()
+    {
+        $sql = "SELECT SUM(iznos) AS cena FROM ugovori WHERE termin_id = {$this->id};";
+        return (int) $this->fetch($sql)[0]->cena;
+    }
 }

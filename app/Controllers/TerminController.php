@@ -25,8 +25,12 @@ class TerminController extends Controller
                 $ikonica = 'fas fa-calendar-check text-success';
             }
 
-            if ($termin->zauzet == 0) {
+            if ($termin->zauzet == 0 && !empty($termin->ugovori())) {
                 $ikonica = 'fas fa-calendar-plus text-danger';
+            }
+
+            if ($termin->zauzet == 0 && empty($termin->ugovori())) {
+                $ikonica = 'fas fa-question-circle text-primary';
             }
 
             $data[] = (object) [
