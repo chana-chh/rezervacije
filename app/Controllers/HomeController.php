@@ -1,21 +1,20 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Classes\Auth;
+use App\Classes\Logger;
 use App\Models\Termin;
 
 class HomeController extends Controller
 {
     public function getHome($request, $response)
     {
-        $k = new Auth();
-
-        if ($k->isLoggedIn() && $k->user()->nivo == 200) {
+        if ($this->auth->isLoggedIn() && $this->auth->user()->nivo == 200) {
             $this->getKalendar($request, $response);
-        }else{
+        } else {
             $this->render($response, 'home.twig');
         }
-        
     }
 
     public function getKalendar($request, $response)
@@ -45,7 +44,7 @@ class HomeController extends Controller
             ];
         }
 
-            $data = json_encode($data);
+        $data = json_encode($data);
 
         $this->render($response, 'kalendar.twig', compact('data'));
     }

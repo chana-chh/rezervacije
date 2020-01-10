@@ -9,7 +9,12 @@ $container['db'] = function ($container) {
 };
 
 $container['auth'] = function ($container) {
-    return new \App\Classes\Auth(new \App\Models\Korisnik());
+    return new \App\Classes\Auth();
+    // return new \App\Classes\Auth(new \App\Models\Korisnik());
+};
+
+$container['logger'] = function ($container) {
+    return new \App\Classes\Logger($container->auth->user());
 };
 
 $container['csrf'] = function ($container) {

@@ -3,26 +3,31 @@
 namespace App\Classes;
 
 use App\Models\Log;
+use App\Models\Korisnik;
 
 class Logger
 {
-    private $korsnik;
+    private $korisnik;
+    private $model;
     public const DODAVANJE = "dodavanje";
     public const IZMENA = "izmena";
-    public const BROSANJE = "brisanje";
+    public const BRISANJE = "brisanje";
+    public const UPLOAD = "upload";
 
-    public function log(Logger $tip, Model $model, string $polje)
+    public function __construct($korisnik)
     {
-        // TODO: napraviti ovo
+        $this->korisnik = $korisnik;
+        $this->model = new Log();
+    }
 
-        /*
-            ubaciti u container (dic.php)
-            u Controller.php napraviti metodu log koja koristi ovo
-                korisnik i vreme se popunjavaju automatski
-                tabela i id idu iz modela
-                polje iz modela koje je zgodno da se ubaci u opis
-                (kod izmene bi bilo dobro da bude izmenjeni podatak ako je moguce)
-                array_dif([novo],[staro]) dobiju se razlicite vrednosti iz novo
-        */
+    public function log($tip, $model, $polje, $model_stari = null)
+    {
+        $data = [
+            'opis' => "{$model->id}, {$model->table()} - {$polje} : {$model->$polje}",
+            'tip' => $tip,
+            'korisnik_id' => $this->korisnik->id,
+        ];
+
+        $this->model->insert($data);
     }
 }

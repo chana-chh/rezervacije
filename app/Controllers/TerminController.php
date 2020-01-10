@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Classes\Logger;
 use App\Models\Termin;
 use App\Models\Sala;
 use App\Models\TipDogadjaja;
@@ -129,6 +130,8 @@ class TerminController extends Controller
             $data['korisnik_id'] = $this->auth->user()->id;
             $data['created_at'] = date("Y-m-d H:i:s");
             $model_termin->insert($data);
+            $termin = $model_termin->find($model_termin->lastId());
+            $this->log(Logger::DODAVANJE, $termin, 'opis');
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
             return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));
         }
@@ -148,6 +151,7 @@ class TerminController extends Controller
 
         $success = $model->deleteOne($id);
         if ($success) {
+            $this->log(Logger::BRISANJE, $termin, 'opis');
             $this->flash->addMessage('success', "Termin je uspešno obrisan.");
             return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $datum]));
         } else {
@@ -249,6 +253,8 @@ class TerminController extends Controller
             $data['korisnik_id'] = $this->auth->user()->id;
             $data['zauzet'] = isset($data['zauzet']) ? 1 : 0;
             $model_termin->update($data, $id);
+            $termin = $model_termin->find($id);
+            $this->log(Logger::IZMENA, $termin, 'opis');
             $this->flash->addMessage('success', 'Termin je uspešno izmenjen.');
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));
         }

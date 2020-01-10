@@ -2,6 +2,8 @@
 
 Dodati relacije koje nedostaju u modelima
 
+!!! POSTO CE BITI GOMILA DOKUMENATA (predpostavljam) PROVERITI KOLIKO PROSTORA DAJE PROVIDER !!!
+
 ### PODSETNIK
 
 - !!! Dodati kaparu u ugovor !!!
@@ -10,7 +12,14 @@ Dodati relacije koje nedostaju u modelima
 - odraditi brisanje uplate (na detalju ugovora)
 - !!! obavezno logovati sve oko uplata !!!
 - kod izmene uplate zabraniti promenu opisa ako je opis kapara (moze samo da se promeni iznos ili obrise cela uplata)
-- Logovanje
+
+- Logovanje je odradjeno. Sta logovati za 'upload'?
+- za logovanje u kontroler treba dodati (use App\Classes\Logger;)
+- za koriscenje videti dodavanje, izmenu i brisanje u TerminController
+
+- !!! kod pregleda ugovora sa uplatama obavezno dodati dodatne usluge zbog upiredjivanja uplata i usluga !!!
+
+- redni broj u tabelarnom prikazu kod paginacije nema smisla
 
 ## DATABASE
 

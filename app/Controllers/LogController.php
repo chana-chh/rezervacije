@@ -15,7 +15,7 @@ class LogController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Log();
-        $logovi = $model->paginate($page);
+        $logovi = $model->paginate($page, 'page' ,"SELECT * FROM logovi ORDER BY datum DESC;");
 
         $model_korisnici = new Korisnik();
         $korisnici = $model_korisnici->all();

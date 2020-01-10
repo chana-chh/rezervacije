@@ -436,21 +436,51 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-lg-6 pt-2">
+        <h6 class="text-info">Cena menija</h6>
+      </div>
       <div class="col-lg-6">
         <input
           type="number"
           class="form-control"
-          name="preporucena"
-          id="preporucena"
+          name="cena_menija"
+          id="cena_menija"
           value="0" min="0" step="0.01"
-          autocomplete="off">
-        <small class="text-info">(broj mesta * cena menija)</small>
+          autocomplete="off" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 pt-2">
+        <h6 class="text-info">Cena usluga</h6>
+      </div>
+      <div class="col-lg-6">
+        <input
+          type="number"
+          class="form-control"
+          name="cena_usluga"
+          id="cena_usluga"
+          value="0" min="0" step="0.01"
+          autocomplete="off" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 pt-2">
+        <h6 class="text-success">Ukupna cena</h6>
+      </div>
+      <div class="col-lg-6">
+        <input
+          type="number"
+          class="form-control"
+          name="cena_ukupna"
+          id="cena_ukupna"
+          value="0" min="0" step="0.01"
+          autocomplete="off" readonly>
       </div>
     </div>
     <hr>
     <div class="row mb-2">
       <div class="col-lg-6">
-        <h5 class="text-primary">Predlog raspodele stolica</h5>
+        <h5 class="text-primary">Predlog raspodele stolova</h5>
       </div>
       <div class="col-lg-6 text-right">
         <div class="btn-group">
@@ -490,6 +520,11 @@
         <input type="number" class="form-control" name="ukupno_stolova" id="ukupno_stolova" min="0" step="1" value="0">
       </div>
     </div>
+    <div class="row">
+      <div class="form-group col">
+        <textarea class="form-control text-danger" name="greska" id="greske" rows="5" readonly></textarea>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock traka %}
@@ -497,70 +532,75 @@
   <script>
 
     $(document).ready(function () {
-      var m = "{{ termin.multiUgovori() == true ? 1 : 0 }}";
-      var multi = (parseInt(m) === 1) ? true : false;
 
-      var slobodnaMesta = parseInt("{{ termin.slobodnaMesta() }}");
-      var slobodniStolovi = parseInt("{{ termin.slobodniStolovi() }}");
-      var maxStolova = parseInt("{{ termin.sala().max_kapacitet_stolova }}");
-      var maxMesta = parseInt("{{ termin.sala().max_kapacitet_mesta }}");
+      const m = "{{ termin.multiUgovori() == true ? 1 : 0 }}";
+      const multi = (parseInt(m) === 1) ? true : false;
 
-      var minStolica = Math.ceil(maxMesta / maxStolova); // min stolica po stolu za odnos kapacitet stolovi
-      var minStolicaConf = 6; // min stolica po stolu
-      var optStolicaConf = 8; // optimalno stolica po stolu
-      var optStolicaMultiConf = 12; // optimalno stolica po stolu
-      var maxStolicaConf = 14; // max stolica po stolu
+      const maxStolova = parseInt("{{ termin.sala().max_kapacitet_stolova }}");
+      const maxMesta = parseInt("{{ termin.sala().max_kapacitet_mesta }}");
+
+      const pocetnaMesta = parseInt("{{ ugovor.broj_mesta }}");
+      const pocetniStolovi = parseInt("{{ ugovor.broj_stolova }}");
+      const pocetneStolice = parseInt("{{ ugovor.broj_mesta_po_stolu }}");
+
+      const slobodnaMesta = parseInt("{{ termin.slobodnaMesta() }}") + pocetnaMesta;
+      const slobodniStolovi = parseInt("{{ termin.slobodniStolovi() }}") + pocetniStolovi;
 
       $('#cekiraj_sve').click(function () {
         $(':checkbox.cekiraj').not(this).prop('checked', this.checked);
       });
 
       $("#dugme-izracunaj-iznos").click(function(event) {
-        preporucenaCena();
+        izracunajCenuMenija();
+        izracunajCenuUsluga();
+        const m = parseFloat($('#cena_menija').val());
+        const u = parseFloat($('#cena_usluga').val());
+        $('#cena_ukupna').val((m + u).toFixed(2));
       });
 
       $("#dugme-prebaci-iznos").click(function(event) {
-        $("#iznos").val($('#preporucena').val());
+        $("#iznos").val($('#cena_ukupna').val());
       });
 
       $("#dugme-izracunaj-raspored").click(function(event) {
-        raspodela();
+        izracunajRaspodelu();
       });
 
       $("#dugme-prebaci-raspored").click(function(event) {
         //
       });
 
-      $('#meni_id').change(function(){
-         preporucenaCena();
-      });
-
       $('#broj_mesta').change(function(event) {
-        preporucenaCena();
-        raspodela();
+        proveriMatematiku();
       });
 
       $('#broj_mesta_po_stolu').change(function(event) {
-        raspodela();
+        proveriMatematiku();
       });
 
       $('#broj_stolova').change(function(event) {
-        raspodela();
+        proveriMatematiku();
       });
 
-      function preporucenaCena()
+      function izracunajCenuMenija()
       {
         const cm = $('#meni_id').children('option:selected').data('cenamenija');
         const br = $('#broj_mesta').val();
         let cena = (cm === undefined) ? 0 : parseFloat(cm);
-        console.log("TCL: cena", cena)
         let broj = (cm === "") ? 0 : parseInt(br);
-        console.log("TCL: broj", broj)
 
-        $('#preporucena').val((cena * broj).toFixed(2));
+        $('#cena_menija').val((cena * broj).toFixed(2));
       }
 
-      function raspodela()
+      function izracunajCenuUsluga()
+      {
+        let cenaUsluga = 0;
+        // sabrati sve parseFloat(iznose) usluga
+
+        $('#cena_usluga').val(cenaUsluga.toFixed(2));
+      }
+
+      function proveriMatematiku()
       {
         const bm = $('#broj_mesta').val();
         const bss = $('#broj_mesta_po_stolu').val();
@@ -574,25 +614,19 @@
         let provera = true;
         let proveraTekst = "";
 
-        // Provera ispravnosti unosa
-        if(brojMesta > maxMesta) {
+        if(brojMesta > slobodnaMesta) {
           provera = false;
-          proveraTekst += "Broj zvanica je veci od kapaciteta sale!\n";
+          proveraTekst += "Broj zvanica je veci od broja slobodnih mesta!\n";
         }
 
-        if(brojStolova > maxStolova) {
+        if(brojStolova > slobodniStolovi) {
           provera = false;
-          proveraTekst += "Broj stolova je veci od kapaciteta sale!\n";
+          proveraTekst += "Broj stolova je veci od broja slobodnih stolova!\n";
         }
-        /*
-        if(brojStolica < minStolica) {
-          provera = false;
-          proveraTekst += "Broj mesta za stolom je manji od minimalnog!\n";
-        }
-        */
+
         if(razlika < 0) {
           provera = false;
-          proveraTekst += "Broj zvanica je veci od broja mesta za stolovima!\n";
+          proveraTekst += `Broj zvanica je (za ${razlika * -1}) veci od broja mesta za stolovima!\n`;
         }
 
         if(razlika >= brojStolica) {
@@ -601,23 +635,55 @@
         }
 
         if(!provera && brojMesta > 0 && brojStolica > 0 && brojStolova > 0) {
-          alert(proveraTekst); // modal?
+          $("#greske").text(proveraTekst);
+        } else {
+          $("#greske").text("");
+        }
+      }
+
+      function izracunajRaspodelu()
+      {
+        const minStolicaSingle = 8; // min stolica po stolu za single ugovor
+        const minStolicaMulti = 10; // min stolica po stolu za multi ugovor
+        const optStolica = 12; // optimalno stolica po stolu
+        const maxStolicaSingle = 12; // max stolica po stolu
+        const maxStolicaMulti = 13; // max stolica po stolu
+
+        const bm = $('#broj_mesta').val();
+        let brojMesta = (bm === "") ? 0 : parseInt(bm);
+
+        if(brojMesta === 0)
+        {
+          return false;
         }
 
         let predlogStolica = 0;
         let predlogStolova = 0;
         let stolice = 0 ;
-        // PRORACUN MESTA ZA JEDAN UGOVOR - PREDLOG
-        stolice = Math.ceil(brojMesta / maxStolova);
-        // ako je stolice <= opt i stolice >= min onda je predlogMin = stolice, prelogOpt = opt, predlogMax = max
-        // ako je stolice >= opt i stolice <= max onda je predlogMin = opt, prelogOpt = stolice, predlogMax = max
-        // ako je stolice <= min onda je predlogMin = min, prelogOpt = opt, predlogMax = max
-        // ako je stolice > max greska (ne bi smelo da se dogodi)
 
 
-        // PRORACUN MESTA ZA VISE UGOVORA - PREDLOG
-        stolice = Math.ceil(brojMesta / slobodniStolovi);
-        // ide se na optimizaciju za sto manji broj stolova
+        if(multi) // PRORACUN MESTA ZA VISE UGOVORA
+        {
+
+        }
+        else // PRORACUN MESTA ZA JEDAN UGOVOR
+        {
+          console.log("TCL: brojMesta", brojMesta)
+          const optOstatak = brojMesta % optStolica;
+          const optStolova = Math.floor(brojMesta / optStolica);
+          console.log("TCL: optStolica", optStolica)
+          console.log("TCL: optStolova", optStolova)
+          console.log("TCL: optOstatak", optOstatak)
+          const minOstatak = brojMesta % minStolicaSingle;
+          const minStolova = Math.floor(brojMesta / minStolicaSingle);
+          console.log("TCL: brojMesta", brojMesta)
+          console.log("TCL: minStolicaSingle", minStolicaSingle)
+          console.log("TCL: minStolova", minStolova)
+          console.log("TCL: minOstatak", minOstatak)
+        }
+
+
+
 
       }
 
