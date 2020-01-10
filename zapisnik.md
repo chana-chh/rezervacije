@@ -1,5 +1,7 @@
 # TODO
 
+!!! Metoda za proveru STATUSA termina u modelu !!!
+
 Dodati relacije koje nedostaju u modelima
 
 !!! POSTO CE BITI GOMILA DOKUMENATA (predpostavljam) PROVERITI KOLIKO PROSTORA DAJE PROVIDER !!!
@@ -22,8 +24,6 @@ Dodati relacije koje nedostaju u modelima
 - redni broj u tabelarnom prikazu kod paginacije nema smisla
 
 ## DATABASE
-
-STASHA - U sve tabele sam dodao korisnik_id i created_at. Created_at default vrednost postavljena na CURRENT_TIMESTAMP. Baza je u TMP
 
 ## RASPORED MESTA U SALI
 
