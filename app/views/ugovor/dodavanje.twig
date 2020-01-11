@@ -42,7 +42,7 @@
     </h4>
   </div>
   <div class="card-body text-dark">
-    <form action="{{ path_for('termin.dodavanje.ugovor.post') }}" method="POST" class="needs-validation" novalidate>
+    <form action="{{ path_for('termin.dodavanje.ugovor.post') }}" method="POST" class="needs-validation" id="forma" novalidate>
       {{ csrf | raw }}
       <input type="hidden" name="termin_id" value="{{ termin.id }}">
       <div class="form-row">
@@ -379,7 +379,6 @@
         <div class="form-group col-md-1">
           Kokteli<br>
           <label class="pl-4">
-
                 <input
                   type="checkbox"
                   name="kokteli_chk"
@@ -524,7 +523,7 @@
       <hr>
       <div class="form-row justify-content-between mt-2">
         <div class="col-12 text-right align-self-end">
-          <button type="submit" class="btn btn-primary" title="Dodaj novi ugovor"><i class="fas fa-plus-square"></i> Dodaj</button>
+          <button id="dugme-submit" class="btn btn-primary" title="Dodaj novi ugovor"><i class="fas fa-plus-square"></i> Dodaj</button>
           <a href="{{ path_for('termin.detalj.get', { id: termin.id }) }}" class="btn btn-secondary">
             <i class="fas fa-ban"></i> Otkaži</a>
         </div>
@@ -620,8 +619,8 @@
       <div class="col-lg-6">
         <h5 class="text-primary">Predlog raspodele stolica</h5>
       </div>
-      <div class="col-lg-6">
-        <div class="btn-group btn-block">
+      <div class="col-lg-6 text-right">
+        <div class="btn-group">
           <button class="btn btn-sm btn-primary" id="dugme-prebaci-raspored">
             <i class="fas fa-angle-left"></i>
             Prebaci raspored
@@ -635,27 +634,21 @@
     <div class="row">
       <div class="form-group col-lg-6">
         <label for="stolovi">Popunjeni stolovi</label>
-        <input type="number" class="form-control" name="stolovi" id="stolovi" min="0" step="1" value="0">
+        <input type="number" class="form-control" name="stolovi" id="stolovi" min="0" step="1" value="0" readonly>
       </div>
       <div class="form-group col-lg-6">
         <label for="stolice">Stolice za popunjenim stolovima</label>
-        <input type="number" class="form-control" name="stolice" id="stolice" min="0" step="1" value="0">
+        <input type="number" class="form-control" name="stolice" id="stolice" min="0" step="1" value="0" readonly>
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-lg-6 stolice01">
-        <label for="stolice01">Stolice za dodatnim stolom 1</label>
-        <input type="number" class="form-control" name="stolice01" id="stolice01" min="0" step="1" value="0">
+      <div class="form-group col-lg-6 ekstra_stolice">
+        <label for="ekstra_stolice">Stolice za dodatnim stolom</label>
+        <input type="number" class="form-control" name="ekstra_stolice" id="ekstra_stolice" min="0" step="1" value="0" readonly>
       </div>
-      <div class="form-group col-lg-6 stolice02">
-        <label for="stolice02">Stolice za dodatnim stolom 2</label>
-        <input type="number" class="form-control" name="stolice02" id="stolice02" min="0" step="1" value="0">
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-lg-6 offset-lg-6">
+      <div class="form-group col-lg-6">
         <label for="ukupno_stolova" class="text-success">Ukupan broj stolova</label>
-        <input type="number" class="form-control" name="ukupno_stolova" id="ukupno_stolova" min="0" step="1" value="0">
+        <input type="number" class="form-control" name="ukupno_stolova" id="ukupno_stolova" min="0" step="1" value="0" readonly>
       </div>
     </div>
     <div class="row">
@@ -675,9 +668,9 @@
       const maxStolova = parseInt("{{ termin.sala().max_kapacitet_stolova }}");
       const maxMesta = parseInt("{{ termin.sala().max_kapacitet_mesta }}");
 
-      const pocetnaMesta = parseInt("{{ ugovor.broj_mesta }}");
-      const pocetniStolovi = parseInt("{{ ugovor.broj_stolova }}");
-      const pocetneStolice = parseInt("{{ ugovor.broj_mesta_po_stolu }}");
+      const pocetnaMesta = parseInt("{{ ugovor.broj_mesta ? : 0 }}");
+      const pocetniStolovi = parseInt("{{ ugovor.broj_stolova ? : 0 }}");
+      const pocetneStolice = parseInt("{{ ugovor.broj_mesta_po_stolu ? : 0 }}");
 
       const slobodnaMesta = parseInt("{{ termin.slobodnaMesta() }}") + pocetnaMesta;
       const slobodniStolovi = parseInt("{{ termin.slobodniStolovi() }}") + pocetniStolovi;
@@ -686,6 +679,14 @@
 
       $('#cekiraj_sve').click(function () {
         $(':checkbox.cekiraj').not(this).prop('checked', this.checked);
+      });
+
+      $("#dugme-submit").click(function(event) {
+        event.preventDefault();
+        if(provera){
+          $('#forma').submit();
+        }
+        return false;
       });
 
       $("#dugme-izracunaj-iznos").click(function(event) {
@@ -706,7 +707,9 @@
       });
 
       $("#dugme-prebaci-raspored").click(function(event) {
-        //
+        $("#broj_mesta_po_stolu").val($("#stolice").val());
+        $("#broj_stolova").val($("#ukupno_stolova").val());
+        proveriMatematiku();
       });
 
       $('#broj_mesta').change(function(event) {
@@ -784,21 +787,6 @@
         provera = true;
         let proveraTekst = "";
 
-        if(brojMesta === 0) {
-          provera = false;
-          proveraTekst += "Nije unet broj zvanica!\n";
-        }
-
-        if(brojStolica === 0) {
-          provera = false;
-          proveraTekst += "Nije unet broj stolica za stolom!\n";
-        }
-
-        if(brojStolova === 0) {
-          provera = false;
-          proveraTekst += "Nije unet broj stolova!\n";
-        }
-
         if(brojMesta > slobodnaMesta) {
           provera = false;
           proveraTekst += "Broj zvanica je veci od broja slobodnih mesta!\n";
@@ -828,10 +816,6 @@
 
       function izracunajRaspodelu()
       {
-        if(!provera) {
-          return false;
-        }
-        console.log("TCL: provera", provera)
         const minStolicaSingle = 8; // min stolica po stolu za single ugovor
         const minStolicaMulti = 10; // min stolica po stolu za multi ugovor
         const optStolica = 12; // optimalno stolica po stolu
@@ -844,7 +828,6 @@
 
         let brojMesta = (bm === "") ? 0 : parseInt(bm);
         let brojStolica = (bss === "") ? 0 : parseInt(bss);
-        let brojStolova = (bs === "") ? 0 : parseInt(bs);
 
         if(brojMesta === 0)
         {
@@ -852,45 +835,48 @@
           return false;
         }
 
-        if(brojStolova === 0 && brojStolica === 0)
+        if(brojStolica === 0)
         {
-          $("#greske").text("Mora biti unet broj stolica za stolom ili broj stolova!\n");
+          $("#greske").text("Nije unet broj stolica za stolom!\n");
           return false;
         }
 
         let predlogStolica = 0;
         let predlogStolova = 0;
-        let stolice = 0 ;
-
+        let stolovi = 0;
+        let stoPlus = 0;
+        let ostatak = 0;
 
         if(multi) // PRORACUN MESTA ZA VISE UGOVORA
         {
-
+          stolovi = Math.floor(brojMesta / brojStolica);
+          ostatak = brojMesta - (stolovi * brojStolica);
+          if(ostatak > 0 && ostatak <= stolovi && brojStolica < maxStolicaMulti){
+            const tmpStolice = brojStolica + 1;
+            const tmpStolovi = Math.floor(brojMesta / tmpStolice);
+            if(tmpStolovi < stolovi){
+              alert("Moguće je smanjiti broj stolova dodavanjem još jednog mesta za stolom.");
+            }
+          }
+          if(ostatak > 0) {
+            stoPlus = 1;
+          }
         }
         else // PRORACUN MESTA ZA JEDAN UGOVOR
         {
-          console.log("TCL: brojMesta", brojMesta)
-          const optOstatak = brojMesta % optStolica;
-          const optStolova = Math.floor(brojMesta / optStolica);
-          console.log("TCL: optStolica", optStolica)
-          console.log("TCL: optStolova", optStolova)
-          console.log("TCL: optOstatak", optOstatak)
-          const minOstatak = brojMesta % minStolicaSingle;
-          const minStolova = Math.floor(brojMesta / minStolicaSingle);
-          console.log("TCL: brojMesta", brojMesta)
-          console.log("TCL: minStolicaSingle", minStolicaSingle)
-          console.log("TCL: minStolova", minStolova)
-          console.log("TCL: minOstatak", minOstatak)
+          stolovi = Math.floor(brojMesta / brojStolica);
+          ostatak = brojMesta - (stolovi * brojStolica);
+          if(ostatak > 0){
+            stoPlus = 1;
+          }
         }
 
-
-
-
+        $("#stolovi").val(stolovi);
+        $("#stolice").val(brojStolica);
+        $("#ekstra_stolice").val(ostatak);
+        $("#ukupno_stolova").val(stolovi + stoPlus);
       }
-
     });
-
-
 
     // bootstrap validation
     (function() {
