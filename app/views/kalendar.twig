@@ -39,7 +39,7 @@
     background-color: #ffc107;
   }
   #kalendar{
-    min-width: 650px;
+    min-width: 576px;
   }
 </style>
 {% endblock stil %} {% block naslov %}
@@ -48,14 +48,14 @@
     <h1><i class="fas fa-calendar-alt text-secondary"></i> Pregled zakazanih termina</h1>
   </div>
   <div class="col-lg-6 text-right">
-    <ul class="list-inline lead pt-3 mb-0">
-      <li class="list-inline-item ml-4">
+    <ul class="list-unstyled pt-3 mb-0">
+      <li>
         <i class="fas fa-question-circle text-primary"></i> Informacija o terminu
       </li>
-      <li class="list-inline-item ml-4">
+      <li>
         <i class="fas fa-calendar-plus text-danger"></i> Termin u pripremi
       </li>
-      <li class="list-inline-item ml-4">
+      <li>
         <i class="fas fa-calendar-check text-success"></i> Zaključen termin
       </li>
     </ul>
@@ -65,15 +65,15 @@
   <div class="col-lg-6">
     <h4><i class="fas fa-calendar-check text-secondary"></i> Pregled zakazanih termina</h4>
   </div>
-  <div class="col-lg-6 text-right" style="font-size: 0.75rem;">
-    <ul class="list-inline pt-3 mb-0">
-      <li class="list-inline-item ml-4">
+  <div class="col-lg-6 text-left" style="font-size: 0.75rem;">
+    <ul class="list-unstyled pt-3 mb-0">
+      <li>
         <i class="fas fa-question-circle text-primary"></i> Informacija o terminu
       </li>
-      <li class="list-inline-item ml-4">
+      <li>
         <i class="fas fa-calendar-plus text-danger"></i> Termin u pripremi
       </li>
-      <li class="list-inline-item ml-4">
+      <li>
         <i class="fas fa-calendar-check text-success"></i> Zaključen termin
       </li>
     </ul>
@@ -148,6 +148,10 @@ $("#kalendar").fullCalendar({
           </strong></h5><h6 class="font-italic mt-4 mx-4">&emsp;${event.advancedDetalj}</h6>`);
         }
         if (view.name == "month"){
+            element.tooltip({
+            title: event.advancedDetalj,
+            container: "body"
+            });
             let title = element.find(".fc-title");
             element.find('.fc-time').hide();
             const html = `
@@ -205,10 +209,6 @@ $("#kalendar").fullCalendar({
         "novembar",
         "decembar"
       ],
-      eventClick: function(event) {
-        $('#modalBody').html(event.advancedTitle);
-        $('#cenaModal').modal('show');
-      }
     });
   });
 </script>

@@ -268,7 +268,7 @@
           <label for="muzika_iznos">Muzika iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.muzika_iznos[0] ? ' is-invalid' : '' }}"
+            class="form-control{{ errors.muzika_iznos[0] ? ' is-invalid' : '' }} dodatna"
             name="muzika_iznos"
             id="muzika_iznos"
             value="{{ old.muzika_iznos ? : 0.00 }}"
@@ -300,7 +300,7 @@
           <label for="fotograf_iznos">Fotograf iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.fotograf_iznos[0] ? ' is-invalid' : '' }}"
+            class="form-control{{ errors.fotograf_iznos[0] ? ' is-invalid' : '' }} dodatna"
             name="fotograf_iznos"
             id="fotograf_iznos"
             value="{{ old.fotograf_iznos ? : 0.00 }}"
@@ -330,7 +330,7 @@
           <label for="torta_iznos">Torta iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.torta_iznos[0] ? ' is-invalid' : '' }}"
+            class="form-control{{ errors.torta_iznos[0] ? ' is-invalid' : '' }} dodatna"
             name="torta_iznos"
             id="torta_iznos"
             value="{{ old.torta_iznos ? : 0.00 }}"
@@ -362,7 +362,7 @@
           <label for="dekoracija_iznos">Dekoracija iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.dekoracija_iznos[0] ? ' is-invalid' : '' }}"
+            class="form-control{{ errors.dekoracija_iznos[0] ? ' is-invalid' : '' }} dodatna"
             name="dekoracija_iznos"
             id="dekoracija_iznos"
             value="{{ old.dekoracija_iznos ? : 0.00 }}"
@@ -393,7 +393,7 @@
           <label for="kokteli_iznos">Kokteli iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.kokteli_iznos[0] ? ' is-invalid' : '' }}"
+            class="form-control{{ errors.kokteli_iznos[0] ? ' is-invalid' : '' }} dodatna"
             name="kokteli_iznos"
             id="kokteli_iznos"
             value="{{ old.kokteli_iznos ? : 0.00 }}"
@@ -425,7 +425,7 @@
           <label for="slatki_sto_iznos">Slatki sto iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.slatki_sto_iznos[0] ? ' is-invalid' : '' }}"
+            class="form-control{{ errors.slatki_sto_iznos[0] ? ' is-invalid' : '' }} dodatna"
             name="slatki_sto_iznos"
             id="slatki_sto_iznos"
             value="{{ old.slatki_sto_iznos ? : 0.00 }}"
@@ -455,7 +455,7 @@
           <label for="vocni_sto_iznos">Voćni sto iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.vocni_sto_iznos[0] ? ' is-invalid' : '' }}"
+            class="form-control{{ errors.vocni_sto_iznos[0] ? ' is-invalid' : '' }} dodatna"
             name="vocni_sto_iznos"
             id="vocni_sto_iznos"
             value="{{ old.vocni_sto_iznos ? : 0.00 }}"
@@ -472,11 +472,25 @@
       </div>
       <hr>
       <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-5">
           <label for="posebni_zahtevi">Posebni zahtevi</label>
           <textarea class="form-control" name="posebni_zahtevi" id="posebni_zahtevi" rows="3">{{ old.posebni_zahtevi ?  : '' }}</textarea>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
+          <label for="posebni_iznos">Posebni zahtevi iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.posebni_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="posebni_iznos"
+            id="posebni_iznos"
+            value="{{ old.posebni_iznos ? : 0.00 }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.posebni_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-5">
           <label for="napomena">Napomena</label>
           <textarea class="form-control" name="napomena" id="napomena" rows="3">{{ old.napomena ?  : '' }}</textarea>
         </div>
@@ -534,7 +548,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-5">
         <input
           type="number"
           class="form-control"
@@ -543,6 +557,19 @@
           value="0" min="0" step="0.01"
           autocomplete="off">
         <small class="text-info">(broj mesta * cena menija)</small>
+      </div>
+      <div class="col-lg-2 text-center">
+        <i class="fas fa-plus-square mt-3 text-success"></i>
+      </div>
+      <div class="col-lg-5">
+        <input
+          type="number"
+          class="form-control"
+          name="dodatno"
+          id="dodatno"
+          value="0" min="0" step="0.01"
+          autocomplete="off">
+        <small class="text-info">(dodatne usluge)</small>
       </div>
     </div>
     <hr>
@@ -618,7 +645,7 @@
       });
 
       $("#dugme-prebaci-iznos").click(function(event) {
-        $("#iznos").val($('#preporucena').val());
+        $("#iznos").val(parseFloat($('#preporucena').val()) + parseFloat($('#dodatno').val()));
       });
 
       $("#dugme-izracunaj-raspored").click(function(event) {
@@ -646,6 +673,10 @@
         raspodela();
       });
 
+      $('.dodatna').change(function(){
+         dodatnaCena();
+      });
+
       function preporucenaCena()
       {
         const cm = $('#meni_id').children('option:selected').data('cenamenija');
@@ -656,6 +687,29 @@
         console.log("TCL: broj", broj)
 
         $('#preporucena').val((cena * broj).toFixed(2));
+      }
+
+      function dodatnaCena()
+      {
+        const mu = $('#muzika_iznos').val();
+        const fo = $('#fotograf_iznos').val();
+        const to = $('#torta_iznos').val();
+        const de = $('#dekoracija_iznos').val();
+        const ko = $('#kokteli_iznos').val();
+        const vs = $('#vocni_sto_iznos').val();
+        const ss = $('#slatki_sto_iznos').val();
+        const po = $('#posebni_iznos').val();
+
+        let muz = (mu === undefined) ? 0 : parseFloat(mu);
+        let fot = (fo === undefined) ? 0 : parseFloat(fo);
+        let tor = (to === undefined) ? 0 : parseFloat(to);
+        let dek = (de === undefined) ? 0 : parseFloat(de);
+        let kok = (ko === undefined) ? 0 : parseFloat(ko);
+        let vos = (vs === undefined) ? 0 : parseFloat(vs);
+        let sos = (ss === undefined) ? 0 : parseFloat(ss);
+        let pos = (po === undefined) ? 0 : parseFloat(po);
+
+        $('#dodatno').val((muz + fot + tor + dek + kok + vos + sos + pos).toFixed(2));
       }
 
       function raspodela()
