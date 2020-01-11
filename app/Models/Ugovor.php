@@ -52,7 +52,28 @@ class Ugovor extends Model
         return $this->iznos - $this->uplateSuma();
     }
 
-    public function dokumenti(){
+    public function dokumenti()
+    {
         return $this->hasMany('App\Models\Dokument', 'ugovor_id');
+    }
+
+    public function zakljucavanje()
+    {
+        $zakljucati = false;
+        if (!empty($this->uplate())) {
+            $zakljucati = true;
+        }
+        if (
+            $this->muzika_chk === 1 &&
+            $this->fotograf_chk === 1 &&
+            $this->torta_chk === 1 &&
+            $this->dekoracija_chk === 1 &&
+            $this->kokteli_chk === 1 &&
+            $this->slatki_sto_chk === 1 &&
+            $this->vocni_sto_chk === 1
+        ) {
+            $zakljucati = true;
+        }
+        return $zakljucati;
     }
 }

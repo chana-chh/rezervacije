@@ -60,9 +60,34 @@ class Termin extends Model
     {
         return (int) ($this->sala()->max_kapacitet_stolova - $this->popunjeniStolovi());
     }
+
     public function cenaTermina()
     {
         $sql = "SELECT SUM(iznos) AS cena FROM ugovori WHERE termin_id = {$this->id};";
         return (int) $this->fetch($sql)[0]->cena;
+    }
+
+    public function status()
+    {
+        if ($this->zauzet == 0 && empty($this->ugovori())) {
+            return 2;
+        }
+        return $this->zauzet;
+    }
+
+    public function statusIkonica()
+    {
+        if ($this->status() == 0) {
+            return 'fas fa-calendar-plus text-danger';
+        }
+
+        if ($this->status() == 1) {
+            return 'fas fa-calendar-check text-success';
+        }
+
+        if ($this->status() == 2) {
+            return 'fas fa-question-circle text-primary';
+        }
+        return null;
     }
 }

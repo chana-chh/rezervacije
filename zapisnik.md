@@ -1,14 +1,12 @@
 # TODO
 
-!!! Metoda za proveru STATUSA termina u modelu !!!
-
 Dodati relacije koje nedostaju u modelima
 
 !!! POSTO CE BITI GOMILA DOKUMENATA (predpostavljam) PROVERITI KOLIKO PROSTORA DAJE PROVIDER !!!
 
 ### PODSETNIK
 
-- !!! Dodati kaparu u ugovor !!!
+- u pregled ugovora dodati dug
 - bootstrap validacija na uplatu (na detalju ugovora)
 - prepraviti modal za unos uplate da bude za izmenu uplate i odraditi izmenu uplate (na detalju ugovora)
 - odraditi brisanje uplate (na detalju ugovora)
@@ -26,12 +24,6 @@ Dodati relacije koje nedostaju u modelima
 ## DATABASE
 
 ## RASPORED MESTA U SALI
-
-Nisam siguran koliko ovaj proracun odgovara potrebama jer se dodaje sto za jednog coveka (koji se moze uglaviti za neki sto ako je broj mesta manji od max).
-
-Ovo videti sa Acom kako da se rasporedjuju mesta.
-
-Po meni:
 
 za jedan ugovor se racuna brojStolica i ako je on <= optimalan broj po stolu ici na optimalan broj, inace ici na brojStolica.
 
