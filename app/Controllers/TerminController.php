@@ -20,18 +20,7 @@ class TerminController extends Controller
         $data = [];
 
         foreach ($termini as $termin) {
-            $ikonica = "";
-            if ($termin->zauzet == 1) {
-                $ikonica = 'fas fa-calendar-check text-success';
-            }
-
-            if ($termin->zauzet == 0 && !empty($termin->ugovori())) {
-                $ikonica = 'fas fa-calendar-plus text-danger';
-            }
-
-            if ($termin->zauzet == 0 && empty($termin->ugovori())) {
-                $ikonica = 'fas fa-question-circle text-primary';
-            }
+            $ikonica = $termin->statusIkonica();
 
             $data[] = (object) [
                 "id" => $termin->id,

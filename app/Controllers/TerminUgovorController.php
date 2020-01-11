@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Classes\Logger;
 use App\Models\Ugovor;
 use App\Models\Termin;
 use App\Models\Meni;
@@ -19,9 +20,8 @@ class TerminUgovorController extends Controller
         $model_meni = new Meni();
         $meniji = $model_meni->all();
 
-        // provera da li postoji ugovor i da li je dozvoljeno vise ugovora za termin
-        $broj_ugovora_za_termin = count($termin->ugovori());
-        if (!$termin->multiUgovori() && $broj_ugovora_za_termin > 0) {
+        // provera multi ugovor
+        if (!$termin->multiUgovori() && !empty($termin->ugovori())) {
             $this->flash->addMessage('warning', "Nije dozvoljeno dodavanje više od jednog ugovora.");
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
         }
@@ -31,32 +31,32 @@ class TerminUgovorController extends Controller
     public function postUgovorDodavanjeTermin($request, $response)
     {
         $data = $request->getParams();
+        $kapara = (float) $data['kapara'];
+        $nacin_placanja = $data['nacin_placanja'];
 
         unset($data['csrf_name']);
         unset($data['csrf_value']);
         unset($data['cekiraj_sve']);
+        unset($data['kapara']);
+        unset($data['nacin_placanja']);
 
-        $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
-        $data['muzika_chk'] = $muzika_chk;
-        $fotograf_chk = isset($data['fotograf_chk']) ? 1 : 0;
-        $data['fotograf_chk'] = $fotograf_chk;
-        $torta_chk = isset($data['torta_chk']) ? 1 : 0;
-        $data['torta_chk'] = $torta_chk;
-        $dekoracija_chk = isset($data['dekoracija_chk']) ? 1 : 0;
-        $data['dekoracija_chk'] = $dekoracija_chk;
-        $kokteli_chk = isset($data['kokteli_chk']) ? 1 : 0;
-        $data['kokteli_chk'] = $kokteli_chk;
-        $slatki_sto_chk = isset($data['slatki_sto_chk']) ? 1 : 0;
-        $data['slatki_sto_chk'] = $slatki_sto_chk;
-        $vocni_sto_chk = isset($data['vocni_sto_chk']) ? 1 : 0;
-        $data['vocni_sto_chk'] = $vocni_sto_chk;
+        $data['muzika_chk'] = isset($data['muzika_chk']) ? 1 : 0;
+        $data['fotograf_chk'] = isset($data['fotograf_chk']) ? 1 : 0;
+        $data['torta_chk'] = isset($data['torta_chk']) ? 1 : 0;
+        $data['dekoracija_chk'] = isset($data['dekoracija_chk']) ? 1 : 0;
+        $data['kokteli_chk'] = isset($data['kokteli_chk']) ? 1 : 0;
+        $data['slatki_sto_chk'] = isset($data['slatki_sto_chk']) ? 1 : 0;
+        $data['vocni_sto_chk'] = isset($data['vocni_sto_chk']) ? 1 : 0;
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'broj_ugovora' => [
-                'required' => true,
-                'maxlen' => 50,
-                'unique' => 'ugovori.broj_ugovora'],
+            // ako nije obavezno ne moze da bude unique jer ce biti vise praznih
+            // i u bazi pravi problem unique key
+            // jedino da ako nije prazno proverimo da li postoji
+            // 'broj_ugovora' => [
+            //     'required' => true,
+            //     'maxlen' => 50,
+            //     'unique' => 'ugovori.broj_ugovora'],
             'datum' => ['required' => true,],
             'meni_id' => ['required' => true,],
             'prezime' => ['required' => true,],
@@ -91,8 +91,25 @@ class TerminUgovorController extends Controller
         } else {
             $model_ugovor = new Ugovor();
             $data['korisnik_id'] = $this->auth->user()->id;
-            $data['created_at'] = date("Y-m-d H:i:s");
             $model_ugovor->insert($data);
+            // dodavanje uplate za kaparu
+            $ugovor = $model_ugovor->find($model_ugovor->lastId());
+            $this->log(Logger::DODAVANJE, $ugovor, 'broj_ugovora');
+            if ($kapara > 0) {
+                $kapara_data = [
+                'ugovor_id' => $ugovor->id,
+                'datum' => date("Y-m-d H:i:s"),
+                'iznos' => $kapara,
+                'nacin_placanja' => $nacin_placanja,
+                'opis' => 'kapara',
+                'korisnik_id' => $this->auth->user()->id,
+                ];
+                $model_uplata = new Uplata();
+                $model_uplata->insert($kapara_data);
+                $uplata = $model_uplata->find($model_uplata->lastId());
+                $this->log(Logger::DODAVANJE, $uplata, 'opis');
+            }
+
             $this->flash->addMessage('success', 'Novi ugovor je uspešno dodat.');
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => (int) $data['termin_id']]));
         }
