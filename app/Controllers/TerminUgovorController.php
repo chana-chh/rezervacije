@@ -6,6 +6,7 @@ use App\Models\Ugovor;
 use App\Models\Termin;
 use App\Models\Meni;
 use App\Models\Uplata;
+Use App\Classes\Nacin;
 
 class TerminUgovorController extends Controller
 {
@@ -246,5 +247,90 @@ class TerminUgovorController extends Controller
         $model_ugovor = new Ugovor();
         $ugovor = $model_ugovor->find($id);
         $this->render($response, 'ugovor/uplate.twig', compact('ugovor'));
+    }
+
+    public function postUplataDetalj($request, $response)
+    {
+            $nivoG = new Nacin();
+            $nivoG->vrednost = "gotovina";
+            $nivoG->naziv = "Gotovina";
+
+            $nivoK = new Nacin();
+            $nivoK->vrednost = "kartica";
+            $nivoK->naziv = "Kartica";
+
+            $nivoC = new Nacin();
+            $nivoC->vrednost = "ček";
+            $nivoC->naziv = "Ček";
+
+            $nivoF = new Nacin();
+            $nivoF->vrednost = "faktura";
+            $nivoF->naziv = "Faktura";
+
+            $nacini = [$nivoG, $nivoK, $nivoC, $nivoF];
+
+            $data = $request->getParams();
+            $cName = $this->csrf->getTokenName();
+            $cValue = $this->csrf->getTokenValue();
+            $id = $data['id'];
+            $model_uplate = new Uplata();
+            $uplata = $model_uplate->find($id);
+            $ar = ["cname" => $cName, "cvalue"=>$cValue, "uplata"=>$uplata, "nacini"=>$nacini];
+            return $response->withJson($ar);
+    }
+
+    public function postIzmenaUplata($request, $response)
+    {
+
+        $data = $request->getParams();
+        $id = $data['idIzmena'];
+        $model = new Uplata();
+        $uplata = $model->find($id);
+        $ugovor_id = $uplata->ugovor_id;
+        unset($data['idIzmena']);
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+
+        $datam = ["opis"=>$data['opisModal'], "datum"=>$data['datumModal'], "iznos"=>$data['iznosModal'], "nacin_placanja"=>$data['nacin_placanjaModal']];
+
+        $validation_rules = [
+            'datum' => [
+                'required' => true
+            ],
+            'iznos' => [
+                'required' => true
+            ],
+            'nacin_placanja' => [
+                'required' => true
+            ],
+        ];
+
+        $this->validator->validate($datam, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            $this->flash->addMessage('danger', "Došlo je do greške prilikom izmene uplate.");
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
+        } else {
+            $model_uplate = new Uplata();
+            $model_uplate->update($datam, $id);
+            $this->flash->addMessage('success', "Podaci o uplati su uspešno izmenjeni.");
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
+        }
+    }
+
+    public function postUplataBrisanje($request, $response)
+    {
+        $id = (int)$request->getParam('idBrisanje');
+        $model = new Uplata();
+        $uplata = $model->find($id);
+        $ugovor_id = $uplata->ugovor_id;
+        $success = $model->deleteOne($id);
+        if ($success) {
+            $this->flash->addMessage('success', "Uplata je uspešno obrisan.");
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
+        } else {
+            $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja uplate.");
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
+        }
     }
 }
