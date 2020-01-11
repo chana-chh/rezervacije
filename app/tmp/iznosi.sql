@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.4.6-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win64
+-- Server version:               10.1.19-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win32
 -- HeidiSQL Version:             10.2.0.5599
 -- --------------------------------------------------------
 
@@ -21,11 +21,11 @@ USE `rezervacije`;
 DROP TABLE IF EXISTS `dokumenti`;
 CREATE TABLE IF NOT EXISTS `dokumenti` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ugovor_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `ugovor_id` int(10) unsigned NOT NULL DEFAULT '0',
   `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `opis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_dokumenti_ugovori` (`ugovor_id`),
   KEY `FK_dokumenti_korisnici` (`korisnik_id`),
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `dokumenti` (
   CONSTRAINT `FK_dokumenti_ugovori` FOREIGN KEY (`ugovor_id`) REFERENCES `ugovori` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rezervacije.dokumenti: ~0 rows (approximately)
+-- Dumping data for table rezervacije.dokumenti: ~2 rows (approximately)
 DELETE FROM `dokumenti`;
 /*!40000 ALTER TABLE `dokumenti` DISABLE KEYS */;
 INSERT INTO `dokumenti` (`id`, `ugovor_id`, `link`, `opis`, `korisnik_id`, `created_at`) VALUES
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `korisnici` (
   `lozinka` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nivo` int(10) unsigned NOT NULL,
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`korisnicko_ime`),
   KEY `FK_korisnici_korisnici` (`korisnik_id`),
@@ -72,7 +72,7 @@ DROP TABLE IF EXISTS `logovi`;
 CREATE TABLE IF NOT EXISTS `logovi` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '0',
-  `datum` timestamp NOT NULL DEFAULT current_timestamp(),
+  `datum` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tip` enum('brisanje','dodavanje','izmena','upload') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'dodavanje',
   `korisnik_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
@@ -109,18 +109,18 @@ DROP TABLE IF EXISTS `sale`;
 CREATE TABLE IF NOT EXISTS `sale` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `naziv` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `max_kapacitet_mesta` smallint(5) unsigned NOT NULL DEFAULT 0,
-  `max_kapacitet_stolova` smallint(5) unsigned NOT NULL DEFAULT 0,
-  `napomena` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `max_kapacitet_mesta` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `max_kapacitet_stolova` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `napomena` text COLLATE utf8mb4_unicode_ci,
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `naziv` (`naziv`),
   KEY `FK_sale_korisnici` (`korisnik_id`),
   CONSTRAINT `FK_sale_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rezervacije.sale: ~4 rows (approximately)
+-- Dumping data for table rezervacije.sale: ~3 rows (approximately)
 DELETE FROM `sale`;
 /*!40000 ALTER TABLE `sale` DISABLE KEYS */;
 INSERT INTO `sale` (`id`, `naziv`, `max_kapacitet_mesta`, `max_kapacitet_stolova`, `napomena`, `korisnik_id`, `created_at`) VALUES
@@ -134,23 +134,23 @@ DROP TABLE IF EXISTS `s_meniji`;
 CREATE TABLE IF NOT EXISTS `s_meniji` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `naziv` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hladno_predjelo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sirevi` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `corba` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `glavno_jelo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `meso` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `hleb` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `karta_pica` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cena` decimal(12,2) NOT NULL DEFAULT 0.00,
-  `napomena` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hladno_predjelo` text COLLATE utf8mb4_unicode_ci,
+  `sirevi` text COLLATE utf8mb4_unicode_ci,
+  `corba` text COLLATE utf8mb4_unicode_ci,
+  `glavno_jelo` text COLLATE utf8mb4_unicode_ci,
+  `meso` text COLLATE utf8mb4_unicode_ci,
+  `hleb` text COLLATE utf8mb4_unicode_ci,
+  `karta_pica` text COLLATE utf8mb4_unicode_ci,
+  `cena` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `napomena` text COLLATE utf8mb4_unicode_ci,
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_s_meniji_korisnici` (`korisnik_id`),
   CONSTRAINT `FK_s_meniji_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rezervacije.s_meniji: ~3 rows (approximately)
+-- Dumping data for table rezervacije.s_meniji: ~4 rows (approximately)
 DELETE FROM `s_meniji`;
 /*!40000 ALTER TABLE `s_meniji` DISABLE KEYS */;
 INSERT INTO `s_meniji` (`id`, `naziv`, `hladno_predjelo`, `sirevi`, `corba`, `glavno_jelo`, `meso`, `hleb`, `karta_pica`, `cena`, `napomena`, `korisnik_id`, `created_at`) VALUES
@@ -165,9 +165,9 @@ DROP TABLE IF EXISTS `s_tip_dogadjaja`;
 CREATE TABLE IF NOT EXISTS `s_tip_dogadjaja` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tip` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `multi_ugovori` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `multi_ugovori` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `tip` (`tip`),
   KEY `FK_s_tip_dogadjaja_korisnici` (`korisnik_id`),
@@ -196,10 +196,10 @@ CREATE TABLE IF NOT EXISTS `termini` (
   `pocetak` time DEFAULT NULL,
   `kraj` time DEFAULT NULL,
   `opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zauzet` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `napomena` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zauzet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `napomena` text COLLATE utf8mb4_unicode_ci,
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_termini_sale` (`sala_id`),
   KEY `FK_termini_korisnici` (`korisnik_id`),
@@ -237,34 +237,35 @@ CREATE TABLE IF NOT EXISTS `ugovori` (
   `ime` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `telefon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `prosek_godina` smallint(5) unsigned NOT NULL DEFAULT 0,
-  `muzika_chk` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `prosek_godina` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `muzika_chk` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `muzika_opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `muzika_ugovor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `muzika_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `fotograf_chk` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `muzika_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `fotograf_chk` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `fotograf_opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fotograf_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `torta_chk` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `fotograf_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `torta_chk` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `torta_opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `torta_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `dekoracija_chk` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `torta_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `dekoracija_chk` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `dekoracija_opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dekoracija_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `kokteli_chk` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `dekoracija_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `kokteli_chk` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `kokteli_opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `kokteli_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `slatki_sto_chk` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `kokteli_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `slatki_sto_chk` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `slatki_sto_opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `slatki_sto_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `vocni_sto_chk` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `slatki_sto_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `vocni_sto_chk` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `vocni_sto_opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vocni_sto_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `posebni_zahtevi` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `posebni_zahtevi_iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
-  `napomena` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vocni_sto_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `posebni_zahtevi` text COLLATE utf8mb4_unicode_ci,
+  `posebni_zahtevi_iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
+  `napomena` text COLLATE utf8mb4_unicode_ci,
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `broj_ugovora` (`broj_ugovora`),
   KEY `FK_ugovori_termini` (`termin_id`),
@@ -278,11 +279,11 @@ CREATE TABLE IF NOT EXISTS `ugovori` (
 -- Dumping data for table rezervacije.ugovori: ~4 rows (approximately)
 DELETE FROM `ugovori`;
 /*!40000 ALTER TABLE `ugovori` DISABLE KEYS */;
-INSERT INTO `ugovori` (`id`, `termin_id`, `broj_ugovora`, `datum`, `meni_id`, `broj_mesta`, `broj_stolova`, `broj_mesta_po_stolu`, `prezime`, `ime`, `telefon`, `email`, `prosek_godina`, `muzika_chk`, `muzika_opis`, `muzika_ugovor`, `muzika_iznos`, `fotograf_chk`, `fotograf_opis`, `fotograf_iznos`, `torta_chk`, `torta_opis`, `torta_iznos`, `dekoracija_chk`, `dekoracija_opis`, `dekoracija_iznos`, `kokteli_chk`, `kokteli_opis`, `kokteli_iznos`, `slatki_sto_chk`, `slatki_sto_opis`, `slatki_sto_iznos`, `vocni_sto_chk`, `vocni_sto_opis`, `vocni_sto_iznos`, `posebni_zahtevi`, `posebni_zahtevi_iznos`, `napomena`, `korisnik_id`, `created_at`) VALUES
-	(1, 3, '3366/2019', '2019-12-28', 1, 320, 32, 10, 'Dongo', 'Longo', '063003311', 'dongo@dd.com', 32, 1, NULL, NULL, 1200000.00, 0, NULL, 0.00, 1, NULL, 0.00, 0, NULL, 0.00, 0, NULL, 0.00, 0, NULL, 0.00, 1, NULL, 0.00, NULL, 0.00, 'Nema', 4, '2019-12-28 15:00:31'),
-	(3, 5, '421/2019', '2020-01-03', 14, 255, 19, 14, 'Bongo', 'Kongo', '063/219458', 'kongo@bongo.com', 28, 0, '', '', 8000000.00, 0, '', 0.00, 0, '', 0.00, 1, '', 0.00, 0, '', 0.00, 0, '', 0.00, 1, 'Ohoho vocni sto', 0.00, 'DD', 0.00, 'NN', 1, NULL),
-	(4, 6, '12/2020', '2020-01-07', 14, 330, 33, 10, 'Savić', 'Anita', '065/201333', 'anita@tahoo.com', 20, 1, '', '', 528000.00, 1, '', 0.00, 0, '', 0.00, 1, '', 0.00, 1, '', 0.00, 1, '', 0.00, 1, '', 0.00, 'Čokoladna fontana', 0.00, 'Plaća u tri rate', 1, '2020-01-09 08:35:28'),
-	(5, 7, '12', '2020-01-09', 14, 230, 23, 10, 'S', 'S', '+381652050070', 'stashakg@gmail.com', 33, 1, '', '', 368000.00, 1, '', 0.00, 1, '', 0.00, 0, '', 0.00, 1, 'Super', 0.00, 1, '', 0.00, 0, '', 0.00, 'Nema', 0.00, 'Nema', 1, '2020-01-09 10:53:05');
+INSERT INTO `ugovori` (`id`, `termin_id`, `broj_ugovora`, `datum`, `meni_id`, `broj_mesta`, `broj_stolova`, `broj_mesta_po_stolu`, `prezime`, `ime`, `telefon`, `email`, `prosek_godina`, `muzika_chk`, `muzika_opis`, `muzika_ugovor`, `iznos`, `muzika_iznos`, `fotograf_chk`, `fotograf_opis`, `fotograf_iznos`, `torta_chk`, `torta_opis`, `torta_iznos`, `dekoracija_chk`, `dekoracija_opis`, `dekoracija_iznos`, `kokteli_chk`, `kokteli_opis`, `kokteli_iznos`, `slatki_sto_chk`, `slatki_sto_opis`, `slatki_sto_iznos`, `vocni_sto_chk`, `vocni_sto_opis`, `vocni_sto_iznos`, `posebni_zahtevi`, `posebni_zahtevi_iznos`, `napomena`, `korisnik_id`, `created_at`) VALUES
+	(1, 3, '3366/2019', '2019-12-28', 1, 320, 32, 10, 'Dongo', 'Longo', '063003311', 'dongo@dd.com', 32, 1, NULL, NULL, 1200000.00, 0.00, 0, NULL, 0.00, 1, NULL, 0.00, 0, NULL, 0.00, 0, NULL, 0.00, 0, NULL, 0.00, 1, NULL, 0.00, NULL, 0.00, 'Nema', 4, '2019-12-28 15:00:31'),
+	(3, 5, '421/2019', '2020-01-03', 14, 255, 19, 14, 'Bongo', 'Kongo', '063/219458', 'kongo@bongo.com', 28, 0, '', '', 8000000.00, 0.00, 0, '', 0.00, 0, '', 0.00, 1, '', 0.00, 0, '', 0.00, 0, '', 0.00, 1, 'Ohoho vocni sto', 0.00, 'DD', 0.00, 'NN', 1, NULL),
+	(4, 6, '12/2020', '2020-01-07', 14, 330, 33, 10, 'Savić', 'Anita', '065/201333', 'anita@tahoo.com', 20, 1, '', '', 528000.00, 0.00, 1, '', 0.00, 0, '', 0.00, 1, '', 0.00, 1, '', 0.00, 1, '', 0.00, 1, '', 0.00, 'Čokoladna fontana', 0.00, 'Plaća u tri rate', 1, '2020-01-09 08:35:28'),
+	(5, 7, '12', '2020-01-09', 14, 230, 23, 10, 'S', 'S', '+381652050070', 'stashakg@gmail.com', 33, 1, '', '', 368000.00, 0.00, 1, '', 0.00, 1, '', 0.00, 0, '', 0.00, 1, 'Super', 0.00, 1, '', 0.00, 0, '', 0.00, 'Nema', 0.00, 'Nema', 1, '2020-01-09 10:53:05');
 /*!40000 ALTER TABLE `ugovori` ENABLE KEYS */;
 
 -- Dumping structure for table rezervacije.uplate
@@ -291,11 +292,11 @@ CREATE TABLE IF NOT EXISTS `uplate` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ugovor_id` int(10) unsigned NOT NULL,
   `datum` datetime NOT NULL,
-  `iznos` decimal(12,2) unsigned NOT NULL DEFAULT 0.00,
+  `iznos` decimal(12,2) unsigned NOT NULL DEFAULT '0.00',
   `nacin_placanja` enum('gotovina','kartica','ček','faktura') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'gotovina',
   `opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_uplate_ugovori` (`ugovor_id`),
   KEY `FK_uplate_korisnici` (`korisnik_id`),
@@ -303,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `uplate` (
   CONSTRAINT `FK_uplate_ugovori` FOREIGN KEY (`ugovor_id`) REFERENCES `ugovori` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rezervacije.uplate: ~5 rows (approximately)
+-- Dumping data for table rezervacije.uplate: ~6 rows (approximately)
 DELETE FROM `uplate`;
 /*!40000 ALTER TABLE `uplate` DISABLE KEYS */;
 INSERT INTO `uplate` (`id`, `ugovor_id`, `datum`, `iznos`, `nacin_placanja`, `opis`, `korisnik_id`, `created_at`) VALUES

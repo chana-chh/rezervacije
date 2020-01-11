@@ -233,6 +233,7 @@
         </div>
       </div>
        <hr>
+      {# CHEKBOXOVI POCETAK #}
       <div class="form-row">
         <div class="col-md-3">
           <i class="fas fa-tasks fa-lg text-info"></i>
@@ -249,136 +250,249 @@
         </div>
       </div>
        <div class="form-row">
-        <div class="form-group col-md-2">
-          <label class="mt-4 pl-5">
+        <div class="form-group col-md-1">
+          Muzika<br>
+          <label class="pl-4">
                 <input
                   type="checkbox"
                   name="muzika_chk"
                   id="muzika_chk"
-                  class="cekiraj form-check-input{{ errors.muzika_chk[0] ? ' is-invalid' : '' }}"
+                  class="mt-0 cekiraj form-check-input{{ errors.muzika_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
                   {{ (old.muzika_chk or ugovor.muzika_chk) ? 'checked' : '' }}>
-                Muzika
           </label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <label for="muzika_ugovor">Muzika ugovor</label>
           <input type="text" class="form-control" name="muzika_ugovor" id="muzika_ugovor" value="{{ old.muzika_ugovor ? : ugovor.muzika_ugovor }}" autocomplete="off">
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-3">
+          <label for="muzika_iznos">Muzika iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.muzika_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="muzika_iznos"
+            id="muzika_iznos"
+            value="{{ old.muzika_iznos ? : ugovor.muzika_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.muzika_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-5">
           <label for="muzika_opis">Muzika opis</label>
           <input type="text" class="form-control" name="muzika_opis" id="muzika_opis" value="{{ old.muzika_opis ? : ugovor.muzika_opis }}" autocomplete="off">
         </div>
       </div>
       <div class="form-row bg-light">
-        <div class="form-group col-md-2">
-          <label class="mt-4 pl-5">
+        <div class="form-group col-md-1">
+          Fotograf<br>
+          <label class="pl-4">
                 <input
                   type="checkbox"
                   name="fotograf_chk"
                   id="fotograf_chk"
-                  class="cekiraj form-check-input{{ errors.fotograf_chk[0] ? ' is-invalid' : '' }}"
+                  class="mt-0 cekiraj form-check-input{{ errors.fotograf_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
                   {{ (old.fotograf_chk or ugovor.fotograf_chk) ? 'checked' : '' }}>
-                Fotograf
           </label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
+          <label for="fotograf_iznos">Fotograf iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.fotograf_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="fotograf_iznos"
+            id="fotograf_iznos"
+            value="{{ old.fotograf_iznos ? : ugovor.fotograf_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.fotograf_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
           <label for="fotograf_opis">Fotograf opis</label>
           <input type="text" class="form-control" name="fotograf_opis" id="fotograf_opis" value="{{ old.fotograf_opis ? : ugovor.fotograf_opis }}" autocomplete="off">
         </div>
-        <div class="form-group col-md-2">
-          <label class="mt-4 pl-5">
+        <div class="form-group col-md-1">
+        Torta<br>
+          <label class="pl-4">
                 <input
                   type="checkbox"
                   name="torta_chk"
                   id="torta_chk"
-                  class="cekiraj form-check-input{{ errors.torta_chk[0] ? ' is-invalid' : '' }}"
+                  class="mt-0 cekiraj form-check-input{{ errors.torta_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
                   {{ (old.torta_chk or ugovor.torta_chk) ? 'checked' : '' }}>
-                Torta
           </label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
+          <label for="torta_iznos">Torta iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.torta_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="torta_iznos"
+            id="torta_iznos"
+            value="{{ old.torta_iznos ? : ugovor.torta_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.torta_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
           <label for="torta_opis">Torta opis</label>
           <input type="text" class="form-control" name="torta_opis" id="torta_opis" value="{{ old.torta_opis ? : ugovor.torta_opis }}" autocomplete="off">
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group col-md-2">
-          <label class="mt-4 pl-5">
+        <div class="form-group col-md-1">
+        <small>Dekoracija</small><br>
+          <label class="pl-4">
                 <input
                   type="checkbox"
                   name="dekoracija_chk"
                   id="dekoracija_chk"
-                  class="cekiraj form-check-input{{ errors.dekoracija_chk[0] ? ' is-invalid' : '' }}"
+                  class="mt-0 cekiraj form-check-input{{ errors.dekoracija_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
                   {{ (old.dekoracija_chk or ugovor.dekoracija_chk) ? 'checked' : '' }}>
-                Dekoracija
           </label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
+          <label for="dekoracija_iznos">Dekoracija iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.dekoracija_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="dekoracija_iznos"
+            id="dekoracija_iznos"
+            value="{{ old.dekoracija_iznos ? : ugovor.dekoracija_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.dekoracija_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
           <label for="dekoracija_opis">Dekoracija opis</label>
           <input type="text" class="form-control" name="dekoracija_opis" id="dekoracija_opis" value="{{ old.dekoracija_opis ? : ugovor.dekoracija_opis }}" autocomplete="off">
         </div>
-        <div class="form-group col-md-2">
-          <label class="mt-4 pl-5">
+        <div class="form-group col-md-1">
+          Kokteli<br>
+          <label class="pl-4">
+
                 <input
                   type="checkbox"
                   name="kokteli_chk"
                   id="kokteli_chk"
-                  class="cekiraj form-check-input{{ errors.kokteli_chk[0] ? ' is-invalid' : '' }}"
+                  class="mt-0 cekiraj form-check-input{{ errors.kokteli_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
                   {{ (old.kokteli_chk or ugovor.kokteli_chk) ? 'checked' : '' }}>
-                Kokteli
           </label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
+          <label for="kokteli_iznos">Kokteli iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.kokteli_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="kokteli_iznos"
+            id="kokteli_iznos"
+            value="{{ old.kokteli_iznos ? : ugovor.kokteli_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.kokteli_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
           <label for="kokteli_opis">Kokteli opis</label>
           <input type="text" class="form-control" name="kokteli_opis" id="kokteli_opis" value="{{ old.kokteli_opis ? : ugovor.kokteli_opis }}" autocomplete="off">
         </div>
       </div>
       <div class="form-row bg-light">
-        <div class="form-group col-md-2">
-          <label class="mt-4 pl-5">
+        <div class="form-group col-md-1">
+        Slatki sto<br>
+          <label class="pl-4">
                 <input
                   type="checkbox"
                   name="slatki_sto_chk"
                   id="slatki_sto_chk"
-                  class="cekiraj form-check-input{{ errors.slatki_sto_chk[0] ? ' is-invalid' : '' }}"
+                  class="mt-0 cekiraj form-check-input{{ errors.slatki_sto_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
                   {{ (old.slatki_sto_chk or ugovor.slatki_sto_chk) ? 'checked' : '' }}>
-                Slatki sto
           </label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
+          <label for="slatki_sto_iznos">Slatki sto iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.slatki_sto_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="slatki_sto_iznos"
+            id="slatki_sto_iznos"
+            value="{{ old.slatki_sto_iznos ? : ugovor.slatki_sto_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.slatki_sto_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
           <label for="slatki_sto_opis">Slatki sto opis</label>
           <input type="text" class="form-control" name="slatki_sto_opis" id="slatki_sto_opis" value="{{ old.slatki_sto_opis ? : ugovor.slatki_sto_opis }}" autocomplete="off">
         </div>
-        <div class="form-group col-md-2">
-          <label class="mt-4 pl-5">
+        <div class="form-group col-md-1">
+        Voćni sto<br>
+          <label class="pl-4">
                 <input
                   type="checkbox"
                   name="vocni_sto_chk"
                   id="vocni_sto_chk"
-                  class="cekiraj form-check-input{{ errors.vocni_sto_chk[0] ? ' is-invalid' : '' }}"
+                  class="mt-0 cekiraj form-check-input{{ errors.vocni_sto_chk[0] ? ' is-invalid' : '' }}"
                   value="1"
                   {{ (old.vocni_sto_chk or ugovor.vocni_sto_chk) ? 'checked' : '' }}>
-                Voćni sto
           </label>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
+          <label for="vocni_sto_iznos">Voćni sto iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.vocni_sto_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="vocni_sto_iznos"
+            id="vocni_sto_iznos"
+            value="{{ old.vocni_sto_iznos ? : ugovor.vocni_sto_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.vocni_sto_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
           <label for="vocni_sto_opis">Voćni sto opis</label>
           <input type="text" class="form-control" name="vocni_sto_opis" id="vocni_sto_opis" value="{{ old.vocni_sto_opis ? : ugovor.vocni_sto_opis }}" autocomplete="off">
         </div>
       </div>
       <hr>
       <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-5">
           <label for="posebni_zahtevi">Posebni zahtevi</label>
           <textarea class="form-control" name="posebni_zahtevi" id="posebni_zahtevi" rows="3">{{ old.posebni_zahtevi ?  : ugovor.posebni_zahtevi }}</textarea>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
+          <label for="posebni_zahtevi_iznos">Posebni zahtevi iznos</label>
+          <input
+            type="number"
+            class="form-control{{ errors.posebni_zahtevi_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="posebni_zahtevi_iznos"
+            id="posebni_zahtevi_iznos"
+            value="{{ old.posebni_zahtevi_iznos ? : ugovor.posebni_zahtevi_iznos }}"
+            min="0" step="0.01"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.posebni_zahtevi_iznos[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-5">
           <label for="napomena">Napomena</label>
           <textarea class="form-control" name="napomena" id="napomena" rows="3">{{ old.napomena ?  : ugovor.napomena }}</textarea>
         </div>

@@ -97,7 +97,8 @@
 						<th class="w-5">#</th>
 						<th class="w-20">Usluga</th>
 						<th class="w-15 text-center">Status</th>
-						<th class="w-60">Opis</th>
+						<th class="w-30">Opis</th>
+						<th class="w-30">Iznos</th>
 					</tr>
     			</thead>
 					<tbody>
@@ -108,6 +109,7 @@
 							{{ (ugovor.muzika_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
 						</td>
 						<td>{{ ugovor.muzika_opis }}</td>
+						<td class="text-success">{{ ugovor.muzika_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
 					<tr>
 						<th>2</th>
@@ -116,6 +118,7 @@
 							{{ (ugovor.fotograf_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
 						</td>
 						<td>{{ ugovor.fotograf_opis }}</td>
+						<td class="text-success">{{ ugovor.fotograf_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
 					<tr>
 						<th>3</th>
@@ -124,6 +127,7 @@
 							{{ (ugovor.torta_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
 						</td>
 						<td>{{ ugovor.torta_opis }}</td>
+						<td class="text-success">{{ ugovor.torta_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
 					<tr>
 						<th>4</th>
@@ -132,6 +136,7 @@
 							{{ (ugovor.dekoracija_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
 						</td>
 						<td>{{ ugovor.dekoracija_opis }}</td>
+						<td class="text-success">{{ ugovor.dekoracija_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
 					<tr>
 						<th>5</th>
@@ -140,6 +145,7 @@
 							{{ (ugovor.kokteli_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
 						</td>
 						<td>{{ ugovor.kokteli_opis }}</td>
+						<td class="text-success">{{ ugovor.kokteli_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
 					<tr>
 						<th>6</th>
@@ -148,6 +154,7 @@
 							{{ (ugovor.slatki_sto_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
 						</td>
 						<td>{{ ugovor.slatki_sto_opis }}</td>
+						<td class="text-success">{{ ugovor.slatki_sto_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
 					<tr>
 						<th>7</th>
@@ -156,6 +163,7 @@
 							{{ (ugovor.vocni_sto_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
 						</td>
 						<td>{{ ugovor.vocni_sto_opis }}</td>
+						<td class="text-success">{{ ugovor.vocni_sto_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
 					</tbody>
   				</table>

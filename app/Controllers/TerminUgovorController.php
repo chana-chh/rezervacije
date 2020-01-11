@@ -72,6 +72,14 @@ class TerminUgovorController extends Controller
             'kokteli_chk' => ['required' => true,],
             'slatki_sto_chk' => ['required' => true,],
             'vocni_sto_chk' => ['required' => true,],
+            'muzika_iznos' => ['required' => true,],
+            'fotograf_iznos' => ['required' => true,],
+            'torta_iznos' => ['required' => true,],
+            'dekoracija_iznos' => ['required' => true,],
+            'kokteli_iznos' => ['required' => true,],
+            'slatki_sto_iznos' => ['required' => true,],
+            'vocni_sto_iznos' => ['required' => true,],
+            'posebni_zahtevi_iznos' => ['required' => true,]
         ];
 
         $this->validator->validate($data, $validation_rules);
@@ -164,6 +172,14 @@ class TerminUgovorController extends Controller
             'kokteli_chk' => ['required' => true,],
             'slatki_sto_chk' => ['required' => true,],
             'vocni_sto_chk' => ['required' => true,],
+            'muzika_iznos' => ['required' => true,],
+            'fotograf_iznos' => ['required' => true,],
+            'torta_iznos' => ['required' => true,],
+            'dekoracija_iznos' => ['required' => true,],
+            'kokteli_iznos' => ['required' => true,],
+            'slatki_sto_iznos' => ['required' => true,],
+            'vocni_sto_iznos' => ['required' => true,],
+            'posebni_zahtevi_iznos' => ['required' => true,]
         ];
 
         $this->validator->validate($data, $validation_rules);

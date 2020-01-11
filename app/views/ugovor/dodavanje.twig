@@ -477,18 +477,18 @@
           <textarea class="form-control" name="posebni_zahtevi" id="posebni_zahtevi" rows="3">{{ old.posebni_zahtevi ?  : '' }}</textarea>
         </div>
         <div class="form-group col-md-2">
-          <label for="posebni_iznos">Posebni zahtevi iznos</label>
+          <label for="posebni_zahtevi_iznos">Posebni zahtevi iznos</label>
           <input
             type="number"
-            class="form-control{{ errors.posebni_iznos[0] ? ' is-invalid' : '' }} dodatna"
-            name="posebni_iznos"
-            id="posebni_iznos"
-            value="{{ old.posebni_iznos ? : 0.00 }}"
+            class="form-control{{ errors.posebni_zahtevi_iznos[0] ? ' is-invalid' : '' }} dodatna"
+            name="posebni_zahtevi_iznos"
+            id="posebni_zahtevi_iznos"
+            value="{{ old.posebni_zahtevi_iznos ? : 0.00 }}"
             min="0" step="0.01"
             autocomplete="off"
             required>
           <div class="valid-feedback">Odgovarajući podatak</div>
-          <div class="invalid-feedback">{{ errors.posebni_iznos[0] ? : 'Obavezno polje' }}</div>
+          <div class="invalid-feedback">{{ errors.posebni_zahtevi_iznos[0] ? : 'Obavezno polje' }}</div>
         </div>
         <div class="form-group col-md-5">
           <label for="napomena">Napomena</label>
@@ -535,8 +535,8 @@
       <div class="col-lg-6">
         <h5 class="text-primary">Preporučena cena (iznos)</h5>
       </div>
-      <div class="col-lg-6">
-        <div class="btn-group btn-block">
+      <div class="col-lg-6 text-right">
+        <div class="btn-group">
           <button class="btn btn-sm btn-primary" id="dugme-prebaci-iznos">
             <i class="fas fa-angle-left"></i>
             Prebaci iznos
@@ -548,28 +548,47 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-5">
+      <div class="col-lg-6 pt-2">
+        <h6 class="text-info">Cena menija</h6>
+      </div>
+      <div class="col-lg-6">
         <input
           type="number"
           class="form-control"
           name="preporucena"
           id="preporucena"
           value="0" min="0" step="0.01"
-          autocomplete="off">
-        <small class="text-info">(broj mesta * cena menija)</small>
+          autocomplete="off" readonly>
+          <small class="text-info">(broj mesta * cena menija)</small>
       </div>
-      <div class="col-lg-2 text-center">
-        <i class="fas fa-plus-square mt-3 text-success"></i>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 pt-2">
+        <h6 class="text-info">Cena usluga</h6>
       </div>
-      <div class="col-lg-5">
+      <div class="col-lg-6">
         <input
           type="number"
           class="form-control"
           name="dodatno"
           id="dodatno"
           value="0" min="0" step="0.01"
-          autocomplete="off">
-        <small class="text-info">(dodatne usluge)</small>
+          autocomplete="off" readonly>
+          <small class="text-info">(dodatne usluge)</small>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 pt-2">
+        <h6 class="text-success">Ukupna cena</h6>
+      </div>
+      <div class="col-lg-6">
+        <input
+          type="number"
+          class="form-control"
+          name="cena_ukupna"
+          id="cena_ukupna"
+          value="0" min="0" step="0.01"
+          autocomplete="off" readonly>
       </div>
     </div>
     <hr>
@@ -698,7 +717,7 @@
         const ko = $('#kokteli_iznos').val();
         const vs = $('#vocni_sto_iznos').val();
         const ss = $('#slatki_sto_iznos').val();
-        const po = $('#posebni_iznos').val();
+        const po = $('#posebni_zahtevi_iznos').val();
 
         let muz = (mu === undefined) ? 0 : parseFloat(mu);
         let fot = (fo === undefined) ? 0 : parseFloat(fo);
