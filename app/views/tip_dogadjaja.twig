@@ -36,7 +36,7 @@
   <table class="table mobilni">
     <thead class="thead-dark">
       <tr>
-        <th class="w-10" scope="col">#</th>
+        <th class="w-10" scope="col">ID</th>
         <th class="w-50" scope="col">Tip</th>
         <th class="w-20" scope="col"><small>Više ugovora u jednom terminu</small></th>
         <th class="w-20" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
@@ -45,7 +45,7 @@
     <tbody>
       {% for tip in tipovi %}
       <tr>
-        <th scope="row">{{ loop.index }}</th>
+        <th scope="row" class="text-danger">{{ tip.id }}</th>
         <td>{{ tip.tip }}</td>
         <td class="text-center">
             <span title="Moguće je imati više ugovora u jednom terminu" style="color: #5cb85c;">

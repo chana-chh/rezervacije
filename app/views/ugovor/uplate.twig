@@ -89,7 +89,7 @@
         <table class="table table-sm table-striped">
           <thead class="thead-dark">
             <tr>
-              <th class="w-5">#</th>
+              <th class="w-5">ID</th>
               <th class="w-20">Datum</th>
               <th class="w-20">Iznos</th>
               <th class="w-20">Način plaćanja</th>
@@ -102,7 +102,7 @@
           <tbody>
             {% for uplata in ugovor.uplate %}
             <tr>
-              <th>{{ loop.index }}</th>
+              <th class="text-danger">{{ uplata.id }}</th>
               <td><strong>{{ uplata.datum|date }}</strong></td>
               <td>{{ uplata.iznos|number_format }}</td>
               <td>{{ uplata.nacin_placanja }}</td>

@@ -13,4 +13,9 @@ class Meni extends Model
     {
         return $this->hasMany('App\Models\Ugovor', 'meni_id');
     }
+
+    public function korisnik()
+    {
+        return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
+    }
 }

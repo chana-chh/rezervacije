@@ -71,7 +71,7 @@
 <table class="table">
   <thead class="thead-dark">
     <tr>
-      <th class="w-5" scope="col">#</th>
+      <th class="w-5" scope="col">ID</th>
       <th class="w-15" scope="col">Broj ugovora</th>
       <th class="w-10" scope="col">Iznos</th>
       <th class="w-10" scope="col">Kapara</th>
@@ -86,7 +86,7 @@
   <tbody>
     {% for ugovor in ugovori.data %}
     <tr>
-      <th scope="row">{{ loop.index }}</th>
+      <th scope="row" class="text-danger">{{ ugovor.id }}</th>
       <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
       <td class="text-info"><strong>{{ ugovor.iznos | number_format(2, '.', ',') }}</strong></td>
       <td class="text-success"><strong>{{ ugovor.kapara | number_format(2, '.', ',') }}</strong></td>

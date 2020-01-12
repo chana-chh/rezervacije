@@ -13,4 +13,9 @@ class Sala extends Model
     {
         return $this->hasMany('App\Models\Termin', 'sala_id');
     }
+
+    public function korisnik()
+    {
+        return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
+    }
 }

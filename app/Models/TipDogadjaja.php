@@ -13,4 +13,9 @@ class TipDogadjaja extends Model
     {
         return $this->hasMany('App\Models\Termin', 'tip_dogadjaja_id');
     }
+
+    public function korisnik()
+    {
+        return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
+    }
 }
