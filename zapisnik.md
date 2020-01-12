@@ -1,7 +1,5 @@
 # TODO
 
-Dodati relacije koje nedostaju u modelima
-
 !!! POSTO CE BITI GOMILA DOKUMENATA (predpostavljam) PROVERITI KOLIKO PROSTORA DAJE PROVIDER !!!
 
 ### PODSETNIK
@@ -14,6 +12,9 @@ multi uvek zakljucan
 
 - kod izmene uplate zabraniti promenu opisa ako je opis kapara (moze samo da se promeni iznos ili obrise cela uplata) ???
 
+<<<<<<< HEAD
 - !!! kod pregleda ugovora sa uplatama obavezno dodati dodatne usluge zbog uporedjivanja uplata i usluga !!!
 
+=======
+>>>>>>> 396cea61e9fc165d2779d3788ca1c1a45d6106e0
 ## DATABASE

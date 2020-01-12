@@ -90,7 +90,7 @@
 <table class="table table-hover table-sm">
   <thead class="thead-dark">
     <tr>
-      <th class="w-3" scope="col">#</th>
+      <th class="w-3" scope="col">ID</th>
       <th class="w-11" scope="col">Naziv</th>
       <th class="w-7" scope="col">Cena</th>
       <th class="w-10" scope="col">Hladno predjelo</th>
@@ -106,7 +106,7 @@
   <tbody>
     {% for me in meni.data %}
     <tr>
-      <th scope="row">{{ loop.index }}</th>
+      <th scope="row" class="text-danger">{{ me.id }}</th>
       <td><strong class="text-info napomena_tool" data-toggle="napomena_tool" 
         title="Napomena:" data-content="{{ me.napomena }}">
                     {{ me.naziv }}

@@ -36,7 +36,7 @@
   <table class="table mobilni">
     <thead class="thead-dark">
       <tr>
-        <th class="w-5" scope="col">#</th>
+        <th class="w-5" scope="col">ID</th>
         <th class="w-20" scope="col">Naziv</th>
         <th class="w-15" scope="col">Kapacitet (mesta)</th>
         <th class="w-15" scope="col">Kapacitet (stolovi)</th>
@@ -47,7 +47,7 @@
     <tbody>
       {% for sala in sale %}
       <tr>
-        <th scope="row">{{ loop.index }}</th>
+        <th scope="row" class="text-danger">{{ sala.id }}</th>
         <td><strong>{{ sala.naziv }}</strong></td>
         <td>{{ sala.max_kapacitet_mesta }}</td>
         <td>{{ sala.max_kapacitet_stolova }}</td>

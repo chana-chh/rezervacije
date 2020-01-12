@@ -19,4 +19,39 @@ class Korisnik extends Model
     {
         return $this->hasMany('App\Models\Log', 'korisnik_id');
     }
+
+    public function dokumenti()
+    {
+        return $this->hasMany('App\Models\Dokument', 'korisnik_id');
+    }
+
+    public function sale()
+    {
+        return $this->hasMany('App\Models\Sala', 'korisnik_id');
+    }
+
+    public function meniji()
+    {
+        return $this->hasMany('App\Models\Meni', 'korisnik_id');
+    }
+
+    public function tipoviDogadjaja()
+    {
+        return $this->hasMany('App\Models\TipDogadjaja', 'korisnik_id');
+    }
+
+    public function termini()
+    {
+        return $this->hasMany('App\Models\Termin', 'korisnik_id');
+    }
+
+    public function ugovori()
+    {
+        return $this->hasMany('App\Models\Ugovor', 'korisnik_id');
+    }
+
+    public function uplate()
+    {
+        return $this->hasMany('App\Models\Uplata', 'korisnik_id');
+    }
 }

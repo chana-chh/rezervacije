@@ -101,7 +101,7 @@
 <table class="table mobilni">
   <thead class="thead-dark">
     <tr>
-      <th class="w-5" scope="col">#</th>
+      <th class="w-5" scope="col">ID</th>
       <th class="w-35" scope="col">Opis</th>
       <th class="w-20" scope="col">Tip</th>
       <th class="w-20" scope="col">Korisnik</th>
@@ -111,7 +111,7 @@
   <tbody>
     {% for log in logovi.data %}
     <tr>
-      <th scope="row">{{ loop.index }}</th>
+      <th scope="row" class="text-danger">{{ log.id }}</th>
       <td>{{ log.opis }}</td>
       <td>{{ log.tip }}</td>
       <td>{{ log.korisnik.ime }}</td>
