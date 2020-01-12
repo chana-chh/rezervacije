@@ -145,7 +145,7 @@ $("#kalendar").fullCalendar({
           element.find('.fc-time').hide();
           element.find('.fc-title').html(`<h5 class="mt-4 mx-4"><strong><i class="${event.description}"></i>&emsp;${event.title}<br> 
           <small>&emsp;od ${event.start.format("HH:mm")} do ${event.end.format("HH:mm")}</small>
-          </strong></h5><h6 class="font-italic mt-4 mx-4">&emsp;${event.advancedDetalj}</h6>`);
+          </strong></h5><h6 class="font-italic mt-4 mx-4">&emsp;${event.advancedTitle}</h6>`);
         }
         if (view.name == "month"){
             element.tooltip({
