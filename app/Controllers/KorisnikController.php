@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \App\Models\Korisnik;
 Use App\Classes\Nivo;
+use App\Classes\Logger;
 
 class KorisnikController extends Controller
 {
@@ -67,6 +68,8 @@ class KorisnikController extends Controller
             unset($data['lozinka_potvrda']);
             $data['lozinka'] = password_hash($data['lozinka'], PASSWORD_BCRYPT);
             $modelKorisnik->insert($data);
+            $korisnik = $modelKorisnik->find($modelKorisnik->lastId());
+            $this->log(Logger::DODAVANJE, $korisnik, 'ime');
             return $response->withRedirect($this->router->pathFor('admin.korisnik.lista'));
         }
     }
@@ -75,8 +78,10 @@ class KorisnikController extends Controller
     {
         $id = (int)$request->getParam('idBrisanje');
         $model = new Korisnik();
+        $korisnik = $model->find($id);
         $success = $model->deleteOne($id);
         if ($success) {
+            $this->log(Logger::BRISANJE, $korisnik, 'ime');
             $this->flash->addMessage('success', "Korisnik je uspešno obrisan.");
             return $response->withRedirect($this->router->pathFor('admin.korisnik.lista'));
         } else {
@@ -179,6 +184,8 @@ class KorisnikController extends Controller
                 unset($datam['lozinka']);
             }
             $modelKorisnik->update($datam, $id);
+            $korisnik = $modelKorisnik->find($id);
+            $this->log(Logger::IZMENA, $korisnik, 'ime');
             return $response->withRedirect($this->router->pathFor('admin.korisnik.lista'));
         }
     }

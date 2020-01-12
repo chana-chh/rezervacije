@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Meni;
-use App\Models\Log;
 Use App\Classes\Db;
 use App\Classes\Auth;
+use App\Classes\Logger;
 
 class MeniController extends Controller
 {
@@ -170,14 +170,9 @@ class MeniController extends Controller
             $this->flash->addMessage('success', 'Nov meni je uspešno dodat.');
             $modelMenija = new Meni();
             $modelMenija->insert($data);
-
             $id_menija = $modelMenija->lastId();
-            $modelLog= new Log();
-            $k = new Auth();
-            $id_korisnika = $k->user()->id;
-            $ime_korisnika = $k->user()->ime;
             $meni = $modelMenija->find($id_menija);
-            $modelLog->insert(['opis' => $ime_korisnika." je dodao meni ".$meni->naziv." sa id brojem ".$id_menija,  'tip' => "dodavanje", 'korisnik_id' => $id_korisnika]);
+            $this->log(Logger::DODAVANJE, $meni, 'naziv');
             return $response->withRedirect($this->router->pathFor('meni'));
         }
     }
@@ -187,18 +182,10 @@ class MeniController extends Controller
         $id = (int)$request->getParam('idBrisanje');
         $modelMenija = new Meni();
         $meni = $modelMenija->find($id);
-        $naziv_menija = $meni->naziv;
         $success = $modelMenija->deleteOne($id);
         if ($success) {
             $this->flash->addMessage('success', "Meni je uspešno obrisan.");
-
-            $modelLog= new Log();
-            $k = new Auth();
-            $id_korisnika = $k->user()->id;
-            $ime_korisnika = $k->user()->ime;
-            
-            $modelLog->insert(['opis' => $ime_korisnika." je obrisao meni ".$naziv_menija." sa id brojem ".$id,  'tip' => "brisanje", 'korisnik_id' => $id_korisnika]);
-
+            $this->log(Logger::BRISANJE, $meni, 'naziv');
             return $response->withRedirect($this->router->pathFor('meni'));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja menija.");
@@ -252,16 +239,8 @@ class MeniController extends Controller
             $this->flash->addMessage('success', 'Podaci menija su uspešno izmenjeni.');
             $model = new Meni();
             $model->update($data, $id);
-
             $meni = $model->find($id);
-            $naziv_menija = $meni->naziv;
-
-            $modelLog= new Log();
-            $k = new Auth();
-            $id_korisnika = $k->user()->id;
-            $ime_korisnika = $k->user()->ime;
-            
-            $modelLog->insert(['opis' => $ime_korisnika." je izmenio podatke o meniju ".$naziv_menija." sa id brojem ".$id,  'tip' => "izmena", 'korisnik_id' => $id_korisnika]);
+            $this->log(Logger::IZMENA, $meni, 'naziv');
             return $response->withRedirect($this->router->pathFor('meni'));
         }
     }

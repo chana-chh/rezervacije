@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\TipDogadjaja;
-use App\Models\Log;
+use App\Classes\Logger;
 Use App\Classes\Db;
 use App\Classes\Auth;
 
@@ -53,14 +53,9 @@ class TipDogadjajaController extends Controller
             $this->flash->addMessage('success', 'Nov tip događaja je uspešno dodat.');
             $model = new TipDogadjaja();
             $model->insert($data);
-
             $id_tipa = $model->lastId();
-            $modelLog= new Log();
-            $k = new Auth();
-            $id_korisnika = $k->user()->id;
-            $ime_korisnika = $k->user()->ime;
             $tip_dogadjaja = $model->find($id_tipa);
-            $modelLog->insert(['opis' => $ime_korisnika." je dodao tip događaja ".$tip_dogadjaja->tip." sa id brojem ".$id_tipa,  'tip' => "dodavanje", 'korisnik_id' => $id_korisnika]);
+            $this->log(Logger::DODAVANJE, $tip_dogadjaja, 'tip');
             return $response->withRedirect($this->router->pathFor('tip_dogadjaja'));
         }
     }
@@ -70,18 +65,10 @@ class TipDogadjajaController extends Controller
         $id = (int)$request->getParam('idBrisanje');
         $model = new TipDogadjaja();
         $tip_dogadjaja = $model->find($id);
-        $naziv_tipa = $tip_dogadjaja->tip;
         $success = $model->deleteOne($id);
         if ($success) {
             $this->flash->addMessage('success', "Tip događaja je uspešno obrisan.");
-
-            $modelLog= new Log();
-            $k = new Auth();
-            $id_korisnika = $k->user()->id;
-            $ime_korisnika = $k->user()->ime;
-            
-            $modelLog->insert(['opis' => $ime_korisnika." je obrisao tip događaja ".$naziv_tipa." sa id brojem ".$id,  'tip' => "brisanje", 'korisnik_id' => $id_korisnika]);
-
+            $this->log(Logger::BRISANJE, $tip_dogadjaja, 'tip');
             return $response->withRedirect($this->router->pathFor('tip_dogadjaja'));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja tipa događaja.");
@@ -135,16 +122,8 @@ class TipDogadjajaController extends Controller
             $this->flash->addMessage('success', 'Podaci o tipu događaja su uspešno izmenjeni.');
             $model = new TipDogadjaja();
             $model->update($datam, $id);
-
             $tip_dogadjaja = $model->find($id);
-            $naziv_tipa = $tip_dogadjaja->tip;
-
-            $modelLog= new Log();
-            $k = new Auth();
-            $id_korisnika = $k->user()->id;
-            $ime_korisnika = $k->user()->ime;
-            
-            $modelLog->insert(['opis' => $ime_korisnika." je izmenio podatke o tipu događaja ".$naziv_tipa." sa id brojem ".$id,  'tip' => "izmena", 'korisnik_id' => $id_korisnika]);
+            $this->log(Logger::IZMENA, $tip_dogadjaja, 'tip');
             return $response->withRedirect($this->router->pathFor('tip_dogadjaja'));
         }
     }

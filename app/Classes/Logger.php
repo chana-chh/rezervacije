@@ -9,10 +9,10 @@ class Logger
 {
     private $korisnik;
     private $model;
-    public const DODAVANJE = "dodavanje";
-    public const IZMENA = "izmena";
-    public const BRISANJE = "brisanje";
-    public const UPLOAD = "upload";
+    const DODAVANJE = "dodavanje";
+    const IZMENA = "izmena";
+    const BRISANJE = "brisanje";
+    const UPLOAD = "upload";
 
     public function __construct($korisnik)
     {

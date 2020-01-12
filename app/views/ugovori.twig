@@ -32,7 +32,7 @@
             value="{{ data.broj_ugovora }}" autocomplete="off" placeholder="... broj ugovora">
         </div>
         <div class="form-group col-md-2">
-          <label for="termin_id">Termini</label>
+          <label for="termin_id">Termini (opis)</label>
           <select class="custom-select mb-2" name="termin_id" id="termin_id" class="form-control">
             <option value=""></option>
             {% for termin in termini %}
@@ -54,6 +54,24 @@
         <div class="form-group col-md-2">
           <label for="tip">Datum: </label>
           <input type="date" name="datum" id="datum" class="form-control">
+        </div>
+        </div>
+
+        <div class="form-row">
+        <div class="form-group col-md-2">
+        <label for="email">E-mail: </label>
+        <input type="text" name="email" id="email" class="form-control"
+            value="{{ data.email }}" autocomplete="off" placeholder="... email">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="telefon">Telefon: </label>
+          <input type="text" name="telefon" id="telefon" class="form-control"
+            value="{{ data.telefon }}" autocomplete="off" placeholder="... telefon">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="napomena">Napomena: </label>
+          <input type="text" name="napomena" id="napomena" class="form-control"
+            value="{{ data.napomena }}" autocomplete="off" placeholder="... napomena">
         </div>
         <div class="col-md-4 text-right mt-4">
         <div class="btn-group">
