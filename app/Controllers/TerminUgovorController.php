@@ -237,7 +237,8 @@ class TerminUgovorController extends Controller
                 'required' => true
             ],
             'iznos' => [
-                'required' => true
+                'required' => true,
+                'min' => 1
             ],
             'nacin_placanja' => [
                 'required' => true
