@@ -186,7 +186,9 @@ naslov %}
           <div class="btn-group btn-group-sm">
             <a
               class="btn btn-success"
-              href="{{ path_for('termin.ugovor.detalj.get', { id: ugovor.id }) }}"
+              href="{{
+                path_for('termin.ugovor.detalj.get', { id: ugovor.id })
+              }}"
               title="Detaljni pregled odabranog ugovora"
             >
               <i class="fas fa-eye"></i>
@@ -209,6 +211,12 @@ naslov %}
             >
               <i class="fas fa-trash-alt"></i>
             </button>
+            <a
+              class="btn btn-info btn-sm"
+              href="{{ path_for('ugovor.uplate.lista', { id: ugovor.id }) }}"
+              class="btn btn-success"
+              ><i class="fas fa-money-bill"></i
+            ></a>
           </div>
         </td>
       </tr>
