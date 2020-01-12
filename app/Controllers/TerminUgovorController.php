@@ -7,7 +7,6 @@ use App\Models\Ugovor;
 use App\Models\Termin;
 use App\Models\Meni;
 use App\Models\Uplata;
-Use App\Classes\Nacin;
 
 class TerminUgovorController extends Controller
 {
@@ -268,29 +267,13 @@ class TerminUgovorController extends Controller
 
     public function postUplataDetalj($request, $response)
     {
-            $nivoG = new Nacin();
-            $nivoG->vrednost = "gotovina";
-            $nivoG->naziv = "Gotovina";
-
-            $nivoK = new Nacin();
-            $nivoK->vrednost = "kartica";
-            $nivoK->naziv = "Kartica";
-
-            $nivoC = new Nacin();
-            $nivoC->vrednost = "ček";
-            $nivoC->naziv = "Ček";
-
-            $nivoF = new Nacin();
-            $nivoF->vrednost = "faktura";
-            $nivoF->naziv = "Faktura";
-
-            $nacini = [$nivoG, $nivoK, $nivoC, $nivoF];
 
             $data = $request->getParams();
             $cName = $this->csrf->getTokenName();
             $cValue = $this->csrf->getTokenValue();
             $id = $data['id'];
             $model_uplate = new Uplata();
+            $nacini = $model_uplate->enumOrSetList('nacin_placanja');
             $uplata = $model_uplate->find($id);
             $ar = ["cname" => $cName, "cvalue"=>$cValue, "uplata"=>$uplata, "nacini"=>$nacini];
             return $response->withJson($ar);

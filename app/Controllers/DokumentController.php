@@ -50,4 +50,36 @@ class DokumentController extends Controller
             return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $data['ugovor_id']]));
         }
     }
+
+        public function postDokumentiBrisanje($request, $response)
+    {
+        $id = (int)$request->getParam('modal_dokument_id');
+        $ugovor_id = (int)$request->getParam('modal_dokument_ugovor_id');
+        $modelDokument = new Dokument();
+        $dok = $modelDokument->find($id);
+        $tmp = explode('/', $dok->link);
+        $file = DIR . 'pub' . DS . 'doc' . DS . end($tmp);
+        //dd($file);
+        $success = $modelDokument->deleteOne($id);
+        if ($success) {
+            unlink($file);
+            $this->flash->addMessage('success', "Dokument je uspešno obrisan.");
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+        } else {
+            $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja dokumenta.");
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+        }
+    }
+
+    public function postDokumentDetalj($request, $response)
+    {
+            $data = $request->getParams();
+            $cName = $this->csrf->getTokenName();
+            $cValue = $this->csrf->getTokenValue();
+            $id = $data['id'];
+            $modelDokument = new Dokument();
+            $dokument = $modelDokument->find($id);
+            $ar = ["cname" => $cName, "cvalue"=>$cValue, "dokument"=>$dokument];
+            return $response->withJson($ar);
+    }
 }
