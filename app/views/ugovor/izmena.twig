@@ -652,18 +652,10 @@
       const slobodnaMesta = parseInt("{{ termin.slobodnaMesta() }}") + pocetnaMesta;
       const slobodniStolovi = parseInt("{{ termin.slobodniStolovi() }}") + pocetniStolovi;
 
-      let provera = true;
+      var provera = true;
 
       $('#cekiraj_sve').click(function () {
         $(':checkbox.cekiraj').not(this).prop('checked', this.checked);
-      });
-
-      $("#dugme-submit").click(function(event) {
-        event.preventDefault();
-        if(provera){
-          $('#forma').submit();
-        }
-        return false;
       });
 
       $("#dugme-izracunaj-iznos").click(function(event) {
@@ -743,7 +735,7 @@
           cenaUsluga += parseFloat($("#vocni_sto_iznos").val());
         }
 
-        if($("#posebni_zahtevi_iznos").val() !== ""){
+        if($("#posebni_zahtevi_iznos").val() !== "" && $("#posebni_zahtevi").val() !== ""){
           cenaUsluga += parseFloat($("#posebni_zahtevi_iznos").val());
         }
 
@@ -853,33 +845,29 @@
         $("#ekstra_stolice").val(ostatak);
         $("#ukupno_stolova").val(stolovi + stoPlus);
       }
-    });
 
-    // bootstrap validation
-    (function() {
-    "use strict";
-    window.addEventListener(
-      "load",
-      function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName("needs-validation");
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener(
-            "submit",
-            function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add("was-validated");
-            },
-            false
-          );
-        });
-      },
-      false
-    );
-  })();
+      window.addEventListener(
+        "load",
+        function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName("needs-validation");
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener(
+              "submit",
+              function(event) {
+                if (form.checkValidity() === false || !provera) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add("was-validated");
+              },
+              false
+            );
+          });
+        },
+        false
+      );
+    });
   </script>
 {% endblock skripta %}

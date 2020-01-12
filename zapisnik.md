@@ -1,20 +1,17 @@
 # TODO
 
-!!! POSTO CE BITI GOMILA DOKUMENATA (predpostavljam) PROVERITI KOLIKO PROSTORA DAJE PROVIDER !!!
-
-### PODSETNIK
-
-- u pregled ugovora dodati dug
 - bootstrap validacija na uplatu (na detalju ugovora)
-- !!! obavezno logovati sve oko uplata !!!
+- LOGOVI
 
-multi uvek zakljucan
+- ugovor detalj dokument edit (modal)
+- ugovor detalj dokument delete (modal)
+- ugovor uplate insert (validacija)
+- ugovor uplate edit (validacija)
 
 - kod izmene uplate zabraniti promenu opisa ako je opis kapara (moze samo da se promeni iznos ili obrise cela uplata) ???
 
-<<<<<<< HEAD
-- !!! kod pregleda ugovora sa uplatama obavezno dodati dodatne usluge zbog uporedjivanja uplata i usluga !!!
+### PODSETNIK
 
-=======
->>>>>>> 396cea61e9fc165d2779d3788ca1c1a45d6106e0
+!!! POSTO CE BITI GOMILA DOKUMENATA (predpostavljam) PROVERITI KOLIKO PROSTORA DAJE PROVIDER !!!
+
 ## DATABASE

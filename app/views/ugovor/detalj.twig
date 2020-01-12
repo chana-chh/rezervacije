@@ -1,7 +1,5 @@
 {% extends "templates/app.twig" %}
-{% block stil %}
-
-{% endblock stil %}
+{% block stil %} {% endblock stil %}
 {% block naslov %}
 <div class="row">
   <div class="col">
@@ -178,20 +176,40 @@
 		Dodavanje dokumenta
 	</div>
 	<div class="card-body text-dark">
-		<form id="dokument-forma" action="{{ path_for('dokument.dodavanje') }}" method="POST" enctype="multipart/form-data">
+		<form
+			id="dokument-forma"
+			action="{{ path_for('dokument.dodavanje') }}"
+			method="POST"
+			enctype="multipart/form-data"
+			class="needs-validation" novalidate>
 			{{ csrf|raw }}
 			<input type="hidden" id="ugovor_id" name="ugovor_id" value="{{ ugovor.id }}">
 			<div class="form-row">
 				<div class="col form-group">
 					<label for="opis">Opis</label>
-					<input type="text" class="form-control" name="opis" id="opis" required>
+					<input
+						type="text"
+						value="{{ old.opis ? : '' }}"
+						class="form-control{{ errors.opis[0] ? ' is-invalid' : '' }}"
+						name="opis"
+						id="opis"
+						required>
+					<div class="valid-feedback">Odgovarajući podatak</div>
+					<div class="invalid-feedback">{{ errors.sala_id[0] ? : 'Obavezno polje' }}</div>
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-lg-6">
 					<div class="custom-file">
-						<input type="file" class="custom-file-input" id="dokument" name="dokument" required>
+						<input
+							type="file"
+							class="custom-file-input{{ errors.dokument[0] ? ' is-invalid' : '' }}"
+							id="dokument"
+							name="dokument"
+							required>
 						<label id="file-label" class="custom-file-label" for="dokument" data-browse="Pronađi">Izaberi dokument</label>
+						<div class="valid-feedback">Odgovarajući podatak</div>
+						<div class="invalid-feedback">{{ errors.dokument[0] ? : 'Morate odabrati dokument' }}</div>
 					</div>
         		</div>
 				<div class="col-lg-6 form-group text-right mb-0">
@@ -256,6 +274,32 @@
 	  $("#dokument").on("change", function(){
 		$("#file-label").text(this.files[0].name);
 	  })
-    });
-  </script>
+	});
+
+  (function() {
+    "use strict";
+    window.addEventListener(
+      "load",
+      function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName("needs-validation");
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener(
+            "submit",
+            function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      },
+      false
+    );
+  })();
+</script>
 {% endblock skripta %}

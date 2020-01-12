@@ -124,6 +124,9 @@ class TerminController extends Controller
             $data['created_at'] = date("Y-m-d H:i:s");
             $model_termin->insert($data);
             $termin = $model_termin->find($model_termin->lastId());
+            if ($termin->multiUgovori()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            }
             $this->log(Logger::DODAVANJE, $termin, 'opis');
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
             return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));
@@ -247,6 +250,9 @@ class TerminController extends Controller
             $data['zauzet'] = isset($data['zauzet']) ? 1 : 0;
             $model_termin->update($data, $id);
             $termin = $model_termin->find($id);
+            if ($termin->multiUgovori()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            }
             $this->log(Logger::IZMENA, $termin, 'opis');
             $this->flash->addMessage('success', 'Termin je uspešno izmenjen.');
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));

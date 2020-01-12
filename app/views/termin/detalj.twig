@@ -3,7 +3,14 @@ naslov %}
 <div class="row">
   <div class="col">
     <h1>
-      <i class="fas fa-calendar-check text-secondary"></i> Pregled termina
+      <i class="fas fa-calendar-check text-secondary"></i>
+      Pregled termina -
+      <small>[
+        <i class="{{ termin.statusIkonica() }}"></i>
+        {% if termin.status() == 0 %} Termin u pripremi {% endif %} {% if
+        termin.status() == 1 %} Zaključen termin {% endif %} {% if
+        termin.status() == 2 %} Informacija o terminu {% endif %}
+      ]</small>
     </h1>
   </div>
   <div class="col text-right">
@@ -34,7 +41,6 @@ naslov %}
     </div>
   </div>
 </div>
-
 <div class="table-responsive mt-3">
   <table class="table">
     <tbody>
@@ -81,7 +87,6 @@ naslov %}
     </tbody>
   </table>
 </div>
-
 {# Modal za brisanje termina #}
 <div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -125,7 +130,6 @@ naslov %}
   </div>
 </div>
 {# Kraj modala za brisanje termina #}
-
 <div class="row">
   <div class="col-lg-8">
     <h2>
@@ -141,15 +145,14 @@ naslov %}
     </a>
   </div>
 </div>
-
 <div class="table-responsive">
   <table class="table">
     <thead class="thead-dark">
       <tr>
         <th class="w-5">ID</th>
         <th class="w-10">Broj ugovora</th>
-        <th class="w-10">Iznos</th>
-        <th class="w-10">Kapara</th>
+        <th class="w-10 text-right">Iznos</th>
+        <th class="w-10 text-right">Dug</th>
         <th class="w-15">Ime</th>
         <th class="w-10">Telefon</th>
         <th class="w-10">Email</th>
@@ -165,11 +168,11 @@ naslov %}
       <tr>
         <th>{{ ugovor.id }}</th>
         <td>{{ ugovor.broj_ugovora }}</td>
-        <td class="text-info">
-          <strong>{{ ugovor.iznos | number_format(2, '.', ',') }}</strong>
+        <td class="text-info text-right">
+          <strong>{{ ugovor.iznos | number_format }}</strong>
         </td>
-        <td class="text-success">
-          <strong>{{ ugovor.kapara | number_format(2, '.', ',') }}</strong>
+        <td class="{{ ugovor.uplateDug() > 0 ? 'text-danger' : 'text-success' }} text-right">
+          <strong>{{ ugovor.uplateDug() | number_format }}</strong>
         </td>
         <td>{{ ugovor.punoIme() }}</td>
         <td>{{ ugovor.telefon }}</td>
@@ -224,7 +227,6 @@ naslov %}
     </tbody>
   </table>
 </div>
-
 {# Modal za brisanje ugovora #}
 <div id="brisanje-ugovora-modal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -270,13 +272,16 @@ naslov %}
       var id = "{{ termin.id }}";
       $("#modal-termin-brisanje-id").val(id);
     });
+
     $(".otvori-brisanje-ugovora").on("click", function() {
       var id = $(this).data("id");
       $("#idBrisanje").val(id);
     });
+
     $("#modal-obrisi-termin").on("click", function() {
       $("#modal-forma-brisanje-termina").submit();
     });
+
     $("#modal-obrisi-ugovor").on("click", function() {
       $("#modal-forma-brisanje-ugovora").submit();
     });

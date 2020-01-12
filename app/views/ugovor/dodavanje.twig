@@ -512,7 +512,6 @@
         <div class="col form-group col-2">
 					<label for="nacin_placanja">Način plaćanja:</label>
 					<select class="custom-select mb-2" name="nacin_placanja" id="nacin_placanja" required>
-					<option value=""></option>
 					<option value="gotovina">Gotovina</option>
 					<option value="kartica">Kartica</option>
 					<option value="ček">Ček</option>
@@ -523,7 +522,7 @@
       <hr>
       <div class="form-row justify-content-between mt-2">
         <div class="col-12 text-right align-self-end">
-          <button id="dugme-submit" class="btn btn-primary" title="Dodaj novi ugovor"><i class="fas fa-plus-square"></i> Dodaj</button>
+          <button type="submit" id="dugme-submit" class="btn btn-primary" title="Dodaj novi ugovor"><i class="fas fa-plus-square"></i> Dodaj</button>
           <a href="{{ path_for('termin.detalj.get', { id: termin.id }) }}" class="btn btn-secondary">
             <i class="fas fa-ban"></i> Otkaži</a>
         </div>
@@ -675,18 +674,10 @@
       const slobodnaMesta = parseInt("{{ termin.slobodnaMesta() }}") + pocetnaMesta;
       const slobodniStolovi = parseInt("{{ termin.slobodniStolovi() }}") + pocetniStolovi;
 
-      let provera = true;
+      var provera = true;
 
       $('#cekiraj_sve').click(function () {
         $(':checkbox.cekiraj').not(this).prop('checked', this.checked);
-      });
-
-      $("#dugme-submit").click(function(event) {
-        event.preventDefault();
-        if(provera){
-          $('#forma').submit();
-        }
-        return false;
       });
 
       $("#dugme-izracunaj-iznos").click(function(event) {
@@ -766,7 +757,7 @@
           cenaUsluga += parseFloat($("#vocni_sto_iznos").val());
         }
 
-        if($("#posebni_zahtevi_iznos").val() !== ""){
+        if($("#posebni_zahtevi_iznos").val() !== "" && $("#posebni_zahtevi").val() !== ""){
           cenaUsluga += parseFloat($("#posebni_zahtevi_iznos").val());
         }
 
@@ -876,12 +867,8 @@
         $("#ekstra_stolice").val(ostatak);
         $("#ukupno_stolova").val(stolovi + stoPlus);
       }
-    });
 
-    // bootstrap validation
-    (function() {
-    "use strict";
-    window.addEventListener(
+      window.addEventListener(
       "load",
       function() {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -891,7 +878,7 @@
           form.addEventListener(
             "submit",
             function(event) {
-              if (form.checkValidity() === false) {
+              if (form.checkValidity() === false || !provera) {
                 event.preventDefault();
                 event.stopPropagation();
               }
@@ -903,6 +890,6 @@
       },
       false
     );
-  })();
+  });
   </script>
 {% endblock skripta %}

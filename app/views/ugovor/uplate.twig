@@ -183,9 +183,9 @@
 	</div>
 </div>
 </div>
- {# Kraj modala za izmenu uplate #}
+{# Kraj modala za izmenu uplate #}
 
-   {# Modal za brisanje #}
+{# Modal za brisanje #}
   <div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -218,7 +218,7 @@
       </div>
     </div>
   </div>
-  {# Kraj modala za brisanje #}
+{# Kraj modala za brisanje #}
 {% endblock sadrzaj %}
 {% block traka %}
 <div class="card border-dark mb-3">
@@ -348,7 +348,7 @@
             $("#opisModal").val(data.uplata.opis);
             $("#iznosModal").val(data.uplata.iznos);
             $("#datumModal").val(moment(data.uplata.datum).format("YYYY-MM-DD"));
-           
+
             $.each(data.nacini, function(index, lokObjekat) {
             $("#nacin_placanjaModal").append(
               '<option value="' +

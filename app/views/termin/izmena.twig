@@ -1,11 +1,7 @@
-{% extends "templates/app.twig" %} {% block stil %}
-
-{% endblock stil %}
-
+{% extends "templates/app.twig" %} {% block stil %} {% endblock stil %}
 {% block naslov %}
 <h1><i class="fas fa-calendar-day"></i> Izmena termina</h1>
 <hr />
-
 <div class="card border-dark">
   <div class="card-body">
     <form action="{{ path_for('termin.izmena.post') }}" method="POST" class="needs-validation" novalidate>
@@ -43,7 +39,6 @@
           <div class="invalid-feedback">{{ errors.kraj[0] ? : 'Obavezno polje' }}</div>
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group col">
           <label for="opis">Kratak opis događaja</label>
@@ -52,7 +47,6 @@
           <div class="invalid-feedback">{{ errors.opis[0] ? : 'Obavezno polje' }}</div>
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group col-lg-3">
           <label for="tip_dogadjaja_id">Vrsta</label>
@@ -79,7 +73,6 @@
           <textarea name="napomena" type="text" id="napomena" class="form-control{{ errors.napomena[0] ? ' is-invalid' : '' }}">{{ old.napomena ? : termin.napomena }}</textarea>
         </div>
       </div>
-
       <div class="form-row">
         <div class="col text-right">
           <button type="submit" class="btn btn-primary" title="Snimanje novog termina">
@@ -94,13 +87,9 @@
     </form>
   </div>
 </div>
-
-
-
-{% endblock naslov %} {% block sadrzaj %} {% endblock sadrzaj %} {% block
-traka%} {% endblock traka %} {% block skripta %}
+{% endblock naslov %} {% block sadrzaj %} {% endblock sadrzaj %}
+{% block traka%} {% endblock traka %} {% block skripta %}
 <script>
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
   (function() {
     "use strict";
     window.addEventListener(
