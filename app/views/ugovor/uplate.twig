@@ -195,38 +195,38 @@
 {# Kraj modala za izmenu uplate #}
 
 {# Modal za brisanje #}
-  <div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-danger">Upozorenje!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <h4>Da li želite trajno da obrišete uplatu?</h4>
-          <p class="text-danger">* Ova akcija je nepovratna!</p>
-          <form id="brisanje-forma" action="{{ path_for('ugovor.brisanje.uplata') }}" method="POST">
-            {{ csrf|raw }}
-            <input type="hidden" id="idBrisanje" name="idBrisanje">
-            <hr style="margin-top: 30px;">
+<div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title text-danger">Upozorenje!</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<h4>Da li želite trajno da obrišete uplatu?</h4>
+			<p class="text-danger">* Ova akcija je nepovratna!</p>
+			<form id="brisanje-forma" action="{{ path_for('ugovor.brisanje.uplata') }}" method="POST">
+			{{ csrf|raw }}
+			<input type="hidden" id="idBrisanje" name="idBrisanje">
+			<hr style="margin-top: 30px;">
 
-            <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
-              <div class="form-group">
-                <button id="btn-brisanje-obrisi" type="submit" class="btn btn-danger">
-                  <i class="fas fa-trash-alt"></i>&emsp;Obriši
-                </button>
-                <a class="btn btn-secondary" data-dismiss="modal">
-                  <i class="fas fa-ban"></i>&emsp;Otkaži
-                </a>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+			<div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
+				<div class="form-group">
+				<button id="btn-brisanje-obrisi" type="submit" class="btn btn-danger">
+					<i class="fas fa-trash-alt"></i>&emsp;Obriši
+				</button>
+				<a class="btn btn-secondary" data-dismiss="modal">
+					<i class="fas fa-ban"></i>&emsp;Otkaži
+				</a>
+				</div>
+			</div>
+			</form>
+		</div>
+		</div>
+	</div>
+</div>
 {# Kraj modala za brisanje #}
 {% endblock sadrzaj %}
 {% block traka %}
@@ -267,29 +267,55 @@
 		<strong>Evidentiranje uplate</strong>
 	</div>
 	<div class="card-body text-dark">
-		<form id="uplata-forma" action="{{ path_for('termin.ugovor.uplata') }}" method="POST">
+		<form
+			id="uplata-forma"
+			action="{{ path_for('termin.ugovor.uplata') }}"
+			method="POST"
+			class="needs-validation" novalidate>
 			{{ csrf|raw }}
 			<input type="hidden" id="ugovor_id" name="ugovor_id" value="{{ ugovor.id }}">
 			<div class="form-row">
 				<div class="col form-group">
 					<label for="opis">Opis</label>
-					<input type="text" class="form-control" name="opis" id="opis" required>
+					<input
+						type="text"
+						class="form-control{{ errors.opis[0] ? ' is-invalid' : '' }}"
+						name="opis"
+						id="opis"
+						value="{{ old.opis ? : '' }}"
+						required>
+					<div class="valid-feedback">Odgovarajući podatak</div>
+          			<div class="invalid-feedback">{{ errors.opis[0] ? : 'Obavezno polje' }}</div>
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="col form-group">
 					<label for="datum">Datum</label>
-					<input name="datum" type="date" id="datum" class="form-control" value="{{ old.datum ? : 'now'|date('Y-m-d') }}" required>
+					<input
+						name="datum"
+						type="date"
+						id="datum"
+						class="form-control{{ errors.datum[0] ? ' is-invalid' : '' }}"
+						value="{{ old.datum ? : 'now'|date('Y-m-d') }}"
+						required>
+					<div class="valid-feedback">Odgovarajući podatak</div>
+          			<div class="invalid-feedback">{{ errors.datum[0] ? : 'Obavezno polje' }}</div>
 				</div>
 				<div class="col form-group">
 					<label for="nacin_placanja">Način plaćanja:</label>
-					<select class="custom-select mb-2" name="nacin_placanja" id="nacin_placanja" required>
+					<select
+						class="custom-select mb-2 {{ errors.nacin_placanja[0] ? ' is-invalid' : '' }}"
+						name="nacin_placanja"
+						id="nacin_placanja"
+						required>
 					<option value=""></option>
-					<option value="gotovina">Gotovina</option>
-					<option value="kartica">Kartica</option>
-					<option value="ček">Ček</option>
-					<option value="faktura">Faktura</option>
+					<option value="gotovina"{{ old.nacin_placanja == 'gotovina' ? ' checked' : '' }}>Gotovina</option>
+					<option value="kartica"{{ old.nacin_placanja == 'kartica' ? ' checked' : '' }}>Kartica</option>
+					<option value="ček"{{ old.nacin_placanja == 'ček' ? ' checked' : '' }}>Ček</option>
+					<option value="faktura"{{ old.nacin_placanja == 'faktura' ? ' checked' : '' }}>Faktura</option>
 					</select>
+					<div class="valid-feedback">Odgovarajući podatak</div>
+          			<div class="invalid-feedback">{{ errors.nacin_placanja[0] ? : 'Obavezno polje' }}</div>
 				</div>
 			</div>
 			<div class="form-row">
@@ -297,11 +323,13 @@
 					<label for="iznos">Iznos</label>
 					<input
 						type="number"
-						class="form-control"
+						class="form-control{{ errors.iznos[0] ? ' is-invalid' : '' }}"
 						name="iznos" id="iznos"
-						min="0.01" step="0.01"
+						min="1" step="0.01"
 						value="{{ old.iznos ? : 0 }}"
 						required>
+					<div class="valid-feedback">Odgovarajući podatak</div>
+          			<div class="invalid-feedback">{{ errors.iznos[0] ? : 'Iznos mora biti veći od 0' }}</div>
 				</div>
 			</div>
 			<div class="form-row">
@@ -309,7 +337,7 @@
 					<button type="submit" class="btn btn-primary">
 						<i class="fas fa-money-bill"></i> Evidentiraj uplatu
 					</button>
-					<button type="reset" class="btn btn-secondary">
+					<button type="reset" class="btn btn-secondary" id="otkazi-validation">
 						<i class="fas fa-ban"></i> Otkaži
 					</button>
 				</div>
@@ -372,7 +400,32 @@
           }
         });
 
-      });
+	  });
+
+	  $("#otkazi-validation").on("click", function(){
+		  $("#uplata-forma").removeClass("was-validated");
+	  });
+
+	  window.addEventListener(
+		"load",
+		function() {
+			var forms = document.getElementsByClassName("needs-validation");
+			var validation = Array.prototype.filter.call(forms, function(form) {
+			form.addEventListener(
+				"submit",
+				function(event) {
+				if (form.checkValidity() === false || !provera) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				form.classList.add("was-validated");
+				},
+				false
+			);
+			});
+		},
+		false
+		);
     });
   </script>
 {% endblock skripta %}

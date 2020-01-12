@@ -216,7 +216,7 @@
 					<button type="submit" class="btn btn-primary">
 						<i class="fas fa-plus-square"></i> Dodaj
 					</button>
-					<button type="reset" class="btn btn-secondary">
+					<button type="reset" class="btn btn-secondary" id="otkazi-validation">
 						<i class="fas fa-ban"></i> Otkaži
 					</button>
 				</div>
@@ -267,13 +267,20 @@
 {% block skripta %}
   <script>
     $(document).ready(function () {
+
       $(document).on('click', '.otvori-uplatu', function () {
        var id = $(this).data("id");
         $('#idUgovora').val(id);
 	  });
+
 	  $("#dokument").on("change", function(){
 		$("#file-label").text(this.files[0].name);
-	  })
+	  });
+
+	  $("#otkazi-validation").on("click", function(){
+		  $("#dokument-forma").removeClass("was-validated");
+	  });
+
 	});
 
   (function() {

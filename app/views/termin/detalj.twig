@@ -299,6 +299,7 @@ naslov %}
           data = JSON.parse(data);
           document.querySelector(".csrf_name").value = data.csrf_name;
           document.querySelector(".csrf_value").value = data.csrf_value;
+          // promeniti ikonicu i text statusa u h1
           if (data.zakljucen) {
             document
               .querySelector("#zauzet")

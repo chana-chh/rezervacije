@@ -168,6 +168,7 @@ class TerminController extends Controller
         $z = $zakljucen ? 0 : 1;
         $data['zakljucen'] = $z == 1 ? true : false;
         $model->update(['zauzet' => $z], $termin_id);
+        // proslediti ikonicu i status
         return json_encode($data);
     }
 
