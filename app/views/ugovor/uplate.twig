@@ -10,13 +10,14 @@
   </div>
   <div class="col text-right pt-3">
     <div class="btn-group btn-group-sm">
-      <button type="button" class="btn btn-secondary" onclick="window.history.back();" title="Povratak na prethodnu stranu"><i
-          class="fas fa-chevron-circle-left"></i> Nazad</button>
-      <a
-        href="{{ path_for('termin.ugovor.detalj.get', { id: ugovor.id }) }}"
-        class="btn btn-secondary"
-        ><i class="fas fa-arrow-alt-circle-left"></i> Ugovor</a
-      >
+      <button type="button" class="btn btn-secondary" onclick="window.history.back();" title="Povratak na prethodnu stranu">
+		  <i class="fas fa-chevron-circle-left"></i> Nazad
+	  </button>
+	  <a
+	  	href="{{ path_for('termin.ugovor.detalj.get', { id: ugovor.id }) }}"
+		class="btn btn-secondary">
+		<i class="fas fa-arrow-alt-circle-left"></i> Ugovor
+	  </a>
     </div>
   </div>
 </div>
@@ -109,13 +110,21 @@
 			  <td>{{ uplata.opis }}</td>
 			  <td class="text-right">
 				<div class="btn-group btn-group-sm">
-					<button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
-            data-id="{{ uplata.id }}" title="Izmena podataka uplate">
-            <i class="fas fa-edit"></i></button>
-					<button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
-            data-id="{{ uplata.id }}" title="Brisanje odabrane uplate">
-            <i class="fas fa-trash-alt"></i>
-            </button>
+					<button
+						class="btn btn-warning btn-sm otvori-izmenu"
+						data-toggle="modal"
+						data-target="#izmenaModal"
+						data-id="{{ uplata.id }}"
+						title="Izmena podataka uplate">
+						<i class="fas fa-edit"></i>
+					</button>
+					<button
+						class="btn btn-danger btn-sm otvori-brisanje"
+						data-toggle="modal"
+						data-target="#brisanjeModal"
+            			data-id="{{ uplata.id }}" title="Brisanje odabrane uplate">
+            			<i class="fas fa-trash-alt"></i>
+            		</button>
 				</div>
 			  </td>
             </tr>
