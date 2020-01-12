@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Dokument;
+use App\Classes\Logger;
 
 class DokumentController extends Controller
 {
@@ -81,5 +82,38 @@ class DokumentController extends Controller
             $dokument = $modelDokument->find($id);
             $ar = ["cname" => $cName, "cvalue"=>$cValue, "dokument"=>$dokument];
             return $response->withJson($ar);
+    }
+
+    public function postDokumentIzmena($request, $response)
+    {
+        $data = $request->getParams();
+        $id = $data['idIzmenaDokumenta'];
+        $ugovor_id = $data['idUgovorDokumenta'];
+        unset($data['idUgovorDokumenta']);
+        unset($data['idIzmenaDokumenta']);
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+
+        $datam = ["opis"=>$data['opisModal']];
+
+        $validation_rules = [
+            'opis' => [
+                'required' => true
+            ]
+        ];
+
+        $this->validator->validate($datam, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka dokumenta.');
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+        } else {
+            $this->flash->addMessage('success', 'Podaci o dokumentu su uspešno izmenjeni.');
+            $modelDokument = new Dokument();
+            $modelDokument->update($datam, $id);
+            $dokument = $modelDokument->find($id);
+            $this->log(Logger::IZMENA, $dokument, 'opis');
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $ugovor_id]));
+        }
     }
 }

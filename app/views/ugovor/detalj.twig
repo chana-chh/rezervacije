@@ -217,9 +217,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="izmena-dokumenta" action="{{ path_for('sale.izmena') }}" method="POST" class="needs-validation" novalidate>
+          <form id="izmena-dokumenta" action="{{ path_for('dokument.izmena') }}" method="POST" class="needs-validation" novalidate>
             {{ csrf|raw }}
             <input type="hidden" id="idIzmenaDokumenta" name="idIzmenaDokumenta">
+            <input type="hidden" id="idUgovorDokumenta" name="idUgovorDokumenta" value="{{ ugovor.id }}">
             <div class="form-group">
               <label for="opisModal">Opis</label>
               <input type="text" class="form-control{{ errors.opisModal[0] ? ' is-invalid' : '' }}" name="opisModal" id="opisModal" aria-describedby="opis dokumenta" required>

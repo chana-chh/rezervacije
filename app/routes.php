@@ -90,6 +90,7 @@ $app->group('', function () {
     $this->post('/termin/dokument/dodavanje', '\App\Controllers\DokumentController:postDokumentDodavanje')->setName('dokument.dodavanje');
     $this->post('/termin/dokument/brisanje', '\App\Controllers\DokumentController:postDokumentiBrisanje')->setName('dokument.brisanje');
     $this->post('/termin/dokument/detalj', '\App\Controllers\DokumentController:postDokumentDetalj')->setName('dokument.detalj');
+    $this->post('/termin/dokument/izmena', '\App\Controllers\DokumentController:postDokumentIzmena')->setName('dokument.izmena');
 
 
     $this->get('/termin/ugovori/uplate/{id}', '\App\Controllers\TerminUgovorController:getUgovorUplateLista')->setName('ugovor.uplate.lista');
