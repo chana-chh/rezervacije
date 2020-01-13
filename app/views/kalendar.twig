@@ -150,6 +150,7 @@ $("#kalendar").fullCalendar({
         if (view.name == "month"){
             element.tooltip({
             title: event.advancedDetalj,
+            html: true,
             container: "body"
             });
             let title = element.find(".fc-title");

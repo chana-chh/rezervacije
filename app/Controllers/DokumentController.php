@@ -60,7 +60,7 @@ class DokumentController extends Controller
         $dok = $modelDokument->find($id);
         $tmp = explode('/', $dok->link);
         $file = DIR . 'pub' . DS . 'doc' . DS . end($tmp);
-        //dd($file);
+        dd($file);
         $success = $modelDokument->deleteOne($id);
         if ($success) {
             unlink($file);
