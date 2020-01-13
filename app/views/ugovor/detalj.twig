@@ -65,9 +65,14 @@
 			</a>
 		<td></td>
 	</tr>
-	<tr>
+	<tr class="bg-light">
 		<th><strong>Cena</strong></th>
 		<td>{{ ugovor.iznos|number_format }}</td>
+		<td></td>
+	</tr>
+	<tr class="bg-light">
+		<th><strong>Cena usluga</strong></th>
+		<td>{{ ugovor.cenaUsluga()|number_format }}</td>
 		<td></td>
 	</tr>
 	<tr>
@@ -163,6 +168,14 @@
 						<td>{{ ugovor.vocni_sto_opis }}</td>
 						<td class="text-success">{{ ugovor.vocni_sto_iznos | number_format(2, '.', ',') }}</td>
 					</tr>
+					<tr>
+						<th>8</th>
+						<td>Posebni zahtevi</td>
+						<td>
+						</td>
+						<td>{{ ugovor.posebni_zahtevi }}</td>
+						<td class="text-success">{{ ugovor.posebni_zahtevi_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
 					</tbody>
   				</table>
   			</div>
@@ -181,7 +194,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <h3>Da li želite trajno da obrišete dokument?</h3>
+          <h4>Da li želite trajno da obrišete dokument?</h4>
+          <h5 class="text-danger">* FAJL (dokument) ĆE TAKOĐE BITI OBRISAN !!!</h5>
           <p class="text-danger">* Ova akcija je nepovratna!</p>
           <form id="brisanje-dokumenta" action="{{ path_for('dokument.brisanje') }}" method="POST">
             {{ csrf|raw }}

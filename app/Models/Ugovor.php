@@ -76,4 +76,19 @@ class Ugovor extends Model
         }
         return $zakljucati;
     }
+
+    public function cenaUsluga()
+    {
+        $cena = 0.00;
+            $cena =
+            $this->muzika_iznos +
+            $this->fotograf_iznos +
+            $this->torta_iznos +
+            $this->dekoracija_iznos +
+            $this->kokteli_iznos +
+            $this->slatki_sto_iznos +
+            $this->vocni_sto_iznos +
+            $this->posebni_zahtevi_iznos;
+        return $cena;
+    }
 }

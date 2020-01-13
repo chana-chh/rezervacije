@@ -7,18 +7,18 @@ Chana:
 - Svuda gde ima datuma dodati u filteru od - do
 - Razmisliti o sortiranju
 - Kod svih brisanja proveriti vezane modele
-- Izaciti KAPARU, resiti kroz uplatu
+- Izbaciti KAPARU, resiti kroz uplatu
 - Skinuti unique sa broja ugovora zbog praznih
 
 Stasa:
-- Info za tip dogadjaja u vezi multi/singl (RESENO, proveriti tekst)
-- Samo stari model u log (RESENO, dodato polje stari u bazu i pronadjen nacin sad mora da se prodje svuda TipDogadjaja zavrsen)
+- Info za tip dogadjaja u vezi multi/singl (RESENO, tekst je sranje)
+- Samo stari model u log (RESENO, dodato polje "stari" u bazu i pronadjen nacin. Sad mora da se prodje svuda. TipDogadjaja zavrsen.)
 - Zakazivanje stil za mobilne, skinuti mesec (RESENO)
 - Prvi prazan u selektovima (RESENO)
-- Razdvojiti cene na pregledu ugovora, uplatama i dodati sumu
-- Modal za brisanje dokumenta info o brisanju fizickom fajla
-- Naziv i iznos na uplatama
-- Konfirmacioni dijalozi stil
+- Razdvojiti cene na pregledu ugovora, uplatama i dodati sumu (RESENO)
+- Modal za brisanje dokumenta info o brisanju fizickom fajla (RESENO)
+- Naziv i iznos na uplatama (Ovo se ne secam sta smo planirali, JBG)
+- Konfirmacioni dijalozi stil (RESENO, valjda ako nisam neki propustiJo)
 
 - kod termina promeniti status ikonicu i text posle ajax-a
 - LOGOVI

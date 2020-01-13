@@ -243,6 +243,15 @@
 				<strong>{{ ugovor.iznos|number_format }}</strong>
 			</div>
 		</div>
+		<div class="row" style="font-size: 0.875rem;">
+			<div class="col-lg-6">
+				Od toga usluge:
+			</div>
+			<div class="col-lg-6 text-right">
+				<strong>{{ ugovor.cenaUsluga()|number_format }}</strong>
+			</div>
+		</div>
+		<hr>
 		<div class="row">
 			<div class="col-lg-6">
 				Zbir uplata:
