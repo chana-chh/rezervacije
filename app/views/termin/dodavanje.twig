@@ -11,6 +11,7 @@
         <div class="form-group col-lg-3">
           <label for="sala_id">Sala</label>
           <select name="sala_id" id="sala_id" class="custom-select{{ errors.sala_id[0] ? ' is-invalid' : '' }}" required>
+            <option value=""></option>
             {% for sala_id in sale %}
             <option value="{{ sala_id.id }}"{{old.sala_id == sala_id.id ? ' selected' : ''}}>{{ sala_id.naziv }}</option>
             {% endfor %}
@@ -51,6 +52,7 @@
         <div class="form-group col-lg-3">
           <label for="tip_dogadjaja_id">Vrsta</label>
           <select name="tip_dogadjaja_id" id="tip_dogadjaja_id" class="custom-select{{ errors.tip_dogadjaja_id[0] ? ' is-invalid' : '' }}" required>
+            <option value=""></option>
             {% for tip in tipovi %}
             <option value="{{ tip.id }}"{{old.tip_dogadjaja_id == tip.id ? ' selected' : ''}}>{{ tip.tip }}</option>
             {% endfor %}

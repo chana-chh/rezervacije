@@ -18,4 +18,9 @@ class TipDogadjaja extends Model
     {
         return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
     }
+
+    public function __toString()
+    {
+        return 'Podaci iz modela: polje tip:' . $this->tip . ', polje multi_ugovori:' . $this->multi_ugovori;
+    }
 }

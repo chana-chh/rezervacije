@@ -9,11 +9,12 @@ Chana:
 - Kod svih brisanja proveriti vezane modele
 - Izaciti KAPARU, resiti kroz uplatu
 - Skinuti unique sa broja ugovora zbog praznih
+
 Stasa:
-- Info za tip dogadjaja u vezi multi/singl
-- Samo stari model u log
-- Zakazivanje stil za mobilne, skinuti mesec
-- Prvi prazan u selektovima
+- Info za tip dogadjaja u vezi multi/singl (RESENO, proveriti tekst)
+- Samo stari model u log (RESENO, dodato polje stari u bazu i pronadjen nacin sad mora da se prodje svuda TipDogadjaja zavrsen)
+- Zakazivanje stil za mobilne, skinuti mesec (RESENO)
+- Prvi prazan u selektovima (RESENO)
 - Razdvojiti cene na pregledu ugovora, uplatama i dodati sumu
 - Modal za brisanje dokumenta info o brisanju fizickom fajla
 - Naziv i iznos na uplatama

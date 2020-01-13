@@ -25,6 +25,7 @@ class Logger
         $data = [
             'opis' => "{$model->id}, {$model->table()} - {$polje} : {$model->$polje}",
             'tip' => $tip,
+            'stari' => $model_stari,
             'korisnik_id' => $this->korisnik->id,
         ];
 

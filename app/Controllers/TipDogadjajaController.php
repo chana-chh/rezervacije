@@ -31,7 +31,6 @@ class TipDogadjajaController extends Controller
                 'required' => true,
                 'minlen' => 5,
                 'maxlen' => 50,
-                'alnum' => true,
                 'unique' => 's_tip_dogadjaja.tip'
             ],
             'multi_ugovori' => [
@@ -68,7 +67,7 @@ class TipDogadjajaController extends Controller
         $success = $model->deleteOne($id);
         if ($success) {
             $this->flash->addMessage('success', "Tip događaja je uspešno obrisan.");
-            $this->log(Logger::BRISANJE, $tip_dogadjaja, 'tip');
+            $this->log(Logger::BRISANJE, $tip_dogadjaja, 'tip', $tip_dogadjaja);
             return $response->withRedirect($this->router->pathFor('tip_dogadjaja'));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja tipa događaja.");
@@ -121,9 +120,10 @@ class TipDogadjajaController extends Controller
         } else {
             $this->flash->addMessage('success', 'Podaci o tipu događaja su uspešno izmenjeni.');
             $model = new TipDogadjaja();
+            $stari = $model->find($id);
             $model->update($datam, $id);
             $tip_dogadjaja = $model->find($id);
-            $this->log(Logger::IZMENA, $tip_dogadjaja, 'tip');
+            $this->log(Logger::IZMENA, $tip_dogadjaja, 'tip', $stari);
             return $response->withRedirect($this->router->pathFor('tip_dogadjaja'));
         }
     }
