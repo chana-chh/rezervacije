@@ -90,4 +90,16 @@ class Termin extends Model
         }
         return null;
     }
+
+    public function __toString()
+    {
+        return 'Podaci iz modela: sala_id:' . $this->sala_id . 
+                ', tip_dogadjaja_id:' . $this->tip_dogadjaja_id .
+                ', datum:' . $this->datum .
+                ', pocetak:' . $this->pocetak .
+                ', kraj:' . $this->kraj .
+                ', opis:' . $this->opis .
+                ', zauzet:' . $this->zauzet .
+                ', napomena:' . $this->napomena;
+    }
 }

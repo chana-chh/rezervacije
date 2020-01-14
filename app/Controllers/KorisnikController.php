@@ -81,7 +81,7 @@ class KorisnikController extends Controller
         $korisnik = $model->find($id);
         $success = $model->deleteOne($id);
         if ($success) {
-            $this->log(Logger::BRISANJE, $korisnik, 'ime');
+            $this->log(Logger::BRISANJE, $korisnik, 'ime', $korisnik);
             $this->flash->addMessage('success', "Korisnik je uspešno obrisan.");
             return $response->withRedirect($this->router->pathFor('admin.korisnik.lista'));
         } else {
@@ -177,6 +177,7 @@ class KorisnikController extends Controller
         } else {
             $this->flash->addMessage('success', 'Podaci o korisniku su uspešno izmenjeni.');
             $modelKorisnik = new Korisnik();
+            $stari = $modelKorisnik->find($id);
             unset($datam['lozinka_potvrda']);
             if (!empty($datam['lozinka'])) {
                 $datam['lozinka'] = password_hash($datam['lozinka'], PASSWORD_BCRYPT);
@@ -185,7 +186,7 @@ class KorisnikController extends Controller
             }
             $modelKorisnik->update($datam, $id);
             $korisnik = $modelKorisnik->find($id);
-            $this->log(Logger::IZMENA, $korisnik, 'ime');
+            $this->log(Logger::IZMENA, $korisnik, 'ime', $stari);
             return $response->withRedirect($this->router->pathFor('admin.korisnik.lista'));
         }
     }

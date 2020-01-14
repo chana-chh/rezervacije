@@ -12,4 +12,9 @@ class Dokument extends Model
     {
         return $this->belongsTo('App\Models\Ugovor', 'ugovor_id');
     }
+
+    public function __toString()
+    {
+        return 'Podaci iz modela: ugovor_id:' . $this->ugovor_id . ', link:' . $this->link. ', opis:' . $this->opis;
+    }
 }

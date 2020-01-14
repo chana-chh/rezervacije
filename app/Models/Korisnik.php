@@ -54,4 +54,9 @@ class Korisnik extends Model
     {
         return $this->hasMany('App\Models\Uplata', 'korisnik_id');
     }
+
+    public function __toString()
+    {
+        return 'Podaci iz modela: ime:' . $this->ime . ', korisnicko_ime:' . $this->korisnicko_ime. ', nivo:' . $this->nivo;
+    }
 }

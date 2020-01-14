@@ -69,7 +69,7 @@ class SalaController extends Controller
         $success = $modelSale->deleteOne($id_sale);
         if ($success) {
             $this->flash->addMessage('success', "Sala je uspešno obrisana.");
-            $this->log(Logger::BRISANJE, $sala, 'naziv');
+            $this->log(Logger::BRISANJE, $sala, 'naziv', $sala);
             return $response->withRedirect($this->router->pathFor('sale'));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja sale.");
@@ -123,9 +123,10 @@ class SalaController extends Controller
         } else {
             $this->flash->addMessage('success', 'Podaci o sali su uspešno izmenjeni.');
             $modelSale = new Sala();
+            $stari = $modelSale->find($id);
             $modelSale->update($datam, $id);
             $sala = $modelSale->find($id);
-            $this->log(Logger::IZMENA, $sala, 'naziv');
+            $this->log(Logger::IZMENA, $sala, 'naziv', $stari);
             return $response->withRedirect($this->router->pathFor('sale'));
         }
     }

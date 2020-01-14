@@ -147,7 +147,7 @@ class TerminController extends Controller
 
         $success = $model->deleteOne($id);
         if ($success) {
-            $this->log(Logger::BRISANJE, $termin, 'opis');
+            $this->log(Logger::BRISANJE, $termin, 'opis', $termin);
             $this->flash->addMessage('success', "Termin je uspešno obrisan.");
             return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $datum]));
         } else {
@@ -218,6 +218,7 @@ class TerminController extends Controller
         } else {
             // Preklapanje termina
             $model_termin = new Termin();
+            $stari = $model_termin->find($id);
             $preklapanje = false;
             $pocetak = strtotime("{$data['datum']} {$data['pocetak']}");
             $kraj = strtotime("{$data['datum']} {$data['kraj']}");
@@ -254,7 +255,7 @@ class TerminController extends Controller
             if ($termin->multiUgovori()) {
                 $model_termin->update(['zauzet' => 1], $termin->id);
             }
-            $this->log(Logger::IZMENA, $termin, 'opis');
+            $this->log(Logger::IZMENA, $termin, 'opis', $stari);
             $this->flash->addMessage('success', 'Termin je uspešno izmenjen.');
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));
         }

@@ -185,7 +185,7 @@ class MeniController extends Controller
         $success = $modelMenija->deleteOne($id);
         if ($success) {
             $this->flash->addMessage('success', "Meni je uspešno obrisan.");
-            $this->log(Logger::BRISANJE, $meni, 'naziv');
+            $this->log(Logger::BRISANJE, $meni, 'naziv', $meni);
             return $response->withRedirect($this->router->pathFor('meni'));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja menija.");
@@ -238,9 +238,10 @@ class MeniController extends Controller
         } else {
             $this->flash->addMessage('success', 'Podaci menija su uspešno izmenjeni.');
             $model = new Meni();
+            $stari = $model->find($id);
             $model->update($data, $id);
             $meni = $model->find($id);
-            $this->log(Logger::IZMENA, $meni, 'naziv');
+            $this->log(Logger::IZMENA, $meni, 'naziv', $stari);
             return $response->withRedirect($this->router->pathFor('meni'));
         }
     }

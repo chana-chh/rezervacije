@@ -18,4 +18,18 @@ class Meni extends Model
     {
         return $this->belongsTo('App\Models\Korisnik', 'korisnik_id');
     }
+
+    public function __toString()
+    {
+        return 'Podaci iz modela: naziv:' . $this->naziv . 
+        		', hladno_predjelo:' . $this->hladno_predjelo .
+        		', sirevi:' . $this->sirevi .
+        		', corba:' . $this->corba .
+        		', glavno_jelo:' . $this->glavno_jelo .
+        		', meso:' . $this->meso .
+        		', hleb:' . $this->hleb .
+        		', karta_pica:' . $this->karta_pica .
+        		', cena:' . $this->cena .
+        		', napomena:' . $this->napomena;
+    }
 }
