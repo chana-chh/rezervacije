@@ -15,7 +15,8 @@ class TerminController extends Controller
         $url_termin_dodavanje = $this->router->pathFor('termin.dodavanje.get');
 
         $model_termin = new Termin();
-        $termini = $model_termin->all();
+        $sql = "SELECT * FROM {$model_termin->getTable()} WHERE datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH);";
+        $termini = $model_termin->fetch($sql);
 
         $data = [];
 

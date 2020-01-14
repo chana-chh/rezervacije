@@ -36,7 +36,7 @@
           <select class="custom-select mb-2" name="termin_id" id="termin_id" class="form-control">
             <option value=""></option>
             {% for termin in termini %}
-          <option value="{{ termin.id }}" {{ data.termin_id == termin.id ? ' selected' : '' }}>{{ termin.opis }}
+          <option value="{{ termin.id }}" {{ data.termin_id == termin.id ? ' selected' : '' }}>({{ termin.datum|date('d.m.Y') }}) {{ termin.opis }}
           </option>
           {% endfor %}
           </select>
@@ -86,14 +86,15 @@
   </div>
 </div>
 <div class="table-responsive">
-<table class="table">
+<table class="table table-sm table-striped" style="font-size: 0.875rem;">
   <thead class="thead-dark">
     <tr>
       <th class="w-5" scope="col">ID</th>
-      <th class="w-15" scope="col">Broj ugovora</th>
+      <th class="w-8" scope="col">Broj</th>
+      <th class="w-12" scope="col">Termin</th>
       <th class="w-10" scope="col">Iznos</th>
       <th class="w-10" scope="col">Kapara</th>
-      <th class="w-15" scope="col">Ime i prezime</th>
+      <th class="w-10" scope="col">Ime i prezime</th>
       <th class="w-10" scope="col">Telefon</th>
       <th class="w-10" scope="col">E-mail</th>
       <th class="w-10" scope="col">Mesta</th>
@@ -106,6 +107,7 @@
     <tr>
       <th scope="row" class="text-danger">{{ ugovor.id }}</th>
       <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
+      <td><small>({{ ugovor.termin().datum|date('d.m.Y') }}) {{ ugovor.termin().opis }}</small></td>
       <td class="text-info"><strong>{{ ugovor.iznos | number_format(2, '.', ',') }}</strong></td>
       <td class="text-success"><strong>{{ ugovor.kapara | number_format(2, '.', ',') }}</strong></td>
       <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>

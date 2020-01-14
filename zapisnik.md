@@ -1,9 +1,9 @@
 # TODO
 Chana:
-- PROVERITI SVUDA MODUL ZA PROVERU STATUSA !!!
-- Ograniciti termine na 6 meseci u proslost SVUDA
+- PROVERITI SVUDA MODUL ZA PROVERU STATUSA !!! (Prikaz ikonice odradjen svuda pomocu modula. Da li treba negde kod izmene ugovora proveravati u nekom slucaju?)
+- Ograniciti termine na 6 meseci u proslost SVUDA (RESENO, osim kod selecta u filteru ugovora!!! Tu su i termini koji nemaju ugovor!!!)
 - Napraviti stampu ugovora
-- Dodati polje termin u tabelu ugovora smanjiti na 0.875
+- Dodati polje termin u tabelu ugovora smanjiti na 0.875 (RESENO)
 - Svuda gde ima datuma dodati u filteru od - do
 - Razmisliti o sortiranju
 - Kod svih brisanja proveriti vezane modele

@@ -49,13 +49,6 @@ class TerminUgovorController extends Controller
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            // ako nije obavezno ne moze da bude unique jer ce biti vise praznih
-            // i u bazi pravi problem unique key
-            // jedino da ako nije prazno proverimo da li postoji
-            // 'broj_ugovora' => [
-            //     'required' => true,
-            //     'maxlen' => 50,
-            //     'unique' => 'ugovori.broj_ugovora'],
             'datum' => ['required' => true,],
             'meni_id' => ['required' => true,],
             'prezime' => ['required' => true,],
@@ -169,10 +162,6 @@ class TerminUgovorController extends Controller
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'broj_ugovora' => [
-                'required' => true,
-                'maxlen' => 50,
-                'unique' => 'ugovori.broj_ugovora#id:' . $id],
             'datum' => ['required' => true,],
             'meni_id' => ['required' => true,],
             'prezime' => ['required' => true,],

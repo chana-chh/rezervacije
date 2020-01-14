@@ -20,24 +20,13 @@ class HomeController extends Controller
     public function getKalendar($request, $response)
     {
         $model_termin = new Termin();
-        $termini = $model_termin->all();
-
+        $sql = "SELECT * FROM {$model_termin->getTable()} WHERE datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH);";
+        $termini = $model_termin->fetch($sql);
         $data = [];
 
         foreach ($termini as $termin) {
-            $ikonica = "";
-            if ($termin->zauzet == 1) {
-                $ikonica = 'fas fa-calendar-check text-success';
-            }
-
-            if ($termin->zauzet == 0 && !empty($termin->ugovori())) {
-                $ikonica = 'fas fa-calendar-plus text-danger';
-            }
-
-            if ($termin->zauzet == 0 && empty($termin->ugovori())) {
-                $ikonica = 'fas fa-question-circle text-primary';
-            }
-
+            
+            $ikonica = $termin->statusIkonica();
             $data[] = (object) [
                 "id" => $termin->id,
                 "title" => [$termin->sala()->naziv],
