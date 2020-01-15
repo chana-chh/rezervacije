@@ -60,6 +60,10 @@ class Ugovor extends Model
     public function zakljucavanje()
     {
         $zakljucati = false;
+        if ($this->termin()->multiUgovori()) {
+            return false;
+        }
+
         if (!empty($this->uplate())) {
             $zakljucati = true;
         }
@@ -80,7 +84,7 @@ class Ugovor extends Model
     public function cenaUsluga()
     {
         $cena = 0.00;
-            $cena =
+        $cena =
             $this->muzika_iznos +
             $this->fotograf_iznos +
             $this->torta_iznos +
@@ -94,7 +98,7 @@ class Ugovor extends Model
 
     public function __toString()
     {
-        return 'Podaci iz modela: termin_id:' . $this->termin_id . 
+        return 'Podaci iz modela: termin_id:' . $this->termin_id .
                 ', broj_ugovora:' . $this->broj_ugovora .
                 ', datum:' . $this->datum .
                 ', meni_id:' . $this->meni_id .
