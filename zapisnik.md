@@ -6,7 +6,9 @@ Chana:
 - Napraviti stampu ugovora
 - Razmisliti o sortiranju
 - Kod svih brisanja proveriti vezane modele
-- Skinuti unique sa broja ugovora zbog praznih ------
+- kada se na jedan pogled dolazi sa vise mesta - ubaciti po dugme za vracanje na sva mesta
+- kod brisanja ugovora se vraca na nepostojecu stranu ??? (verovatno zbog modela za logovanje)
+- kod ugovora treba dodati neku vezu ka terminu (sa liste ugovora)
 
 Stasa:
 
@@ -19,20 +21,14 @@ Stasa:
 - Naziv i iznos na uplatama (Ovo se ne secam sta smo planirali, JBG)
 - Konfirmacioni dijalozi stil (RESENO, valjda ako nisam neki propustiJo)
 
-
-
-- kada se na jedan pogled dolazi sa vise mesta - ubaciti po dugme za vracanje na sva mesta
+Proveriti:
 
 - ugovor uplate edit (validacija na strani) ???
 - ugovor detalj dokument edit (modal)
 - ugovor detalj dokument delete (modal)
-
-- kod ugovora treba dodati neku vezu ka terminu (sa liste ugovora)
 
 ### PODSETNIK
 
 ## DATABASE
 
 ## NAPOMENE
-
-Bootstrap validacija forme kad je u modalu??? Ako je unos na istoj strani kao i pregled mozda treba koristiti istu formu za unos i izmene.

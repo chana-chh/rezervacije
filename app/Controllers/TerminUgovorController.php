@@ -91,7 +91,6 @@ class TerminUgovorController extends Controller
             $data['korisnik_id'] = $this->auth->user()->id;
             $model_ugovor->insert($data);
             $ugovor = $model_ugovor->find($model_ugovor->lastId());
-            dd(get_object_vars($ugovor), true);
             $this->log(Logger::DODAVANJE, $ugovor, 'broj_ugovora');
 
             $model_termin = new Termin();
@@ -194,6 +193,16 @@ class TerminUgovorController extends Controller
             'vocni_sto_iznos' => ['required' => true,],
             'posebni_zahtevi_iznos' => ['required' => true,]
         ];
+        // provera broja ugovora
+        $model_ugovor = new Ugovor();
+        if (trim($data['broj_ugovora']) != "") {
+            $sql = "SELECT COUNT(*) AS broj FROM ugovori WHERE broj_ugovora = :br AND id != :id;";
+            $params = [':br' => trim($data['broj_ugovora']), ':id' => $id];
+            $br = (int) $model_ugovor->fetch($sql, $params)[0]->broj;
+            if ($br > 0) {
+                $this->validator->addError('broj_ugovora', 'U bazi već postoji [Broj ugovora] sa istom vrednošću');
+            }
+        }
 
         $this->validator->validate($data, $validation_rules);
 
