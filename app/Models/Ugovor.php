@@ -60,13 +60,11 @@ class Ugovor extends Model
     public function zakljucavanje()
     {
         $zakljucati = false;
-        if ($this->termin()->multiUgovori()) {
-            return false;
-        }
 
         if (!empty($this->uplate())) {
             $zakljucati = true;
         }
+
         if (
             $this->muzika_chk === 1 &&
             $this->fotograf_chk === 1 &&
@@ -78,6 +76,7 @@ class Ugovor extends Model
         ) {
             $zakljucati = true;
         }
+
         return $zakljucati;
     }
 

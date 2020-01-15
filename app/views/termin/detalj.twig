@@ -5,12 +5,18 @@ naslov %}
     <h1>
       <i class="fas fa-calendar-check text-secondary"></i>
       Pregled termina -
-      <small>[
+      <small
+        >[
         <i class="{{ termin.statusIkonica() }}"></i>
-        {% if termin.status() == 0 %} Termin u pripremi {% endif %} {% if
-        termin.status() == 1 %} Zaključen termin {% endif %} {% if
-        termin.status() == 2 %} Informacija o terminu {% endif %}
-      ]</small>
+
+        <span>
+          {% if termin.status() == 0 %} Termin u pripremi {% endif %} {% if
+          termin.status() == 1 %} Zaključen termin {% endif %} {% if
+          termin.status() == 2 %} Informacija o terminu {% endif %}
+        </span>
+
+        ]</small
+      >
     </h1>
   </div>
   <div class="col text-right">
@@ -171,7 +177,11 @@ naslov %}
         <td class="text-info text-right">
           <strong>{{ ugovor.iznos | number_format }}</strong>
         </td>
-        <td class="{{ ugovor.uplateDug() > 0 ? 'text-danger' : 'text-success' }} text-right">
+        <td
+          class="{{
+            ugovor.uplateDug() > 0 ? 'text-danger' : 'text-success'
+          }} text-right"
+        >
           <strong>{{ ugovor.uplateDug() | number_format }}</strong>
         </td>
         <td>{{ ugovor.punoIme() }}</td>
@@ -300,6 +310,21 @@ naslov %}
           document.querySelector(".csrf_name").value = data.csrf_name;
           document.querySelector(".csrf_value").value = data.csrf_value;
           // promeniti ikonicu i text statusa u h1
+
+          let tekst = "";
+          if (data.status === 0) {
+            tekst = " Termin u pripremi";
+          }
+          if (data.status === 1) {
+            tekst = " Zaključen termin";
+          }
+          if (data.status === 2) {
+            tekst = " Informacija o terminu";
+          }
+          $("h1 small span").text(tekst);
+          $("h1 small i")
+            .removeClass()
+            .addClass(data.ikonica);
           if (data.zakljucen) {
             document
               .querySelector("#zauzet")

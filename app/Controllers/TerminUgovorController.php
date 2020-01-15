@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Classes\Logger;
+use App\Classes\Logger; // nije odradjeno logovanje
 use App\Models\Ugovor;
 use App\Models\Termin;
 use App\Models\Meni;
@@ -30,14 +30,10 @@ class TerminUgovorController extends Controller
     public function postUgovorDodavanjeTermin($request, $response)
     {
         $data = $request->getParams();
-        $kapara = (float) $data['kapara'];
-        $nacin_placanja = $data['nacin_placanja'];
 
         unset($data['csrf_name']);
         unset($data['csrf_value']);
         unset($data['cekiraj_sve']);
-        unset($data['kapara']);
-        unset($data['nacin_placanja']);
 
         $data['muzika_chk'] = isset($data['muzika_chk']) ? 1 : 0;
         $data['fotograf_chk'] = isset($data['fotograf_chk']) ? 1 : 0;
@@ -75,31 +71,35 @@ class TerminUgovorController extends Controller
             'posebni_zahtevi_iznos' => ['required' => true,]
         ];
 
+        // provera broja ugovora
+        $model_ugovor = new Ugovor();
+        if (trim($data['broj_ugovora']) != "") {
+            $sql = "SELECT COUNT(*) AS broj FROM ugovori WHERE broj_ugovora = :br;";
+            $params = [':br' => trim($data['broj_ugovora'])];
+            $br = (int) $model_ugovor->fetch($sql, $params)[0]->broj;
+            if ($br > 0) {
+                $this->validator->addError('broj_ugovora', 'U bazi već postoji [Broj ugovora] sa istom vrednošću');
+            }
+        }
+
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja ugovora.');
             return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id' => (int) $data['termin_id']]));
         } else {
-            $model_ugovor = new Ugovor();
             $data['korisnik_id'] = $this->auth->user()->id;
             $model_ugovor->insert($data);
-            // dodavanje uplate za kaparu
             $ugovor = $model_ugovor->find($model_ugovor->lastId());
+            dd(get_object_vars($ugovor), true);
             $this->log(Logger::DODAVANJE, $ugovor, 'broj_ugovora');
-            if ($kapara > 0) {
-                $kapara_data = [
-                'ugovor_id' => $ugovor->id,
-                'datum' => date("Y-m-d H:i:s"),
-                'iznos' => $kapara,
-                'nacin_placanja' => $nacin_placanja,
-                'opis' => 'kapara',
-                'korisnik_id' => $this->auth->user()->id,
-                ];
-                $model_uplata = new Uplata();
-                $model_uplata->insert($kapara_data);
-                $uplata = $model_uplata->find($model_uplata->lastId());
-                $this->log(Logger::DODAVANJE, $uplata, 'opis');
+
+            $model_termin = new Termin();
+            $termin = $model_termin->find($ugovor->termin_id);
+            if ($termin->zakljucavanje()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
             }
 
             $this->flash->addMessage('success', 'Novi ugovor je uspešno dodat.');
@@ -112,7 +112,14 @@ class TerminUgovorController extends Controller
         $id = (int) $request->getParam('idBrisanje');
         $model = new Ugovor();
         $ugovor = $model->find($id);
-        $termin_id = (int) $ugovor->termin_id;
+        $model_termin = new Termin();
+        $termin = $model_termin->find($ugovor->termin_id);
+        if ($termin->zakljucavanje()) {
+            $model_termin->update(['zauzet' => 1], $termin->id);
+        } else {
+            $model_termin->update(['zauzet' => 0], $termin->id);
+        }
+
         $success = $model->deleteOne($id);
         if ($success) {
             $this->flash->addMessage('success', "Ugovor je uspešno obrisan.");
@@ -196,6 +203,15 @@ class TerminUgovorController extends Controller
         } else {
             $model = new Ugovor();
             $model->update($data, $id);
+            $ugovor = $model->find($id);
+            $model_termin = new Termin();
+            $termin = $model_termin->find($ugovor->termin_id);
+            if ($termin->zakljucavanje()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
+            }
+
             $this->flash->addMessage('success', 'Ugovor je uspešno izmenjen.');
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => (int) $data['termin_id']]));
         }
@@ -242,6 +258,16 @@ class TerminUgovorController extends Controller
         } else {
             $model_uplate = new Uplata();
             $model_uplate->insert($data);
+            $model_ugovor = new Ugovor();
+            $ugovor = $model_ugovor->find($ugovor_id);
+            $model_termin = new Termin();
+            $termin = $model_termin->find($ugovor->termin_id);
+            if ($termin->zakljucavanje()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
+            }
+
             $this->flash->addMessage('success', "Uplata je uspešno evidentirana.");
             return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
         }
@@ -257,21 +283,19 @@ class TerminUgovorController extends Controller
 
     public function postUplataDetalj($request, $response)
     {
-
-            $data = $request->getParams();
-            $cName = $this->csrf->getTokenName();
-            $cValue = $this->csrf->getTokenValue();
-            $id = $data['id'];
-            $model_uplate = new Uplata();
-            $nacini = $model_uplate->enumOrSetList('nacin_placanja');
-            $uplata = $model_uplate->find($id);
-            $ar = ["cname" => $cName, "cvalue"=>$cValue, "uplata"=>$uplata, "nacini"=>$nacini];
-            return $response->withJson($ar);
+        $data = $request->getParams();
+        $cName = $this->csrf->getTokenName();
+        $cValue = $this->csrf->getTokenValue();
+        $id = $data['id'];
+        $model_uplate = new Uplata();
+        $nacini = $model_uplate->enumOrSetList('nacin_placanja');
+        $uplata = $model_uplate->find($id);
+        $ar = ["cname" => $cName, "cvalue"=>$cValue, "uplata"=>$uplata, "nacini"=>$nacini];
+        return $response->withJson($ar);
     }
 
     public function postIzmenaUplata($request, $response)
     {
-
         $data = $request->getParams();
         $id = $data['idIzmena'];
         $model = new Uplata();
@@ -303,6 +327,16 @@ class TerminUgovorController extends Controller
         } else {
             $model_uplate = new Uplata();
             $model_uplate->update($datam, $id);
+            $model_ugovor = new Ugovor();
+            $ugovor = $model_ugovor->find($ugovor_id);
+            $model_termin = new Termin();
+            $termin = $model_termin->find($ugovor->termin_id);
+            if ($termin->zakljucavanje()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
+            }
+
             $this->flash->addMessage('success', "Podaci o uplati su uspešno izmenjeni.");
             return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
         }
@@ -313,7 +347,16 @@ class TerminUgovorController extends Controller
         $id = (int)$request->getParam('idBrisanje');
         $model = new Uplata();
         $uplata = $model->find($id);
-        $ugovor_id = $uplata->ugovor_id;
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($uplata->ugovor_id);
+        $model_termin = new Termin();
+        $termin = $model_termin->find($ugovor->termin_id);
+        if ($termin->zakljucavanje()) {
+            $model_termin->update(['zauzet' => 1], $termin->id);
+        } else {
+            $model_termin->update(['zauzet' => 0], $termin->id);
+        }
+
         $success = $model->deleteOne($id);
         if ($success) {
             $this->flash->addMessage('success', "Uplata je uspešno obrisan.");

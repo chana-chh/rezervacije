@@ -122,11 +122,12 @@ class TerminController extends Controller
             }
             // Upisivanje u bazu
             $data['korisnik_id'] = $this->auth->user()->id;
-            $data['created_at'] = date("Y-m-d H:i:s");
             $model_termin->insert($data);
             $termin = $model_termin->find($model_termin->lastId());
-            if ($termin->multiUgovori()) {
+            if ($termin->zakljucavanje()) {
                 $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
             }
             $this->log(Logger::DODAVANJE, $termin, 'opis');
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
@@ -169,7 +170,9 @@ class TerminController extends Controller
         $z = $zakljucen ? 0 : 1;
         $data['zakljucen'] = $z == 1 ? true : false;
         $model->update(['zauzet' => $z], $termin_id);
-        // proslediti ikonicu i status
+        $termin = $model->find($termin_id);
+        $data['ikonica'] = $termin->statusIkonica();
+        $data['status'] = $termin->status();
         return json_encode($data);
     }
 
@@ -253,9 +256,12 @@ class TerminController extends Controller
             $data['zauzet'] = isset($data['zauzet']) ? 1 : 0;
             $model_termin->update($data, $id);
             $termin = $model_termin->find($id);
-            if ($termin->multiUgovori()) {
+            if ($termin->zakljucavanje()) {
                 $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
             }
+
             $this->log(Logger::IZMENA, $termin, 'opis', $stari);
             $this->flash->addMessage('success', 'Termin je uspešno izmenjen.');
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));

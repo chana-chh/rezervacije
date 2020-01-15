@@ -354,6 +354,93 @@
 		</form>
 	</div>
 </div>
+
+<div class="card border-dark mb-3">
+    <div class="card-header">
+		Dodatne usluge
+	</div>
+    <div class="card-body text-dark">
+      <div class="row">
+      	<div class="col">
+      		<table class="table table-sm table-striped table-hover mb-0" style="font-size: 0.875rem;">
+      			<thead>
+					<tr>
+						<th class="w-10">#</th>
+						<th class="w-30">Usluga</th>
+						<th class="w-15 text-center">Status</th>
+						<th class="w-45 text-right">Iznos</th>
+					</tr>
+    			</thead>
+					<tbody>
+					<tr>
+						<th>1</th>
+						<td>Muzika</td>
+						<td class="text-center">
+							{{ (ugovor.muzika_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
+						</td>
+						<td class="text-success text-right">{{ ugovor.muzika_iznos | number_format() }}</td>
+					</tr>
+					<tr>
+						<th>2</th>
+						<td>Fotograf</td>
+						<td class="text-center">
+							{{ (ugovor.fotograf_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
+						</td>
+						<td class="text-success text-right">{{ ugovor.fotograf_iznos | number_format() }}</td>
+					</tr>
+					<tr>
+						<th>3</th>
+						<td>Torta</td>
+						<td class="text-center">
+							{{ (ugovor.torta_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
+						</td>
+						<td class="text-success text-right">{{ ugovor.torta_iznos | number_format() }}</td>
+					</tr>
+					<tr>
+						<th>4</th>
+						<td>Dekoracija</td>
+						<td class="text-center">
+							{{ (ugovor.dekoracija_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
+						</td>
+						<td class="text-success text-right">{{ ugovor.dekoracija_iznos | number_format() }}</td>
+					</tr>
+					<tr>
+						<th>5</th>
+						<td>Kokteli</td>
+						<td class="text-center">
+							{{ (ugovor.kokteli_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
+						</td>
+						<td class="text-success text-right">{{ ugovor.kokteli_iznos | number_format() }}</td>
+					</tr>
+					<tr>
+						<th>6</th>
+						<td>Slatki sto</td>
+						<td class="text-center">
+							{{ (ugovor.slatki_sto_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
+						</td>
+						<td class="text-success text-right">{{ ugovor.slatki_sto_iznos | number_format() }}</td>
+					</tr>
+					<tr>
+						<th>7</th>
+						<td>Voćni sto</td>
+						<td class="text-center">
+							{{ (ugovor.vocni_sto_chk == 1) ? '<i class=\"fas fa-check text-success\"></i>' : '' }}
+						</td>
+						<td class="text-success text-right">{{ ugovor.vocni_sto_iznos | number_format() }}</td>
+					</tr>
+					<tr>
+						<th>8</th>
+						<td>Posebni zahtevi</td>
+						<td>
+						</td>
+						<td class="text-success text-right">{{ ugovor.posebni_zahtevi_iznos | number_format() }}</td>
+					</tr>
+					</tbody>
+  				</table>
+  			</div>
+  		</div>
+	</div>
+</div>
 {% endblock traka %}
 {% block skripta %}
 <script src="{{ base_url() }}/js/moment.min.js"></script>

@@ -268,4 +268,9 @@ class Validator
     {
         return isset($this->errors[$key][0]) ? $this->errors[$key][0] : null;
     }
+
+    public function addError($field, $text)
+    {
+        $this->errors[$field][] = $text;
+    }
 }

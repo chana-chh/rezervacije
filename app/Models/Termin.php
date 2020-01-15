@@ -24,6 +24,23 @@ class Termin extends Model
         return $this->tip()->multi_ugovori == 1 ? true : false;
     }
 
+    public function zakljucavanje()
+    {
+        if ($this->multiUgovori()) {
+            return true;
+        }
+
+        if (empty($this->ugovori())) {
+            return false;
+        }
+
+        if ($this->ugovori()[0]->zakljucavanje()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function sala()
     {
         return $this->belongsTo('App\Models\Sala', 'sala_id');
@@ -93,7 +110,7 @@ class Termin extends Model
 
     public function __toString()
     {
-        return 'Podaci iz modela: sala_id:' . $this->sala_id . 
+        return 'Podaci iz modela: sala_id:' . $this->sala_id .
                 ', tip_dogadjaja_id:' . $this->tip_dogadjaja_id .
                 ', datum:' . $this->datum .
                 ', pocetak:' . $this->pocetak .
