@@ -170,9 +170,10 @@ class TerminController extends Controller
         $z = $zakljucen ? 0 : 1;
         $data['zakljucen'] = $z == 1 ? true : false;
         $model->update(['zauzet' => $z], $termin_id);
-        $termin = $model->find($termin_id);
-        $data['ikonica'] = $termin->statusIkonica();
-        $data['status'] = $termin->status();
+        $termin1 = $model->find($termin_id);
+        $data['ikonica'] = $termin1->statusIkonica();
+        $data['status'] = $termin1->status();
+        $this->log(Logger::IZMENA, $termin1, 'opis', $termin);
         return json_encode($data);
     }
 

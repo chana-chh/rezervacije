@@ -5,10 +5,8 @@ namespace App\Controllers;
 use App\Models\Ugovor;
 use App\Models\Termin;
 use App\Models\Meni;
-use App\Models\Korisnik;
 use App\Models\Uplata;
-use App\Classes\Db;
-use App\Classes\Auth;
+use App\Classes\Logger;
 
 class UgovorController extends Controller
 {
@@ -24,7 +22,7 @@ class UgovorController extends Controller
         $model_termini = new Termin();
         $termini = $model_termini->all();
 
-        $this->render($response, 'ugovori.twig', compact('ugovori', 'termini'));
+        $this->render($response, 'ugovor/lista.twig', compact('ugovori', 'termini'));
     }
 
     public function postUgovorPretraga($request, $response)
@@ -139,20 +137,24 @@ class UgovorController extends Controller
         $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY datum DESC;";
         $ugovori = $model->paginate($page, 'page', $sql, $params);
 
-        $this->render($response, 'ugovori.twig', compact('ugovori', 'data'));
+        $this->render($response, 'ugovor/lista.twig', compact('ugovori', 'data'));
     }
 
-    public function getUgovorDodavanje($request, $response)
+    public function getUgovorDodavanje($request, $response, $args)
     {
-        $model = new Termin();
-        $termin = $model->find(1);
+        $termin_id = (int) $args['termin_id'];
+        $model_termin = new Termin();
+        $termin = $model_termin->find($termin_id);
 
-        $ugovori = $termin->ugovori();
+        $model_meni = new Meni();
+        $meniji = $model_meni->all();
 
-        $modelMeni = new Meni();
-        $meniji = $modelMeni->all();
-
-        $this->render($response, 'ugovor_dodavanje.twig', compact('termin', 'meniji', 'ugovori'));
+        // provera multi ugovor
+        if (!$termin->multiUgovori() && !empty($termin->ugovori())) {
+            $this->flash->addMessage('warning', "Nije dozvoljeno dodavanje više od jednog ugovora.");
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
+        }
+        $this->render($response, 'ugovor/dodavanje.twig', compact('termin', 'meniji'));
     }
 
     public function postUgovorDodavanje($request, $response)
@@ -163,30 +165,16 @@ class UgovorController extends Controller
         unset($data['csrf_value']);
         unset($data['cekiraj_sve']);
 
-        $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
-        $data['muzika_chk'] = $muzika_chk;
-        $fotograf_chk = isset($data['fotograf_chk']) ? 1 : 0;
-        $data['fotograf_chk'] = $fotograf_chk;
-        $torta_chk = isset($data['torta_chk']) ? 1 : 0;
-        $data['torta_chk'] = $torta_chk;
-        $dekoracija_chk = isset($data['dekoracija_chk']) ? 1 : 0;
-        $data['dekoracija_chk'] = $dekoracija_chk;
-        $kokteli_chk = isset($data['kokteli_chk']) ? 1 : 0;
-        $data['kokteli_chk'] = $kokteli_chk;
-        $slatki_sto_chk = isset($data['slatki_sto_chk']) ? 1 : 0;
-        $data['slatki_sto_chk'] = $slatki_sto_chk;
-        $vocni_sto_chk = isset($data['vocni_sto_chk']) ? 1 : 0;
-        $data['vocni_sto_chk'] = $vocni_sto_chk;
-
-        // $data['termin_id'] = 1; Za sada !!!
-        $data['korisnik_id'] = $this->auth->user()->id;
+        $data['muzika_chk'] = isset($data['muzika_chk']) ? 1 : 0;
+        $data['fotograf_chk'] = isset($data['fotograf_chk']) ? 1 : 0;
+        $data['torta_chk'] = isset($data['torta_chk']) ? 1 : 0;
+        $data['dekoracija_chk'] = isset($data['dekoracija_chk']) ? 1 : 0;
+        $data['kokteli_chk'] = isset($data['kokteli_chk']) ? 1 : 0;
+        $data['slatki_sto_chk'] = isset($data['slatki_sto_chk']) ? 1 : 0;
+        $data['vocni_sto_chk'] = isset($data['vocni_sto_chk']) ? 1 : 0;
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'broj_ugovora' => [
-                'required' => true,
-                'maxlen' => 50,
-                'unique' => 'ugovori.broj_ugovora'],
             'datum' => ['required' => true,],
             'meni_id' => ['required' => true,],
             'prezime' => ['required' => true,],
@@ -203,67 +191,72 @@ class UgovorController extends Controller
             'kokteli_chk' => ['required' => true,],
             'slatki_sto_chk' => ['required' => true,],
             'vocni_sto_chk' => ['required' => true,],
-            'korisnik_id' => ['required' => true,]
+            'muzika_iznos' => ['required' => true,],
+            'fotograf_iznos' => ['required' => true,],
+            'torta_iznos' => ['required' => true,],
+            'dekoracija_iznos' => ['required' => true,],
+            'kokteli_iznos' => ['required' => true,],
+            'slatki_sto_iznos' => ['required' => true,],
+            'vocni_sto_iznos' => ['required' => true,],
+            'posebni_zahtevi_iznos' => ['required' => true,]
         ];
 
+        // provera broja ugovora
+        $model_ugovor = new Ugovor();
+        if (trim($data['broj_ugovora']) != "") {
+            $sql = "SELECT COUNT(*) AS broj FROM ugovori WHERE broj_ugovora = :br;";
+            $params = [':br' => trim($data['broj_ugovora'])];
+            $br = (int) $model_ugovor->fetch($sql, $params)[0]->broj;
+            if ($br > 0) {
+                $this->validator->addError('broj_ugovora', 'U bazi već postoji [Broj ugovora] sa istom vrednošću');
+            }
+        }
 
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja ugovora.');
-            return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id'=>(int)$data['termin_id']]));
+            return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id' => (int) $data['termin_id']]));
         } else {
-            $model_ugovor = new Ugovor();
+            $data['korisnik_id'] = $this->auth->user()->id;
             $model_ugovor->insert($data);
+            $ugovor = $model_ugovor->find($model_ugovor->lastId());
+            $this->log(Logger::DODAVANJE, $ugovor, 'broj_ugovora');
+
+            $model_termin = new Termin();
+            $termin = $model_termin->find($ugovor->termin_id);
+            if ($termin->zakljucavanje()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
+            }
+
             $this->flash->addMessage('success', 'Novi ugovor je uspešno dodat.');
-            return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id'=>(int)$data['termin_id']]));
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => (int) $data['termin_id']]));
         }
-    }
-
-    public function postUgovorBrisanje($request, $response)
-    {
-        $id = (int)$request->getParam('idBrisanje');
-        $model = new Ugovor();
-        $success = $model->deleteOne($id);
-        if ($success) {
-            $this->flash->addMessage('success', "Ugovor je uspešno obrisan.");
-            return $response->withRedirect($this->router->pathFor('ugovori'));
-        } else {
-            $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja ugovora.");
-            return $response->withRedirect($this->router->pathFor('ugovori'));
-        }
-    }
-
-    public function getUgovorDetalj($request, $response, $args)
-    {
-        $id = (int)$args['id'];
-        $modelUgovor = new Ugovor();
-        $ugovor = $modelUgovor->find($id);
-        $this->render($response, 'ugovor_pregled.twig', compact('ugovor'));
     }
 
     public function getUgovorIzmena($request, $response, $args)
     {
-        $id = (int)$args['id'];
-        $modelUgovor = new Ugovor();
-        $ugovor = $modelUgovor->find($id);
+        $id = (int) $args['id'];
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($id);
+        $model_termin = new Termin();
+        $termin = $model_termin->find($ugovor->termin_id);
 
-        $modelMeni = new Meni();
-        $meniji = $modelMeni->all();
+        $model_meni = new Meni();
+        $meniji = $model_meni->all();
 
-        $this->render($response, 'ugovor_izmena.twig', compact('ugovor', 'meniji'));
+        $this->render($response, 'ugovor/izmena.twig', compact('ugovor', 'meniji', 'termin'));
     }
 
     public function postUgovorIzmena($request, $response)
     {
         $data = $request->getParams();
-        $id = $data['id'];
+        $id = (int) $data['id'];
         unset($data['id']);
         unset($data['csrf_name']);
         unset($data['csrf_value']);
-
-        $k = new Auth();
-        $id_korisnika = $k->user()->id;
 
         $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
         $data['muzika_chk'] = $muzika_chk;
@@ -280,14 +273,8 @@ class UgovorController extends Controller
         $vocni_sto_chk = isset($data['vocni_sto_chk']) ? 1 : 0;
         $data['vocni_sto_chk'] = $vocni_sto_chk;
 
-        $data['korisnik_id'] = $id_korisnika;
-
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'broj_ugovora' => [
-                'required' => true,
-                'maxlen' => 50,
-                'unique' => 'ugovori.broj_ugovora#id:' . $id],
             'datum' => ['required' => true,],
             'meni_id' => ['required' => true,],
             'prezime' => ['required' => true,],
@@ -304,64 +291,97 @@ class UgovorController extends Controller
             'kokteli_chk' => ['required' => true,],
             'slatki_sto_chk' => ['required' => true,],
             'vocni_sto_chk' => ['required' => true,],
-            'korisnik_id' => ['required' => true,]
+            'muzika_iznos' => ['required' => true,],
+            'fotograf_iznos' => ['required' => true,],
+            'torta_iznos' => ['required' => true,],
+            'dekoracija_iznos' => ['required' => true,],
+            'kokteli_iznos' => ['required' => true,],
+            'slatki_sto_iznos' => ['required' => true,],
+            'vocni_sto_iznos' => ['required' => true,],
+            'posebni_zahtevi_iznos' => ['required' => true,]
         ];
+        // provera broja ugovora unique
+        $model_ugovor = new Ugovor();
+        if (trim($data['broj_ugovora']) != "") {
+            $sql = "SELECT COUNT(*) AS broj FROM ugovori WHERE broj_ugovora = :br AND id != :id;";
+            $params = [':br' => trim($data['broj_ugovora']), ':id' => $id];
+            $br = (int) $model_ugovor->fetch($sql, $params)[0]->broj;
+            if ($br > 0) {
+                $this->validator->addError('broj_ugovora', 'U bazi već postoji [Broj ugovora] sa istom vrednošću');
+            }
+        }
 
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
-            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene podataka ugovora.');
-            return $response->withRedirect($this->router->pathFor('ugovor.izmena', ['id' => $id]));
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene ugovora.');
+            return $response->withRedirect($this->router->pathFor('termin.ugovor.izmena.get', ['id' => $id]));
         } else {
-            $this->flash->addMessage('success', 'Podaci ugovora su uspešno izmenjeni.');
             $model = new Ugovor();
+            $ugovor = $model->find($id);
             $model->update($data, $id);
-            return $response->withRedirect($this->router->pathFor('ugovori'));
+            $ugovor1 = $model->find($id);
+            $model_termin = new Termin();
+            $termin = $model_termin->find($ugovor->termin_id);
+            if ($termin->zakljucavanje()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
+            } else {
+                $model_termin->update(['zauzet' => 0], $termin->id);
+            }
+            $this->log(Logger::IZMENA, $ugovor1, 'broj_ugovora', $ugovor);
+            $this->flash->addMessage('success', 'Ugovor je uspešno izmenjen.');
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => (int) $data['termin_id']]));
         }
     }
 
-    public function postUgovorUplata($request, $response)
+    public function postUgovorBrisanje($request, $response)
     {
-        $id = (int)$request->getParam('idUgovora');
-        $data = $request->getParams();
-        unset($data['csrf_name']);
-        unset($data['csrf_value']);
-        unset($data['idUgovora']);
+        $id = (int) $request->getParam('idBrisanje');
+        $model = new Ugovor();
+        $ugovor = $model->find($id);
+        $model_termin = new Termin();
+        $termin = $model_termin->find($ugovor->termin_id);
 
-        $k = new Auth();
-        $id_korisnika = $k->user()->id;
-
-        $data['ugovor_id'] = $id;
-        $data['korisnik_id'] = $id_korisnika;
-
-        $validation_rules = [
-            'ugovor_id' => [
-                'required' => true
-            ],
-            'datum' => [
-                'required' => true
-            ],
-            'iznos' => [
-                'required' => true
-            ],
-            'nacin_placanja' => [
-                'required' => true
-            ],
-            'korisnik_id' => [
-                'required' => true
-            ]
-        ];
-
-        $this->validator->validate($data, $validation_rules);
-
-        if ($this->validator->hasErrors()) {
-            $this->flash->addMessage('danger', "Došlo je do greške prilikom evidentiranja uplate.");
-            return $response->withRedirect($this->router->pathFor('ugovor.detalj', ['id' => $id]));
-        } else {
-            $this->flash->addMessage('success', "Uplata je uspešno evidentirana.");
-            $modelUplate = new Uplata();
-            $modelUplate->insert($data);
-            return $response->withRedirect($this->router->pathFor('ugovor.detalj', ['id' => $id]));
+        // provera uplata i dokumenata
+        if (count($ugovor->uplate()) > 0) {
+            $this->flash->addMessage('danger', "Postoje uplate vezane za ovaj ugovor. Da bi se obrisao ugovor nephodno je prethodno obrisati sve uplate vezane za njega.");
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
         }
+        if (count($ugovor->dokumenti()) > 0) {
+            $this->flash->addMessage('danger', "Postoje dokumenti vezani za ovaj ugovor. Da bi se obrisao ugovor nephodno je prethodno obrisati sve dokumente vezane za njega.");
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
+        }
+
+        if ($termin->zakljucavanje()) {
+            $model_termin->update(['zauzet' => 1], $termin->id);
+        } else {
+            $model_termin->update(['zauzet' => 0], $termin->id);
+        }
+
+        $success = $model->deleteOne($id);
+        if ($success) {
+            $this->log(Logger::BRISANJE, $ugovor, 'broj_ugovora', $ugovor);
+            $this->flash->addMessage('success', "Ugovor je uspešno obrisan.");
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
+        } else {
+            $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja ugovora.");
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
+        }
+    }
+
+    public function getUgovorDetalj($request, $response, $args) // detalj ugovora sa dokumentima
+    {
+        $id = (int) $args['id'];
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($id);
+        $this->render($response, 'ugovor/detalj.twig', compact('ugovor'));
+    }
+
+    public function getUgovorUplateDetalj($request, $response, $args) // detalj ugovora sa uplatama
+    {
+        $id = (int) $args['id'];
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($id);
+        $this->render($response, 'ugovor/uplate.twig', compact('ugovor'));
     }
 }
