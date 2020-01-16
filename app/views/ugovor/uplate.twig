@@ -155,30 +155,30 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		<form id="izmena-forma" action="{{ path_for('ugovor.izmena.uplata') }}" method="POST">
+		<form id="izmena-forma" action="{{ path_for('ugovor.izmena.uplata') }}" method="POST" class="needs-validation" novalidate>
 		{{ csrf|raw }}
 		<input type="hidden" id="idIzmena" name="idIzmena">
 		<div class="form-group">
 			<label for="opisModal">Opis</label>
 			<input type="text" class="form-control" name="opisModal" id="opisModal" aria-describedby="izmena opis">
 			<div class="valid-feedback">Odgovarajući podatak</div>
-          	<div class="invalid-feedback">{{ errors.opisModal[0] ? : 'Obavezno polje' }}</div>
+          	<div class="invalid-feedback">{{ errors.opisModal[0] ? : '' }}</div>
 		</div>
 		<div class="form-group">
 			<label for="datumModal">Datum</label>
-			<input name="datumModal" type="date" id="datumModal" class="form-control"/>
+			<input name="datumModal" type="date" id="datumModal" class="form-control" required/>
 			<div class="valid-feedback">Odgovarajući podatak</div>
           	<div class="invalid-feedback">{{ errors.datumModal[0] ? : 'Obavezno polje' }}</div>
 		</div>
 		<div class="form-group">
 			<label for="iznosModal">Iznos</label>
-			<input type="number" class="form-control" name="iznosModal" id="iznosModal" min="0" step="0.01">
+			<input type="number" class="form-control" name="iznosModal" id="iznosModal" min="0" step="0.01" required>
 			<div class="valid-feedback">Odgovarajući podatak</div>
           	<div class="invalid-feedback">{{ errors.iznosModal[0] ? : 'Obavezno polje' }}</div>
 		</div>
 		<div class="form-group">
 			<label for="nacin_placanjaModal">Način plaćanja:</label>
-			<select class="custom-select mb-2" name="nacin_placanjaModal" id="nacin_placanjaModal" class="form-control">
+			<select class="custom-select mb-2" name="nacin_placanjaModal" id="nacin_placanjaModal" class="form-control" required>
 			<option value=""></option>
 			</select>
 			<div class="valid-feedback">Odgovarajući podatak</div>

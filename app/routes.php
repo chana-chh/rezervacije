@@ -66,13 +66,6 @@ $app->group('', function () {
     $this->get('/ugovori', '\App\Controllers\UgovorController:getUgovor')->setName('ugovori');
     $this->get('/ugovori/pretraga', '\App\Controllers\UgovorController:getUgovorPretraga')->setName('ugovori.pretraga');
     $this->post('/ugovori/pretraga', '\App\Controllers\UgovorController:postUgovorPretraga');
-    // $this->get('/ugovori/dodavanje', '\App\Controllers\UgovorController:getUgovorDodavanje')->setName('ugovor.dodavanje.get');
-    // $this->post('/ugovori/dodavanje', '\App\Controllers\UgovorController:postUgovorDodavanje')->setName('ugovor.dodavanje.post');
-    // $this->get('/ugovori/izmena/{id}', '\App\Controllers\UgovorController:getUgovorIzmena')->setName('ugovor.izmena.get');
-    // $this->post('/ugovori/izmena', '\App\Controllers\UgovorController:postUgovorIzmena')->setName('ugovor.izmena.post');
-    // $this->post('/ugovori/brisanje', '\App\Controllers\UgovorController:postUgovorBrisanje')->setName('ugovor.brisanje');
-    // $this->get('/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('ugovor.detalj');
-    // $this->post('/ugovori/uplata', '\App\Controllers\UgovorController:postUgovorUplata')->setName('ugovor.uplata');
 
     $this->get('/termin/ugovori/dodavanje/{termin_id}', '\App\Controllers\UgovorController:getUgovorDodavanje')->setName('termin.dodavanje.ugovor');
     $this->post('/termin/ugovori/dodavanje', '\App\Controllers\UgovorController:postUgovorDodavanje')->setName('termin.dodavanje.ugovor.post');

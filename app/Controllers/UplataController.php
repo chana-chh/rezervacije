@@ -124,9 +124,9 @@ class UplataController extends Controller
             $this->flash->addMessage('success', "Podaci o uplati su uspešno izmenjeni.");
             return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
         }
-	}
+    }
 
-	public function postUplataBrisanje($request, $response)
+    public function postUplataBrisanje($request, $response)
     {
         $id = (int)$request->getParam('idBrisanje');
         $model = new Uplata();
@@ -144,11 +144,11 @@ class UplataController extends Controller
         $success = $model->deleteOne($id);
         if ($success) {
             $this->log(Logger::BRISANJE, $uplata, 'datum', $uplata);
-            $this->flash->addMessage('success', "Uplata je uspešno obrisan.");
-            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
+            $this->flash->addMessage('success', "Uplata je uspešno obrisana.");
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor->id]));
         } else {
             $this->flash->addMessage('danger', "Došlo je do greške prilikom brisanja uplate.");
-            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
+            return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor->id]));
         }
     }
 }
