@@ -15,6 +15,9 @@
     line-height: .5 !important;
     border-radius: .2rem !important;
   }
+  #datumb{
+    width: 50% !important;
+  }
   }
   .fc-day-grid-event:hover {
     background-color: #ffc107 !important;
@@ -44,15 +47,22 @@
 </style>
 {% endblock stil %} {% block naslov %}
 <div class="row d-none d-sm-flex">
-  <div class="col-lg-6">
+  <div class="col">
     <h1><i class="fas fa-calendar-alt text-secondary"></i> Pregled zakazanih termina</h1>
+    <hr>
+  </div>
+</div>
+<div class="row d-none d-sm-flex">
+  <div class="col-lg-2">
     <input name="datum" type="date" id="datum" class="form-control"/>
+  </div>
+  <div class="col-lg-2">
     <button class="btn btn-primary btn-sm" id="idi" title="Prelazak na datum">
             <i class="fas fa-rocket"></i>&emsp;Idi na datum
           </button>
   </div>
-  <div class="col-lg-6 text-right">
-    <ul class="list-unstyled pt-3 mb-0">
+  <div class="col-lg-8 text-right">
+    <ul class="list-unstyled">
       <li>
         <i class="fas fa-question-circle text-primary"></i> Informacija o terminu
       </li>
@@ -66,11 +76,21 @@
   </div>
 </div>
 <div class="row d-sm-none ">
-  <div class="col-lg-6">
+  <div class="col">
     <h4><i class="fas fa-calendar-check text-secondary"></i> Pregled zakazanih termina</h4>
   </div>
-  <div class="col-lg-6 text-left" style="font-size: 0.75rem;">
-    <ul class="list-unstyled pt-3 mb-0">
+</div>
+<div class="row d-sm-none" style="font-size: 0.75rem;">
+  <div class="col-lg-2">
+    <input name="datum" type="date" id="datumb" class="form-control"/>
+  </div>
+  <div class="col-lg-2">
+    <button class="btn btn-primary btn-sm" id="idib" title="Prelazak na datum">
+            <i class="fas fa-rocket"></i>&emsp;Idi na datum
+          </button>
+  </div>
+  <div class="col-lg-8 text-left">
+    <ul class="list-unstyled">
       <li>
         <i class="fas fa-question-circle text-primary"></i> Informacija o terminu
       </li>
@@ -114,8 +134,19 @@
 
     $(document).ready(function() {
       $('#idi').click(function() {
-        if($('#datum').val())
+        if($('#datum').val()){
         $("#kalendar").fullCalendar('gotoDate', $('#datum').val());
+        $("#kalendar").fullCalendar('select', $('#datum').val());
+        }
+        else{
+          alert('Odaberite željeni datum!')
+        }
+      });
+      $('#idib').click(function() {
+        if($('#datumb').val()){
+        $("#kalendar").fullCalendar('gotoDate', $('#datumb').val());
+        $("#kalendar").fullCalendar('select', $('#datumb').val());
+        }
         else{
           alert('Odaberite željeni datum!')
         }
