@@ -494,31 +494,6 @@
           <textarea class="form-control" name="napomena" id="napomena" rows="3">{{ old.napomena ?  : '' }}</textarea>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group col-3 offset-7">
-          <label for="kapara">Kapara</label>
-          <input
-            type="number"
-            class="form-control{{ errors.kapara[0] ? ' is-invalid' : '' }}"
-            name="kapara"
-            id="kapara"
-            value="{{ old.kapara ? : 0.00 }}"
-            min="0" step="0.01"
-            autocomplete="off"
-            required>
-          <div class="valid-feedback">Odgovarajući podatak</div>
-          <div class="invalid-feedback">{{ errors.kapara[0] ? : 'Obavezno polje' }}</div>
-        </div>
-        <div class="col form-group col-2">
-					<label for="nacin_placanja">Način plaćanja:</label>
-					<select class="custom-select mb-2" name="nacin_placanja" id="nacin_placanja" required>
-					<option value="gotovina">Gotovina</option>
-					<option value="kartica">Kartica</option>
-					<option value="ček">Ček</option>
-					<option value="faktura">Faktura</option>
-					</select>
-				</div>
-      </div>
       <hr>
       <div class="form-row justify-content-between mt-2">
         <div class="col-12 text-right align-self-end">

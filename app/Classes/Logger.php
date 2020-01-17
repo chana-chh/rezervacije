@@ -25,7 +25,7 @@ class Logger
         $data = [
             'opis' => "{$model->id}, {$model->table()} - {$polje} : {$model->$polje}",
             'tip' => $tip,
-            'stari' => $model_stari,
+            'stari' => $model_stari, // $model_stari === null ? '' : serialize(get_object_vars($model_stari)
             'korisnik_id' => $this->korisnik->id,
         ];
 

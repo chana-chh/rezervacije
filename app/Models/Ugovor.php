@@ -60,9 +60,11 @@ class Ugovor extends Model
     public function zakljucavanje()
     {
         $zakljucati = false;
+
         if (!empty($this->uplate())) {
             $zakljucati = true;
         }
+
         if (
             $this->muzika_chk === 1 &&
             $this->fotograf_chk === 1 &&
@@ -74,13 +76,14 @@ class Ugovor extends Model
         ) {
             $zakljucati = true;
         }
+
         return $zakljucati;
     }
 
     public function cenaUsluga()
     {
         $cena = 0.00;
-            $cena =
+        $cena =
             $this->muzika_iznos +
             $this->fotograf_iznos +
             $this->torta_iznos +
@@ -94,7 +97,7 @@ class Ugovor extends Model
 
     public function __toString()
     {
-        return 'Podaci iz modela: termin_id:' . $this->termin_id . 
+        return 'Podaci iz modela: termin_id:' . $this->termin_id .
                 ', broj_ugovora:' . $this->broj_ugovora .
                 ', datum:' . $this->datum .
                 ', meni_id:' . $this->meni_id .

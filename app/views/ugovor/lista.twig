@@ -1,4 +1,4 @@
-{% extends "templates/app.twig" %} 
+{% extends "templates/app.twig" %}
 {% block naslov %}
 <div class="row mt-md-2">
   <div class="col">
@@ -167,7 +167,7 @@
         <div class="modal-body">
           <h4>Da li želite trajno da obrišete ugovor?</h4>
           <p class="text-danger">* Ova akcija je nepovratna!</p>
-          <form id="brisanje-forma" action="{{ path_for('ugovor.brisanje') }}" method="POST">
+          <form id="brisanje-forma" action="{{ path_for('termin.ugovor.brisanje') }}" method="POST">
             {{ csrf|raw }}
             <input type="hidden" id="idBrisanje" name="idBrisanje">
             <hr style="margin-top: 30px;">
@@ -205,5 +205,3 @@
     });
   </script>
 {% endblock skripta %}
-
-

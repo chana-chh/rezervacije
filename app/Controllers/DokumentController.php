@@ -52,7 +52,7 @@ class DokumentController extends Controller
         }
     }
 
-        public function postDokumentiBrisanje($request, $response)
+    public function postDokumentiBrisanje($request, $response)
     {
         $id = (int)$request->getParam('modal_dokument_id');
         $ugovor_id = (int)$request->getParam('modal_dokument_ugovor_id');
@@ -60,7 +60,6 @@ class DokumentController extends Controller
         $dok = $modelDokument->find($id);
         $tmp = explode('/', $dok->link);
         $file = DIR . 'pub' . DS . 'doc' . DS . end($tmp);
-        dd($file);
         $success = $modelDokument->deleteOne($id);
         if ($success) {
             unlink($file);
@@ -74,14 +73,14 @@ class DokumentController extends Controller
 
     public function postDokumentDetalj($request, $response)
     {
-            $data = $request->getParams();
-            $cName = $this->csrf->getTokenName();
-            $cValue = $this->csrf->getTokenValue();
-            $id = $data['id'];
-            $modelDokument = new Dokument();
-            $dokument = $modelDokument->find($id);
-            $ar = ["cname" => $cName, "cvalue"=>$cValue, "dokument"=>$dokument];
-            return $response->withJson($ar);
+        $data = $request->getParams();
+        $cName = $this->csrf->getTokenName();
+        $cValue = $this->csrf->getTokenValue();
+        $id = $data['id'];
+        $modelDokument = new Dokument();
+        $dokument = $modelDokument->find($id);
+        $ar = ["cname" => $cName, "cvalue"=>$cValue, "dokument"=>$dokument];
+        return $response->withJson($ar);
     }
 
     public function postDokumentIzmena($request, $response)

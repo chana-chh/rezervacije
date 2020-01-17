@@ -66,35 +66,28 @@ $app->group('', function () {
     $this->get('/ugovori', '\App\Controllers\UgovorController:getUgovor')->setName('ugovori');
     $this->get('/ugovori/pretraga', '\App\Controllers\UgovorController:getUgovorPretraga')->setName('ugovori.pretraga');
     $this->post('/ugovori/pretraga', '\App\Controllers\UgovorController:postUgovorPretraga');
-    $this->get('/ugovori/dodavanje', '\App\Controllers\UgovorController:getUgovorDodavanje')->setName('ugovor.dodavanje.get');
-    $this->post('/ugovori/dodavanje', '\App\Controllers\UgovorController:postUgovorDodavanje')->setName('ugovor.dodavanje.post');
-    $this->get('/ugovori/izmena/{id}', '\App\Controllers\UgovorController:getUgovorIzmena')->setName('ugovor.izmena.get');
-    $this->post('/ugovori/izmena', '\App\Controllers\UgovorController:postUgovorIzmena')->setName('ugovor.izmena.post');
-    $this->post('/ugovori/brisanje', '\App\Controllers\UgovorController:postUgovorBrisanje')->setName('ugovor.brisanje');
-    $this->get('/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('ugovor.detalj');
-    $this->post('/ugovori/uplata', '\App\Controllers\UgovorController:postUgovorUplata')->setName('ugovor.uplata');
 
-    // Termini
-    $this->get('/termin/ugovori/dodavanje/{termin_id}', '\App\Controllers\TerminUgovorController:getUgovorDodavanjeTermin')->setName('termin.dodavanje.ugovor');
-    $this->post('/termin/ugovori/dodavanje', '\App\Controllers\TerminUgovorController:postUgovorDodavanjeTermin')->setName('termin.dodavanje.ugovor.post');
-    $this->get('/termin/ugovori/izmena/{id}', '\App\Controllers\TerminUgovorController:getUgovorIzmenaTermin')->setName('termin.ugovor.izmena.get');
-    $this->post('/termin/ugovori/izmena', '\App\Controllers\TerminUgovorController:postUgovorIzmenaTermin')->setName('termin.ugovor.izmena.post');
-    $this->post('/termin/ugovori/brisanje', '\App\Controllers\TerminUgovorController:postUgovorBrisanjeTermin')->setName('termin.ugovor.brisanje');
-    $this->get('/termin/ugovori/detalj/{id}', '\App\Controllers\TerminUgovorController:getUgovorDetaljTermin')->setName('termin.ugovor.detalj.get');
-    $this->post('/ugovori/uplata/detalj', '\App\Controllers\TerminUgovorController:postUplataDetalj')->setName('ugovor.uplata.detalj');
-    $this->post('/ugovori/izmena/uplata', '\App\Controllers\TerminUgovorController:postIzmenaUplata')->setName('ugovor.izmena.uplata');
-    $this->post('/ugovori/brisanje/uplata', '\App\Controllers\TerminUgovorController:postUplataBrisanje')->setName('ugovor.brisanje.uplata');
+    $this->get('/termin/ugovori/dodavanje/{termin_id}', '\App\Controllers\UgovorController:getUgovorDodavanje')->setName('termin.dodavanje.ugovor');
+    $this->post('/termin/ugovori/dodavanje', '\App\Controllers\UgovorController:postUgovorDodavanje')->setName('termin.dodavanje.ugovor.post');
+    $this->get('/termin/ugovori/izmena/{id}', '\App\Controllers\UgovorController:getUgovorIzmena')->setName('termin.ugovor.izmena.get');
+    $this->post('/termin/ugovori/izmena', '\App\Controllers\UgovorController:postUgovorIzmena')->setName('termin.ugovor.izmena.post');
+    $this->post('/termin/ugovori/brisanje', '\App\Controllers\UgovorController:postUgovorBrisanje')->setName('termin.ugovor.brisanje');
+    $this->get('/termin/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('termin.ugovor.detalj.get');
+    $this->get('/termin/ugovori/uplate/{id}', '\App\Controllers\UgovorController:getUgovorUplateDetalj')->setName('ugovor.uplate.lista');
 
-    $this->post('/termin/ugovori/uplata', '\App\Controllers\TerminUgovorController:postUgovorUplataTermin')->setName('termin.ugovor.uplata');
+    // Uplate
+    $this->post('/ugovori/uplata/detalj', '\App\Controllers\UplataController:postUplataIzmenaAjax')->setName('ugovor.uplata.detalj');
+    $this->post('/ugovori/izmena/uplata', '\App\Controllers\UplataController:postUplataIzmena')->setName('ugovor.izmena.uplata');
+    $this->post('/ugovori/brisanje/uplata', '\App\Controllers\UplataController:postUplataBrisanje')->setName('ugovor.brisanje.uplata');
+    $this->post('/termin/ugovori/uplata', '\App\Controllers\UplataController:postUplataDodavanje')->setName('termin.ugovor.uplata');
 
+    // Dokumenti
     $this->post('/termin/dokument/dodavanje', '\App\Controllers\DokumentController:postDokumentDodavanje')->setName('dokument.dodavanje');
     $this->post('/termin/dokument/brisanje', '\App\Controllers\DokumentController:postDokumentiBrisanje')->setName('dokument.brisanje');
     $this->post('/termin/dokument/detalj', '\App\Controllers\DokumentController:postDokumentDetalj')->setName('dokument.detalj');
     $this->post('/termin/dokument/izmena', '\App\Controllers\DokumentController:postDokumentIzmena')->setName('dokument.izmena');
 
-
-    $this->get('/termin/ugovori/uplate/{id}', '\App\Controllers\TerminUgovorController:getUgovorUplateLista')->setName('ugovor.uplate.lista');
-
+    // Termini
     $this->get('/termin/pregled[/{datum}]', '\App\Controllers\TerminController:getTerminPregled')->setName('termin.pregled.get');
     $this->get('/termin/detalj[/{id}]', '\App\Controllers\TerminController:getTerminDetalj')->setName('termin.detalj.get');
     $this->get('/termin/dodavanje[/{datum}]', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
