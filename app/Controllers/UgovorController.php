@@ -21,10 +21,7 @@ class UgovorController extends Controller
         $model = new Ugovor();
         $ugovori = $model->paginate($page);
 
-        $model_termini = new Termin();
-        $termini = $model_termini->all();
-
-        $this->render($response, 'ugovori.twig', compact('ugovori', 'termini'));
+        $this->render($response, 'ugovori.twig', compact('ugovori'));
     }
 
     public function postUgovorPretraga($request, $response)

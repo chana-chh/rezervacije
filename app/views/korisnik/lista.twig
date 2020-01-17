@@ -386,6 +386,7 @@
     });
 
     $(document).on("click", ".otvori-izmenu", function() {
+      $('#nivoM').find('option').remove();
       var csrfName = $(".csrf_name").val();
       var csrfValue = $(".csrf_value").val();
       var id = $(this).data("id");

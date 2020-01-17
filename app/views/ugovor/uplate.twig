@@ -155,26 +155,52 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		<form id="izmena-forma" action="{{ path_for('ugovor.izmena.uplata') }}" method="POST">
+		<form id="izmena-forma" action="{{ path_for('ugovor.izmena.uplata') }}" method="POST" class="needs-validation" novalidate>
 		{{ csrf|raw }}
 		<input type="hidden" id="idIzmena" name="idIzmena">
 		<div class="form-group">
 			<label for="opisModal">Opis</label>
-			<input type="text" class="form-control" name="opisModal" id="opisModal" aria-describedby="izmena opis">
+			<input type="text" 
+			class="form-control" 
+			name="opisModal" 
+			id="opisModal" 
+			aria-describedby="izmena opis">
 		</div>
 		<div class="form-group">
 			<label for="datumModal">Datum</label>
-			<input name="datumModal" type="date" id="datumModal" class="form-control"/>
+			<input name="datumModal" type="date" 
+			id="datumModal" 
+			class="form-control{{ errors.datumModal[0] ? ' is-invalid' : '' }}" required>
+			<div class="valid-feedback">Odgovarajući podatak</div>
+            <div class="invalid-feedback">
+            	{{ errors.datumModal[0] ? : 'Obavezno polje' }}
+            </div>
 		</div>
 		<div class="form-group">
 			<label for="iznosModal">Iznos</label>
-			<input type="number" class="form-control" name="iznosModal" id="iznosModal" min="0" step="0.01">
+			<input type="number" 
+			class="form-control{{ errors.iznosModal[0] ? ' is-invalid' : '' }}" 
+			name="iznosModal" 
+			id="iznosModal" 
+			min="0" 
+			step="0.01" required>
+			<div class="valid-feedback">Odgovarajući podatak</div>
+            <div class="invalid-feedback">
+            	{{ errors.iznosModal[0] ? : 'Obavezno polje' }}
+            </div>
 		</div>
 		<div class="form-group">
 			<label for="nacin_placanjaModal">Način plaćanja:</label>
-			<select class="custom-select mb-2" name="nacin_placanjaModal" id="nacin_placanjaModal" class="form-control">
+			<select class="custom-select mb-2 form-control{{ errors.iznosModal[0] ? ' is-invalid' : '' }}"
+			name="nacin_placanjaModal" 
+			id="nacin_placanjaModal" 
+			class="form-control" required>
 			<option value=""></option>
 			</select>
+			<div class="valid-feedback">Odgovarajući podatak</div>
+            <div class="invalid-feedback">
+            	{{ errors.nacin_placanjaModal[0] ? : 'Obavezno polje' }}
+            </div>
 		</div>
 		<hr style="margin-top: 30px;">
 		<div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
@@ -354,6 +380,69 @@
 		</form>
 	</div>
 </div>
+<hr>
+<div class="card border-dark mb-2">
+    <div class="card-header">
+		Pregled dodatnih usluga
+	</div>
+    <div class="card-body text-dark">
+      <div class="row">
+      	<div class="col">
+      		<table class="table table-sm table-striped mb-0">
+      			<thead>
+					<tr>
+						<th class="w-10">#</th>
+						<th class="w-40">Usluga</th>
+						<th class="w-50 text-right">Iznos</th>
+					</tr>
+    			</thead>
+					<tbody>
+					<tr>
+						<th>1</th>
+						<td>Muzika</td>
+						<td class="text-success text-right">{{ ugovor.muzika_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					<tr>
+						<th>2</th>
+						<td>Fotograf</td>
+						<td class="text-success text-right">{{ ugovor.fotograf_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					<tr>
+						<th>3</th>
+						<td>Torta</td>
+						<td class="text-success text-right">{{ ugovor.torta_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					<tr>
+						<th>4</th>
+						<td>Dekoracija</td>
+						<td class="text-success text-right">{{ ugovor.dekoracija_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					<tr>
+						<th>5</th>
+						<td>Kokteli</td>
+						<td class="text-success text-right">{{ ugovor.kokteli_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					<tr>
+						<th>6</th>
+						<td>Slatki sto</td>
+						<td class="text-success text-right">{{ ugovor.slatki_sto_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					<tr>
+						<th>7</th>
+						<td>Voćni sto</td>
+						<td class="text-success text-right">{{ ugovor.vocni_sto_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					<tr>
+						<th>8</th>
+						<td>Posebni zahtevi</td>
+						<td class="text-success text-right">{{ ugovor.posebni_zahtevi_iznos | number_format(2, '.', ',') }}</td>
+					</tr>
+					</tbody>
+  				</table>
+  			</div>
+  		</div>
+	</div>
+</div>
 {% endblock traka %}
 {% block skripta %}
 <script src="{{ base_url() }}/js/moment.min.js"></script>
@@ -371,6 +460,7 @@
 
       $(document).on('click', '.otvori-izmenu', function () {
 
+        $('#nacin_placanjaModal').find('option').remove();
         var csrfName = $(".csrf_name").val();
         var csrfValue = $(".csrf_value").val();
         var id = $(this).data("id");

@@ -32,16 +32,6 @@
             value="{{ data.broj_ugovora }}" autocomplete="off" placeholder="... broj ugovora">
         </div>
         <div class="form-group col-md-2">
-          <label for="termin_id">Termini (opis)</label>
-          <select class="custom-select mb-2" name="termin_id" id="termin_id" class="form-control">
-            <option value=""></option>
-            {% for termin in termini %}
-          <option value="{{ termin.id }}" {{ data.termin_id == termin.id ? ' selected' : '' }}>({{ termin.datum|date('d.m.Y') }}) {{ termin.opis }}
-          </option>
-          {% endfor %}
-          </select>
-        </div>
-        <div class="form-group col-md-2">
           <label for="ime">Ime: </label>
           <input type="text" name="ime" id="ime" class="form-control"
             value="{{ data.ime }}" autocomplete="off" placeholder="... ime">
@@ -52,11 +42,15 @@
             value="{{ data.prezime }}" autocomplete="off" placeholder="... prezime">
         </div>
         <div class="form-group col-md-2">
-          <label for="tip">Datum: </label>
-          <input type="date" name="datum" id="datum" class="form-control">
+          <label for="tip">Datum (od): </label>
+          <input type="date" name="datum_1" id="datum_1" class="form-control">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="tip">Datum (do): </label>
+          <input type="date" name="datum_2" id="datum_2" class="form-control">
         </div>
         </div>
-
+        
         <div class="form-row">
         <div class="form-group col-md-2">
         <label for="email">E-mail: </label>
@@ -73,7 +67,12 @@
           <input type="text" name="napomena" id="napomena" class="form-control"
             value="{{ data.napomena }}" autocomplete="off" placeholder="... napomena">
         </div>
-        <div class="col-md-4 text-right mt-4">
+        <div class="form-group col-md-4 px-5">
+              <small class="text-warning">
+                    Ako se unese samo prvi datum pretraga će se vršiti za ugovore sa tim datumom. Ako se unesu oba datuma pretraga će se vršiti za ugovore između ta dva datuma.
+              </small>
+        </div>
+        <div class="col-md-2 text-right mt-4">
         <div class="btn-group">
           <button type="submit" class="btn btn-info btn-sm">
           <i class="fas fa-filter"></i> Filtriraj
@@ -137,7 +136,7 @@
   </tbody>
 </table>
 </div>
-<div class="row">
+<div class="row mobilni">
   <nav class="col">
     <ul class="pagination pagination-sm">
       {% for button in ugovori.links.buttons %}
