@@ -34,7 +34,7 @@ class LogController extends Controller
         $data = $_SESSION['DATA_LOGOVI_PRETRAGA'];
         array_shift($data);
         array_shift($data);
-        if (empty($data['opis']) && empty($data['tip']) && empty($data['datum']) && empty($data['korisnik_id'])) {
+        if (empty($data['opis']) && empty($data['tip']) && empty($data['datum_1']) && empty($data['datum_2']) && empty($data['korisnik_id'])) {
             $this->getLog($request, $response);
         }
 
@@ -61,12 +61,20 @@ class LogController extends Controller
             $where .= "tip LIKE :tip";
             $params[':tip'] = $tip;
         }
-        if (!empty($data['datum'])) {
+        if (!empty($data['datum_1']) && empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
             }
-            $where .= "DATE(datum) = :datum";
-            $params[':datum'] = $data['datum'];
+            $where .= "DATE(datum) = :datum_1";
+            $params[':datum_1'] = $data['datum_1'];
+        }
+        if (!empty($data['datum_1']) && !empty($data['datum_2'])) {
+            if ($where !== " WHERE ") {
+                $where .= " AND ";
+            }
+            $where .= "DATE(datum) >= :datum_1 AND DATE(datum) <= :datum_2 ";
+            $params[':datum_1'] = $data['datum_1'];
+            $params[':datum_2'] = $data['datum_2'];
         }
         if (!empty($data['korisnik_id'])) {
             if ($where !== " WHERE ") {

@@ -17,7 +17,7 @@ class UgovorController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Ugovor();
-        $ugovori = $model->paginate($page);
+        $ugovori = $model->paginate($page, 'page' ,"SELECT * FROM ugovori ORDER BY datum DESC;");
 
         $this->render($response, 'ugovor/lista.twig', compact('ugovori'));
     }
@@ -39,10 +39,10 @@ class UgovorController extends Controller
             empty($data['email']) &&
             empty($data['napomena']) &&
             empty($data['broj_ugovora']) &&
-            empty($data['datum']) &&
-            empty($data['termin_id']) &&
+            empty($data['datum_1']) &&
+            empty($data['datum_2']) &&
             empty($data['korisnik_id'])) {
-            $this->getLog($request, $response);
+            $this->getUgovor($request, $response);
         }
 
         $data['prezime'] = str_replace('%', '', $data['prezime']);
@@ -107,12 +107,20 @@ class UgovorController extends Controller
             $where .= "broj_ugovora LIKE :broj_ugovora";
             $params[':broj_ugovora'] = $broj_ugovora;
         }
-        if (!empty($data['datum'])) {
+        if (!empty($data['datum_1']) && empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
             }
-            $where .= "DATE(datum) = :datum";
-            $params[':datum'] = $data['datum'];
+            $where .= "DATE(datum) = :datum_1";
+            $params[':datum_1'] = $data['datum_1'];
+        }
+        if (!empty($data['datum_1']) && !empty($data['datum_2'])) {
+            if ($where !== " WHERE ") {
+                $where .= " AND ";
+            }
+            $where .= "DATE(datum) >= :datum_1 AND DATE(datum) <= :datum_2 ";
+            $params[':datum_1'] = $data['datum_1'];
+            $params[':datum_2'] = $data['datum_2'];
         }
         if (!empty($data['korisnik_id'])) {
             if ($where !== " WHERE ") {
@@ -120,13 +128,6 @@ class UgovorController extends Controller
             }
             $where .= "korisnik_id = :korisnik_id";
             $params[':korisnik_id'] = $data['korisnik_id'];
-        }
-        if (!empty($data['termin_id'])) {
-            if ($where !== " WHERE ") {
-                $where .= " AND ";
-            }
-            $where .= "termin_id = :termin_id";
-            $params[':termin_id'] = $data['termin_id'];
         }
 
         $where = $where === " WHERE " ? "" : $where;
