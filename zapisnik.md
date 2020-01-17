@@ -13,7 +13,6 @@ views:
 Stasa:
 
 - Info za tip dogadjaja u vezi multi/singl (RESENO, tekst je sranje)
-- kod termina na kalendaru promeniti planer, planer
 
 ### PODSETNIK
 
