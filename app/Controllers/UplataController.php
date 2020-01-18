@@ -19,6 +19,9 @@ class UplataController extends Controller
 
         $data['korisnik_id'] = $this->auth->user()->id;
 
+        $kapara = isset($data['kapara']) ? 1 : 0;
+        $data['kapara'] = $kapara;
+
         $validation_rules = [
             'ugovor_id' => [
                 'required' => true
