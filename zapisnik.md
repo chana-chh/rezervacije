@@ -8,6 +8,7 @@
 
 MOZDA DODATI JOS JEDNOG POLU-ADMINA ???
 
+
 - Izvestaj za kuvare (broj i vrsta menija)
 - Izvestaj za gazdu (periodicno, defaultna tekuca godina 01.01 - 31.12, po statusima obrda i zakljuceni po salama, pregledi kapara, sume uplata i cena)
 - Dodatni nivo za kuvare
@@ -32,7 +33,9 @@ Stasa:
 
 - Info za tip dogadjaja u vezi multi/singl (RESENO, tekst je sranje)
 
-### PODSETNIK
+### PROBLEMI
+
+- ima neki zalud(twig) u upregledu ugovora sa uplatama i treba skinuti table-bordered
 
 ## DATABASE
 
