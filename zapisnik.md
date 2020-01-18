@@ -1,5 +1,11 @@
 # TODO
 
+- korisnici dodati nivo u pogled i kontroler (trenutno su nivoi 200 i 100 zamenjeni u kontroleru) !!!
+100 je vlasnik(pregled) a 200 je zakazivac(obrada)
+treba dodati 300 (osoblje)
+OPET NISI PUSHNUO POSLEDNJE IZMNE
+
+
 - Izvestaj za kuvare (broj i vrsta menija)
 - Izvestaj za gazdu (periodicno, defaultna tekuca godina 01.01 - 31.12, po statusima obrda i zakljuceni po salama, pregledi kapara, sume uplata i cena)
 - Dodatni nivo za kuvare

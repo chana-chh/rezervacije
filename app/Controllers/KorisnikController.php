@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use \App\Models\Korisnik;
-Use App\Classes\Nivo;
+use App\Classes\Nivo;
 use App\Classes\Logger;
 
 class KorisnikController extends Controller
@@ -20,7 +20,7 @@ class KorisnikController extends Controller
         $this->render($response, 'korisnik/lista.twig', compact('data'));
     }
 
-        public function postKorisnikDodavanje($request, $response)
+    public function postKorisnikDodavanje($request, $response)
     {
         $data = $request->getParams();
         unset($data['csrf_name']);
@@ -29,19 +29,19 @@ class KorisnikController extends Controller
         $validation_rules = [
             'ime' => [
                 'required' => true,
-                'minlen' => 5,
+                'minlen' => 1,
                 'alnum' => true,
             ],
             'korisnicko_ime' => [
                 'required' => true,
-                'minlen' => 3,
+                'minlen' => 1,
                 'maxlen' => 50,
                 'alnum' => true,
                 'unique' => 'korisnici.korisnicko_ime', // tabela.kolona
             ],
             'lozinka' => [
                 'required' => true,
-                'minlen' => 6,
+                'minlen' => 1,
             ],
             'lozinka_potvrda' => [
                 'match_field' => 'lozinka',
@@ -66,7 +66,7 @@ class KorisnikController extends Controller
             $this->flash->addMessage('success', 'Nov korisnik je uspešno dodat.');
             $modelKorisnik = new Korisnik();
             unset($data['lozinka_potvrda']);
-            $data['lozinka'] = password_hash($data['lozinka'], PASSWORD_BCRYPT);
+            $data['lozinka'] = password_hash($data['lozinka'], PASSWORD_DEFAULT);
             $modelKorisnik->insert($data);
             $korisnik = $modelKorisnik->find($modelKorisnik->lastId());
             $this->log(Logger::DODAVANJE, $korisnik, 'ime');
@@ -90,35 +90,35 @@ class KorisnikController extends Controller
         }
     }
 
-        public function postKorisnikDetalj($request, $response)
+    public function postKorisnikDetalj($request, $response)
     {
-	    	// 		value="0">Admin
-	      	// 		value="100">Obrada
-	      	// 		value="200">Pregled
+        // 		value="0">Admin
+        // 		value="100">Obrada
+        // 		value="200">Pregled
 
-    		$nivoA = new Nivo();
-    		$nivoA->vrednost = 0;
-    		$nivoA->naziv = "Admin";
+        $nivoA = new Nivo();
+        $nivoA->vrednost = 0;
+        $nivoA->naziv = "Admin";
 
-    		$nivoO = new Nivo();
-    		$nivoO->vrednost = 100;
-    		$nivoO->naziv = "Obrada";
+        $nivoO = new Nivo();
+        $nivoO->vrednost = 100;
+        $nivoO->naziv = "Obrada";
 
-    		$nivoP = new Nivo();
-    		$nivoP->vrednost = 200;
-    		$nivoP->naziv = "Pregled";
+        $nivoP = new Nivo();
+        $nivoP->vrednost = 200;
+        $nivoP->naziv = "Pregled";
 
-    		$nivoi = [$nivoA, $nivoO, $nivoP];
+        $nivoi = [$nivoA, $nivoO, $nivoP];
 
-            $data = $request->getParams();
-            $cName = $this->csrf->getTokenName();
-            $cValue = $this->csrf->getTokenValue();
-            $id = $data['id'];
-            $model = new Korisnik();
-            $korisnik = $model->find($id);
+        $data = $request->getParams();
+        $cName = $this->csrf->getTokenName();
+        $cValue = $this->csrf->getTokenValue();
+        $id = $data['id'];
+        $model = new Korisnik();
+        $korisnik = $model->find($id);
 
-            $ar = ["cname" => $cName, "cvalue"=>$cValue, "korisnik"=>$korisnik, "nivoi"=>$nivoi];
-            return $response->withJson($ar);
+        $ar = ["cname" => $cName, "cvalue"=>$cValue, "korisnik"=>$korisnik, "nivoi"=>$nivoi];
+        return $response->withJson($ar);
     }
 
     public function postKorisnikIzmena($request, $response)
@@ -130,7 +130,7 @@ class KorisnikController extends Controller
         unset($data['csrf_value']);
 
         $datam = [
-            "ime"=>$data['imeM'], 
+            "ime"=>$data['imeM'],
             "korisnicko_ime"=>$data['korisnicko_imeM'],
             "lozinka"=>$data['lozinkaM'],
             "lozinka_potvrda"=>$data['lozinka_potvrdaM'],
@@ -180,8 +180,8 @@ class KorisnikController extends Controller
             $stari = $modelKorisnik->find($id);
             unset($datam['lozinka_potvrda']);
             if (!empty($datam['lozinka'])) {
-                $datam['lozinka'] = password_hash($datam['lozinka'], PASSWORD_BCRYPT);
-            } else{
+                $datam['lozinka'] = password_hash($datam['lozinka'], PASSWORD_DEFAULT);
+            } else {
                 unset($datam['lozinka']);
             }
             $modelKorisnik->update($datam, $id);

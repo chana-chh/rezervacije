@@ -17,7 +17,7 @@ $app->group('', function () {
     $this->get('/odjava', '\App\Controllers\AuthController:getOdjava')->setName('odjava');
 })->add(new AuthMiddleware($container));
 
-// LEVELS: 0 - admin, 100 - pregled, 200 - izmena
+// LEVELS: 0 - admin, 100 - vlasnik, 200 - zakazivaci, 300 - osoblje
 
 // ADMIN
 $app->group('', function () {
@@ -55,12 +55,12 @@ $app->group('', function () {
     $this->post('/admin/logovi/pretraga', '\App\Controllers\LogController:postLogPretraga');
 })->add(new UserLevelMiddleware($container, [0]));
 
-// PREGLED
+// VLASNIK
 $app->group('', function () {
     $this->get('/kalendar[/{datum}]', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
-})->add(new UserLevelMiddleware($container, [100,200]));
+})->add(new UserLevelMiddleware($container, [100]));
 
-// IZMENA
+// ZAKAZIVACI
 $app->group('', function () {
     // Ugovori
     $this->get('/ugovori', '\App\Controllers\UgovorController:getUgovor')->setName('ugovori');
@@ -97,3 +97,8 @@ $app->group('', function () {
     $this->post('/termin/brisanje', '\App\Controllers\TerminController:postTerminBrisanje')->setName('termin.brisanje.post');
     $this->post('/termin/zakljucivanje', '\App\Controllers\TerminController:postTerminZakljucivanje')->setName('termin.zakljucivanje.post');
 })->add(new UserLevelMiddleware($container, [200]));
+
+// OSOBLJE
+$app->group('', function () {
+    // $this->get('/kalendar[/{datum}]', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
+})->add(new UserLevelMiddleware($container, [300]));
