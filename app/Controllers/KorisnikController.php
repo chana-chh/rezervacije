@@ -94,21 +94,26 @@ class KorisnikController extends Controller
     {
         // 		value="0">Admin
         // 		value="100">Obrada
-        // 		value="200">Pregled
+        // 		value="200">Zakazivač
+        //      value="300">Osoblje
 
         $nivoA = new Nivo();
         $nivoA->vrednost = 0;
         $nivoA->naziv = "Admin";
 
+        $nivoV = new Nivo();
+        $nivoV->vrednost = 100;
+        $nivoV->naziv = "Vlasnik";
+
+        $nivoZ = new Nivo();
+        $nivoZ->vrednost = 200;
+        $nivoZ->naziv = "Zakazivač";
+
         $nivoO = new Nivo();
-        $nivoO->vrednost = 100;
-        $nivoO->naziv = "Obrada";
+        $nivoO->vrednost = 300;
+        $nivoO->naziv = "Osoblje";
 
-        $nivoP = new Nivo();
-        $nivoP->vrednost = 200;
-        $nivoP->naziv = "Pregled";
-
-        $nivoi = [$nivoA, $nivoO, $nivoP];
+        $nivoi = [$nivoA, $nivoV, $nivoZ, $nivoO];
 
         $data = $request->getParams();
         $cName = $this->csrf->getTokenName();
