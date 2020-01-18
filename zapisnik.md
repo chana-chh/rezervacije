@@ -1,5 +1,15 @@
 # TODO
 
+- Izvestaj za kuvare (broj i vrsta menija)
+- Izvestaj za gazdu (periodicno, defaultna tekuca godina 01.01 - 31.12, po statusima obrda i zakljuceni po salama, pregledi kapara, sume uplata i cena)
+- Dodatni nivo za kuvare
+- Dodatni pregledi za gazdu (ugovori, termini)
+- Zakljucavanje ugovora nakon zakljucenja
+- Jasniji podaci o meniju, brojnom stanju u terminu
+- Modal-kapara izmena uplate
+- Konfimacija pre zakljucavanja sa tekstom molimo proverite da li su uneseni pravi podaci o broju zvanica
+i ceni.
+
 Chana:
 
 - Napraviti stampu ugovora
