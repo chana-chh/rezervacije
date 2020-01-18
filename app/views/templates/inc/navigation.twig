@@ -12,36 +12,85 @@
         <a class="nav-link" href="{{ path_for('pocetna') }}"><i class="fas fa-home"></i> Početna</a>
       </li>
       {% if auth.logged %}
-      {% if auth.user.nivo == 100 or auth.user.nivo == 0 %}
-      {# ovde ide meni za vlasnika #}
+      {% if auth.user.nivo == 100 %}
+      {# meni za vlasnika #}
       <li class="nav-item">
-        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> Kalendar</a>
+        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> Termini</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> Ugovori</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> Izvestaji</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-chart-line"></i> Izveštaji
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Godišnji izveštaj</a>
+          <a class="dropdown-item" href="#">Mesečni izveštaj</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Periodični izveštaj</a>
+        </div>
       </li>
       {% endif %}
-      {% if auth.user.nivo == 300 or auth.user.nivo == 0 %}
-      {# ovde ide meni za osoblje #}
+      {% if auth.user.nivo == 300 %}
+      {# meni za osoblje #}
       <li class="nav-item">
-        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> TerminiO</a>
+        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> Kalendar</a>
       </li>
       {% endif %}
-      {% if auth.user.nivo == 200 or auth.user.nivo == 0 %}
+      {% if auth.user.nivo == 200 %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> Termini</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ path_for('ugovori') }}"><i class="fas fa-file-signature"></i> Ugovori</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ path_for('termin.pregled.get') }}">
-          <i class="fas fa-calendar-plus"></i> Zakazivanje
+        <a class="nav-link" href="{{ path_for('termin.pregled.get') }}"><i class="fas fa-calendar-plus"></i>
+          Zakazivanje
         </a>
       </li>
       {% endif %}
       {% endif %}
       {% if auth.logged and auth.user.nivo == 0 %}
+      {# meni za admina - kombinacija #}
+      {# osoblje #}
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> Kalendar(O)</a>
+      </li>
+      {# vlasnik #}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> Termini(V)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> Ugovori(V)</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-chart-line"></i> Izveštaji(V)
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Godišnji izveštaj</a>
+          <a class="dropdown-item" href="#">Mesečni izveštaj</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Periodični izveštaj</a>
+        </div>
+      </li>
+      {# zakazivac #}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> Termini(Z)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('ugovori') }}"><i class="fas fa-file-signature"></i> Ugovori(Z)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('termin.pregled.get') }}"><i class="fas fa-calendar-plus"></i>
+          Zakazivanje(Z)
+        </a>
+      </li>
+      {# admin #}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
