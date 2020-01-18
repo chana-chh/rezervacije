@@ -15,22 +15,13 @@
       {% if auth.user.nivo == 100 %}
       {# meni za vlasnika #}
       <li class="nav-item">
-        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> Termini</a>
+        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> Termini</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> Ugovori</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-chart-line"></i> Izveštaji
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Godišnji izveštaj</a>
-          <a class="dropdown-item" href="#">Mesečni izveštaj</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Periodični izveštaj</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> Izveštaji</a>
       </li>
       {% endif %}
       {% if auth.user.nivo == 300 %}
@@ -61,22 +52,13 @@
       </li>
       {# vlasnik #}
       <li class="nav-item">
-        <a class="nav-link" href="{{ path_for('kalendar') }}"><i class="fas fa-calendar-alt"></i> Termini(V)</a>
+        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> Termini(V)</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> Ugovori(V)</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-chart-line"></i> Izveštaji(V)
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Godišnji izveštaj</a>
-          <a class="dropdown-item" href="#">Mesečni izveštaj</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Periodični izveštaj</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> Izveštaji(V)</a>
       </li>
       {# zakazivac #}
       <li class="nav-item">
