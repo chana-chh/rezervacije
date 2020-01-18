@@ -20,4 +20,4 @@ Stasa:
 
 ## NAPOMENE
 
-kad se brise ugovor iz liste ugovora vraca se na termin umesto na listu
+kad se brise ugovor iz liste ugovora vraca se na termin umesto na listu (ovo moramo da smislimo kako da se resi - da se vraca odakle je doslo :)
