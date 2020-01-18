@@ -6,6 +6,8 @@
 	- 200 je obrada odnosno zakazivac
 	- 300 je osoblje
 
+MOZDA DODATI JOS JEDNOG POLU-ADMINA ???
+
 - Izvestaj za kuvare (broj i vrsta menija)
 - Izvestaj za gazdu (periodicno, defaultna tekuca godina 01.01 - 31.12, po statusima obrda i zakljuceni po salama, pregledi kapara, sume uplata i cena)
 - Dodatni nivo za kuvare
