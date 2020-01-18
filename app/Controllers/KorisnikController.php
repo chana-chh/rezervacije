@@ -93,17 +93,13 @@ class KorisnikController extends Controller
     public function postKorisnikDetalj($request, $response)
     {
         // 		value="0">Admin
-        // 		value="100">Obrada
+        // 		value="100">Vlasnik, niko ga ne dodaje osim Super
         // 		value="200">Zakazivač
         //      value="300">Osoblje
 
         $nivoA = new Nivo();
         $nivoA->vrednost = 0;
         $nivoA->naziv = "Admin";
-
-        $nivoV = new Nivo();
-        $nivoV->vrednost = 100;
-        $nivoV->naziv = "Vlasnik";
 
         $nivoZ = new Nivo();
         $nivoZ->vrednost = 200;
@@ -113,7 +109,7 @@ class KorisnikController extends Controller
         $nivoO->vrednost = 300;
         $nivoO->naziv = "Osoblje";
 
-        $nivoi = [$nivoA, $nivoV, $nivoZ, $nivoO];
+        $nivoi = [$nivoA, $nivoZ, $nivoO];
 
         $data = $request->getParams();
         $cName = $this->csrf->getTokenName();

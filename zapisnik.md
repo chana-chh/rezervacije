@@ -1,20 +1,11 @@
 # TODO
 
-- Prekontrolisati KorisnikController i view/korisnik/lista.twig zbog nivoa koji su izgleda pomesani
-	- 0 je admin
-	- 100 je pregled odnosno vlasnik
-	- 200 je obrada odnosno zakazivac
-	- 300 je osoblje
-
-MOZDA DODATI JOS JEDNOG POLU-ADMINA ???
+MOZDA DODATI JOS JEDNOG POLU-ADMINA (Za sada sam gde mi je trebalo stavio Super nivo 1000, 0 id)
 
 - Izvestaj za kuvare (broj i vrsta menija)
 - Izvestaj za gazdu (periodicno, defaultna tekuca godina 01.01 - 31.12, po statusima obrda i zakljuceni po salama, pregledi kapara, sume uplata i cena)
-- Dodatni nivo za kuvare
 - Dodatni pregledi za gazdu (ugovori, termini)
 - Zakljucavanje ugovora nakon zakljucenja
-- Jasniji podaci o meniju, brojnom stanju u terminu
-- Modal-kapara izmena uplate
 - Konfimacija pre zakljucavanja sa tekstom molimo proverite da li su uneseni pravi podaci o broju zvanica
 i ceni.
 

@@ -86,11 +86,14 @@ class UplataController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
+        $kapara = isset($data['kaparaModal']) ? 1 : 0;
+
         $datam = [
             "opis"=>$data['opisModal'],
             "datum"=>$data['datumModal'],
             "iznos"=>$data['iznosModal'],
-            "nacin_placanja"=>$data['nacin_placanjaModal']
+            "nacin_placanja"=>$data['nacin_placanjaModal'],
+            "kapara"=>$kapara
         ];
 
         $validation_rules = [
