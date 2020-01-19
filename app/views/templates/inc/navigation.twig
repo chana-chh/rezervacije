@@ -57,8 +57,17 @@
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> Ugovori(V)</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> Izveštaji(V)</a>
+      <!-- prebaciti u meni za vlasnika -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-chart-line"></i> Izveštaji(V)
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{ path_for('izvestaji.sale') }}">Zbirni po salama</a>
+          <a class="dropdown-item" href="#">Zbirni po tipovima proslava</a>
+          <a class="dropdown-item" href="#">Zbirni po načinu plaćanja</a>
+        </div>
       </li>
       {# zakazivac #}
       <li class="nav-item">
