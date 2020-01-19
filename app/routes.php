@@ -106,5 +106,6 @@ $app->group('', function () {
 
 // OSOBLJE
 $app->group('', function () {
-    // $this->get('/kalendar[/{datum}]', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
+    $this->get('/osoblje/kalendar[/{datum}]', '\App\Controllers\OsobljeController:getKalendarOsoblje')->setName('osoblje.kalendar');
+    $this->get('/osoblje/termin[/{id}]', '\App\Controllers\OsobljeController:getTerminOsoblje')->setName('osoblje.termin');
 })->add(new UserLevelMiddleware($container, [300]));
