@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Classes\Auth;
 use App\Classes\Logger;
 use App\Models\Termin;
+use App\Models\Ugovor;
 
 class OsobljeController extends Controller
 {
@@ -40,7 +41,10 @@ class OsobljeController extends Controller
         if ($id) {
             $model_termin = new Termin();
             $termin = $model_termin->find($id);
-            $this->render($response, 'termin/detalj_osoblje.twig', compact('termin'));
+            $ugovori_model = new Ugovor();
+            $sql = "SELECT * FROM {$ugovori_model->getTable()} WHERE termin_id = {$id};";
+            $ugovori = $ugovori_model->fetch($sql);
+            $this->render($response, 'termin/detalj_osoblje.twig', compact('termin', 'ugovori'));
         } else {
             return $response->withRedirect($this->router->pathFor('osoblje.kalendar'));
         }
