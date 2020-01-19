@@ -58,6 +58,12 @@ $app->group('', function () {
 // VLASNIK
 $app->group('', function () {
     $this->get('/kalendar[/{datum}]', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
+
+    // izvestaji
+    $this->get('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:getPoSalama')->setName('izvestaji.sale');
+    $this->post('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:postPoSalama')->setName('izvestaji.sale.post');
+    $this->get('/izvestaji/po-salama-lista', '\App\Controllers\IzvestajiController:getPoSalamaLista')->setName('izvestaji.sale.lista');
+
 })->add(new UserLevelMiddleware($container, [100]));
 
 // ZAKAZIVACI
