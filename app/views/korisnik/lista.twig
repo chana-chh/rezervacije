@@ -55,17 +55,30 @@
         {% endif %}
       </td>
       <td class="text-right">
-        {% if korisnik.nivo != 100 %}
-        <div class="btn-group btn-group-sm">
-          <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
-            data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
-            value="{{ korisnik.id }}" title="Brisanje odabrane sale">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
+          {% if korisnik.nivo == 100 %}
+            {% if auth.user.id == 0 %}
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
+                data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
+                value="{{ korisnik.id }}" title="Brisanje odabrane sale">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+            {% endif %}
+          {% else %}
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
+                data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
+                value="{{ korisnik.id }}" title="Brisanje odabrane sale">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
         {% endif %}
       </td>
     </tr>
@@ -248,7 +261,7 @@
         <select class="form-control{{ errors.nivo[0] ? ' is-invalid' : '' }}" id="nivo" name="nivo" required>
           <option value=""></option>
           <option value="0">Admin</option>
-          {% if auth.user.nivo >= 1000 %}
+          {% if auth.user.id == 0 %}
           <option value="100">Vlasnik</option>
           {% endif %}
           <option value="200">Zakazivač</option>

@@ -15,7 +15,7 @@ class KorisnikController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Korisnik();
-        $data = $model->paginate($page);
+        $data = $model->paginate($page, 'page' ,"SELECT * FROM korisnici WHERE id > 0;");
 
         $this->render($response, 'korisnik/lista.twig', compact('data'));
     }

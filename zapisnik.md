@@ -1,6 +1,6 @@
 # TODO
 
-MOZDA DODATI JOS JEDNOG POLU-ADMINA (Za sada sam gde mi je trebalo stavio Super nivo 1000, 0 id)
+MOZDA DODATI JOS JEDNOG POLU-ADMINA (Za sada sam gde mi je trebalo stavio ninja korisnika, 0 id i jebes nivo id mi je dovoljan moze da bude admin ko i svi drugi)
 
 
 - Izvestaj za kuvare (broj i vrsta menija)
@@ -20,13 +20,9 @@ views:
 - kada se na jedan pogled dolazi sa vise mesta - ubaciti po dugme za vracanje na sva mesta
 - kod ugovora treba dodati neku vezu ka terminu (sa liste ugovora)
 
-Stasa:
-
-- Info za tip dogadjaja u vezi multi/singl (RESENO, tekst je sranje)
-
 ### PROBLEMI
 
-- ima neki zalud(twig) u upregledu ugovora sa uplatama i treba skinuti table-bordered
+- Ima, izgleda da ga neki od tvojih alata za ulepsavanje koda razjebe jer je neobicna struktura. Namestion sam. Table-bordered mi se svidja, pa ostaje.
 
 ## DATABASE
 
