@@ -5,73 +5,58 @@ naslov %}
     <h1>
       <i class="fas fa-calendar-check text-secondary"></i>
       Pregled termina -
-      <small
-        >[
+      <small>[
         <i class="{{ termin.statusIkonica() }}"></i>
 
         <span>
-          {% if termin.status() == 0 %} Termin u pripremi {% endif %} {% if
-          termin.status() == 1 %} Zaključen termin {% endif %} {% if
-          termin.status() == 2 %} Informacija o terminu {% endif %}
+          {% if termin.status() == 0 %} Termin u pripremi {% endif %} 
+          {% if termin.status() == 1 %} Zaključen termin {% endif %} 
+          {% if termin.status() == 2 %} Informacija o terminu {% endif %}
         </span>
 
-        ]</small
-      >
+        ]</small>
     </h1>
   </div>
   <div class="col text-right">
     <div class="btn-group btn-group-sm mt-3">
-      <a href="#" class="btn btn-secondary" onclick="window.history.back();"
-        ><i class="fas fa-chevron-circle-left"></i> Nazad</a
-      >
-      <a
-        href="{{ path_for('osoblje.kalendar', { datum: termin.datum }) }}"
-        class="btn btn-secondary"
-        ><i class="fas fa-arrow-alt-circle-left"></i> Termini</a
-      >
+      <a href="#" class="btn btn-secondary" onclick="window.history.back();"><i class="fas fa-chevron-circle-left"></i>
+        Nazad</a>
+      <a href="{{ path_for('osoblje.kalendar', { datum: termin.datum }) }}" class="btn btn-secondary"><i
+          class="fas fa-arrow-alt-circle-left"></i> Termini</a>
     </div>
   </div>
 </div>
-<div class="table-responsive mt-3">
-  <table class="table h5">
-    <tbody>
-      <tr>
-        <th class="w-15">Detalji o terminu</th>
-        <td class="w-85">{{ termin.tip().tip }} u {{ termin.sala().naziv }} na dan 
-          {{ termin.datum|date() }} od {{ termin.pocetak|date("H:i") }} do
-          {{ termin.kraj|date("H:i") }}. 
-          {% if termin.opis %}<span> Opis: {{ termin.opis }}.</span> {% endif %}
-          {% if termin.napomena %}<span class="font-italic">({{ termin.napomena | nl2br }})</span> {% endif %} 
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="alert alert-dark mt-3 mx-5" role="alert">
+  <h5>Detalji o terminu:&emsp;
+    {{ termin.tip().tip }} u {{ termin.sala().naziv }} na dan
+    <span class="text-danger">{{ termin.datum|date() }}</span> od {{ termin.pocetak|date("H:i") }} do
+    {{ termin.kraj|date("H:i") }}.
+    {% if termin.opis %}<span> Opis: {{ termin.opis }}.</span> {% endif %}
+    {% if termin.napomena %}<span class="font-italic">({{ termin.napomena | nl2br }})</span> {% endif %}
+  </h5>
 </div>
 
-<div class="row mt-3">
-  <div class="col">
-    <h3>
-      <i class="fas fa-drumstick-bite text-secondary"></i> Meniji koje je potrebno pripremiti
+
+<div class="row mt-4 mx-5">
+  <div class="col-md-6">
+    <h3 class="text-primary p-4">
+      <i class="fas fa-users"></i> Ukupan broj zvanica: {{ termin.popunjenaMesta() }}
     </h3>
   </div>
-</div>
-    {% for meni in meniji %}
-      <div class="row mx-3">
-        <div class="col-md-3 p-3 mb-2 bg-light">
-        <h3>{{ meni.naziv }}:</h3>
-        </div>
-        <div class="col-md-3 p-3 mb-2 bg-light">
-        <h3>{{ meni.komada }}</h3>
-        </div>
-    </div>
-    {% endfor %}
-<div class="row mt-3">
-  <div class="col">
-    <h4 class="text-primary">
-      Ukupan broj zvanica: {{ termin.popunjenaMesta() }}
+  <div class="col-md-6">
+    <h4>
+      <i class="fas fa-drumstick-bite text-secondary"></i> Meniji koje je potrebno pripremiti
     </h4>
+    <ul class="list-group list-group-flush">
+      {% for meni in meniji %}
+      <li class="list-group-item">
+        <h5>{{ meni.naziv }}:&emsp;{{ meni.komada }}</h5>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
+
 <div class="row mt-3">
   <div class="col">
     <h4>
@@ -145,11 +130,4 @@ naslov %}
 </div>
 <hr style="border-top: 1px dotted #8c8b8b">
 {% endfor %}
-{% endblock naslov %} 
-{% block skripta %}
-<script>
-  $(document).ready(function() {
-    
-  });
-</script>
-{% endblock skripta %}
+{% endblock naslov %}
