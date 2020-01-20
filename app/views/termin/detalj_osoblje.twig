@@ -51,10 +51,20 @@ naslov %}
 <div class="row mt-3">
   <div class="col">
     <h3>
-      <i class="fas fa-cart-plus text-secondary"></i> Potrebštine
+      <i class="fas fa-drumstick-bite text-secondary"></i> Meniji koje je potrebno pripremiti
     </h3>
   </div>
 </div>
+    {% for meni in meniji %}
+      <div class="row mx-3">
+        <div class="col-md-3 p-3 mb-2 bg-light">
+        <h3>{{ meni.naziv }}:</h3>
+        </div>
+        <div class="col-md-3 p-3 mb-2 bg-light">
+        <h3>{{ meni.komada }}</h3>
+        </div>
+    </div>
+    {% endfor %}
 <div class="row mt-3">
   <div class="col">
     <h4 class="text-primary">

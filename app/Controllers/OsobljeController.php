@@ -6,6 +6,7 @@ use App\Classes\Auth;
 use App\Classes\Logger;
 use App\Models\Termin;
 use App\Models\Ugovor;
+use App\Models\Meni;
 
 class OsobljeController extends Controller
 {
@@ -14,7 +15,10 @@ class OsobljeController extends Controller
     {
         $datum = isset($args['datum']) ? $args['datum'] : null;
         $model_termin = new Termin();
-        $sql = "SELECT * FROM {$model_termin->getTable()} WHERE datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH);";
+        $sql = "SELECT t.*, u.broj_ugovora FROM {$model_termin->getTable()} AS t
+        LEFT JOIN ugovori u ON u.termin_id = t.id
+        WHERE t.datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH) 
+        AND u.termin_id IS NOT NULL;";
         $termini = $model_termin->fetch($sql);
         $data = [];
 
@@ -41,10 +45,19 @@ class OsobljeController extends Controller
         if ($id) {
             $model_termin = new Termin();
             $termin = $model_termin->find($id);
+
             $ugovori_model = new Ugovor();
             $sql = "SELECT * FROM {$ugovori_model->getTable()} WHERE termin_id = {$id};";
             $ugovori = $ugovori_model->fetch($sql);
-            $this->render($response, 'termin/detalj_osoblje.twig', compact('termin', 'ugovori'));
+
+            $meniji_model = new Meni();
+            $sql = "SELECT SUM(u.broj_mesta) AS komada, m.naziv FROM ugovori AS u
+                    LEFT JOIN s_meniji m ON m.id = u.meni_id
+                    WHERE u.termin_id = {$id}
+                    GROUP BY u.meni_id;";
+            $meniji = $meniji_model->fetch($sql);
+
+            $this->render($response, 'termin/detalj_osoblje.twig', compact('termin', 'ugovori', 'meniji'));
         } else {
             return $response->withRedirect($this->router->pathFor('osoblje.kalendar'));
         }

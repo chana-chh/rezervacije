@@ -5,6 +5,7 @@ use App\Middlewares\GuestMiddleware;
 use App\Middlewares\UserLevelMiddleware;
 
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
+$app->get('/kalendar[/{datum}]', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
 $app->get('/validation', '\App\Controllers\ValidationController:getValidation')->setName('valid');
 $app->post('/validation', '\App\Controllers\ValidationController:postValidation');
 
@@ -57,8 +58,8 @@ $app->group('', function () {
 
 // VLASNIK
 $app->group('', function () {
-    $this->get('/kalendar[/{datum}]', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
-
+    $this->get('/vlasnik/kalendar[/{datum}]', '\App\Controllers\VlasnikController:getKalendarVlasnik')->setName('vlasnik.kalendar');
+    $this->get('/vlasnik/termin[/{id}]', '\App\Controllers\VlasnikController:getTerminVlasnik')->setName('vlasnik.termin');
     // izvestaji
     $this->get('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:getPoSalama')->setName('izvestaji.sale');
     $this->post('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:postPoSalama')->setName('izvestaji.sale.post');
