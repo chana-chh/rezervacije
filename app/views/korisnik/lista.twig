@@ -1,4 +1,5 @@
-{% extends "templates/app.twig" %} {% block naslov %} {% block stil %}
+{% extends "templates/app.twig" %}
+{% block stil %}
 <style>
   @media (max-width: 575.98px) {
     .mobilni {
@@ -15,6 +16,7 @@
   }
 </style>
 {% endblock stil %}
+{% block naslov %}
 <div class="row mt-md-2 d-none d-sm-flex">
   <div class="col">
     <h1><i class="fas fa-users text-secondary"></i> Korisnici aplikacije</h1>
@@ -26,7 +28,8 @@
   </div>
 </div>
 <hr />
-{% endblock naslov %} {% block sadrzaj %}
+{% endblock naslov %}
+{% block sadrzaj %}
 <table class="table mobilni">
   <thead class="thead-dark">
     <tr>

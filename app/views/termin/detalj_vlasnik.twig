@@ -1,5 +1,23 @@
-{% extends "templates/app.twig" %} {% block stil %} {% endblock stil %} {% block
-naslov %}
+{% extends "templates/app.twig" %}
+{% block stil %}
+<style>
+  @media (max-width: 575.98px) {
+    .mobilni {
+      font-size: 0.75rem !important;
+    }
+
+    .btn,
+    .btn-sm {
+      padding: 0.25rem 0.4rem;
+      font-size: 0.875rem;
+      line-height: 0.5;
+      border-radius: 0.2rem;
+    }
+  }
+</style>
+{% endblock stil %}
+
+{% block naslov %}
 <div class="row">
   <div class="col">
     <h1>
@@ -32,6 +50,15 @@ naslov %}
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col">
+    <h3 class="text-warning text-right mt-3"><i class="fas fa-user-secret"></i></h3>
+  </div>
+</div>
+{% endblock naslov %}
+{% block sadrzaj %}
+<div class="row mobilni">
+  <div class="col-lg-12">
 <div class="table-responsive mt-3">
   <table class="table">
     <tbody>
@@ -57,7 +84,8 @@ naslov %}
     </tbody>
   </table>
 </div>
-
+</div>
+</div>
 <div class="row">
   <div class="col-lg-12">
     <h2>
@@ -65,8 +93,8 @@ naslov %}
     </h2>
   </div>
 </div>
-<div class="row">
-<div class="col-lg-8 table-responsive">
+<div class="row mobilni">
+<div class="col-lg-12 table-responsive">
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -128,74 +156,31 @@ naslov %}
     </tbody>
   </table>
 </div>
-<div class="col-lg-4 text-right">
-  <h4>Ukupno za termin: {{ termin.cenaTermina() | number_format }}</h4>
-  <h5>Slobodni stolovi: {{ termin.slobodniStolovi() }}</h5>
-  <h5>Slobodna mesta: {{ termin.slobodnaMesta() }}</h5>
+</div>
+
+{% endblock sadrzaj %}
+{% block traka %}
+<div class="row mt-3">
+<div class="col-lg-10 offset-lg-2">
+  <div class="card bg-light">
+  <div class="card-header"><i class="fas fa-info-circle text-info"></i></div>
+  <div class="card-body text-right">
+    <h5 class="card-title">Cena termina:&emsp;{{ termin.cenaTermina() | number_format }}</h5>
+    <hr>
+    <p class="card-text text-success">Slobodna mesta: {{ termin.slobodnaMesta() }}</p>
+    <p class="card-text text-danger">Rezevisana mesta: {{ termin.popunjenaMesta() }}</p>
+    <hr style="border-top: 1px dotted #8c8b8b">
+    <p class="card-text text-success">Slobodni stolovi: {{ termin.slobodniStolovi() }}</p>
+    <p class="card-text text-danger">Rezervisani stolovi: {{ termin.popunjeniStolovi() }}</p>
+  </div>
 </div>
 </div>
 </div>
-{% endblock naslov %} 
+{% endblock traka %} 
 {% block skripta %}
 <script>
   $(document).ready(function() {
-    $(".otvori-brisanje").on("click", function() {
-      var id = "{{ termin.id }}";
-      $("#modal-termin-brisanje-id").val(id);
-    });
 
-    $(".otvori-brisanje-ugovora").on("click", function() {
-      var id = $(this).data("id");
-      $("#idBrisanje").val(id);
-    });
-
-    $("#modal-obrisi-termin").on("click", function() {
-      $("#modal-forma-brisanje-termina").submit();
-    });
-
-    $("#modal-obrisi-ugovor").on("click", function() {
-      $("#modal-forma-brisanje-ugovora").submit();
-    });
-
-    $("#zakljuci-termin").on("click", function(e) {
-      e.preventDefault();
-      $.post(
-        "{{ path_for('termin.zakljucivanje.post') }}",
-        {
-          termin_id: "{{ termin.id }}",
-          csrf_name: document.querySelector(".csrf_name").value,
-          csrf_value: document.querySelector(".csrf_value").value
-        },
-        function(data) {
-          data = JSON.parse(data);
-          document.querySelector(".csrf_name").value = data.csrf_name;
-          document.querySelector(".csrf_value").value = data.csrf_value;
-          // promeniti ikonicu i text statusa u h1
-
-          let tekst = "";
-          if (data.status === 0) {
-            tekst = " Termin u pripremi";
-          }
-          if (data.status === 1) {
-            tekst = " Zaključen termin";
-          }
-          if (data.status === 2) {
-            tekst = " Informacija o terminu";
-          }
-          $("h1 small span").text(tekst);
-          $("h1 small i")
-            .removeClass()
-            .addClass(data.ikonica);
-          if (data.zakljucen) {
-            document
-              .querySelector("#zauzet")
-              .setAttribute("checked", "checked");
-          } else {
-            document.querySelector("#zauzet").removeAttribute("checked");
-          }
-        }
-      );
-    });
   });
 </script>
 {% endblock skripta %}
