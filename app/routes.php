@@ -60,12 +60,19 @@ $app->group('', function () {
 $app->group('', function () {
     $this->get('/vlasnik/kalendar[/{datum}]', '\App\Controllers\VlasnikController:getKalendarVlasnik')->setName('vlasnik.kalendar');
     $this->get('/vlasnik/termin[/{id}]', '\App\Controllers\VlasnikController:getTerminVlasnik')->setName('vlasnik.termin');
+    $this->get('/vlasnik/ugovori/detalj/{id}', '\App\Controllers\VlasnikController:getUgovorVlasnik')->setName('vlasnik.ugovor.detalj');
     // izvestaji
     $this->get('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:getPoSalama')->setName('izvestaji.sale');
     $this->post('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:postPoSalama')->setName('izvestaji.sale.post');
     $this->get('/izvestaji/po-salama-lista', '\App\Controllers\IzvestajiController:getPoSalamaLista')->setName('izvestaji.sale.lista');
-    $this->get('/vlasnik/ugovori/detalj/{id}', '\App\Controllers\VlasnikController:getUgovorVlasnik')->setName('vlasnik.ugovor.detalj');
 
+    $this->get('/izvestaji/po-tipovima', '\App\Controllers\IzvestajiController:getPoTipovima')->setName('izvestaji.tipovi');
+    $this->post('/izvestaji/po-tipovima', '\App\Controllers\IzvestajiController:postPoTipovima')->setName('izvestaji.tipovi.post');
+    $this->get('/izvestaji/po-tipovima-lista', '\App\Controllers\IzvestajiController:getPoTipovimaLista')->setName('izvestaji.tipovi.lista');
+
+    $this->get('/izvestaji/po-vtsti', '\App\Controllers\IzvestajiController:getPoVrstiPlacanja')->setName('izvestaji.vrste');
+    $this->post('/izvestaji/po-vtsti', '\App\Controllers\IzvestajiController:postPoVrstiPlacanja')->setName('izvestaji.vrste.post');
+    $this->get('/izvestaji/po-vtsti-lista', '\App\Controllers\IzvestajiController:getPoVrstiPlacanjaLista')->setName('izvestaji.vrste.lista');
 })->add(new UserLevelMiddleware($container, [100]));
 
 // ZAKAZIVACI
