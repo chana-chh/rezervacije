@@ -50,4 +50,12 @@ class VlasnikController extends Controller
             return $response->withRedirect($this->router->pathFor('vlasnik.kalendar'));
         }
     }
+
+    public function getUgovorVlasnik($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($id);
+        $this->render($response, 'ugovor/detalj_vlasnik.twig', compact('ugovor'));
+    }
 }

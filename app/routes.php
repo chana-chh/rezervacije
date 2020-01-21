@@ -64,6 +64,7 @@ $app->group('', function () {
     $this->get('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:getPoSalama')->setName('izvestaji.sale');
     $this->post('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:postPoSalama')->setName('izvestaji.sale.post');
     $this->get('/izvestaji/po-salama-lista', '\App\Controllers\IzvestajiController:getPoSalamaLista')->setName('izvestaji.sale.lista');
+    $this->get('/vlasnik/ugovori/detalj/{id}', '\App\Controllers\VlasnikController:getUgovorVlasnik')->setName('vlasnik.ugovor.detalj');
 
 })->add(new UserLevelMiddleware($container, [100]));
 
