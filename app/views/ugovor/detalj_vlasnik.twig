@@ -112,6 +112,28 @@
 			</a>
 		<td></td>
 	</tr>
+	{% if ugovor.fizicko_pravno == 1 %}
+	 <tr>
+		<th><strong>Naziv firme</strong></th>
+		<td>{{ ugovor.naziv_firme }}</td>
+		<td></td>
+	</tr>
+	<tr>
+		<th><strong>PIB</strong></th>
+		<td>{{ ugovor.pib_firme }}</td>
+		<td></td>
+	</tr>
+	<tr>
+		<th><strong>Adresa firme</strong></th>
+		<td>{{ ugovor.adresa_firme }}</td>
+		<td></td>
+	</tr>
+		<tr>
+		<th><strong>Račun firme</strong></th>
+		<td>{{ ugovor.racun_firme }}</td>
+		<td></td>
+	</tr>
+	{% endif %}
 	<tr class="bg-light">
 		<th><strong>Cena</strong></th>
 		<td>{{ ugovor.iznos|number_format }}</td>

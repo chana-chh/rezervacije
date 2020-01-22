@@ -117,8 +117,8 @@
           <label class="mt-4 ml-3">
                 <input
                 type="checkbox"
-                name="fizicko"
-                id="fizicko"
+                name="fizicko_pravno"
+                id="fizicko_pravno"
                 title="Fizičko ili pravno lice">
                 Pravno lice
           </label>
@@ -190,8 +190,7 @@
             value="{{ old.naziv_firme ? : '' }}"
             name="naziv_firme"
             id="naziv_firme"
-            autocomplete="off"
-            required>
+            autocomplete="off">
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.naziv_firme[0] ? : 'Obavezno polje' }}</div>
         </div>
@@ -203,8 +202,7 @@
             value="{{ old.pib_firme ? : '' }}"
             name="pib_firme"
             id="pib_firme"
-            autocomplete="off"
-            required>
+            autocomplete="off">
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.pib_firme[0] ? : 'Obavezno polje' }}</div>
         </div>
@@ -722,7 +720,7 @@
         $(':checkbox.cekiraj').not(this).prop('checked', this.checked);
       });
 
-      $('#fizicko').click(function () {
+      $('#fizicko_pravno').click(function () {
         $('.fizicko_pravno').toggle(this.checked);
       });
 
