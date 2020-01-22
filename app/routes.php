@@ -61,6 +61,7 @@ $app->group('', function () {
     $this->get('/vlasnik/kalendar[/{datum}]', '\App\Controllers\VlasnikController:getKalendarVlasnik')->setName('vlasnik.kalendar');
     $this->get('/vlasnik/termin[/{id}]', '\App\Controllers\VlasnikController:getTerminVlasnik')->setName('vlasnik.termin');
     $this->get('/vlasnik/ugovori/detalj/{id}', '\App\Controllers\VlasnikController:getUgovorVlasnik')->setName('vlasnik.ugovor.detalj');
+    $this->get('/vlasnik/uplate/{id}', '\App\Controllers\VlasnikController:getUplateVlasnik')->setName('vlasnik.uplate');
     // izvestaji
     $this->get('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:getPoSalama')->setName('izvestaji.sale');
     $this->post('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:postPoSalama')->setName('izvestaji.sale.post');

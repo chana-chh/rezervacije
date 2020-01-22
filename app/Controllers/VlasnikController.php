@@ -58,4 +58,12 @@ class VlasnikController extends Controller
         $ugovor = $model_ugovor->find($id);
         $this->render($response, 'ugovor/detalj_vlasnik.twig', compact('ugovor'));
     }
+
+    public function getUplateVlasnik($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+        $model_ugovor = new Ugovor();
+        $ugovor = $model_ugovor->find($id);
+        $this->render($response, 'ugovor/uplate_vlasnik.twig', compact('ugovor'));
+    }
 }

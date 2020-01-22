@@ -106,7 +106,8 @@
     <tr>
       <th scope="row" class="text-danger">{{ ugovor.id }}</th>
       <td><strong>{{ ugovor.broj_ugovora }}</strong></td>
-      <td><small>({{ ugovor.termin().datum|date('d.m.Y') }}) {{ ugovor.termin().opis }}</small></td>
+      <td><small><a href="{{path_for('termin.detalj.get', { id: ugovor.termin.id })}}">
+        ({{ ugovor.termin().datum|date('d.m.Y') }}) {{ ugovor.termin().opis }}</a></small></td>
       <td class="text-info"><strong>{{ ugovor.iznos | number_format(2, '.', ',') }}</strong></td>
       <td class="text-success"><strong>{{ ugovor.kapara | number_format(2, '.', ',') }}</strong></td>
       <td>{{ ugovor.ime }} {{ ugovor.prezime }}</td>
