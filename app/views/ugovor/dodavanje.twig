@@ -113,6 +113,16 @@
         <div class="col-md-3">
           <i class="fas fa-user fa-lg text-info"></i>
         </div>
+        <div class="col-md-9 justify-content-end text-right">
+          <label class="mt-4 ml-3">
+                <input
+                type="checkbox"
+                name="fizicko"
+                id="fizicko"
+                title="Fizičko ili pravno lice">
+                Pravno lice
+          </label>
+        </div>
       </div>
        <div class="form-row">
         <div class="form-group col-md-3">
@@ -166,6 +176,63 @@
         </div>
       </div>
       <hr>
+      <div class="form-row fizicko_pravno" style="display: none;">
+        <div class="col-md-3">
+          <i class="fas fa-industry text-info"></i>
+        </div>
+      </div>
+       <div class="form-row fizicko_pravno" style="display: none;">
+        <div class="form-group col-md-3">
+          <label for="naziv_firme">Nazviv firme</label>
+          <input
+            type="text"
+            class="form-control{{ errors.naziv_firme[0] ? ' is-invalid' : '' }}"
+            value="{{ old.naziv_firme ? : '' }}"
+            name="naziv_firme"
+            id="naziv_firme"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.naziv_firme[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="pib_firme">PIB</label>
+          <input
+            type="text"
+            class="form-control{{ errors.pib_firme[0] ? ' is-invalid' : '' }}"
+            value="{{ old.pib_firme ? : '' }}"
+            name="pib_firme"
+            id="pib_firme"
+            autocomplete="off"
+            required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.pib_firme[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="adresa_firme">Adresa</label>
+          <input type="text"
+            class="form-control{{ errors.adresa_firme[0] ? ' is-invalid' : '' }}"
+            value="{{ old.adresa_firme ? : '' }}"
+            name="adresa_firme"
+            id="adresa_firme"
+            autocomplete="off">
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.adresa_firme[0] ? : 'Obavezno polje' }}</div>
+        </div>
+         <div class="form-group col-md-3">
+          <label for="racun_firme">Račun</label>
+          <input
+            type="racun_firme"
+            class="form-control{{ errors.racun_firme[0] ? ' is-invalid' : '' }}"
+            value="{{ old.racun_firme ? : '' }}"
+            name="racun_firme"
+            id="racun_firme"
+            autocomplete="off">
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.racun_firme[0] ? : 'Obavezno polje' }}</div>
+        </div>
+      </div>
+      <hr class="fizicko_pravno" style="display: none;">
       <div class="form-row">
         <div class="col-md-3">
           <i class="fas fa-chair fa-lg text-info"></i>
@@ -236,7 +303,7 @@
         <div class="col-md-3">
           <i class="fas fa-tasks fa-lg text-info"></i>
         </div>
-                <div class="col justify-content-end text-right">
+      <div class="col-md-9 justify-content-end text-right">
           <label class="mt-4 ml-3">
                 <input
                 type="checkbox"
@@ -653,6 +720,10 @@
 
       $('#cekiraj_sve').click(function () {
         $(':checkbox.cekiraj').not(this).prop('checked', this.checked);
+      });
+
+      $('#fizicko').click(function () {
+        $('.fizicko_pravno').toggle(this.checked);
       });
 
       $("#dugme-izracunaj-iznos").click(function(event) {

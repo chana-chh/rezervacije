@@ -163,6 +163,7 @@ class UgovorController extends Controller
         unset($data['csrf_value']);
         unset($data['cekiraj_sve']);
 
+        $data['fizicko_pravno'] = isset($data['fizicko_pravno']) ? 1 : 0;
         $data['muzika_chk'] = isset($data['muzika_chk']) ? 1 : 0;
         $data['fotograf_chk'] = isset($data['fotograf_chk']) ? 1 : 0;
         $data['torta_chk'] = isset($data['torta_chk']) ? 1 : 0;
@@ -183,6 +184,7 @@ class UgovorController extends Controller
             'iznos' => ['required' => true,],
             'prosek_godina' => ['required' => true,],
             'muzika_chk' => ['required' => true,],
+            'fizicko_pravno' => ['required' => true,],
             'fotograf_chk' => ['required' => true,],
             'torta_chk' => ['required' => true,],
             'dekoracija_chk' => ['required' => true,],
@@ -256,6 +258,8 @@ class UgovorController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
+        $fizicko_pravno = isset($data['fizicko_pravno']) ? 1 : 0;
+        $data['fizicko_pravno'] = $fizicko_pravno;
         $muzika_chk = isset($data['muzika_chk']) ? 1 : 0;
         $data['muzika_chk'] = $muzika_chk;
         $fotograf_chk = isset($data['fotograf_chk']) ? 1 : 0;
@@ -282,6 +286,7 @@ class UgovorController extends Controller
             'broj_mesta_po_stolu' => ['required' => true,],
             'iznos' => ['required' => true,],
             'prosek_godina' => ['required' => true,],
+            'fizicko_pravno' => ['required' => true,],
             'muzika_chk' => ['required' => true,],
             'fotograf_chk' => ['required' => true,],
             'torta_chk' => ['required' => true,],

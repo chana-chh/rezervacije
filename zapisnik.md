@@ -20,5 +20,6 @@ views:
 ### PROBLEMI
 
 ## DATABASE
-
+	** Dodata polja fizicko_pravno (TINYINT, NOTNULL) i VARCHAR(50, NULL) naziv_firme, pib_firme, adresa_firme, racun_firme **
+	Jos nisam zavrsio sve. Ima toga
 ## NAPOMENE

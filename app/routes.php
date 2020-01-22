@@ -62,6 +62,9 @@ $app->group('', function () {
     $this->get('/vlasnik/termin[/{id}]', '\App\Controllers\VlasnikController:getTerminVlasnik')->setName('vlasnik.termin');
     $this->get('/vlasnik/ugovori/detalj/{id}', '\App\Controllers\VlasnikController:getUgovorVlasnik')->setName('vlasnik.ugovor.detalj');
     $this->get('/vlasnik/uplate/{id}', '\App\Controllers\VlasnikController:getUplateVlasnik')->setName('vlasnik.uplate');
+    $this->get('/vlasnik/ugovori', '\App\Controllers\VlasnikController:getUgovorListaVlasnik')->setName('vlasnik.ugovori');
+    $this->get('/vlasnik/ugovori/pretraga', '\App\Controllers\VlasnikController:getUgovorPretragaVlasnik')->setName('vlasnik.ugovori.pretraga');
+    $this->post('/vlasnik/ugovori/pretraga', '\App\Controllers\VlasnikController:postUgovorPretragaVlasnik');
     // izvestaji
     $this->get('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:getPoSalama')->setName('izvestaji.sale');
     $this->post('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:postPoSalama')->setName('izvestaji.sale.post');
