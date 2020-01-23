@@ -124,13 +124,18 @@
 		<td></td>
 	</tr>
 	<tr>
-		<th><strong>Adresa firme</strong></th>
-		<td>{{ ugovor.adresa_firme }}</td>
+		<th><strong>Matični broj</strong></th>
+		<td>{{ ugovor.mb_firme }}</td>
+		<td></td>
+	</tr>
+	<tr>
+		<th><strong>Adresa i mesto firme</strong></th>
+		<td>{{ ugovor.adresa_firme }}, {{ ugovor.mesto_firme }}</td>
 		<td></td>
 	</tr>
 		<tr>
 		<th><strong>Račun firme</strong></th>
-		<td>{{ ugovor.racun_firme }}</td>
+		<td>{{ ugovor.racun_firme }} kod {{ ugovor.banka_firme }}</td>
 		<td></td>
 	</tr>
 	{% endif %}

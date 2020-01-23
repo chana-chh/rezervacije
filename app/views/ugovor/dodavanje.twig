@@ -181,6 +181,7 @@
           <i class="fas fa-industry text-info"></i>
         </div>
       </div>
+      {# Pravno I #}
        <div class="form-row fizicko_pravno" style="display: none;">
         <div class="form-group col-md-3">
           <label for="naziv_firme">Nazviv firme</label>
@@ -216,6 +217,45 @@
             autocomplete="off">
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.adresa_firme[0] ? : 'Obavezno polje' }}</div>
+        </div>
+         <div class="form-group col-md-3">
+          <label for="mesto_firme">Mesto</label>
+          <input
+            type="mesto_firme"
+            class="form-control{{ errors.mesto_firme[0] ? ' is-invalid' : '' }}"
+            value="{{ old.mesto_firme ? : '' }}"
+            name="mesto_firme"
+            id="mesto_firme"
+            autocomplete="off">
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.mesto_firme[0] ? : 'Obavezno polje' }}</div>
+        </div>
+      </div>
+      {# Pravno II #}
+      <div class="form-row fizicko_pravno" style="display: none;">
+        <div class="form-group col-md-3">
+          <label for="mb_firme">Matični broj</label>
+          <input
+            type="text"
+            class="form-control{{ errors.mb_firme[0] ? ' is-invalid' : '' }}"
+            value="{{ old.mb_firme ? : '' }}"
+            name="mb_firme"
+            id="mb_firme"
+            autocomplete="off">
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.mb_firme[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="banka_firme">Banka</label>
+          <input
+            type="text"
+            class="form-control{{ errors.banka_firme[0] ? ' is-invalid' : '' }}"
+            value="{{ old.banka_firme ? : '' }}"
+            name="banka_firme"
+            id="banka_firme"
+            autocomplete="off">
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.banka_firme[0] ? : 'Obavezno polje' }}</div>
         </div>
          <div class="form-group col-md-3">
           <label for="racun_firme">Račun</label>
