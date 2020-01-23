@@ -80,6 +80,11 @@ class Ugovor extends Model
         return $zakljucati;
     }
 
+    public function multiUgovor()
+    {
+        return $this->termin()->multiUgovori();
+    }
+
     public function cenaUsluga()
     {
         $cena = 0.00;

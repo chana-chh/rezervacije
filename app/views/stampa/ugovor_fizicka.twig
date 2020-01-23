@@ -1,0 +1,53 @@
+{% extends "templates/print.twig" %}
+{% block sadrzaj %}
+
+<div class="row">
+	<div class="col-12">
+		<header class="text-center">
+			<img src="{{ base_url() }}/img/logo-full.png" alt="logo EEC">
+		</header>
+
+
+		<h4 class="text-center">UGOVOR O PRUŽANJU UGOSTITELJSKIH USLUGA</h4>
+
+		<p>
+			Zaključen dana {{ ugovor.datum | date() }}. godine, između ugovornih strana:
+		</p>
+		<ol class="mb-5">
+			<li>
+				<strong>EXCLUSIVE EVENT CENTER DOO KRAGUJEVAC,</strong>
+				sa sedištem u <em>Kragujevcu</em>, na adresi <em>Miodraga Vlajića Šuke bb</em>,
+				matični broj <em>20079398</em>, PIB <em>104081435</em>,
+				tekući račun <em>160-0000000240392-95</em> kod <em>Banca Intesa</em>,
+				koga zastupa direktor <em>Aleksandar Čolović</em> kao davalac usluga
+				(u daljem tekstu : <strong>Davalac usluga</strong>), i
+			</li>
+			<li>
+				<strong>{{ ugovor.ime }} {{ ugovor.prezime }}</strong> iz <em>{{ ugovor.mesto_firme }}</em>,
+				ulica <em>{{ ugovor.adresa_firme }}</em>, JMBG: <em>?????????????</em>,
+				kao korisnik usluga (u daljem tekstu : <strong>Korisnik usluga</strong>).
+			</li>
+		</ol>
+		<h5 class="text-center"><em>Član 1</em></h5>
+		<p>
+			Ovim ugovorom ugovorne strane međusobno regulišu prava i obaveze povodom održavanja svečanosti
+			"{{ ugovor.termin().opis }}" dana {{ ugovor.termin().datum | date() }}. godine u svečanoj Sali
+			"{{ ugovor.termin().sala().naziv }}" u sklopu poslovnog objekta "Exclusive Event Center" u Kragujevcu,
+			ulica Miodraga Vlajića Šuke bb.
+		</p>
+
+
+		<footer class="text-center">
+			<hr>
+			<h5>Exclusive Event Center DOO</h5>
+			<p>Miodraga Vlajića Šuke bb. 34300 Kragujevac | +381 61 1912 357<br>
+				<strong>Tekući račun:</strong> 160-0000000240392-95 Banca Intesa |
+				<strong>Matični broj:</strong> 20079398 |
+				<strong>Šifra delatnosti:</strong> 5610 |
+				<strong>PIB:</strong> 104081435
+			</p>
+		</footer>
+	</div>
+</div>
+
+{% endblock sadrzaj %}

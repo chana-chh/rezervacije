@@ -1,9 +1,7 @@
 # TODO
 
-- Izvestaj za gazdu (periodicno, defaultna tekuca godina 01.01 - 31.12, po statusima obrda i zakljuceni po salama, pregledi kapara, sume uplata i cena)
 - Zakljucavanje ugovora nakon zakljucenja
-- Konfimacija pre zakljucavanja sa tekstom molimo proverite da li su uneseni pravi podaci o broju zvanica
-i ceni.
+- Konfimacija pre zakljucavanja sa tekstom da li su uneseni pravi podaci o broju zvanica i ceni.
 
 Chana:
 
@@ -18,6 +16,12 @@ views:
 ### PROBLEMI
 
 ## DATABASE
+
 	** Dodata polja fizicko_pravno (TINYINT, NOTNULL) i VARCHAR(50, NULL) naziv_firme, pib_firme, adresa_firme, racun_firme **
 	Jos nisam zavrsio sve. Ima toga
+
 ## NAPOMENE
+
+Kod zakazivaca pocetna i termini su isti
+
+U pregledu ugovora nema datum ugovora

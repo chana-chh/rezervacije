@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Classes\Auth;
-use App\Models\Korisnik;
-use App\Classes\Validator;
+use App\Classes\Logger;
+
+// use App\Models\Korisnik;
 
 class AuthController extends Controller
 {
@@ -88,13 +88,42 @@ class AuthController extends Controller
     public function postPromena($request, $response)
     {
         $data = $request->getParams();
-        unset($data['csrf_name']);
-        unset($data['csrf_value']);
-        dd($data, true);
-        // uporedim staru lozinku sa lozinkom prijavljenog korisnika
-        // napravim novu lozinku
-        // upisem je u bazu
-        // izlogujem korisnika
-        // mozda ga ulogujem sa novom lozinkom
+
+        $validation_rules = [
+            'lozinka' => [
+                'required' => true
+            ],
+            'nova_lozinka' => [
+                'required' => true,
+                'minlen' => 1,
+            ],
+            'lozinka_potvrda' => [
+                'required' => true,
+                'match_field' => 'nova_lozinka',
+            ],
+        ];
+
+        $this->validator->validate($data, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene lozinke.');
+            return $response->withRedirect($this->router->pathFor('promena'));
+        } else {
+            $prijavljeni_korisnik = $this->auth->user();
+            // $model_korisnik = new Korisnik();
+            $dobra_lozinka = $this->auth->checkPassword($data['lozinka'], $prijavljeni_korisnik->lozinka);
+            if ($dobra_lozinka) {
+                $novi_hash = password_hash($data['nova_lozinka'], PASSWORD_DEFAULT);
+                $prijavljeni_korisnik->update(['lozinka' => $novi_hash], $prijavljeni_korisnik->id);
+                $this->log(Logger::IZMENA, $prijavljeni_korisnik, 'korisnicko_ime');
+                $this->flash->addMessage('success', 'Lozinka je uspešno izmenjena. Molimo vas da se ponovo prijavite sa novom lozinkom.');
+                $this->auth->logout();
+                return $response->withRedirect($this->router->pathFor('prijava'));
+            } else {
+                $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene lozinke. Molimo vas da se ponovo prijavite sa starom lozinkom.');
+                $this->auth->logout();
+                return $response->withRedirect($this->router->pathFor('prijava'));
+            }
+        }
     }
 }
