@@ -16,11 +16,51 @@ $app->group('', function () {
 
 $app->group('', function () {
     $this->get('/odjava', '\App\Controllers\AuthController:getOdjava')->setName('odjava');
+    // Promena lozinke
+    $this->get('/promena', '\App\Controllers\AuthController:getPromena')->setName('promena');
+    $this->post('/promena', '\App\Controllers\AuthController:postPromena')->setName('promena');
 })->add(new AuthMiddleware($container));
 
-// LEVELS: 0 - admin, 100 - vlasnik, 200 - zakazivaci, 300 - osoblje
+// LEVELS: 0 - admin, 100 - vlasnik, 200 - zakazivaci, 300 - osoblje, 1000 - super admin
 
-// ADMIN
+// SUPER ADMIN - ostaviti rute koje moze da vidi samo super admin
+$app->group('', function () {
+    // Korisnici
+    // $this->get('/admin/korisnik-lista', '\App\Controllers\KorisnikController:getKorisnikLista')->setName('admin.korisnik.lista');
+    // $this->post('/admin/korisnik-brisanje', '\App\Controllers\KorisnikController:postKorisnikBrisanje')->setName('admin.korisnik.brisanje');
+    // $this->post('/admin/korisnik-dodavanje', '\App\Controllers\KorisnikController:postKorisnikDodavanje')->setName('admin.korisnik.dodavanje');
+    // $this->post('/admin/korisnik-izmena', '\App\Controllers\KorisnikController:postKorisnikIzmena')->setName('admin.korisnik.izmena');
+    // $this->post('/admin/korisnik-detalj', '\App\Controllers\KorisnikController:postKorisnikDetalj')->setName('admin.korisnik.detalj');
+    //Sale
+    // $this->get('/admin/sale', '\App\Controllers\SalaController:getSale')->setName('sale');
+    // $this->post('/admin/sale/dodavanje', '\App\Controllers\SalaController:postSalaDodavanje')->setName('sale.dodavanje');
+    // $this->post('/admin/sale/brisanje', '\App\Controllers\SalaController:postSalaBrisanje')->setName('sale.brisanje');
+    // $this->post('/admin/sale/detalj', '\App\Controllers\SalaController:postSalaDetalj')->setName('sale.detalj');
+    // $this->post('/admin/sale/izmena', '\App\Controllers\SalaController:postSalaIzmena')->setName('sale.izmena');
+    //Meniji
+    // $this->get('/admin/meni', '\App\Controllers\MeniController:getMeni')->setName('meni');
+    // $this->get('/admin/meni/dodavanje', '\App\Controllers\MeniController:getMeniDodavanje')->setName('meni.dodavanje.get');
+    // $this->post('/admin/meni/dodavanje', '\App\Controllers\MeniController:postMeniDodavanje')->setName('meni.dodavanje.post');
+    // $this->get('/admin/meni/izmena/{id}', '\App\Controllers\MeniController:getMeniIzmena')->setName('meni.izmena.get');
+    // $this->post('/admin/meni/izmena', '\App\Controllers\MeniController:postMeniIzmena')->setName('meni.izmena.post');
+    // $this->post('/admin/meni/brisanje', '\App\Controllers\MeniController:postMeniBrisanje')->setName('meni.brisanje');
+    // $this->get('/admin/meni/detalj/{id}', '\App\Controllers\MeniController:getMeniDetalj')->setName('meni.detalj');
+    // $this->get('/admin/meni/pretraga', '\App\Controllers\MeniController:getMeniPretraga')->setName('meni.pretraga');
+    // $this->post('/admin/meni/pretraga', '\App\Controllers\MeniController:postMeniPretraga');
+    //Tipovi događaja
+    // $this->get('/admin/tip', '\App\Controllers\TipDogadjajaController:getTipove')->setName('tip_dogadjaja');
+    // $this->post('/admin/tip/dodavanje', '\App\Controllers\TipDogadjajaController:postTipDodavanje')->setName('tip_dogadjaja.dodavanje');
+    // $this->post('/admin/tip/brisanje', '\App\Controllers\TipDogadjajaController:postTipBrisanje')->setName('tip_dogadjaja.brisanje');
+    // $this->post('/admin/tip/detalj', '\App\Controllers\TipDogadjajaController:postTipDetalj')->setName('tip_dogadjaja.detalj');
+    // $this->post('/admin/tip/izmena', '\App\Controllers\TipDogadjajaController:postTipIzmena')->setName('tip_dogadjaja.izmena');
+    //Logovi
+    // $this->get('/admin/logovi', '\App\Controllers\LogController:getLog')->setName('logovi');
+    // $this->get('/admin/logovi/pretraga', '\App\Controllers\LogController:getLogPretraga')->setName('logovi.pretraga');
+    // $this->post('/admin/logovi/pretraga', '\App\Controllers\LogController:postLogPretraga');
+})->add(new UserLevelMiddleware($container, []));
+
+
+// ADMIN - obrisati rute koje treba da vidi samo super admin
 $app->group('', function () {
     // Korisnici
     $this->get('/admin/korisnik-lista', '\App\Controllers\KorisnikController:getKorisnikLista')->setName('admin.korisnik.lista');
@@ -115,10 +155,10 @@ $app->group('', function () {
     $this->post('/termin/izmena', '\App\Controllers\TerminController:postTerminIzmena')->setName('termin.izmena.post');
     $this->post('/termin/brisanje', '\App\Controllers\TerminController:postTerminBrisanje')->setName('termin.brisanje.post');
     $this->post('/termin/zakljucivanje', '\App\Controllers\TerminController:postTerminZakljucivanje')->setName('termin.zakljucivanje.post');
-})->add(new UserLevelMiddleware($container, [200]));
+})->add(new UserLevelMiddleware($container, [0,200]));
 
 // OSOBLJE
 $app->group('', function () {
     $this->get('/osoblje/kalendar[/{datum}]', '\App\Controllers\OsobljeController:getKalendarOsoblje')->setName('osoblje.kalendar');
     $this->get('/osoblje/termin[/{id}]', '\App\Controllers\OsobljeController:getTerminOsoblje')->setName('osoblje.termin');
-})->add(new UserLevelMiddleware($container, [300]));
+})->add(new UserLevelMiddleware($container, [0,300]));

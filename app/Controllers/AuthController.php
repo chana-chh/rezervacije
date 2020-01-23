@@ -80,4 +80,21 @@ class AuthController extends Controller
             return $response->withRedirect($this->router->pathFor('prijava'));
         }
     }
+
+    public function getPromena($request, $response)
+    {
+        $this->render($response, 'auth/promena.twig');
+    }
+    public function postPromena($request, $response)
+    {
+        $data = $request->getParams();
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+        dd($data, true);
+        // uporedim staru lozinku sa lozinkom prijavljenog korisnika
+        // napravim novu lozinku
+        // upisem je u bazu
+        // izlogujem korisnika
+        // mozda ga ulogujem sa novom lozinkom
+    }
 }

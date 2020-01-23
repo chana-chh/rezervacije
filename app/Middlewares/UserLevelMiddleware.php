@@ -10,7 +10,7 @@ class UserLevelMiddleware extends Middleware
     {
         parent::__construct($container);
         $this->levels = $levels;
-        $this->levels[] = 0;
+        $this->levels[] = 1000;
     }
 
     public function __invoke($request, $response, $next)

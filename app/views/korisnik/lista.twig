@@ -59,7 +59,7 @@
       </td>
       <td class="text-right">
           {% if korisnik.nivo == 100 %}
-            {% if auth.user.id == 0 %}
+            {% if auth.user.nivo == 1000 %}
             <div class="btn-group btn-group-sm">
               <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
                 data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
