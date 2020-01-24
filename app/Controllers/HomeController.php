@@ -10,11 +10,7 @@ class HomeController extends Controller
 {
     public function getHome($request, $response)
     {
-        if ($this->auth->isLoggedIn() && $this->auth->user()->nivo == 200) {
-            $this->getKalendar($request, $response);
-        } else {
-            $this->render($response, 'home.twig');
-        }
+        $this->render($response, 'home.twig');
     }
 
     public function getKalendar($request, $response)

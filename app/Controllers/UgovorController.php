@@ -35,6 +35,7 @@ class UgovorController extends Controller
         array_shift($data);
         if (empty($data['prezime']) &&
             empty($data['ime']) &&
+            empty($data['naziv_firme']) &&
             empty($data['telefon']) &&
             empty($data['email']) &&
             empty($data['napomena']) &&
@@ -45,6 +46,7 @@ class UgovorController extends Controller
             $this->getUgovor($request, $response);
         }
 
+        $data['naziv_firme'] = str_replace('%', '', $data['naziv_firme']);
         $data['prezime'] = str_replace('%', '', $data['prezime']);
         $data['ime'] = str_replace('%', '', $data['ime']);
         $data['telefon'] = str_replace('%', '', $data['telefon']);
@@ -52,6 +54,7 @@ class UgovorController extends Controller
         $data['napomena'] = str_replace('%', '', $data['napomena']);
         $data['broj_ugovora'] = str_replace('%', '', $data['broj_ugovora']);
 
+        $naziv_firme = '%' . filter_var($data['naziv_firme'], FILTER_SANITIZE_STRING) . '%';
         $prezime = '%' . filter_var($data['prezime'], FILTER_SANITIZE_STRING) . '%';
         $ime = '%' . filter_var($data['ime'], FILTER_SANITIZE_STRING) . '%';
         $telefon = '%' . filter_var($data['telefon'], FILTER_SANITIZE_STRING) . '%';
@@ -71,6 +74,13 @@ class UgovorController extends Controller
             }
             $where .= "prezime LIKE :prezime";
             $params[':prezime'] = $prezime;
+        }
+        if (!empty($data['naziv_firme'])) {
+            if ($where !== " WHERE ") {
+                $where .= " AND ";
+            }
+            $where .= "naziv_firme LIKE :naziv_firme";
+            $params[':naziv_firme'] = $naziv_firme;
         }
         if (!empty($data['ime'])) {
             if ($where !== " WHERE ") {
