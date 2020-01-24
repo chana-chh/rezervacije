@@ -22,8 +22,10 @@
 				(u daljem tekstu : <strong>Davalac usluga</strong>), i
 			</li>
 			<li>
-				<strong>{{ ugovor.ime }} {{ ugovor.prezime }}</strong> iz <em>{{ ugovor.mesto_firme }}</em>,
-				ulica <em>{{ ugovor.adresa_firme }}</em>, JMBG: <em>_________________________</em>,
+				<strong>{{ ugovor.naziv_firme }}</strong>, sa sedištem u <em>{{ ugovor.mesto_firme }}</em>,
+				na adresi <em>{{ ugovor.adresa_firme }}</em>, matični broj: <em>{{ ugovor.mb_firme }}</em>,
+				PIB <em>{{ ugovor.pib_firme }}</em>, tekući račun <em>{{ ugovor.racun_firme }}</em> kod
+				<em>{{ ugovor.banka_firme }}</em>, koga zastupa direktor <em>{{ ugovor.ime }} {{ ugovor.prezime }}</em>
 				kao korisnik usluga (u daljem tekstu : <strong>Korisnik usluga</strong>).
 			</li>
 		</ol>
@@ -167,7 +169,8 @@
 		___________________________________
 	</div>
 </div>
-<br><br><br><br><hr>
+<br><br><br><br>
+<hr>
 <div class="row mt-5 mb-5">
 	<div class="col-12">
 		Ugovorne strane ovim potvrđuju da je dana _____ / _____ / __________. godine, svečanosti iz Člana 1

@@ -6,6 +6,18 @@ body {
     font-size: 1.2rem;
 }
 
+.prn-header {
+    position: fixed;
+    top: 0;
+    display: none;
+}
+
+.prn-footer {
+    position: fixed;
+    bottom: 0;
+    display: none;
+}
+
 .prn-page-break {
     page-break-before: always;
 }
@@ -25,56 +37,25 @@ body {
     .prn-hide {
         display: none;
     }
-    hr {
-        border-top: 1px solid #000;
+    .prn-header {
+        position: fixed;
+        top: 0;
+        display: block;
     }
-    .prn-h1,
-    .prn-h2,
-    .prn-h3,
-    .prn-h4,
-    .prn-h5,
-    .prn-h6 {
-        background: #fff;
-        color: #000 !important;
+    .prn-footer {
+        position: fixed;
+        bottom: 0;
+        display: block;
     }
-    .prn-h1 {
-        font-size: 22pt;
+    .prn-strana {
+        padding-top: 15rem;
+        padding-bottom: 12rem;
     }
-    .prn-h2 {
-        font-size: 20pt;
-    }
-    .prn-h3 {
-        font-size: 18pt;
-    }
-    .prn-h4 {
-        font-size: 16pt;
-    }
-    .prn-h5 {
-        font-size: 14pt;
-    }
-    .prn-h6 {
-        font-size: 12pt;
-    }
-    .prn-text-danger {
-        color: #000;
-    }
-    .prn-text-primary {
-        color: #000;
-    }
-    .prn-text-success {
-        color: #000;
-    }
-    .prn-buttons {
-        display: none;
-    }
-    .prn-table {
-        width: 100%;
-    }
-    .prn-table tfoot {
-        background: #ddd !important;
+    .prn-strana p {
+        text-align: justify;
     }
     @page {
         /* U print dialogu Margins: default */
-        margin: 1cm;
+        margin: 2cm;
     }
 }

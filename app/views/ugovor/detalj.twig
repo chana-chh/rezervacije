@@ -20,14 +20,22 @@
 				title="Izmena odabranog ugovora"><i class="fas fa-edit"></i> Izmena</a>
 			<a href="{{ path_for('ugovor.uplate.lista', { id: ugovor.id }) }}" class="btn btn-success"><i
 					class="fas fa-money-bill"></i> Uplate</a>
+			{% if ugovor.fizicko_pravno == 1 %}
+			<a class="btn btn-primary btn-sm" href="{{ path_for('ugovori.stampa.pravna.single', { id: ugovor.id }) }}"
+				target="_blank">
+				<i class="fas fa-print"></i>
+				Štampa
+			</a>
+			{% else %}
+			<a class="btn btn-primary btn-sm" href="{{ path_for('ugovori.stampa.fizicka.single', { id: ugovor.id }) }}"
+				target="_blank">
+				<i class="fas fa-print"></i>
+				Štampa
+			</a>
+			{% endif %}
 		</div>
 	</div>
 </div>
-<hr>
-<p>
-	{{ ugovor.multiUgovor() ? 'multi' : 'single' }} - {{ ugovor.fizicko_pravno == 1 ? 'pravno' : 'fizicko' }}
-	<a href="{{ path_for('ugovori.stampa.fizicka.single', { id: ugovor.id }) }}" target="_blank">Ugovor</a>
-</p>
 <hr>
 {% endblock naslov %}
 {% block sadrzaj %}
