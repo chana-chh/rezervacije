@@ -15,7 +15,7 @@ class KorisnikController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Korisnik();
-        $data = $model->paginate($page, 'page' ,"SELECT * FROM korisnici WHERE id > 0;");
+        $data = $model->paginate($page, 'page', "SELECT * FROM korisnici WHERE id > 0;");
 
         $this->render($response, 'korisnik/lista.twig', compact('data'));
     }
@@ -56,7 +56,6 @@ class KorisnikController extends Controller
 
         $data['korisnik_id'] = $this->auth->user()->id;
 
-
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
@@ -92,11 +91,6 @@ class KorisnikController extends Controller
 
     public function postKorisnikDetalj($request, $response)
     {
-        // 		value="0">Admin
-        // 		value="100">Vlasnik, niko ga ne dodaje osim Super
-        // 		value="200">Zakazivač
-        //      value="300">Osoblje
-
         $nivoA = new Nivo();
         $nivoA->vrednost = 0;
         $nivoA->naziv = "Admin";
@@ -119,6 +113,7 @@ class KorisnikController extends Controller
         $korisnik = $model->find($id);
 
         $ar = ["cname" => $cName, "cvalue"=>$cValue, "korisnik"=>$korisnik, "nivoi"=>$nivoi];
+
         return $response->withJson($ar);
     }
 

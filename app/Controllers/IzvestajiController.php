@@ -13,12 +13,14 @@ class IzvestajiController extends Controller
         $godina = date('Y');
         $od_datum = "{$godina}-01-01";
         $do_datum = date('Y-m-d');
+
         $this->render($response, 'izvestaji/sale.twig', compact('lista', 'od_datum', 'do_datum'));
     }
 
     public function postPoSalama($request, $response)
     {
         $_SESSION['DATA_IZVESTAJI_SALE_LISTA'] = $request->getParams();
+
         return $response->withRedirect($this->router->pathFor('izvestaji.sale.lista'));
     }
 
@@ -46,8 +48,8 @@ class IzvestajiController extends Controller
             $od = $data['od'];
             $do = $data['do'];
             $params = [
-            ':od' => $od,
-            ':do' => $do,
+                ':od' => $od,
+                ':do' => $do,
             ];
 
             $sql = "SELECT ter.sala_id, sale.naziv, ter.datum, SUM(ugo.ug_broj_mesta) AS broj_mesta, SUM((ugo.ug_iznos_meni + ugo.ug_iznos_usluge)) AS iznos, SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
@@ -84,6 +86,7 @@ class IzvestajiController extends Controller
                 $zbir_uplata += $iz->uplate_iznos;
                 $zbir_dugova += $iz->dug;
             }
+
             $this->render($response, 'izvestaji/sale.twig', compact('lista', 'izvestaj', 'od', 'do', 'zbir_mesta', 'zbir_iznosa', 'zbir_uplata', 'zbir_dugova'));
         }
     }
@@ -94,12 +97,14 @@ class IzvestajiController extends Controller
         $godina = date('Y');
         $od_datum = "{$godina}-01-01";
         $do_datum = date('Y-m-d');
+
         $this->render($response, 'izvestaji/tipovi.twig', compact('lista', 'od_datum', 'do_datum'));
     }
 
     public function postPoTipovima($request, $response)
     {
         $_SESSION['DATA_IZVESTAJI_TIPOVI_LISTA'] = $request->getParams();
+
         return $response->withRedirect($this->router->pathFor('izvestaji.tipovi.lista'));
     }
 
@@ -127,8 +132,8 @@ class IzvestajiController extends Controller
             $od = $data['od'];
             $do = $data['do'];
             $params = [
-            ':od' => $od,
-            ':do' => $do,
+                ':od' => $od,
+                ':do' => $do,
             ];
 
             $sql = "SELECT ter.tip_dogadjaja_id, s_tip_dogadjaja.tip, ter.datum, SUM(ugo.ug_broj_mesta) AS broj_mesta,
@@ -166,6 +171,7 @@ class IzvestajiController extends Controller
                 $zbir_uplata += $iz->uplate_iznos;
                 $zbir_dugova += $iz->dug;
             }
+
             $this->render($response, 'izvestaji/tipovi.twig', compact('lista', 'izvestaj', 'od', 'do', 'zbir_mesta', 'zbir_iznosa', 'zbir_uplata', 'zbir_dugova'));
         }
     }
@@ -176,12 +182,14 @@ class IzvestajiController extends Controller
         $godina = date('Y');
         $od_datum = "{$godina}-01-01";
         $do_datum = date('Y-m-d');
+
         $this->render($response, 'izvestaji/vrste.twig', compact('lista', 'od_datum', 'do_datum'));
     }
 
     public function postPoVrstiPlacanja($request, $response)
     {
         $_SESSION['DATA_IZVESTAJI_VRSTE_LISTA'] = $request->getParams();
+
         return $response->withRedirect($this->router->pathFor('izvestaji.vrste.lista'));
     }
 
@@ -209,8 +217,8 @@ class IzvestajiController extends Controller
             $od = $data['od'];
             $do = $data['do'];
             $params = [
-            ':od' => $od,
-            ':do' => $do,
+                ':od' => $od,
+                ':do' => $do,
             ];
 
             $sql = "SELECT ugo.nacin_placanja, ter.datum, SUM(ugo.uplate_iznos) AS uplate_iznos
@@ -230,6 +238,7 @@ class IzvestajiController extends Controller
             foreach ($izvestaj as $iz) {
                 $zbir += $iz->uplate_iznos;
             }
+
             $this->render($response, 'izvestaji/vrste.twig', compact('lista', 'izvestaj', 'od', 'do', 'zbir'));
         }
     }

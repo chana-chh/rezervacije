@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Classes\Auth;
 use App\Classes\Logger;
 use App\Models\Termin;
 use App\Models\Ugovor;
@@ -10,7 +9,6 @@ use App\Models\Meni;
 
 class VlasnikController extends Controller
 {
-   
     public function getKalendarVlasnik($request, $response, $args)
     {
         $datum = isset($args['datum']) ? $args['datum'] : null;
@@ -20,7 +18,6 @@ class VlasnikController extends Controller
         $data = [];
 
         foreach ($termini as $termin) {
-            
             $ikonica = $termin->statusIkonica();
             $data[] = (object) [
                 "id" => $termin->id,
@@ -41,6 +38,7 @@ class VlasnikController extends Controller
     public function getTerminVlasnik($request, $response, $args)
     {
         $id = $args['id'];
+
         if ($id) {
             $model_termin = new Termin();
             $termin = $model_termin->find($id);
@@ -56,6 +54,7 @@ class VlasnikController extends Controller
         $id = (int) $args['id'];
         $model_ugovor = new Ugovor();
         $ugovor = $model_ugovor->find($id);
+
         $this->render($response, 'ugovor/detalj_vlasnik.twig', compact('ugovor'));
     }
 
@@ -64,6 +63,7 @@ class VlasnikController extends Controller
         $id = (int) $args['id'];
         $model_ugovor = new Ugovor();
         $ugovor = $model_ugovor->find($id);
+
         $this->render($response, 'ugovor/uplate_vlasnik.twig', compact('ugovor'));
     }
 
@@ -74,7 +74,7 @@ class VlasnikController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Ugovor();
-        $ugovori = $model->paginate($page, 'page' ,"SELECT * FROM ugovori ORDER BY datum DESC;");
+        $ugovori = $model->paginate($page, 'page', "SELECT * FROM ugovori ORDER BY datum DESC;");
 
         $this->render($response, 'ugovor/lista_vlasnik.twig', compact('ugovori'));
     }
@@ -82,6 +82,7 @@ class VlasnikController extends Controller
     public function postUgovorPretragaVlasnik($request, $response)
     {
         $_SESSION['DATA_UGOVORI_PRETRAGA'] = $request->getParams();
+
         return $response->withRedirect($this->router->pathFor('vlasnik.ugovori.pretraga'));
     }
 
@@ -90,6 +91,7 @@ class VlasnikController extends Controller
         $data = $_SESSION['DATA_UGOVORI_PRETRAGA'];
         array_shift($data);
         array_shift($data);
+
         if (empty($data['prezime']) &&
             empty($data['ime']) &&
             empty($data['telefon']) &&
@@ -122,6 +124,7 @@ class VlasnikController extends Controller
 
         $where = " WHERE ";
         $params = [];
+
         if (!empty($data['prezime'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -129,6 +132,7 @@ class VlasnikController extends Controller
             $where .= "prezime LIKE :prezime";
             $params[':prezime'] = $prezime;
         }
+
         if (!empty($data['ime'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -136,6 +140,7 @@ class VlasnikController extends Controller
             $where .= "ime LIKE :ime";
             $params[':ime'] = $ime;
         }
+
         if (!empty($data['telefon'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -143,6 +148,7 @@ class VlasnikController extends Controller
             $where .= "telefon LIKE :telefon";
             $params[':telefon'] = $telefon;
         }
+
         if (!empty($data['email'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -150,6 +156,7 @@ class VlasnikController extends Controller
             $where .= "email LIKE :email";
             $params[':email'] = $email;
         }
+
         if (!empty($data['napomena'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -157,6 +164,7 @@ class VlasnikController extends Controller
             $where .= "napomena LIKE :napomena";
             $params[':napomena'] = $napomena;
         }
+
         if (!empty($data['broj_ugovora'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -164,6 +172,7 @@ class VlasnikController extends Controller
             $where .= "broj_ugovora LIKE :broj_ugovora";
             $params[':broj_ugovora'] = $broj_ugovora;
         }
+
         if (!empty($data['datum_1']) && empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -171,6 +180,7 @@ class VlasnikController extends Controller
             $where .= "DATE(datum) = :datum_1";
             $params[':datum_1'] = $data['datum_1'];
         }
+
         if (!empty($data['datum_1']) && !empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -179,6 +189,7 @@ class VlasnikController extends Controller
             $params[':datum_1'] = $data['datum_1'];
             $params[':datum_2'] = $data['datum_2'];
         }
+
         if (!empty($data['korisnik_id'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";

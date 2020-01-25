@@ -4,7 +4,6 @@ namespace App\Classes;
 
 class Nivo
 {
-        public $vrednost;
-        public $naziv;
-
+    public $vrednost;
+    public $naziv;
 }

@@ -4,8 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Sala;
 use App\Classes\Logger;
-Use App\Classes\Db;
-use App\Classes\Auth;
 
 class SalaController extends Controller
 {
@@ -13,7 +11,7 @@ class SalaController extends Controller
     {
         $model = new Sala();
         $sale = $model->all();
-       
+
         $this->render($response, 'sale.twig', compact('sale'));
     }
 
@@ -43,7 +41,7 @@ class SalaController extends Controller
         ];
 
         $data['korisnik_id'] = $this->auth->user()->id;
-        
+
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
@@ -67,6 +65,7 @@ class SalaController extends Controller
         $modelSale = new Sala();
         $sala = $modelSale->find($id_sale);
         $success = $modelSale->deleteOne($id_sale);
+
         if ($success) {
             $this->flash->addMessage('success', "Sala je uspešno obrisana.");
             $this->log(Logger::BRISANJE, $sala, 'naziv', $sala);
@@ -79,14 +78,15 @@ class SalaController extends Controller
 
     public function postSalaDetalj($request, $response)
     {
-            $data = $request->getParams();
-            $cName = $this->csrf->getTokenName();
-            $cValue = $this->csrf->getTokenValue();
-            $id = $data['id'];
-            $modelSale = new Sala();
-            $sala = $modelSale->find($id);
-            $ar = ["cname" => $cName, "cvalue"=>$cValue, "sala"=>$sala];
-            return $response->withJson($ar);
+        $data = $request->getParams();
+        $cName = $this->csrf->getTokenName();
+        $cValue = $this->csrf->getTokenValue();
+        $id = $data['id'];
+        $modelSale = new Sala();
+        $sala = $modelSale->find($id);
+        $ar = ["cname" => $cName, "cvalue"=>$cValue, "sala"=>$sala];
+
+        return $response->withJson($ar);
     }
 
     public function postSalaIzmena($request, $response)
@@ -97,7 +97,12 @@ class SalaController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
-        $datam = ["naziv"=>$data['nazivModal'], "max_kapacitet_mesta"=>$data['mk_mesta_Modal'], "max_kapacitet_stolova"=>$data['mk_stolova_Modal'],"napomena"=>$data['napomenaModal']];
+        $datam = [
+            "naziv" => $data['nazivModal'],
+            "max_kapacitet_mesta" => $data['mk_mesta_Modal'],
+            "max_kapacitet_stolova" => $data['mk_stolova_Modal'],
+            "napomena"=>$data['napomenaModal'],
+        ];
 
         $validation_rules = [
             'naziv' => [

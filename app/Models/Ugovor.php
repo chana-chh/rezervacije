@@ -97,6 +97,7 @@ class Ugovor extends Model
             $this->slatki_sto_iznos +
             $this->vocni_sto_iznos +
             $this->posebni_zahtevi_iznos;
+            
         return $cena;
     }
 

@@ -4,8 +4,6 @@ namespace App\Controllers;
 
 use App\Classes\Logger;
 
-// use App\Models\Korisnik;
-
 class AuthController extends Controller
 {
     public function getPrijava($request, $response)
@@ -38,7 +36,7 @@ class AuthController extends Controller
     }
 
     /*
-        REGISTRACIJA NIJE KOMPLETNA - NE KORISTITI !!!
+        FIXME: REGISTRACIJA NIJE KOMPLETNA - NE KORISTITI !!!
     */
     public function getRegistracija($request, $response)
     {
@@ -85,6 +83,7 @@ class AuthController extends Controller
     {
         $this->render($response, 'auth/promena.twig');
     }
+
     public function postPromena($request, $response)
     {
         $data = $request->getParams();
@@ -110,7 +109,6 @@ class AuthController extends Controller
             return $response->withRedirect($this->router->pathFor('promena'));
         } else {
             $prijavljeni_korisnik = $this->auth->user();
-            // $model_korisnik = new Korisnik();
             $dobra_lozinka = $this->auth->checkPassword($data['lozinka'], $prijavljeni_korisnik->lozinka);
             if ($dobra_lozinka) {
                 $novi_hash = password_hash($data['nova_lozinka'], PASSWORD_DEFAULT);

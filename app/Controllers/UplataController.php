@@ -72,6 +72,7 @@ class UplataController extends Controller
         $nacini = $model_uplate->enumOrSetList('nacin_placanja');
         $uplata = $model_uplate->find($id);
         $ar = ["cname" => $cName, "cvalue"=>$cValue, "uplata"=>$uplata, "nacini"=>$nacini];
+
         return $response->withJson($ar);
     }
 
@@ -121,11 +122,13 @@ class UplataController extends Controller
             $ugovor = $model_ugovor->find($ugovor_id);
             $model_termin = new Termin();
             $termin = $model_termin->find($ugovor->termin_id);
+
             if ($termin->zakljucavanje()) {
                 $model_termin->update(['zauzet' => 1], $termin->id);
             } else {
                 $model_termin->update(['zauzet' => 0], $termin->id);
             }
+
             $this->log(Logger::IZMENA, $uplata, 'datum', $uplata);
             $this->flash->addMessage('success', "Podaci o uplati su uspešno izmenjeni.");
             return $response->withRedirect($this->router->pathFor('ugovor.uplate.lista', ['id' => $ugovor_id]));
@@ -141,6 +144,7 @@ class UplataController extends Controller
         $ugovor = $model_ugovor->find($uplata->ugovor_id);
         $model_termin = new Termin();
         $termin = $model_termin->find($ugovor->termin_id);
+
         if ($termin->zakljucavanje()) {
             $model_termin->update(['zauzet' => 1], $termin->id);
         } else {
@@ -148,6 +152,7 @@ class UplataController extends Controller
         }
 
         $success = $model->deleteOne($id);
+
         if ($success) {
             $this->log(Logger::BRISANJE, $uplata, 'datum', $uplata);
             $this->flash->addMessage('success', "Uplata je uspešno obrisana.");

@@ -22,7 +22,6 @@ class TerminController extends Controller
 
         foreach ($termini as $termin) {
             $ikonica = $termin->statusIkonica();
-
             $data[] = (object) [
                 "id" => $termin->id,
                 "title" => [$termin->sala()->naziv],
@@ -85,6 +84,7 @@ class TerminController extends Controller
                 'required' => true
             ],
         ];
+
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
@@ -116,10 +116,12 @@ class TerminController extends Controller
                     $preklapanje = true;
                 }
             }
+
             if ($preklapanje) {
                 $this->flash->addMessage('danger', 'Termin se preklapa sa nekim od postojećih termina.');
                 return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
             }
+
             // Upisivanje u bazu
             $data['korisnik_id'] = $this->auth->user()->id;
             $model_termin->insert($data);
@@ -130,6 +132,7 @@ class TerminController extends Controller
                 $model_termin->update(['zauzet' => 0], $termin->id);
             }
             $this->log(Logger::DODAVANJE, $termin, 'opis');
+
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
             return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));
         }
@@ -163,7 +166,6 @@ class TerminController extends Controller
         $data = $request->getParams();
         $termin_id = (int) $data['termin_id'];
         $this->addCsrfToken($data);
-        // ovde zakljucavam/otkljucavam termin
         $model = new Termin();
         $termin = $model->find($termin_id);
         $zakljucen = $termin->zakljucen();
@@ -174,6 +176,7 @@ class TerminController extends Controller
         $data['ikonica'] = $termin1->statusIkonica();
         $data['status'] = $termin1->status();
         $this->log(Logger::IZMENA, $termin1, 'opis', $termin);
+
         return json_encode($data);
     }
 
@@ -215,6 +218,7 @@ class TerminController extends Controller
                 'required' => true
             ],
         ];
+
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {

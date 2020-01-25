@@ -89,6 +89,7 @@ class Termin extends Model
         if ($this->zauzet == 0 && empty($this->ugovori())) {
             return 2;
         }
+
         return $this->zauzet;
     }
 
@@ -105,6 +106,7 @@ class Termin extends Model
         if ($this->status() == 2) {
             return 'fas fa-question-circle text-primary';
         }
+        
         return null;
     }
 

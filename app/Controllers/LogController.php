@@ -15,7 +15,7 @@ class LogController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Log();
-        $logovi = $model->paginate($page, 'page' ,"SELECT * FROM logovi ORDER BY datum DESC;");
+        $logovi = $model->paginate($page, 'page', "SELECT * FROM logovi ORDER BY datum DESC;");
 
         $model_korisnici = new Korisnik();
         $korisnici = $model_korisnici->all();
@@ -26,6 +26,7 @@ class LogController extends Controller
     public function postLogPretraga($request, $response)
     {
         $_SESSION['DATA_LOGOVI_PRETRAGA'] = $request->getParams();
+
         return $response->withRedirect($this->router->pathFor('logovi.pretraga'));
     }
 
@@ -34,6 +35,7 @@ class LogController extends Controller
         $data = $_SESSION['DATA_LOGOVI_PRETRAGA'];
         array_shift($data);
         array_shift($data);
+
         if (empty($data['opis']) && empty($data['tip']) && empty($data['datum_1']) && empty($data['datum_2']) && empty($data['korisnik_id'])) {
             $this->getLog($request, $response);
         }
@@ -50,10 +52,12 @@ class LogController extends Controller
 
         $where = " WHERE ";
         $params = [];
+
         if (!empty($data['opis'])) {
             $where .= "opis LIKE :opis";
             $params[':opis'] = $opis;
         }
+
         if (!empty($data['tip'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -61,6 +65,7 @@ class LogController extends Controller
             $where .= "tip LIKE :tip";
             $params[':tip'] = $tip;
         }
+
         if (!empty($data['datum_1']) && empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -68,6 +73,7 @@ class LogController extends Controller
             $where .= "DATE(datum) = :datum_1";
             $params[':datum_1'] = $data['datum_1'];
         }
+
         if (!empty($data['datum_1']) && !empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -76,6 +82,7 @@ class LogController extends Controller
             $params[':datum_1'] = $data['datum_1'];
             $params[':datum_2'] = $data['datum_2'];
         }
+
         if (!empty($data['korisnik_id'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";

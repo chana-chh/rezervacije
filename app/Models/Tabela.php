@@ -7,5 +7,4 @@ use App\Classes\Model;
 class Tabela extends Model
 {
   protected $table = 'tabela';
-
 }

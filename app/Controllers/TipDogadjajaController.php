@@ -4,8 +4,6 @@ namespace App\Controllers;
 
 use App\Models\TipDogadjaja;
 use App\Classes\Logger;
-Use App\Classes\Db;
-use App\Classes\Auth;
 
 class TipDogadjajaController extends Controller
 {
@@ -13,7 +11,7 @@ class TipDogadjajaController extends Controller
     {
         $model = new TipDogadjaja();
         $tipovi = $model->all();
-       
+
         $this->render($response, 'tip_dogadjaja.twig', compact('tipovi'));
     }
 
@@ -65,6 +63,7 @@ class TipDogadjajaController extends Controller
         $model = new TipDogadjaja();
         $tip_dogadjaja = $model->find($id);
         $success = $model->deleteOne($id);
+
         if ($success) {
             $this->flash->addMessage('success', "Tip događaja je uspešno obrisan.");
             $this->log(Logger::BRISANJE, $tip_dogadjaja, 'tip', $tip_dogadjaja);
@@ -77,14 +76,15 @@ class TipDogadjajaController extends Controller
 
     public function postTipDetalj($request, $response)
     {
-            $data = $request->getParams();
-            $cName = $this->csrf->getTokenName();
-            $cValue = $this->csrf->getTokenValue();
-            $id = $data['id'];
-            $model = new TipDogadjaja();
-            $tip = $model->find($id);
-            $ar = ["cname" => $cName, "cvalue"=>$cValue, "tip"=>$tip];
-            return $response->withJson($ar);
+        $data = $request->getParams();
+        $cName = $this->csrf->getTokenName();
+        $cValue = $this->csrf->getTokenValue();
+        $id = $data['id'];
+        $model = new TipDogadjaja();
+        $tip = $model->find($id);
+        $ar = ["cname" => $cName, "cvalue"=>$cValue, "tip"=>$tip];
+
+        return $response->withJson($ar);
     }
 
     public function postTipIzmena($request, $response)
@@ -97,7 +97,10 @@ class TipDogadjajaController extends Controller
 
         $multi_ugovori = isset($data['multi_ugovoriM']) ? 1 : 0;
 
-        $datam = ["tip"=>$data['tipModal'], "multi_ugovori"=>$multi_ugovori];
+        $datam = [
+            "tip" => $data['tipModal'],
+            "multi_ugovori" => $multi_ugovori,
+        ];
 
         $validation_rules = [
             'tip' => [

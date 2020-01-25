@@ -1,6 +1,6 @@
 /* CSS */
-html,
-body {
+
+html, body {
   height: 100%;
 }
 
@@ -52,27 +52,48 @@ body {
   width: 50% !important;
 }
 
+.w-55 {
+  width: 55% !important;
+}
+
 .w-60 {
   width: 60% !important;
+}
+
+.w-65 {
+  width: 65% !important;
 }
 
 .w-70 {
   width: 70% !important;
 }
 
+.w-75 {
+  width: 75% !important;
+}
+
 .w-80 {
   width: 80% !important;
+}
+
+.w-85 {
+  width: 85% !important;
 }
 
 .w-90 {
   width: 90% !important;
 }
 
+.w-95 {
+  width: 95% !important;
+}
+
 .w-100 {
   min-width: 100% !important;
 }
 
-/*Paginacija*/
+/*Paginacija
+
 .page-link {
   position: relative;
   display: block;
@@ -91,14 +112,13 @@ body {
   border-color: #f7f7f7;
 }
 
-.page-link:focus,
-.page-link:hover {
+.page-link:focus, .page-link:hover {
   color: #fff;
   text-decoration: none;
   background-color: #5bc0de;
   border-color: #f7f7f7;
 }
-
+*/
 @media print {
   .ne_stampaj {
     display: none !important;

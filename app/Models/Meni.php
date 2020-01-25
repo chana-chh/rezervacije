@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Classes\Model;
-use App\Classes\Db;
 
 class Meni extends Model
 {
@@ -21,7 +20,7 @@ class Meni extends Model
 
     public function __toString()
     {
-        return 'Podaci iz modela: naziv:' . $this->naziv . 
+        return 'Podaci iz modela: naziv:' . $this->naziv .
         		', hladno_predjelo:' . $this->hladno_predjelo .
         		', sirevi:' . $this->sirevi .
         		', corba:' . $this->corba .

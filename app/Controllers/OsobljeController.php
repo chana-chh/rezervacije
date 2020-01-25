@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Classes\Auth;
 use App\Classes\Logger;
 use App\Models\Termin;
 use App\Models\Ugovor;
@@ -10,20 +9,18 @@ use App\Models\Meni;
 
 class OsobljeController extends Controller
 {
-   
     public function getKalendarOsoblje($request, $response, $args)
     {
         $datum = isset($args['datum']) ? $args['datum'] : null;
         $model_termin = new Termin();
         $sql = "SELECT t.*, u.broj_ugovora FROM {$model_termin->getTable()} AS t
-        LEFT JOIN ugovori u ON u.termin_id = t.id
-        WHERE t.datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH) 
-        AND u.termin_id IS NOT NULL;";
+                LEFT JOIN ugovori u ON u.termin_id = t.id
+                WHERE t.datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+                AND u.termin_id IS NOT NULL;";
         $termini = $model_termin->fetch($sql);
         $data = [];
 
         foreach ($termini as $termin) {
-            
             $ikonica = $termin->statusIkonica();
             $data[] = (object) [
                 "id" => $termin->id,
@@ -42,6 +39,7 @@ class OsobljeController extends Controller
     public function getTerminOsoblje($request, $response, $args)
     {
         $id = $args['id'];
+
         if ($id) {
             $model_termin = new Termin();
             $termin = $model_termin->find($id);

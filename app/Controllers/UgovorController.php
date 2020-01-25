@@ -17,7 +17,7 @@ class UgovorController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Ugovor();
-        $ugovori = $model->paginate($page, 'page' ,"SELECT * FROM ugovori ORDER BY datum DESC;");
+        $ugovori = $model->paginate($page, 'page', "SELECT * FROM ugovori ORDER BY datum DESC;");
 
         $this->render($response, 'ugovor/lista.twig', compact('ugovori'));
     }
@@ -25,6 +25,7 @@ class UgovorController extends Controller
     public function postUgovorPretraga($request, $response)
     {
         $_SESSION['DATA_UGOVORI_PRETRAGA'] = $request->getParams();
+
         return $response->withRedirect($this->router->pathFor('ugovori.pretraga'));
     }
 
@@ -33,6 +34,7 @@ class UgovorController extends Controller
         $data = $_SESSION['DATA_UGOVORI_PRETRAGA'];
         array_shift($data);
         array_shift($data);
+
         if (empty($data['prezime']) &&
             empty($data['ime']) &&
             empty($data['naziv_firme']) &&
@@ -68,6 +70,7 @@ class UgovorController extends Controller
 
         $where = " WHERE ";
         $params = [];
+
         if (!empty($data['prezime'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -75,6 +78,7 @@ class UgovorController extends Controller
             $where .= "prezime LIKE :prezime";
             $params[':prezime'] = $prezime;
         }
+
         if (!empty($data['naziv_firme'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -82,6 +86,7 @@ class UgovorController extends Controller
             $where .= "naziv_firme LIKE :naziv_firme";
             $params[':naziv_firme'] = $naziv_firme;
         }
+
         if (!empty($data['ime'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -89,6 +94,7 @@ class UgovorController extends Controller
             $where .= "ime LIKE :ime";
             $params[':ime'] = $ime;
         }
+
         if (!empty($data['telefon'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -96,6 +102,7 @@ class UgovorController extends Controller
             $where .= "telefon LIKE :telefon";
             $params[':telefon'] = $telefon;
         }
+
         if (!empty($data['email'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -103,6 +110,7 @@ class UgovorController extends Controller
             $where .= "email LIKE :email";
             $params[':email'] = $email;
         }
+
         if (!empty($data['napomena'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -110,6 +118,7 @@ class UgovorController extends Controller
             $where .= "napomena LIKE :napomena";
             $params[':napomena'] = $napomena;
         }
+
         if (!empty($data['broj_ugovora'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -117,6 +126,7 @@ class UgovorController extends Controller
             $where .= "broj_ugovora LIKE :broj_ugovora";
             $params[':broj_ugovora'] = $broj_ugovora;
         }
+
         if (!empty($data['datum_1']) && empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -124,6 +134,7 @@ class UgovorController extends Controller
             $where .= "DATE(datum) = :datum_1";
             $params[':datum_1'] = $data['datum_1'];
         }
+
         if (!empty($data['datum_1']) && !empty($data['datum_2'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -132,6 +143,7 @@ class UgovorController extends Controller
             $params[':datum_1'] = $data['datum_1'];
             $params[':datum_2'] = $data['datum_2'];
         }
+
         if (!empty($data['korisnik_id'])) {
             if ($where !== " WHERE ") {
                 $where .= " AND ";
@@ -162,6 +174,7 @@ class UgovorController extends Controller
             $this->flash->addMessage('warning', "Nije dozvoljeno dodavanje više od jednog ugovora.");
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
         }
+
         $this->render($response, 'ugovor/dodavanje.twig', compact('termin', 'meniji'));
     }
 
@@ -360,6 +373,7 @@ class UgovorController extends Controller
             $this->flash->addMessage('danger', "Postoje uplate vezane za ovaj ugovor. Da bi se obrisao ugovor nephodno je prethodno obrisati sve uplate vezane za njega.");
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
         }
+
         if (count($ugovor->dokumenti()) > 0) {
             $this->flash->addMessage('danger', "Postoje dokumenti vezani za ovaj ugovor. Da bi se obrisao ugovor nephodno je prethodno obrisati sve dokumente vezane za njega.");
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
@@ -372,6 +386,7 @@ class UgovorController extends Controller
         }
 
         $success = $model->deleteOne($id);
+
         if ($success) {
             $this->log(Logger::BRISANJE, $ugovor, 'broj_ugovora', $ugovor);
             $this->flash->addMessage('success', "Ugovor je uspešno obrisan.");
@@ -387,6 +402,7 @@ class UgovorController extends Controller
         $id = (int) $args['id'];
         $model_ugovor = new Ugovor();
         $ugovor = $model_ugovor->find($id);
+
         $this->render($response, 'ugovor/detalj.twig', compact('ugovor'));
     }
 
@@ -395,6 +411,7 @@ class UgovorController extends Controller
         $id = (int) $args['id'];
         $model_ugovor = new Ugovor();
         $ugovor = $model_ugovor->find($id);
+
         $this->render($response, 'ugovor/uplate.twig', compact('ugovor'));
     }
 }

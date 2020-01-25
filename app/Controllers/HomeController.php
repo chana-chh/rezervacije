@@ -21,7 +21,6 @@ class HomeController extends Controller
         $data = [];
 
         foreach ($termini as $termin) {
-            
             $ikonica = $termin->statusIkonica();
             $data[] = (object) [
                 "id" => $termin->id,

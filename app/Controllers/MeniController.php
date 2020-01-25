@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\Meni;
-Use App\Classes\Db;
-use App\Classes\Auth;
 use App\Classes\Logger;
 
 class MeniController extends Controller
@@ -24,6 +22,7 @@ class MeniController extends Controller
     public function postMeniPretraga($request, $response)
     {
         $_SESSION['DATA_MENI_PRETRAGA'] = $request->getParams();
+
         return $response->withRedirect($this->router->pathFor('meni.pretraga'));
     }
 
@@ -32,6 +31,7 @@ class MeniController extends Controller
         $data = $_SESSION['DATA_MENI_PRETRAGA'];
         array_shift($data);
         array_shift($data);
+
         if (empty($data['upit'])) {
             $this->getMeni($request, $response);
         }
@@ -51,6 +51,7 @@ class MeniController extends Controller
             $where .= "naziv LIKE :naziv";
             $params[':naziv'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -58,6 +59,7 @@ class MeniController extends Controller
             $where .= "hladno_predjelo LIKE :hladno_predjelo";
             $params[':hladno_predjelo'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -65,6 +67,7 @@ class MeniController extends Controller
             $where .= "sirevi LIKE :sirevi";
             $params[':sirevi'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -72,6 +75,7 @@ class MeniController extends Controller
             $where .= "corba LIKE :corba";
             $params[':corba'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -79,6 +83,7 @@ class MeniController extends Controller
             $where .= "glavno_jelo LIKE :glavno_jelo";
             $params[':glavno_jelo'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -86,6 +91,7 @@ class MeniController extends Controller
             $where .= "meso LIKE :meso";
             $params[':meso'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -93,6 +99,7 @@ class MeniController extends Controller
             $where .= "hleb LIKE :hleb";
             $params[':hleb'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -100,6 +107,7 @@ class MeniController extends Controller
             $where .= "karta_pica LIKE :karta_pica";
             $params[':karta_pica'] = $upit;
         }
+
         if (!empty($data['upit'])) {
             if ($where !== " WHERE ") {
                 $where .= " OR ";
@@ -158,9 +166,9 @@ class MeniController extends Controller
         $data['meso'] = rtrim($data['meso'], ',');
         $data['hleb'] = rtrim($data['hleb'], ',');
         $data['karta_pica'] = rtrim($data['karta_pica'], ',');
-        
+
         $data['korisnik_id'] = $this->auth->user()->id;
-        
+
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
@@ -183,6 +191,7 @@ class MeniController extends Controller
         $modelMenija = new Meni();
         $meni = $modelMenija->find($id);
         $success = $modelMenija->deleteOne($id);
+
         if ($success) {
             $this->flash->addMessage('success', "Meni je uspešno obrisan.");
             $this->log(Logger::BRISANJE, $meni, 'naziv', $meni);
@@ -198,6 +207,7 @@ class MeniController extends Controller
         $id = (int)$args['id'];
         $modelMeni = new Meni();
         $meni = $modelMeni->find($id);
+
         $this->render($response, 'meni_pregled.twig', compact('meni'));
     }
 
@@ -206,6 +216,7 @@ class MeniController extends Controller
         $id = (int)$args['id'];
         $modelMeni = new Meni();
         $meni = $modelMeni->find($id);
+
         $this->render($response, 'meni_izmena.twig', compact('meni'));
     }
 

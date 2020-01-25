@@ -11,7 +11,6 @@ class DokumentController extends Controller
     {
         $data = $request->getParams();
         $dokument = $request->getUploadedFiles()['dokument'];
-
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
@@ -19,6 +18,7 @@ class DokumentController extends Controller
             $this->flash->addMessage('danger', 'Morate odabrati dokument.');
             return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $data['ugovor_id']]));
         }
+        
         if ($dokument->getError() !== UPLOAD_ERR_OK) {
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom prebacivanja dokumenta.');
             return $response->withRedirect($this->router->pathFor('termin.ugovor.detalj.get', ['id' => $data['ugovor_id']]));

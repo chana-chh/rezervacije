@@ -1,6 +1,6 @@
 <?php
 
-define('APP_NAME', 'Rezervacije');
+define('APP_NAME', 'EEC rezervacije');
 
 define('DS', DIRECTORY_SEPARATOR);
 define('DIR', dirname(__DIR__) . DS);
@@ -44,6 +44,7 @@ ini_set('upload_tmp_dir', DIR . DS . 'app' . DS . 'tmp');
 if (in_array('sha512', hash_algos())) {
     ini_set('session.hash_function', 'sha512');
 }
+
 ini_set('session.hash_bits_per_character', 5);
 ini_set('session.use_trans_sid', 0);
 ini_set('session.use_only_cookies', 1);
@@ -57,9 +58,11 @@ $sess_expire = 30;
 if (isset($_SESSION['LAST_ACTION'])) {
     $sec = time() - $_SESSION['LAST_ACTION'];
     $expire = $sess_expire * 60;
+
     if ($sec >= $expire) {
         session_unset();
         session_destroy();
     }
 }
+
 $_SESSION['LAST_ACTION'] = time();

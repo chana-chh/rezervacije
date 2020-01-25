@@ -14,6 +14,7 @@ function latinicaUCirilicu(string $tekst, bool $cirilica_u_latinicu = false)
         'ђ', 'ђ', 'љ', 'њ', 'џ',
         'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'ј', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'ћ', 'у', 'ф', 'х', 'ц', 'ч', 'ш',
     ];
+
     if ($cirilica_u_latinicu) {
         return str_replace($cirilica, $latinica, $tekst);
     } else {
@@ -24,18 +25,23 @@ function latinicaUCirilicu(string $tekst, bool $cirilica_u_latinicu = false)
 function isValidJMBG(string $jmbg)
 {
     $len = strlen($jmbg);
+
     if ($len != 13) {
         return false;
     }
+
     $niz = str_split($jmbg);
     $ok = true;
     $zbir = 0;
+
     foreach ($niz as $k => $v) {
         if (!is_numeric($v)) {
             return false;
         }
+
         $niz[$k] = (int) $v;
     }
+
     $zbir = $niz[0] * 7
         + $niz[1] * 6
         + $niz[2] * 5
@@ -48,17 +54,23 @@ function isValidJMBG(string $jmbg)
         + $niz[9] * 4
         + $niz[10] * 3
         + $niz[11] * 2;
+
     $ostatak = $zbir % 11;
+
     if ($ostatak === 1) {
         return false;
     }
+
     $kontrolni = 11 - $ostatak;
+
     if ($ostatak == 0) {
         $kontrolni = 0;
     }
+
     if ($kontrolni != $niz[12]) {
         return false;
     }
+
     return true;
 }
 
@@ -66,11 +78,13 @@ function dd($var, $print = false, $die = true, $backtrace = false)
 {
     echo '<h3 style="color:#900">VARIABLE</h1>';
     echo '<pre style="background-color:#fdd; color:#000; padding:1rem;">';
+
     if ($print) {
         print_r($var);
     } else {
         var_dump($var);
     }
+
     echo '</pre>';
 
     if (gettype($var) === 'object') {
