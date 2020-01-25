@@ -19,14 +19,11 @@ $app->group('', function () {
     $this->post('/promena', '\App\Controllers\AuthController:postPromena')->setName('promena');
 })->add(new AuthMiddleware($container));
 
-// LEVELS: 0 - admin, 100 - vlasnik, 200 - zakazivaci, 300 - osoblje, 1000 - super admin
-
-// SUPER ADMIN - ostaviti rute koje moze da vidi samo super admin
+// SUPER ADMIN
 $app->group('', function () {
 })->add(new UserLevelMiddleware($container, []));
 
-
-// ADMIN - obrisati rute koje treba da vidi samo super admin
+// ADMIN
 $app->group('', function () {
     // Korisnici
     $this->get('/admin/korisnik-lista', '\App\Controllers\KorisnikController:getKorisnikLista')->setName('admin.korisnik.lista');
@@ -71,16 +68,13 @@ $app->group('', function () {
     $this->get('/vlasnik/ugovori', '\App\Controllers\VlasnikController:getUgovorListaVlasnik')->setName('vlasnik.ugovori');
     $this->get('/vlasnik/ugovori/pretraga', '\App\Controllers\VlasnikController:getUgovorPretragaVlasnik')->setName('vlasnik.ugovori.pretraga');
     $this->post('/vlasnik/ugovori/pretraga', '\App\Controllers\VlasnikController:postUgovorPretragaVlasnik');
-
     // izvestaji
     $this->get('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:getPoSalama')->setName('izvestaji.sale');
     $this->post('/izvestaji/po-salama', '\App\Controllers\IzvestajiController:postPoSalama')->setName('izvestaji.sale.post');
     $this->get('/izvestaji/po-salama-lista', '\App\Controllers\IzvestajiController:getPoSalamaLista')->setName('izvestaji.sale.lista');
-
     $this->get('/izvestaji/po-tipovima', '\App\Controllers\IzvestajiController:getPoTipovima')->setName('izvestaji.tipovi');
     $this->post('/izvestaji/po-tipovima', '\App\Controllers\IzvestajiController:postPoTipovima')->setName('izvestaji.tipovi.post');
     $this->get('/izvestaji/po-tipovima-lista', '\App\Controllers\IzvestajiController:getPoTipovimaLista')->setName('izvestaji.tipovi.lista');
-
     $this->get('/izvestaji/po-vtsti', '\App\Controllers\IzvestajiController:getPoVrstiPlacanja')->setName('izvestaji.vrste');
     $this->post('/izvestaji/po-vtsti', '\App\Controllers\IzvestajiController:postPoVrstiPlacanja')->setName('izvestaji.vrste.post');
     $this->get('/izvestaji/po-vtsti-lista', '\App\Controllers\IzvestajiController:getPoVrstiPlacanjaLista')->setName('izvestaji.vrste.lista');
@@ -92,11 +86,6 @@ $app->group('', function () {
     $this->get('/ugovori', '\App\Controllers\UgovorController:getUgovor')->setName('ugovori');
     $this->get('/ugovori/pretraga', '\App\Controllers\UgovorController:getUgovorPretraga')->setName('ugovori.pretraga');
     $this->post('/ugovori/pretraga', '\App\Controllers\UgovorController:postUgovorPretraga');
-
-    // Stampa ugovora
-    $this->get('/ugovori/stampa/fizicka/single/{id}', '\App\Controllers\StampaController:getUgovorStampaFizickaSingle')->setName('ugovori.stampa.fizicka.single');
-    $this->get('/ugovori/stampa/pravna/single/{id}', '\App\Controllers\StampaController:getUgovorStampaPravnaSingle')->setName('ugovori.stampa.pravna.single');
-
     $this->get('/termin/ugovori/dodavanje/{termin_id}', '\App\Controllers\UgovorController:getUgovorDodavanje')->setName('termin.dodavanje.ugovor');
     $this->post('/termin/ugovori/dodavanje', '\App\Controllers\UgovorController:postUgovorDodavanje')->setName('termin.dodavanje.ugovor.post');
     $this->get('/termin/ugovori/izmena/{id}', '\App\Controllers\UgovorController:getUgovorIzmena')->setName('termin.ugovor.izmena.get');
@@ -104,19 +93,19 @@ $app->group('', function () {
     $this->post('/termin/ugovori/brisanje', '\App\Controllers\UgovorController:postUgovorBrisanje')->setName('termin.ugovor.brisanje');
     $this->get('/termin/ugovori/detalj/{id}', '\App\Controllers\UgovorController:getUgovorDetalj')->setName('termin.ugovor.detalj.get');
     $this->get('/termin/ugovori/uplate/{id}', '\App\Controllers\UgovorController:getUgovorUplateDetalj')->setName('ugovor.uplate.lista');
-
+    // Stampa ugovora
+    $this->get('/ugovori/stampa/fizicka/single/{id}', '\App\Controllers\StampaController:getUgovorStampaFizickaSingle')->setName('ugovori.stampa.fizicka.single');
+    $this->get('/ugovori/stampa/pravna/single/{id}', '\App\Controllers\StampaController:getUgovorStampaPravnaSingle')->setName('ugovori.stampa.pravna.single');
     // Uplate
     $this->post('/ugovori/uplata/detalj', '\App\Controllers\UplataController:postUplataIzmenaAjax')->setName('ugovor.uplata.detalj');
     $this->post('/ugovori/izmena/uplata', '\App\Controllers\UplataController:postUplataIzmena')->setName('ugovor.izmena.uplata');
     $this->post('/ugovori/brisanje/uplata', '\App\Controllers\UplataController:postUplataBrisanje')->setName('ugovor.brisanje.uplata');
     $this->post('/termin/ugovori/uplata', '\App\Controllers\UplataController:postUplataDodavanje')->setName('termin.ugovor.uplata');
-
     // Dokumenti
     $this->post('/termin/dokument/dodavanje', '\App\Controllers\DokumentController:postDokumentDodavanje')->setName('dokument.dodavanje');
     $this->post('/termin/dokument/brisanje', '\App\Controllers\DokumentController:postDokumentiBrisanje')->setName('dokument.brisanje');
     $this->post('/termin/dokument/detalj', '\App\Controllers\DokumentController:postDokumentDetalj')->setName('dokument.detalj');
     $this->post('/termin/dokument/izmena', '\App\Controllers\DokumentController:postDokumentIzmena')->setName('dokument.izmena');
-
     // Termini
     $this->get('/termin/pregled[/{datum}]', '\App\Controllers\TerminController:getTerminPregled')->setName('termin.pregled.get');
     $this->get('/termin/detalj[/{id}]', '\App\Controllers\TerminController:getTerminDetalj')->setName('termin.detalj.get');
