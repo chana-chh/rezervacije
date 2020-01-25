@@ -10,6 +10,7 @@ class HomeController extends Controller
 {
     public function getHome($request, $response)
     {
+        // dd(\password_hash('MyC3DquVub2nVaJ8', PASSWORD_DEFAULT), true);
         $this->render($response, 'home.twig');
     }
 
