@@ -197,7 +197,6 @@ class UgovorController extends Controller
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'datum' => ['required' => true,],
             'meni_id' => ['required' => true,],
             'prezime' => ['required' => true,],
             'ime' => ['required' => true,],
@@ -300,7 +299,6 @@ class UgovorController extends Controller
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'datum' => ['required' => true,],
             'meni_id' => ['required' => true,],
             'prezime' => ['required' => true,],
             'ime' => ['required' => true,],

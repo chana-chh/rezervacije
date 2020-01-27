@@ -61,7 +61,7 @@
         <div class="form-group col-md-3">
           <label for="datum">Datum</label>
           <input name="datum" type="date" id="datum" class="form-control{{ errors.datum[0] ? ' is-invalid' : '' }}"
-            value="{{ old.datum ? : ugovor.datum }}" required />
+            value="{{ old.datum ? : ugovor.datum }}" />
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.datum[0] ? : 'Obavezno polje' }}</div>
         </div>
