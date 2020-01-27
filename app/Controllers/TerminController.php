@@ -206,6 +206,9 @@ class TerminController extends Controller
         unset($data['csrf_name']);
         unset($data['csrf_value']);
 
+        $pocetak = strtotime("{$data['datum']} {$data['pocetak']}");
+        $kraj = strtotime("{$data['datum']} {$data['kraj']}");
+
         $validation_rules = [
             'sala' => [
                 'required' => true
@@ -224,6 +227,10 @@ class TerminController extends Controller
             ],
         ];
 
+        if ($kraj <= $pocetak) {
+            $this->validator->addError('kraj', 'Vreme završetka termina mora biti veće od vremena početka termina.');
+        }
+
         $this->validator->validate($data, $validation_rules);
 
         if ($this->validator->hasErrors()) {
@@ -234,8 +241,6 @@ class TerminController extends Controller
             $model_termin = new Termin();
             $stari = $model_termin->find($id);
             $preklapanje = false;
-            $pocetak = strtotime("{$data['datum']} {$data['pocetak']}");
-            $kraj = strtotime("{$data['datum']} {$data['kraj']}");
             $sql = "SELECT datum, pocetak, kraj FROM termini WHERE datum = :dat AND sala_id = :sal AND id != :iid";
             $params = [
             ':dat' => $data['datum'],

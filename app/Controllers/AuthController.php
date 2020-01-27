@@ -94,7 +94,7 @@ class AuthController extends Controller
             ],
             'nova_lozinka' => [
                 'required' => true,
-                'minlen' => 1,
+                'minlen' => 6,
             ],
             'lozinka_potvrda' => [
                 'required' => true,

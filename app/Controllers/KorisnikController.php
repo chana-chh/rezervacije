@@ -29,19 +29,19 @@ class KorisnikController extends Controller
         $validation_rules = [
             'ime' => [
                 'required' => true,
-                'minlen' => 1,
+                'minlen' => 6,
                 'alnum' => true,
             ],
             'korisnicko_ime' => [
                 'required' => true,
-                'minlen' => 1,
+                'minlen' => 3,
                 'maxlen' => 50,
                 'alnum' => true,
                 'unique' => 'korisnici.korisnicko_ime', // tabela.kolona
             ],
             'lozinka' => [
                 'required' => true,
-                'minlen' => 1,
+                'minlen' => 6,
             ],
             'lozinka_potvrda' => [
                 'match_field' => 'lozinka',
