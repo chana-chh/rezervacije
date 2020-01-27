@@ -25,7 +25,7 @@ class VlasnikController extends Controller
                 "start" => $termin->datum . ' ' . $termin->pocetak,
                 "end" => $termin->datum . ' ' . $termin->kraj,
                 "description" => $ikonica,
-                "advancedTitle" => 'Ovaj događaj je ' . $termin->tip()->tip . ' i odžatiće se u ' . $termin->sala()->naziv . '. Trenutni broj zvanica je ' . $termin->popunjenaMesta() . ', a cena termina je: ' . number_format($termin->cenaTermina(), 2, ',', '.') . ' dinara',
+                "advancedTitle" => 'Ovaj događaj je ' . $termin->tip()->tip . ' i održaće se u ' . $termin->sala()->naziv . '. Trenutni broj zvanica je ' . $termin->popunjenaMesta() . ', a cena termina je: ' . number_format($termin->cenaTermina(), 2, ',', '.') . ' dinara',
                 "advancedDetalj" => $termin->tip()->tip . '.<br> Broj zvanica: ' . $termin->popunjenaMesta() . '<br> Cena: ' . number_format($termin->cenaTermina(), 2, ',', '.'),
             ];
         }

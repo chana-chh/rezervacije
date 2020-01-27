@@ -1,6 +1,6 @@
 {% extends "templates/app.twig" %} {% block stil %} {% endblock stil %} {% block
 naslov %}
-<div class="row">
+<div class="row ne_stampaj">
   <div class="col">
     <h1>
       <i class="fas fa-calendar-check text-secondary"></i>
@@ -23,6 +23,8 @@ naslov %}
         Nazad</a>
       <a href="{{ path_for('osoblje.kalendar', { datum: termin.datum }) }}" class="btn btn-secondary"><i
           class="fas fa-arrow-alt-circle-left"></i> Termini</a>
+      <button type="button" class="btn btn-primary btn-sm" title="Štampanje detalja termina" onclick="window.print();">
+      <i class="fas fa-print"></i> Štampaj</button>
     </div>
   </div>
 </div>

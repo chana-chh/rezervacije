@@ -40,14 +40,16 @@
           class="fas fa-chevron-circle-left"></i> Nazad</button>
       <a href="{{ path_for('meni') }}" class="btn btn-secondary btn-sm" title="Povratak na tabelarni prikaz menija"><i class="fas fa-drumstick-bite"></i> SVI
         meniji</a>
-      <button type="button" class="btn btn-secondary btn-sm" title="Štampanje menija" onclick="window.print();">
+      <button type="button" class="btn btn-primary btn-sm" title="Štampanje menija" onclick="window.print();">
       <i class="fas fa-print"></i> Štampaj</button>
     </div>
-    <h3><span class="badge badge-warning">{{ meni.cena | number_format(2, '.', ',') }} din</span></h3>
   </div>
 </div>
+<div class="row ml-3 ne_stampaj">
+  <h3><span class="badge badge-warning">{{ meni.cena | number_format(2, '.', ',') }} din</span></h3>
+</div>
 <hr class="ne_stampaj" />
-<div class="row justify-content-center mt-4 mb-2 prikazi" style="visibility: hidden">
+<div class="row justify-content-center my-4 prikazi" style="visibility: hidden">
   <h1>
       <strong class="text-capitalize"> {{ meni.naziv }} meni</strong>
   </h1>
@@ -114,7 +116,7 @@
     </ul>
   </div>
   </div>
-    <div class="row justify-content-center mt-4 mobilni ne_stampaj">
+    <div class="row justify-content-center my-4 mobilni ne_stampaj">
       <div class="col-6">
         <div class="card border-primary text-center">
           <div class="card-header">Napomena:</div>

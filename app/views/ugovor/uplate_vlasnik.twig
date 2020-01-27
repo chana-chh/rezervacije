@@ -284,70 +284,14 @@
 			</table>
 		</div>
 	</div>
-</div></div>{% endblock traka %}{% block skripta %}<script src="{{ base_url() }}/js/moment.min.js"></script><script>
+</div>
+</div>
+{% endblock traka %}
+{% block skripta %}
+<script src="{{ base_url() }}/js/moment.min.js"></script>
+<script>
 $(document).ready(function () {
-$(document).on('click', '.otvori-uplatu', function () {
-var id = $(this).data("id");
-$('#idUgovora').val(id);
-});
-
-$(document).on('click', '.otvori-brisanje', function () {
-var id = $(this).data("id");
-$('#idBrisanje').val(id);
-});
-
-$(document).on('click', '.otvori-izmenu', function () {
-
-$('#nacin_placanjaModal').find('option').remove();
-var csrfName = $(".csrf_name").val();
-var csrfValue = $(".csrf_value").val();
-var id = $(this).data("id");
-
-var csrfAndData = {
-"csrf_name": csrfName,
-"csrf_value": csrfValue,
-"id": id
-};
-
-var ruta = ["{{ path_for('ugovor.uplata.detalj') }}"];
-
-$.ajax({
-url: ruta,
-type: "POST",
-data: csrfAndData,
-success: function (data) {
-$(".csrf_name").val(data.cname);
-$(".csrf_value").val(data.cvalue);
-$("#idIzmena").val(data.uplata.id);
-$("#opisModal").val(data.uplata.opis);
-$("#iznosModal").val(data.uplata.iznos);
-$("#datumModal").val(moment(data.uplata.datum).format("YYYY-MM-DD"));
-$("#kaparaModal").prop('checked', data.uplata.kapara);
-
-$.each(data.nacini, function (index, lokObjekat) {
-$("#nacin_placanjaModal").append('<option value="' + lokObjekat + '">' + lokObjekat + "</option>");
-});
-
-$("#nacin_placanjaModal").val(data.uplata.nacin_placanja);
-}
-});
 
 });
-
-$("#otkazi-validation").on("click", function () {
-$("#uplata-forma").removeClass("was-validated");
-});
-
-window.addEventListener("load", function () {
-var forms = document.getElementsByClassName("needs-validation");
-var validation = Array.prototype.filter.call(forms, function (form) {
-form.addEventListener("submit", function (event) {
-if (form.checkValidity() === false || !provera) {
-event.preventDefault();
-event.stopPropagation();
-}
-form.classList.add("was-validated");
-}, false);
-});
-}, false);
-});</script>{% endblock skripta %}
+</script>
+{% endblock skripta %}

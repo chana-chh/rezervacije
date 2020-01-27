@@ -10,9 +10,6 @@
 
 ## DATABASE
 
-	** Dodata polja fizicko_pravno (TINYINT, NOTNULL) i VARCHAR(50, NULL) naziv_firme, pib_firme, adresa_firme, racun_firme **
-	Jos nisam zavrsio sve. Ima toga
-
 ## NAPOMENE
-
-U pregledu ugovora nema datum ugovora
+	- Kod logovanja ugovora smo za kljucni podatak uzeli broj ugovora koji je ponekad prazan moramo da dodamo jos nesto
+	- Mozda generalno u Logger klasi treci parametar promeniti u arrey i omoguciti dodavanje vise polja 
