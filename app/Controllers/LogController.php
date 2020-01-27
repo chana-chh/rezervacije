@@ -15,11 +15,16 @@ class LogController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Log();
-        $logovi = $model->paginate($page, 'page', "SELECT * FROM logovi ORDER BY datum DESC;");
+        $sql="SELECT * FROM logovi WHERE korisnik_id > 0 ORDER BY datum DESC;";
+        if ($this->auth->user()->id === 0) {
+            $sql="SELECT * FROM logovi ORDER BY datum DESC;";
+        }
+
+        $logovi = $model->paginate($page, 'page', $sql);
 
         $model_korisnici = new Korisnik();
-        $sql = "SELECT * FROM korisnici WHERE id > 0;";
-        $korisnici = $model_korisnici->fetch($sql);
+        $sqlk = "SELECT * FROM korisnici WHERE id > 0;";
+        $korisnici = $model_korisnici->fetch($sqlk);
 
         $this->render($response, 'logovi.twig', compact('logovi', 'korisnici'));
     }

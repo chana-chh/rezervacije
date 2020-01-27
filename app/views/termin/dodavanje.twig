@@ -37,13 +37,13 @@
           <label for="kraj">Kraj</label>
           <input name="kraj" type="time" id="kraj" class="form-control{{ errors.kraj[0] ? ' is-invalid' : '' }}" value="{{ old.kraj ? : '' }}" required/>
           <div class="valid-feedback">Odgovarajući podatak</div>
-          <div class="invalid-feedback">{{ errors.kraj[0] ? : 'Obavezno polje' }}</div>
+          <div class="invalid-feedback">{{ errors.kraj[0] ? : 'Obavezno polje koje mora biti vreme veće od vremena početka' }}</div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col">
           <label for="opis">Kratak opis događaja</label>
-          <input name="opis" type="text" id="opis" class="form-control{{ errors.opis[0] ? ' is-invalid' : '' }}" value="{{ old.opis ? : '' }}" required/>
+          <input name="opis" type="text" id="opis" class="form-control{{ errors.opis[0] ? ' is-invalid' : '' }}" value="{{ old.opis ? : '' }}" required>
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.opis[0] ? : 'Obavezno polje' }}</div>
         </div>

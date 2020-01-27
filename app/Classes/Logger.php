@@ -22,8 +22,17 @@ class Logger
 
     public function log($tip, $model, $polje, $model_stari = null)
     {
+        $tekst = '';
+        if (is_array($polje)) {
+            foreach ($polje as $p) {
+                $tekst .= "{$p}: {$model->$p}, ";
+            }
+        } else {
+            $tekst = "{$polje}: {$model->$polje}";
+        }
+
         $data = [
-            'opis' => "{$model->id}, {$model->table()} - {$polje} : {$model->$polje}",
+            'opis' => "{$model->id}, {$model->table()} - {$tekst}",
             'tip' => $tip,
             'stari' => $model_stari, // $model_stari === null ? '' : serialize(get_object_vars($model_stari)
             'korisnik_id' => $this->korisnik->id,
