@@ -28,6 +28,7 @@ class TerminController extends Controller
                 "start" => $termin->datum . ' ' . $termin->pocetak,
                 "end" => $termin->datum . ' ' . $termin->kraj,
                 "description" => $ikonica,
+                "advancedTitle" => 'Napomena: ' . preg_replace('/\s+/', ' ', trim($termin->napomena))
             ];
         }
 

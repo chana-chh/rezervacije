@@ -202,6 +202,11 @@
         window.location = loc;
       },
       eventRender: function(event, element, view) {
+        element.tooltip({
+            title: event.advancedTitle,
+            html: true,
+            container: "body"
+            });
         let title = element.find(".fc-title");
         const html = `
         <div class="clearfix">
