@@ -67,11 +67,10 @@ class IzvestajiController extends Controller
                         ON up.ugovor_id = ug.id) AS ugo
                     ON ugo.termin_id = ter.id
                     JOIN sale ON sale.id = ter.sala_id
-                    GROUP BY ter.sala_id
-                    HAVING ter.datum BETWEEN :od AND :do;";
+                    WHERE ter.datum BETWEEN :od AND :do
+                    GROUP BY ter.sala_id;";
             $model = new Tabela();
             $izvestaj = $model->fetch($sql, $params);
-            // dd([$sql, $params, $izvestaj], true);
             $zbir_mesta = 0;
             $zbir_iznosa = 0;
             $zbir_uplata = 0;
@@ -145,8 +144,8 @@ class IzvestajiController extends Controller
                         ON up.ugovor_id = ug.id) AS ugo
                     ON ugo.termin_id = ter.id
                     JOIN s_tip_dogadjaja ON s_tip_dogadjaja.id = ter.tip_dogadjaja_id
-                    GROUP BY ter.tip_dogadjaja_id
-                    HAVING ter.datum BETWEEN :od AND :do;";
+                    WHERE ter.datum BETWEEN :od AND :do
+                    GROUP BY ter.tip_dogadjaja_id;";
             $model = new Tabela();
             $izvestaj = $model->fetch($sql, $params);
             $zbir_mesta = 0;
