@@ -52,28 +52,23 @@ class IzvestajiController extends Controller
                 ':do' => $do,
             ];
 
-            $sql = "SELECT ter.sala_id, sale.naziv, ter.datum, SUM(ugo.ug_broj_mesta) AS broj_mesta, SUM((ugo.ug_iznos_meni + ugo.ug_iznos_usluge)) AS iznos, SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
-                        (SUM((ugo.ug_iznos_meni + ugo.ug_iznos_usluge)) - SUM(ugo.ug_uplate_iznos)) AS dug
+            $sql = "SELECT ter.sala_id, sale.naziv, ter.datum,
+                            SUM(ugo.ug_broj_mesta) AS broj_mesta,
+                            SUM(ugo.ug_iznos) AS iznos,
+                            SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
+                            (SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug
                     FROM termini AS ter
-                    JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos_meni,
-                                (ug.muzika_iznos +
-                                ug.fotograf_iznos +
-                                ug.torta_iznos +
-                                ug.dekoracija_iznos +
-                                ug.kokteli_iznos +
-                                ug.slatki_sto_iznos +
-                                ug.vocni_sto_iznos +
-                                ug.posebni_zahtevi_iznos) AS ug_iznos_usluge,
-                                up.uplate_iznos AS ug_uplate_iznos
+                    JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
+                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos
                         FROM ugovori AS ug
-                        JOIN
+                        LEFT JOIN
                             (SELECT uplate.ugovor_id, uplate.iznos AS uplate_iznos
                                 FROM uplate) AS up
                         ON up.ugovor_id = ug.id) AS ugo
                     ON ugo.termin_id = ter.id
                     JOIN sale ON sale.id = ter.sala_id
-                    GROUP BY ter.sala_id
-                    HAVING ter.datum BETWEEN :od AND :do;";
+                    WHERE ter.datum BETWEEN :od AND :do
+                    GROUP BY ter.sala_id;";
             $model = new Tabela();
             $izvestaj = $model->fetch($sql, $params);
             $zbir_mesta = 0;
@@ -137,28 +132,20 @@ class IzvestajiController extends Controller
             ];
 
             $sql = "SELECT ter.tip_dogadjaja_id, s_tip_dogadjaja.tip, ter.datum, SUM(ugo.ug_broj_mesta) AS broj_mesta,
-                        SUM((ugo.ug_iznos_meni + ugo.ug_iznos_usluge)) AS iznos, SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
-                        (SUM((ugo.ug_iznos_meni + ugo.ug_iznos_usluge)) - SUM(ugo.ug_uplate_iznos)) AS dug
+                        SUM(ugo.ug_iznos) AS iznos, SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
+                        (SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug
                     FROM termini AS ter
-                    JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos_meni,
-                                (ug.muzika_iznos +
-                                ug.fotograf_iznos +
-                                ug.torta_iznos +
-                                ug.dekoracija_iznos +
-                                ug.kokteli_iznos +
-                                ug.slatki_sto_iznos +
-                                ug.vocni_sto_iznos +
-                                ug.posebni_zahtevi_iznos) AS ug_iznos_usluge,
-                                up.uplate_iznos AS ug_uplate_iznos
+                    JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
+                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos
                         FROM ugovori AS ug
-                        JOIN
+                        LEFT JOIN
                             (SELECT uplate.ugovor_id, uplate.iznos AS uplate_iznos
                                 FROM uplate) AS up
                         ON up.ugovor_id = ug.id) AS ugo
                     ON ugo.termin_id = ter.id
                     JOIN s_tip_dogadjaja ON s_tip_dogadjaja.id = ter.tip_dogadjaja_id
-                    GROUP BY ter.tip_dogadjaja_id
-                    HAVING ter.datum BETWEEN :od AND :do;";
+                    WHERE ter.datum BETWEEN :od AND :do
+                    GROUP BY ter.tip_dogadjaja_id;";
             $model = new Tabela();
             $izvestaj = $model->fetch($sql, $params);
             $zbir_mesta = 0;
@@ -225,8 +212,8 @@ class IzvestajiController extends Controller
                     FROM termini AS ter
                     JOIN (SELECT ug.id, ug.termin_id, up.nacin_placanja AS nacin_placanja, up.uplate_iznos
                         FROM ugovori AS ug
-                        JOIN
-                            (SELECT uplate.ugovor_id, uplate.iznos AS uplate_iznos, uplate.nacin_placanja
+                        LEFT JOIN
+                            (SELECT uplate.ugovor_id, IFNULL(uplate.iznos,0) AS uplate_iznos, uplate.nacin_placanja
                                 FROM uplate) AS up
                         ON up.ugovor_id = ug.id) AS ugo
                     ON ugo.termin_id = ter.id
