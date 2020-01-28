@@ -11,26 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping structure for table rezervacije.dokumenti
-DROP TABLE IF EXISTS `dokumenti`;
-CREATE TABLE IF NOT EXISTS `dokumenti` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ugovor_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `opis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `korisnik_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `FK_dokumenti_ugovori` (`ugovor_id`),
-  KEY `FK_dokumenti_korisnici` (`korisnik_id`),
-  CONSTRAINT `FK_dokumenti_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`),
-  CONSTRAINT `FK_dokumenti_ugovori` FOREIGN KEY (`ugovor_id`) REFERENCES `ugovori` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table rezervacije.dokumenti: ~1 rows (approximately)
-/*!40000 ALTER TABLE `dokumenti` DISABLE KEYS */;
-/*!40000 ALTER TABLE `dokumenti` ENABLE KEYS */;
-
 -- Dumping structure for table rezervacije.korisnici
 DROP TABLE IF EXISTS `korisnici`;
 CREATE TABLE IF NOT EXISTS `korisnici` (
@@ -47,30 +27,12 @@ CREATE TABLE IF NOT EXISTS `korisnici` (
   CONSTRAINT `FK_korisnici_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rezervacije.korisnici: ~3 rows (approximately)
+-- Dumping data for table rezervacije.korisnici: ~2 rows (approximately)
 /*!40000 ALTER TABLE `korisnici` DISABLE KEYS */;
 INSERT IGNORE INTO `korisnici` (`id`, `ime`, `korisnicko_ime`, `lozinka`, `nivo`, `korisnik_id`, `created_at`) VALUES
 	(0, 'SuperAdmin', 'ChaShaOne', '$2y$10$LVaboM6Y5ECZz25SGgCFV.ItGqucsYamVbbNAW9.wdIapxkzQJouq', 1000, 1, '2020-01-20 08:27:55'),
 	(1, 'Admin', 'admin', '$2y$10$RWD9bVOhe1GlWER7DVKMAukc2/OAwpoAvC/8A.wYOpGtqMFTezQHm', 0, 1, '2020-01-08 19:47:03');
 /*!40000 ALTER TABLE `korisnici` ENABLE KEYS */;
-
--- Dumping structure for table rezervacije.logovi
-DROP TABLE IF EXISTS `logovi`;
-CREATE TABLE IF NOT EXISTS `logovi` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '0',
-  `datum` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `stari` text COLLATE utf8mb4_unicode_ci,
-  `tip` enum('brisanje','dodavanje','izmena','upload') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'dodavanje',
-  `korisnik_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_logovi_korisnici` (`korisnik_id`),
-  CONSTRAINT `FK_logovi_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table rezervacije.logovi: ~0 rows (approximately)
-/*!40000 ALTER TABLE `logovi` DISABLE KEYS */;
-/*!40000 ALTER TABLE `logovi` ENABLE KEYS */;
 
 -- Dumping structure for table rezervacije.sale
 DROP TABLE IF EXISTS `sale`;
@@ -88,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `sale` (
   CONSTRAINT `FK_sale_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table rezervacije.sale: ~4 rows (approximately)
+-- Dumping data for table rezervacije.sale: ~3 rows (approximately)
 /*!40000 ALTER TABLE `sale` DISABLE KEYS */;
 INSERT IGNORE INTO `sale` (`id`, `naziv`, `max_kapacitet_mesta`, `max_kapacitet_stolova`, `napomena`, `korisnik_id`, `created_at`) VALUES
 	(1, 'GREEN SAPPHIRE HALL', 600, 50, NULL, 1, '2020-01-08 19:46:58'),
@@ -138,6 +100,24 @@ CREATE TABLE IF NOT EXISTS `s_tip_dogadjaja` (
 -- Dumping data for table rezervacije.s_tip_dogadjaja: ~0 rows (approximately)
 /*!40000 ALTER TABLE `s_tip_dogadjaja` DISABLE KEYS */;
 /*!40000 ALTER TABLE `s_tip_dogadjaja` ENABLE KEYS */;
+
+-- Dumping structure for table rezervacije.logovi
+DROP TABLE IF EXISTS `logovi`;
+CREATE TABLE IF NOT EXISTS `logovi` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `opis` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `datum` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `stari` text COLLATE utf8mb4_unicode_ci,
+  `tip` enum('brisanje','dodavanje','izmena','upload') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'dodavanje',
+  `korisnik_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_logovi_korisnici` (`korisnik_id`),
+  CONSTRAINT `FK_logovi_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table rezervacije.logovi: ~0 rows (approximately)
+/*!40000 ALTER TABLE `logovi` DISABLE KEYS */;
+/*!40000 ALTER TABLE `logovi` ENABLE KEYS */;
 
 -- Dumping structure for table rezervacije.termini
 DROP TABLE IF EXISTS `termini`;
@@ -253,6 +233,26 @@ CREATE TABLE IF NOT EXISTS `uplate` (
 -- Dumping data for table rezervacije.uplate: ~0 rows (approximately)
 /*!40000 ALTER TABLE `uplate` DISABLE KEYS */;
 /*!40000 ALTER TABLE `uplate` ENABLE KEYS */;
+
+-- Dumping structure for table rezervacije.dokumenti
+DROP TABLE IF EXISTS `dokumenti`;
+CREATE TABLE IF NOT EXISTS `dokumenti` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ugovor_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `opis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `korisnik_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_dokumenti_ugovori` (`ugovor_id`),
+  KEY `FK_dokumenti_korisnici` (`korisnik_id`),
+  CONSTRAINT `FK_dokumenti_korisnici` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnici` (`id`),
+  CONSTRAINT `FK_dokumenti_ugovori` FOREIGN KEY (`ugovor_id`) REFERENCES `ugovori` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table rezervacije.dokumenti: ~0 rows (approximately)
+/*!40000 ALTER TABLE `dokumenti` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dokumenti` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

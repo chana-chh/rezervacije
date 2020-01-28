@@ -64,7 +64,7 @@
         </div>
         <div class="col-lg-2 pt-5 text-center">
           <div class="form-check">
-            <input class="form-check-input{{ errors.zauzet[0] ? ' is-invalid' : '' }}" type="checkbox" id="zauzet" name="zauzet" value="1"{{ old.zauzet ? ' checked' : '' }}>
+            <input class="form-check-input{{ errors.zauzet[0] ? ' is-invalid' : '' }}" type="checkbox" id="zauzet" name="zauzet"{{ old.zauzet ? ' checked' : '' }}>
             <label class="form-check-label" for="zauzet">Zaključen termin</label>
             <div class="valid-feedback">Odgovarajući podatak</div>
             <div class="invalid-feedback">{{ errors.zauzet[0] ? : 'Obavezno polje' }}</div>

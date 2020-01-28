@@ -38,9 +38,9 @@
 		<p>
 			Davalac usluga se obavezuje da za račun Korisnika usluga pripremi i servisira hranu i toči piće za ukupno
 			{{ ugovor.broj_mesta }} osoba u vremenu od {{ ugovor.termin().pocetak | date('H:i') }} časova
-			{{ ugovor.termin().datum | date() }}. godine do {{ ugovor.termin().kraj | date('H:i') }} časova
-			{{ ugovor.termin().datum | date() }}. godine, a prema set meniju "{{ ugovor.meni().naziv }}" i otvorenom
-			šanku. Sadržaj set menija i bifea su sastavni deo ovog ugovora.
+			{{ ugovor.termin().datum | date() }}. godine do __________ časova ________________________. godine,
+			a prema set meniju "{{ ugovor.meni().naziv }}" i otvorenom šanku. Sadržaj set menija i bifea su sastavni
+			deo ovog ugovora.
 		</p>
 		<p>
 			Naknada za pružanje ugostiteljskih usluga iz prethodnog stava po jednoj osobi iznosi
@@ -77,6 +77,7 @@
 		</p>
 	</div>
 </div>
+<div class="prn-page-break"></div>
 <div class="row prn-strana">
 	<div class="col-12">
 		<h5 class="text-center"><em>Član 4</em></h5>
@@ -142,7 +143,8 @@
 		</p>
 	</div>
 </div>
-<div class="row prn-strana pb-5">
+<div class="prn-page-break"></div>
+<div class="row prn-strana">
 	<div class="col-12">
 		<h5 class="text-center"><em>Član 9</em></h5>
 		<p>
@@ -156,7 +158,7 @@
 		</p>
 	</div>
 </div>
-<div class="row">
+<div class="row mt-5">
 	<div class="col-4 text-center">
 		Davalac usluga<br><br><br>
 		___________________________________
@@ -167,7 +169,8 @@
 		___________________________________
 	</div>
 </div>
-<br><br><br><br><hr>
+<br><br><br><br>
+<hr>
 <div class="row mt-5 mb-5">
 	<div class="col-12">
 		Ugovorne strane ovim potvrđuju da je dana _____ / _____ / __________. godine, svečanosti iz Člana 1
@@ -185,7 +188,7 @@
 		___________________________________
 	</div>
 </div>
-<footer class="text-center prn-footer w-100">
+<footer class="text-center prn-footer">
 	<hr>
 	<h5>Exclusive Event Center DOO</h5>
 	<p>Miodraga Vlajića Šuke bb. 34300 Kragujevac | +381 61 1912 357<br>

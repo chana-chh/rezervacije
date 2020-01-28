@@ -87,7 +87,7 @@ class TerminController extends Controller
                 'required' => true
             ],
         ];
-        
+
         if ($kraj <= $pocetak) {
             $this->validator->addError('kraj', 'Vreme završetka termina mora biti veće od vremena početka termina.');
         }
@@ -129,13 +129,9 @@ class TerminController extends Controller
 
             // Upisivanje u bazu
             $data['korisnik_id'] = $this->auth->user()->id;
+            $data['zauzet'] = isset($data['zauzet']) ? 1 : 0;
             $model_termin->insert($data);
             $termin = $model_termin->find($model_termin->lastId());
-            if ($termin->zakljucavanje()) {
-                $model_termin->update(['zauzet' => 1], $termin->id);
-            } else {
-                $model_termin->update(['zauzet' => 0], $termin->id);
-            }
             $this->log(Logger::DODAVANJE, $termin, 'opis');
 
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
@@ -268,13 +264,12 @@ class TerminController extends Controller
             }
             // Upisivanje u bazu
             $data['korisnik_id'] = $this->auth->user()->id;
-            $data['zauzet'] = isset($data['zauzet']) ? 1 : 0;
             $model_termin->update($data, $id);
             $termin = $model_termin->find($id);
-            if ($termin->zakljucavanje()) {
+            if (isset($data['zauzet'])) {
                 $model_termin->update(['zauzet' => 1], $termin->id);
-            } else {
-                $model_termin->update(['zauzet' => 0], $termin->id);
+            } elseif ($termin->zakljucavanje()) {
+                $model_termin->update(['zauzet' => 1], $termin->id);
             }
 
             $this->log(Logger::IZMENA, $termin, 'opis', $stari);

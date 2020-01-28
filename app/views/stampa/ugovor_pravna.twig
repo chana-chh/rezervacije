@@ -40,9 +40,9 @@
 		<p>
 			Davalac usluga se obavezuje da za račun Korisnika usluga pripremi i servisira hranu i toči piće za ukupno
 			{{ ugovor.broj_mesta }} osoba u vremenu od {{ ugovor.termin().pocetak | date('H:i') }} časova
-			{{ ugovor.termin().datum | date() }}. godine do {{ ugovor.termin().kraj | date('H:i') }} časova
-			{{ ugovor.termin().datum | date() }}. godine, a prema set meniju "{{ ugovor.meni().naziv }}" i otvorenom
-			šanku. Sadržaj set menija i bifea su sastavni deo ovog ugovora.
+			{{ ugovor.termin().datum | date() }}. godine do __________ časova ________________________. godine,
+			a prema set meniju "{{ ugovor.meni().naziv }}" i otvorenom šanku. Sadržaj set menija i bifea su sastavni
+			deo ovog ugovora.
 		</p>
 		<p>
 			Naknada za pružanje ugostiteljskih usluga iz prethodnog stava po jednoj osobi iznosi
@@ -79,6 +79,7 @@
 		</p>
 	</div>
 </div>
+<div class="prn-page-break"></div>
 <div class="row prn-strana">
 	<div class="col-12">
 		<h5 class="text-center"><em>Član 4</em></h5>
@@ -144,7 +145,8 @@
 		</p>
 	</div>
 </div>
-<div class="row prn-strana pb-5">
+<div class="prn-page-break"></div>
+<div class="row prn-strana">
 	<div class="col-12">
 		<h5 class="text-center"><em>Član 9</em></h5>
 		<p>
@@ -158,7 +160,7 @@
 		</p>
 	</div>
 </div>
-<div class="row">
+<div class="row mt-5">
 	<div class="col-4 text-center">
 		Davalac usluga<br><br><br>
 		___________________________________

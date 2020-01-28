@@ -54,7 +54,7 @@
           <label for="broj_ugovora">Broj ugovora</label>
           <input type="text" name="broj_ugovora" id="broj_ugovora" autocomplete="off"
             class="form-control{{ errors.broj_ugovora[0] ? ' is-invalid' : '' }}"
-            value="{{ old.broj_ugovora ? : ugovor.broj_ugovora }}" maxlength="50" required />
+            value="{{ old.broj_ugovora ? : ugovor.broj_ugovora }}" maxlength="50" />
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.broj_ugovora[0] ? : 'Obavezno polje' }}</div>
         </div>

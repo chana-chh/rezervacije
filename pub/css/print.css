@@ -6,14 +6,10 @@ body {
 }
 
 .prn-header {
-    position: fixed;
-    top: 0;
     display: none;
 }
 
 .prn-footer {
-    position: fixed;
-    bottom: 0;
     display: none;
 }
 
@@ -40,15 +36,16 @@ body {
         position: fixed;
         top: 0;
         display: block;
+        height: 15rem;
     }
     .prn-footer {
         position: fixed;
         bottom: 0;
         display: block;
+        height: 10rem;
     }
     .prn-strana {
-        padding-top: 15rem;
-        padding-bottom: 12rem;
+        padding: 15rem 0 10rem 0;
     }
     .prn-strana p {
         text-align: justify;
