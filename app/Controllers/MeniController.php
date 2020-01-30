@@ -280,23 +280,22 @@ class MeniController extends Controller
             'cena' => [
                 'required' => true
             ],
-            'korisnik_id' => [
-                'required' => true,
-            ]
         ];
 
         $data['naziv'] = $naziv;
         $data['cena'] = $cena;
         $data['napomena'] = $napomena;
-
-
         $data['korisnik_id'] = $this->auth->user()->id;
 
         $this->validator->validate($data, $validation_rules);
 
+        $ar=[];
+        $this->addCsrfToken($ar);
+        $ar['greska'] = false;
+
         if ($this->validator->hasErrors()) {
-            // NE ZNAM ŠTA NAM JE ČINITI !!! Ja sam dodavao ranije status (1/0) ili grešku u response i ispitivao u succesu ajaxa 
-            // pa dodavao error classu na formu na modalu ... 
+            $ar['greska'] = true;
+            return $response->withJson($ar);
         } else {
             $this->flash->addMessage('success', 'Nov meni je uspešno dodat.');
             $modelMenija = new Meni();
@@ -305,7 +304,8 @@ class MeniController extends Controller
             $meni = $modelMenija->find($id_menija);
             $this->log(Logger::DODAVANJE, $meni, 'naziv');
             $meniji = $modelMenija->all();
-            $ar = ["meniji"=>$meniji];
+            $ar['meniji'] = $meniji;
+            $ar['id_menija'] = $id_menija;
 
             return $response->withJson($ar);
         }
