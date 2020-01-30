@@ -40,7 +40,7 @@
     </h4>
   </div>
   <div class="card-body text-dark">
-    <form action="{{ path_for('termin.dodavanje.ugovor.post') }}" method="POST" class="needs-validation" id="forma"
+    <form id="glavna" action="{{ path_for('termin.dodavanje.ugovor.post') }}" method="POST" class="needs-validation" id="forma"
       novalidate>
       {{ csrf | raw }}
       <input type="hidden" name="termin_id" value="{{ termin.id }}">
@@ -67,6 +67,7 @@
         </div>
         <div class="form-group col-md-4">
           <label for="meni_id">Meni</label>
+          <div class="input-group">
           <select class="custom-select" name="meni_id" id="meni_id"
             class="form-control{{ errors.meni_id[0] ? ' is-invalid' : '' }}" required>
             <option value=""></option>
@@ -77,7 +78,11 @@
             </option>
             {% endfor %}
           </select>
-          &emsp;<small class="text-info">(ako nije pripremljen dodati bilo koji pa kasnije izmeniti)</small>
+          <div class="input-group-append">
+            <button class="btn btn-primary otvori-dodavanje" data-toggle="modal" data-target="#meniModal" 
+            type="button" id="dodaj_meni" name="dodaj_meni"><i class="fas fa-plus-square"></i>&emsp;Dodaj</button>
+          </div>
+          </div>
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.meni_id[0] ? : 'Obavezno polje' }}</div>
         </div>
@@ -438,6 +443,56 @@
     </form>
   </div>
 </div>
+{# Modal za dodavanje menija #}
+<div id="meniModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger">Dodaj meni sa osnovnim podacima</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="meni-forma">
+          {{ csrf | raw }}
+        <div class="form-group">
+          <label for="nazivMenija">Naziv</label>
+          <input type="text" class="form-control{{ errors.nazivMenija[0] ? ' is-invalid' : '' }}" value="{{ old.nazivMenija ? : '' }}" name="nazivMenija" id="nazivMenija" aria-describedby="Naziv menija" autocomplete="off" required minlength=5>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">
+            {{ errors.nazivMenija[0] ? : 'Obavezno polje sa najmanje 5 karaktera' }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cenaMenija">Cena</label>
+          <input type="number" class="form-control{{ errors.cenaMenija[0] ? ' is-invalid' : '' }}" value="{{ old.cenaMenija ? : '' }}" name="cenaMenija" id="cenaMenija" value="{{ old.cenaMenija ? : 0 }}" min="0" step="1" autocomplete="off" required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">
+            {{ errors.cenaMenija[0] ? : 'Obavezno polje' }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="napomenaMenija">Napomena</label>
+          <textarea class="form-control" name="napomenaMenija" id="napomenaMenija" rows="3"></textarea>
+        </div>
+          <hr style="margin-top: 30px;" />
+          <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
+            <div class="form-group">
+              <button type="button" class="btn btn-primary dodaj-meni" title="Dodaj novi meni">
+                <i class="fas fa-plus-square"></i> &emsp;Dodaj</button>
+
+              <a class="btn btn-secondary" data-dismiss="modal">
+                <i class="fas fa-ban"></i>&emsp;Otkaži
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{# Kraj modala za dodavanje menija #}
 {% endblock sadrzaj %}
 {% block traka %}
 <div class="card border-dark">
@@ -762,6 +817,45 @@
       $("#ekstra_stolice").val(ostatak);
       $("#ukupno_stolova").val(stolovi + stoPlus);
     }
+
+
+    $(document).on("click", ".dodaj-meni", function () {
+      var csrfName = $(".csrf_name").val();
+      var csrfValue = $(".csrf_value").val();
+      var nazivMenija = $('#nazivMenija').val();
+      var cenaMenija = $('#cenaMenija').val();
+      var napomenaMenija = $('#cenaMenija').val();
+
+      var csrfAndData = {
+        csrf_name: csrfName,
+        csrf_value: csrfValue,
+        nazivMenija: nazivMenija,
+        cenaMenija: cenaMenija,
+        napomenaMenija: napomenaMenija
+      };
+
+      var ruta = ["{{ path_for('meni.dodavanje.ajax') }}"];
+
+      $.ajax({
+        url: ruta,
+        type: "POST",
+        data: csrfAndData,
+        success: function (data) {
+          $('#meni_id').find('option').remove();
+          $.each(data.meniji, function (index, lokObjekat) {
+            $("#meni_id").append(
+              '<option value="' +
+              lokObjekat.id +
+              '">' +
+              lokObjekat.naziv + '- (' +
+              lokObjekat.cena +
+              ") </option>"
+            );
+          });
+          $('#meniModal').modal('hide');
+        }
+      });
+    });
 
     window.addEventListener(
       "load",

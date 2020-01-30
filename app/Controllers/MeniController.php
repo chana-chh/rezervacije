@@ -256,4 +256,58 @@ class MeniController extends Controller
             return $response->withRedirect($this->router->pathFor('meni'));
         }
     }
+
+    public function ajaxMeni($request, $response)
+    {
+        $data = $request->getParams();
+        $naziv = $data['nazivMenija'];
+        $cena = $data['cenaMenija'];
+        $napomena = $data['napomenaMenija'];
+        unset($data['csrf_name']);
+        unset($data['csrf_value']);
+        unset($data['nazivMenija']);
+        unset($data['cenaMenija']);
+        unset($data['napomenaMenija']);
+
+        $validation_rules = [
+            'naziv' => [
+                'required' => true,
+                'minlen' => 5,
+                'maxlen' => 50,
+                'alnum' => true,
+                'unique' => 's_meniji.naziv'
+            ],
+            'cena' => [
+                'required' => true
+            ],
+            'korisnik_id' => [
+                'required' => true,
+            ]
+        ];
+
+        $data['naziv'] = $naziv;
+        $data['cena'] = $cena;
+        $data['napomena'] = $napomena;
+
+
+        $data['korisnik_id'] = $this->auth->user()->id;
+
+        $this->validator->validate($data, $validation_rules);
+
+        if ($this->validator->hasErrors()) {
+            // NE ZNAM ŠTA NAM JE ČINITI !!! Ja sam dodavao ranije status (1/0) ili grešku u response i ispitivao u succesu ajaxa 
+            // pa dodavao error classu na formu na modalu ... 
+        } else {
+            $this->flash->addMessage('success', 'Nov meni je uspešno dodat.');
+            $modelMenija = new Meni();
+            $modelMenija->insert($data);
+            $id_menija = $modelMenija->lastId();
+            $meni = $modelMenija->find($id_menija);
+            $this->log(Logger::DODAVANJE, $meni, 'naziv');
+            $meniji = $modelMenija->all();
+            $ar = ["meniji"=>$meniji];
+
+            return $response->withJson($ar);
+        }
+    }
 }
