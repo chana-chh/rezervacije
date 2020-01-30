@@ -59,13 +59,13 @@
           <div class="invalid-feedback">{{ errors.broj_ugovora[0] ? : 'Maksimalno 50 karaktera' }}</div>
         </div>
         <div class="form-group col-md-3">
-          <label for="datum">Datum</label>
+          <label class="text-danger" for="datum">Datum sklapanja ugovora</label>
           <input name="datum" type="date" id="datum" class="form-control{{ errors.datum[0] ? ' is-invalid' : '' }}"
             value="{{ old.datum ? : 'now'|date('Y-m-d') }}" />
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.datum[0] ? : 'Obavezno polje' }}</div>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
           <label for="meni_id">Meni</label>
           <select class="custom-select" name="meni_id" id="meni_id"
             class="form-control{{ errors.meni_id[0] ? ' is-invalid' : '' }}" required>
@@ -77,10 +77,11 @@
             </option>
             {% endfor %}
           </select>
+          &emsp;<small class="text-info">(ako nije pripremljen dodati bilo koji pa kasnije izmeniti)</small>
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.meni_id[0] ? : 'Obavezno polje' }}</div>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
           <label for="prosek_godina">Prosečna starost</label>
           <input type="number" class="form-control{{ errors.prosek_godina[0] ? ' is-invalid' : '' }}"
             name="prosek_godina" id="prosek_godina" value="{{ old.prosek_godina ? : 0 }}" min="0" step="1"
