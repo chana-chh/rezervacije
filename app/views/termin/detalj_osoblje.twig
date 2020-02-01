@@ -134,5 +134,75 @@ naslov %}
   </div>
 </div>
 <hr style="border-top: 1px dotted #8c8b8b">
+      <div class="row">
+        <div class="col-md-4">
+          <table class="table table-sm table-striped mb-0" style="font-size: 0.875rem;">
+            <thead>
+          <tr>
+            <th class="w-25"></th>
+            <th class="w-75"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th>Muzika</th>
+            <td>{{ ugovor.muzika_opis }}</td>
+          </tr>
+          <tr>
+            <th>Fotograf</th>
+            <td>{{ ugovor.fotograf_opis }}</td>
+          </tr>
+          <tr>
+            <th>Torta</th>
+            <td>{{ ugovor.torta_opis }}</td>
+          </tr>
+          </tbody>
+          </table>
+        </div>
+        <div class="col-md-4">
+          <table class="table table-sm table-striped mb-0" style="font-size: 0.875rem;">
+            <thead>
+          <tr>
+            <th class="w-25"></th>
+            <th class="w-75"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th>Dekoracija</th>
+            <td>{{ ugovor.dekoracija_opis }}</td>
+          </tr>
+          <tr>
+            <th>Kokteli</th>
+            <td>{{ ugovor.kokteli_opis }}</td>
+          </tr>
+          <tr>
+            <th>Slatki sto</th>
+            <td>{{ ugovor.slatki_sto_opis }}</td>
+          </tr>
+          </tbody>
+          </table>
+        </div>
+        <div class="col-md-4">
+          <table class="table table-sm table-striped mb-0" style="font-size: 0.875rem;">
+            <thead>
+          <tr>
+            <th class="w-25"></th>
+            <th class="w-75"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th>Voćni sto</th>
+            <td>{{ ugovor.vocni_sto_opis }}</td>
+          </tr>
+          <tr>
+            <th>Posebni zahtevi</th>
+            <td>{{ ugovor.posebni_zahtevi }}</td>
+          </tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
 {% endfor %}
 {% endblock naslov %}

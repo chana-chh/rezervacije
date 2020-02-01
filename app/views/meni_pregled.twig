@@ -56,6 +56,8 @@
 </div>
 <div class="row justify-content-center mobilni">
   <div class="col-5 bg-light text-dark">
+    {# Predjelo #}
+    {% if meni.hladno_predjelo %}
     <h3 class="font-italic">Hladno predjelo</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.hladno_predjelo|split(',')%}
@@ -64,6 +66,9 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
+    {% endif %}
+    {# Sirevi #}
+    {% if meni.sirevi %}
     <h3 class="font-italic">Sirevi</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.sirevi|split(',')%}
@@ -72,6 +77,9 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
+    {% endif %}
+    {# Corba #}
+    {% if meni.corba %}
     <h3 class="font-italic">Čorba</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.corba|split(',')%}
@@ -80,6 +88,9 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
+    {% endif %}
+    {# Glavno jelo #}
+    {% if meni.glavno_jelo %}
     <h3 class="font-italic">Glavno jelo</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.glavno_jelo|split(',')%}
@@ -88,8 +99,11 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
+    {% endif %}
   </div>
   <div class="col-5 bg-light text-dark">
+    {# Meso #}
+    {% if meni.meso %}
     <h3 class="font-italic">Meso</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.meso|split(',')%}
@@ -98,6 +112,9 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
+    {% endif %}
+    {# Hleb #}
+    {% if meni.hleb %}
     <h3 class="font-italic">Hleb</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.hleb|split(',')%}
@@ -106,6 +123,9 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
+    {% endif %}
+    {# Karta pica #}
+    {% if meni.karta_pica %}
     <h3 class="font-italic">Karta pića</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.karta_pica|split(',')%}
@@ -114,6 +134,7 @@
       <li>{{p}}</li>
       {% endfor %}
     </ul>
+    {% endif %}
   </div>
   </div>
     <div class="row justify-content-center my-4 mobilni ne_stampaj">
