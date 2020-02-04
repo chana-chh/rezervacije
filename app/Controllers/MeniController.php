@@ -138,9 +138,7 @@ class MeniController extends Controller
         $validation_rules = [
             'naziv' => [
                 'required' => true,
-                'minlen' => 5,
                 'maxlen' => 50,
-                'alnum' => true,
                 'unique' => 's_meniji.naziv'
             ],
             'cena' => [
@@ -159,13 +157,13 @@ class MeniController extends Controller
         $data['hleb'] = rtrim($data['hleb']);
         $data['karta_pica'] = rtrim($data['karta_pica']);
 
-        $data['hladno_predjelo'] = rtrim($data['hladno_predjelo'], ',');
-        $data['sirevi'] = rtrim($data['sirevi'], ',');
-        $data['corba'] = rtrim($data['corba'], ',');
-        $data['glavno_jelo'] = rtrim($data['glavno_jelo'], ',');
-        $data['meso'] = rtrim($data['meso'], ',');
-        $data['hleb'] = rtrim($data['hleb'], ',');
-        $data['karta_pica'] = rtrim($data['karta_pica'], ',');
+        $data['hladno_predjelo'] = rtrim($data['hladno_predjelo'], ';');
+        $data['sirevi'] = rtrim($data['sirevi'], ';');
+        $data['corba'] = rtrim($data['corba'], ';');
+        $data['glavno_jelo'] = rtrim($data['glavno_jelo'], ';');
+        $data['meso'] = rtrim($data['meso'], ';');
+        $data['hleb'] = rtrim($data['hleb'], ';');
+        $data['karta_pica'] = rtrim($data['karta_pica'], ';');
 
         $data['korisnik_id'] = $this->auth->user()->id;
 
@@ -231,9 +229,7 @@ class MeniController extends Controller
         $validation_rules = [
             'naziv' => [
                 'required' => true,
-                'minlen' => 5,
                 'maxlen' => 50,
-                'alnum' => true,
                 'unique' => 's_meniji.naziv#id:' . $id,
             ],
             'cena' => [
@@ -272,9 +268,7 @@ class MeniController extends Controller
         $validation_rules = [
             'naziv' => [
                 'required' => true,
-                'minlen' => 5,
                 'maxlen' => 50,
-                'alnum' => true,
                 'unique' => 's_meniji.naziv'
             ],
             'cena' => [
