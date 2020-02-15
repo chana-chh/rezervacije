@@ -60,7 +60,7 @@
     {% if meni.hladno_predjelo %}
     <h3 class="font-italic">Hladno predjelo</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.hladno_predjelo|split(',')%}
+    {% set predjela = meni.hladno_predjelo|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
@@ -71,7 +71,7 @@
     {% if meni.sirevi %}
     <h3 class="font-italic">Sirevi</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.sirevi|split(',')%}
+    {% set predjela = meni.sirevi|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
@@ -82,7 +82,7 @@
     {% if meni.corba %}
     <h3 class="font-italic">Čorba</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.corba|split(',')%}
+    {% set predjela = meni.corba|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
@@ -93,7 +93,7 @@
     {% if meni.glavno_jelo %}
     <h3 class="font-italic">Glavno jelo</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.glavno_jelo|split(',')%}
+    {% set predjela = meni.glavno_jelo|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
@@ -106,7 +106,7 @@
     {% if meni.meso %}
     <h3 class="font-italic">Meso</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.meso|split(',')%}
+    {% set predjela = meni.meso|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
@@ -117,7 +117,7 @@
     {% if meni.hleb %}
     <h3 class="font-italic">Hleb</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.hleb|split(',')%}
+    {% set predjela = meni.hleb|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
@@ -128,7 +128,7 @@
     {% if meni.karta_pica %}
     <h3 class="font-italic">Karta pića</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.karta_pica|split(',')%}
+    {% set predjela = meni.karta_pica|split(';')%}
     <ul class="mb-4">
       {% for p in predjela %}
       <li>{{p}}</li>

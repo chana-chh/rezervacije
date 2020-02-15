@@ -165,7 +165,7 @@
   </div>
 </div>
 <div class="card border-dark mb-3">
-  <div class="card-header text-primary">* Ako navodite više stavki u nekoj od kategorija razdvojite ih zarezom.</div>
+  <div class="card-header text-primary">* Ako navodite više stavki u nekoj od kategorija razdvojite ih tačkom i zarezom i prebacite u novi red tasterom enter.</div>
   <div class="card-body text-dark mobilni">
     <form action="{{ path_for('meni.dodavanje.post') }}" method="POST" class="needs-validation" novalidate>
       {{ csrf | raw }}
@@ -173,10 +173,10 @@
       <div class="form-row">
         <div class="form-group col-md-3">
           <label for="naziv">Naziv</label>
-          <input type="text" class="form-control{{ errors.naziv[0] ? ' is-invalid' : '' }}" value="{{ old.naziv ? : '' }}" name="naziv" id="naziv" aria-describedby="Naziv sale" autocomplete="off" required minlength=5>
+          <input type="text" class="form-control{{ errors.naziv[0] ? ' is-invalid' : '' }}" value="{{ old.naziv ? : '' }}" name="naziv" id="naziv" aria-describedby="Naziv sale" autocomplete="off" required>
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">
-            {{ errors.naziv[0] ? : 'Obavezno polje sa najmanje 5 karaktera' }}
+            {{ errors.naziv[0] ? : 'Obavezno polje' }}
           </div>
         </div>
         <div class="form-group col-md-3">
@@ -269,7 +269,7 @@
 
   $(".hladno").click(function(){
     var box = $("#hladno_predjelo");
-    box.val(box.val() + $(this).val() + "," + "\n");
+    box.val(box.val() + $(this).val() + ";" + "\n");
     $(this).prop('disabled', true);
   });
 
@@ -280,7 +280,7 @@
 
   $(".hleb").click(function(){
     var box = $("#hleb");
-    box.val(box.val() + $(this).val() + "," + "\n");
+    box.val(box.val() + $(this).val() + ";" + "\n");
     $(this).prop('disabled', true);
   });
 
@@ -291,7 +291,7 @@
 
   $(".sir").click(function(){
     var box = $("#sirevi");
-    box.val(box.val() + $(this).val() + "," + "\n");
+    box.val(box.val() + $(this).val() + ";" + "\n");
     $(this).prop('disabled', true);
   });
 
@@ -302,7 +302,7 @@
 
   $(".corba").click(function(){
     var box = $("#corba");
-    box.val(box.val() + $(this).val() + "," + "\n");
+    box.val(box.val() + $(this).val() + ";" + "\n");
     $(this).prop('disabled', true);
   });
 
@@ -313,7 +313,7 @@
 
   $(".glavno").click(function(){
     var box = $("#glavno_jelo");
-    box.val(box.val() + $(this).val() + "," + "\n");
+    box.val(box.val() + $(this).val() + ";" + "\n");
     $(this).prop('disabled', true);
   });
 
@@ -324,7 +324,7 @@
 
   $(".meso").click(function(){
     var box = $("#meso");
-    box.val(box.val() + $(this).val() + "," + "\n");
+    box.val(box.val() + $(this).val() + ";" + "\n");
     $(this).prop('disabled', true);
   });
 
@@ -335,7 +335,7 @@
 
   $(".karta").click(function(){
     var box = $("#karta_pica");
-    box.val(box.val() + $(this).val() + "," + "\n");
+    box.val(box.val() + $(this).val() + ";" + "\n");
     $(this).prop('disabled', true);
   });
 

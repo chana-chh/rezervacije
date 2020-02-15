@@ -51,6 +51,9 @@
           Zakazivanje
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path_for('meni') }}"><i class="fas fa-drumstick-bite"></i> Meni</a>
+      </li>
       {% endif %}
       {% if auth.user.nivo == 0 %}
       {# meni za admina #}
