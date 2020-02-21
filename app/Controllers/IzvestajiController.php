@@ -54,17 +54,20 @@ class IzvestajiController extends Controller
 
             $sql = "SELECT ter.sala_id, sale.naziv, ter.datum,
                             SUM(ugo.ug_broj_mesta) AS broj_mesta,
+                            SUM(ugo.ug_meni_cena) AS cena_menija,
+                            (SUM(ugo.ug_meni_cena) / SUM(ugo.ug_broj_mesta)) AS prosecna_cena_menija,
                             SUM(ugo.ug_iznos) AS iznos,
                             SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
                             (SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug
                     FROM termini AS ter
                     JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
-                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos
+                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos, (ug.broj_mesta * meni.cena) AS ug_meni_cena
                         FROM ugovori AS ug
                         LEFT JOIN
                             (SELECT uplate.ugovor_id, uplate.iznos AS uplate_iznos
                                 FROM uplate) AS up
-                        ON up.ugovor_id = ug.id) AS ugo
+                        ON up.ugovor_id = ug.id
+                        LEFT JOIN s_meniji AS meni ON meni.id = ug.meni_id) AS ugo
                     ON ugo.termin_id = ter.id
                     JOIN sale ON sale.id = ter.sala_id
                     WHERE ter.datum BETWEEN :od AND :do
@@ -75,14 +78,20 @@ class IzvestajiController extends Controller
             $zbir_iznosa = 0;
             $zbir_uplata = 0;
             $zbir_dugova = 0;
+            $zbir_menija = 0;
+            $pr = 0;
+            $brojac = 0;
             foreach ($izvestaj as $iz) {
                 $zbir_mesta += $iz->broj_mesta;
                 $zbir_iznosa += $iz->iznos;
                 $zbir_uplata += $iz->uplate_iznos;
                 $zbir_dugova += $iz->dug;
+                $zbir_menija += $iz->cena_menija;
+                $pr += $iz->prosecna_cena_menija;
+                $brojac++;
             }
-
-            $this->render($response, 'izvestaji/sale.twig', compact('lista', 'izvestaj', 'od', 'do', 'zbir_mesta', 'zbir_iznosa', 'zbir_uplata', 'zbir_dugova'));
+            $prosek = $pr / $brojac;
+            $this->render($response, 'izvestaji/sale.twig', compact('lista', 'izvestaj', 'od', 'do', 'zbir_mesta', 'zbir_iznosa', 'zbir_uplata', 'zbir_dugova', 'zbir_menija', 'prosek'));
         }
     }
 
@@ -133,15 +142,18 @@ class IzvestajiController extends Controller
 
             $sql = "SELECT ter.tip_dogadjaja_id, s_tip_dogadjaja.tip, ter.datum, SUM(ugo.ug_broj_mesta) AS broj_mesta,
                         SUM(ugo.ug_iznos) AS iznos, SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
-                        (SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug
+                        (SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug,
+                        SUM(ugo.ug_meni_cena) AS cena_menija,
+                        (SUM(ugo.ug_meni_cena) / SUM(ugo.ug_broj_mesta)) AS prosecna_cena_menija
                     FROM termini AS ter
                     JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
-                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos
+                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos, (ug.broj_mesta * meni.cena) AS ug_meni_cena
                         FROM ugovori AS ug
                         LEFT JOIN
                             (SELECT uplate.ugovor_id, uplate.iznos AS uplate_iznos
                                 FROM uplate) AS up
-                        ON up.ugovor_id = ug.id) AS ugo
+                        ON up.ugovor_id = ug.id
+                        LEFT JOIN s_meniji AS meni ON meni.id = ug.meni_id) AS ugo
                     ON ugo.termin_id = ter.id
                     JOIN s_tip_dogadjaja ON s_tip_dogadjaja.id = ter.tip_dogadjaja_id
                     WHERE ter.datum BETWEEN :od AND :do
@@ -152,14 +164,21 @@ class IzvestajiController extends Controller
             $zbir_iznosa = 0;
             $zbir_uplata = 0;
             $zbir_dugova = 0;
+            $zbir_menija = 0;
+            $pr = 0;
+            $brojac = 0;
             foreach ($izvestaj as $iz) {
                 $zbir_mesta += $iz->broj_mesta;
                 $zbir_iznosa += $iz->iznos;
                 $zbir_uplata += $iz->uplate_iznos;
                 $zbir_dugova += $iz->dug;
+                $zbir_menija += $iz->cena_menija;
+                $pr += $iz->prosecna_cena_menija;
+                $brojac++;
             }
+            $prosek = $pr / $brojac;
 
-            $this->render($response, 'izvestaji/tipovi.twig', compact('lista', 'izvestaj', 'od', 'do', 'zbir_mesta', 'zbir_iznosa', 'zbir_uplata', 'zbir_dugova'));
+            $this->render($response, 'izvestaji/tipovi.twig', compact('lista', 'izvestaj', 'od', 'do', 'zbir_mesta', 'zbir_iznosa', 'zbir_uplata', 'zbir_dugova', 'zbir_menija', 'prosek'));
         }
     }
 

@@ -15,6 +15,14 @@ final class Config
             'per_page' => 10,
             'page_span' => 4,
         ],
+        'mail' => [ // podesavanja za slanje email-a
+            'host' => 'mail.eeckg.rs',
+            'username' => 'kure@eeckg.rs',
+            'password' => 'vir5373plus!',
+            'port' => 465, // 465 = ssl, 587 = tls
+            'from' => 'kure@eeckg.rs',
+            'from_name' => 'EEC zakazivanje',
+        ],
     ];
 
     public static function instance($container)

@@ -11,16 +11,19 @@
 <hr>
 
 {% if lista %}
-<h4>Za termine u periodu od <span class="text-primary">{{ od|date() }}</span> do <span class="text-primary">{{ do|date() }}</span></h4>
+<h4>Za termine u periodu od <span class="text-primary">{{ od|date() }}</span> do <span
+		class="text-primary">{{ do|date() }}</span></h4>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<thead class="thead-dark">
 			<tr>
-				<th class="w-20">Tip proslave</th>
-				<th class="w-15 text-right">Izdato mesta</th>
-				<th class="w-25 text-right">Iznos</th>
-				<th class="w-20 text-right">Uplate</th>
-				<th class="w-20 text-right">Dug</th>
+				<th class="w-15">Tip proslave</th>
+				<th class="w-10 text-right">Izdato mesta</th>
+				<th class="w-15 text-right">Prosečna cena menija</th>
+				<th class="w-15 text-right">Iznos menija</th>
+				<th class="w-15 text-right">Iznos po ugovoru</th>
+				<th class="w-15 text-right">Uplate</th>
+				<th class="w-15 text-right">Dug</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,6 +31,8 @@
 			<tr>
 				<td><strong>{{ stavka.tip }}</strong></td>
 				<td class="text-right text-info">{{ stavka.broj_mesta|number_format(0) }}</td>
+				<td class="text-right text-primary">{{ stavka.prosecna_cena_menija|number_format() }}</td>
+				<td class="text-right text-primary">{{ stavka.cena_menija|number_format() }}</td>
 				<td class="text-right text-primary">{{ stavka.iznos|number_format() }}</td>
 				<td class="text-right text-success">{{ stavka.uplate_iznos|number_format() }}</td>
 				<td class="text-right text-danger">{{ stavka.dug|number_format() }}</td>
@@ -38,6 +43,8 @@
 			<tr class="bg-light">
 				<td><strong>UKUPNO</strong></td>
 				<td class="text-right text-info"><strong>{{ zbir_mesta|number_format(0) }}</strong></td>
+				<td class="text-right text-primary"><strong>{{ prosek|number_format() }}</strong></td>
+				<td class="text-right text-primary"><strong>{{ zbir_menija|number_format() }}</strong></td>
 				<td class="text-right text-primary"><strong>{{ zbir_iznosa|number_format() }}</strong></td>
 				<td class="text-right text-success"><strong>{{ zbir_uplata|number_format() }}</strong></td>
 				<td class="text-right text-danger"><strong>{{ zbir_dugova|number_format() }}</strong></td>
@@ -87,16 +94,20 @@
 					<div class="col">
 						<p>
 							Zbog preciznosti izveštaja poželjno je da se ne postavljaju datumi tako da početni (Od) bude
-							u prošlosti, a krajnji (Do) u budućnosti jer će rezultat biti zbir ugovora koji su realizovani
-							i koji sadrže precizne podatke o broju mesta i iznosima, i ugovora koji će tek biti realizovani
-							pa samim tim sadrže podatke o broju mesta i iznosima koji su podložni promeni prilikom realizacije.
+							u prošlosti, a krajnji (Do) u budućnosti jer će rezultat biti zbir ugovora koji su
+							realizovani
+							i koji sadrže precizne podatke o broju mesta i iznosima, i ugovora koji će tek biti
+							realizovani
+							pa samim tim sadrže podatke o broju mesta i iznosima koji su podložni promeni prilikom
+							realizacije.
 						</p>
 						<p>
 							Posatvljanjem oba datuma u prošlost dobijaju se precizni podaci o broju mesta, zaduženjima,
 							uplatama i dugovanjima realizovanih ugovora.
 						</p>
 						<p>
-							Posatvljanjem oba datuma u budućnost dobijaju se podaci o očekivanom broju mesta i zaduženjima,
+							Posatvljanjem oba datuma u budućnost dobijaju se podaci o očekivanom broju mesta i
+							zaduženjima,
 							kao i podaci o uplatama (kapara) nerealizovanih ugovora.
 						</p>
 					</div>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Classes\Logger;
+use App\Classes\Mailer;
 use App\Models\Termin;
 use App\Models\Sala;
 use App\Models\TipDogadjaja;
@@ -133,7 +134,23 @@ class TerminController extends Controller
             $data['zauzet'] = isset($data['zauzet']) ? 1 : 0;
             $model_termin->insert($data);
             $termin = $model_termin->find($model_termin->lastId());
+            $link = $this->router->fullUrlFor($this->request->getUri(),'termin.detalj.get', ["id"=>$termin->id]);
+			$d = date('d.m.Y', strtotime($termin->datum));
+			$p = date('H:i', strtotime($termin->pocetak));
+            $k = date('H:i', strtotime($termin->kraj));
+            $telo = "<h1>U sali {$termin->sala()->naziv} je zakazan događaj: {$termin->tip()->tip}</h1>
+                    <h2>Dana {$d}. godine od {$p} do {$k}</h2>
+                    <h3>{$termin->opis}</h3>
+                    <p><a href=\"{$link}\">Link do termina</a></p>
+                    <p style=\"color: red\">* Milimo Vas da ne odgovarate na ovu poruku</p>
+                    <p><strong>Prijatan dan</strong></p>";
             $this->log(Logger::DODAVANJE, $termin, 'opis');
+
+            Mailer::sendMail(
+                [['email' => 'stashakg@gmail.com', 'name' => 'Stanislav']],
+                "Zakazan je novi termin u sali {$termin->sala()->naziv} za {$d}. godine",
+                $telo
+            );
 
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
             return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));
