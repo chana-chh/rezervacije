@@ -14,7 +14,7 @@ class MeniController extends Controller
         $page = isset($query['page']) ? (int)$query['page'] : 1;
 
         $model = new Meni();
-        $meni = $model->paginate($page);
+        $meni = $model->paginate($page, 'page', "SELECT * FROM s_meniji ORDER BY id DESC;");
 
         $this->render($response, 'meni.twig', compact('meni'));
     }
@@ -118,7 +118,7 @@ class MeniController extends Controller
 
         $where = $where === " WHERE " ? "" : $where;
         $model = new Meni();
-        $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY id;";
+        $sql = "SELECT * FROM {$model->getTable()}{$where} ORDER BY id DESC;";
         $meni = $model->paginate($page, 'page', $sql, $params);
 
         $this->render($response, 'meni.twig', compact('meni', 'data'));
