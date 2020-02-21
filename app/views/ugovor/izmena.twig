@@ -66,19 +66,11 @@
           <div class="invalid-feedback">{{ errors.datum[0] ? : 'Obavezno polje' }}</div>
         </div>
         <div class="form-group col-md-3">
-          <label for="meni_id">Meni</label>
-          <select class="custom-select" name="meni_id" id="meni_id"
-            class="form-control{{ errors.meni_id[0] ? ' is-invalid' : '' }}" required>
-            <option value=""></option>
-            {% for meni in meniji %}
-            <option value="{{ meni.id }}" {{ (old.meni_id == meni.id or ugovor.meni_id == meni.id) ? ' selected' : '' }}
-              data-cenamenija="{{ meni.cena }}">
-              {{ meni.naziv }} - ({{ meni.cena|number_format() }})
-            </option>
-            {% endfor %}
-          </select>
+          <label for="cena_menija">Cena menija</label>
+          <input type="number" class="form-control{{ errors.cena_menija[0] ? ' is-invalid' : '' }}" name="cena_menija" id="cena_menija"
+            value="{{ old.cena_menija ? : ugovor.meni().cena }}" min="0" step="0.01" autocomplete="off" required>
           <div class="valid-feedback">Odgovarajući podatak</div>
-          <div class="invalid-feedback">{{ errors.meni_id[0] ? : 'Obavezno polje' }}</div>
+          <div class="invalid-feedback">{{ errors.cena_menija[0] ? : 'Obavezno polje' }}</div>
         </div>
         <div class="form-group col-md-3">
           <label for="prosek_godina">Prosečna starost</label>
@@ -492,7 +484,7 @@
         <h6 class="text-info">Cena menija</h6>
       </div>
       <div class="col-lg-6">
-        <input type="number" class="form-control" name="cena_menija" id="cena_menija" value="0" min="0" step="0.01"
+        <input type="number" class="form-control" name="cena_menija_kal" id="cena_menija_kal" value="0" min="0" step="0.01"
           autocomplete="off" readonly>
       </div>
     </div>
@@ -580,6 +572,14 @@
     var provera = true;
     var pravno = parseInt("{{ ugovor.fizicko_pravno }}");
 
+    $("#cena_menija").focusout(function(){
+      alert("Ako ste izmenili cenu menija proverite kalkulaciju!");
+    });
+
+    $("#broj_mesta").focusout(function(){
+      alert("Ako ste izmenili broj mesta (zvanica) proverite kalkulaciju!");
+    });
+
     if (pravno == 1) {
       $('.fizicko_pravno').toggle();
     };
@@ -595,7 +595,7 @@
     $("#dugme-izracunaj-iznos").click(function (event) {
       izracunajCenuMenija();
       izracunajCenuUsluga();
-      const m = parseFloat($('#cena_menija').val());
+      const m = parseFloat($('#cena_menija_kal').val());
       const u = parseFloat($('#cena_usluga').val());
       $('#cena_ukupna').val((m + u).toFixed(2));
     });
@@ -628,12 +628,12 @@
     });
 
     function izracunajCenuMenija() {
-      const cm = $('#meni_id').children('option:selected').data('cenamenija');
+      const cm = $('#cena_menija').val();
       const br = $('#broj_mesta').val();
       let cena = (cm === undefined) ? 0 : parseFloat(cm);
       let broj = (cm === "") ? 0 : parseInt(br);
 
-      $('#cena_menija').val((cena * broj).toFixed(2));
+      $('#cena_menija_kal').val((cena * broj).toFixed(2));
     }
 
     function izracunajCenuUsluga() {

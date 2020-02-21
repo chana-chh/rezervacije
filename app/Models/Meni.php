@@ -10,7 +10,7 @@ class Meni extends Model
 
     public function ugovor()
     {
-        return $this->hasMany('App\Models\Ugovor', 'meni_id');
+        return $this->hasOne('App\Models\Ugovor', 'meni_id');
     }
 
     public function korisnik()

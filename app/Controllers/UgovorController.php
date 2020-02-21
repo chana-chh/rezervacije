@@ -45,7 +45,7 @@ class UgovorController extends Controller
             empty($data['datum_1']) &&
             empty($data['datum_2']) &&
             empty($data['korisnik_id'])) {
-            $this->getUgovor($request, $response);
+            return $response->withRedirect($this->router->pathFor('ugovori'));
         }
 
         $data['naziv_firme'] = str_replace('%', '', $data['naziv_firme']);
@@ -166,16 +166,13 @@ class UgovorController extends Controller
         $model_termin = new Termin();
         $termin = $model_termin->find($termin_id);
 
-        $model_meni = new Meni();
-        $meniji = $model_meni->all();
-
         // provera multi ugovor
         if (!$termin->multiUgovori() && !empty($termin->ugovori())) {
             $this->flash->addMessage('warning', "Nije dozvoljeno dodavanje više od jednog ugovora.");
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
         }
 
-        $this->render($response, 'ugovor/dodavanje.twig', compact('termin', 'meniji'));
+        $this->render($response, 'ugovor/dodavanje.twig', compact('termin'));
     }
 
     public function postUgovorDodavanje($request, $response)
@@ -197,7 +194,7 @@ class UgovorController extends Controller
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'meni_id' => ['required' => true,],
+            'cena_menija' => ['required' => true,],
             'prezime' => ['required' => true,],
             'ime' => ['required' => true,],
             'broj_mesta' => ['required' => true,],
@@ -223,6 +220,22 @@ class UgovorController extends Controller
             'posebni_zahtevi_iznos' => ['required' => true,]
         ];
 
+        //Dodavanje menija
+            $model_t = new Termin();
+            $t = $model_t->find($data['termin_id']);
+            $modelMenija = new Meni();
+            if ($data['naziv_firme']) {
+                $data_meni['naziv'] = date('d.m.Y', strtotime($t->datum)).'-'.$data['naziv_firme'];
+            }else{
+                $data_meni['naziv'] = date('d.m.Y', strtotime($t->datum)).'-'.$data['ime'].' '.$data['prezime'];
+            }
+            $data_meni['cena'] = $data['cena_menija'];
+            $modelMenija->insert($data_meni);
+            $id_menija = $modelMenija->lastId();
+            $meni = $modelMenija->find($id_menija);
+            $this->log(Logger::DODAVANJE, $meni, 'naziv');
+            $data['meni_id'] = $id_menija;
+
         // provera broja ugovora
         $model_ugovor = new Ugovor();
         if (trim($data['broj_ugovora']) != "") {
@@ -241,6 +254,7 @@ class UgovorController extends Controller
             return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id' => (int) $data['termin_id']]));
         } else {
             $data['korisnik_id'] = $this->auth->user()->id;
+            unset($data['cena_menija']);
             $model_ugovor->insert($data);
             $ugovor = $model_ugovor->find($model_ugovor->lastId());
             $this->log(Logger::DODAVANJE, $ugovor, 'broj_ugovora');
@@ -266,10 +280,7 @@ class UgovorController extends Controller
         $model_termin = new Termin();
         $termin = $model_termin->find($ugovor->termin_id);
 
-        $model_meni = new Meni();
-        $meniji = $model_meni->all();
-
-        $this->render($response, 'ugovor/izmena.twig', compact('ugovor', 'meniji', 'termin'));
+        $this->render($response, 'ugovor/izmena.twig', compact('ugovor', 'termin'));
     }
 
     public function postUgovorIzmena($request, $response)
@@ -299,7 +310,7 @@ class UgovorController extends Controller
 
         $validation_rules = [
             'termin_id' => ['required' => true,],
-            'meni_id' => ['required' => true,],
+            'cena_menija' => ['required' => true,],
             'prezime' => ['required' => true,],
             'ime' => ['required' => true,],
             'broj_mesta' => ['required' => true,],
@@ -324,6 +335,7 @@ class UgovorController extends Controller
             'vocni_sto_iznos' => ['required' => true,],
             'posebni_zahtevi_iznos' => ['required' => true,]
         ];
+
         // provera broja ugovora unique
         $model_ugovor = new Ugovor();
         if (trim($data['broj_ugovora']) != "") {
@@ -341,9 +353,18 @@ class UgovorController extends Controller
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom izmene ugovora.');
             return $response->withRedirect($this->router->pathFor('termin.ugovor.izmena.get', ['id' => $id]));
         } else {
+
             $model = new Ugovor();
             $ugovor = $model->find($id);
+            $cena = $data['cena_menija'];
+            unset($data['cena_menija']);
             $model->update($data, $id);
+
+            //Izmena cene menija
+            $modelMenija = new Meni();
+            $data_meni['cena'] = $cena;
+            $modelMenija->update($data_meni, $ugovor->meni()->id);
+
             $ugovor1 = $model->find($id);
             $model_termin = new Termin();
             $termin = $model_termin->find($ugovor->termin_id);

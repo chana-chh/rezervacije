@@ -33,7 +33,7 @@ class MeniController extends Controller
         array_shift($data);
 
         if (empty($data['upit'])) {
-            $this->getMeni($request, $response);
+            return $response->withRedirect($this->router->pathFor('meni'));
         }
 
         $data['upit'] = str_replace('%', '', $data['upit']);

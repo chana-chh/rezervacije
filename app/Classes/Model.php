@@ -306,7 +306,6 @@ abstract class Model
         $pk = $this->getPrimaryKey();
         $params = [":{$foreign_table_fk}" => $this->$pk];
         $result = $this->fetch($sql, $params, $model_class);
-        dd($result);
         return $result[0];
     }
 
@@ -320,7 +319,7 @@ abstract class Model
         $result = $this->fetch($sql, $params, $model_class);
         return $result;
     }
-
+ 
     public function belongsTo($model_class, $this_table_fk)
     {
         $m = new $model_class();

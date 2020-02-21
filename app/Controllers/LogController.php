@@ -43,7 +43,7 @@ class LogController extends Controller
         array_shift($data);
 
         if (empty($data['opis']) && empty($data['tip']) && empty($data['datum_1']) && empty($data['datum_2']) && empty($data['korisnik_id'])) {
-            $this->getLog($request, $response);
+            return $response->withRedirect($this->router->pathFor('logovi'));
         }
 
         $data['opis'] = str_replace('%', '', $data['opis']);
