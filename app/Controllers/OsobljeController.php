@@ -16,7 +16,7 @@ class OsobljeController extends Controller
         $sql = "SELECT t.*, u.broj_ugovora FROM {$model_termin->getTable()} AS t
                 LEFT JOIN ugovori u ON u.termin_id = t.id
                 WHERE t.datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-                AND u.termin_id IS NOT NULL;";
+                AND u.termin_id IS NOT NULL GROUP BY t.id;";
         $termini = $model_termin->fetch($sql);
         $data = [];
 

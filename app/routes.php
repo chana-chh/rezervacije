@@ -6,6 +6,8 @@ use App\Middlewares\UserLevelMiddleware;
 
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
 $app->get('/kalendar[/{datum}]', '\App\Controllers\HomeController:getKalendar')->setName('kalendar');
+$app->get('/kalendar/filter/pretraga', '\App\Controllers\HomeController:getKalendarPretraga')->setName('kalendar.pretraga');
+$app->post('/kalendar/filter/pretraga', '\App\Controllers\HomeController:postKalendarPretraga');
 
 $app->group('', function () {
     $this->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');

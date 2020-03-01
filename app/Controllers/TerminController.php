@@ -142,7 +142,7 @@ class TerminController extends Controller
                     <h2>Dana {$d}. godine od {$p} do {$k}</h2>
                     <h3>{$termin->opis}</h3>
                     <p><a href=\"{$link}\">Link do termina</a></p>
-                    <p style=\"color: red\">* Milimo Vas da ne odgovarate na ovu poruku</p>
+                    <p style=\"color: red\">* Molimo Vas da ne odgovarate na ovu poruku</p>
                     <p><strong>Prijatan dan</strong></p>";
             $this->log(Logger::DODAVANJE, $termin, 'opis');
 
