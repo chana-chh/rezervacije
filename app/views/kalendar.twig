@@ -128,19 +128,69 @@
 </div>
 <div class="row d-sm-none">
   <div class="col">
-    <h4><i class="fas fa-calendar-check text-secondary"></i> Pregled zakazanih termina</h4>
+    <h4><i class="fas fa-calendar-alt text-secondary"></i> Pregled zakazanih termina
+    {% if data %}
+    <small><em class="text-warning">[filtrirano]&emsp;<i class="fas fa-filter"></i></em></small>
+    {% else %}
+    <small><em class="text-success">[svi termini]</em></small>
+    {% endif %}
+    </h4>
+    <hr>
   </div>
 </div>
 <div class="row d-sm-none" style="font-size: 0.75rem;">
-  <div class="col-lg-2">
-    <input name="datum" type="date" id="datumb" class="form-control"/>
+ <div class="col-lg-2">
+    <label for="datum">Datum</label>
+    <input name="datum" type="date" id="datum" class="form-control"/>
   </div>
   <div class="col-lg-2">
-    <button class="btn btn-primary btn-sm" id="idib" title="Prelazak na datum">
+    <button class="btn btn-primary btn-sm" id="idi" title="Prelazak na datum" style="margin-top: 34px">
             <i class="fas fa-rocket"></i>&emsp;Idi na datum
           </button>
   </div>
-  <div class="col-lg-8 text-left">
+  <div class="col-lg-6">
+        <form action="{{ path_for('kalendar.pretraga') }}" method="POST">
+        {{ csrf|raw }}       
+        <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="status">Status</label>
+          <select name="status" id="status" class="custom-select">
+            <option value=""></option>
+            <option value="0">Termin u pripremi</option>
+            <option value="1">Zaključen termin</option>
+            <option value="2">Informacija o terminu</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="tip_dogadjaja_id">Vrsta događaja</label>
+          <select name="tip_dogadjaja_id" id="tip_dogadjaja_id" class="custom-select">
+            <option value=""></option>
+            {% for tip in tipovi %}
+            <option value="{{ tip.id }}"{{old.tip_dogadjaja_id == tip.id ? ' selected' : ''}}>{{ tip.tip }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="sala_id">Sala</label>
+          <select name="sala_id" id="sala_id" class="custom-select">
+            <option value=""></option>
+            {% for sala_id in sale %}
+            <option value="{{ sala_id.id }}"{{old.sala_id == sala_id.id ? ' selected' : ''}}>{{ sala_id.naziv }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-3 text-right" style="margin-top: 34px">
+        <div class="btn-group">
+          <button type="submit" class="btn btn-info btn-sm">
+          <i class="fas fa-filter"></i> Filtriraj
+          </button>
+            <a href="{{ path_for('kalendar') }}" class="btn btn-outline-warning btn-sm">Svi termini</a>
+        </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-2 text-right">
     <ul class="list-unstyled">
       <li>
         <i class="fas fa-question-circle text-primary"></i> Informacija o terminu
