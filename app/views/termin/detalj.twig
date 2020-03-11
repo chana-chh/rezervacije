@@ -47,6 +47,8 @@ naslov %}
     </div>
   </div>
 </div>
+<div class="row">
+<div class="col-md-9">
 <div class="table-responsive mt-3">
   <table class="table">
     <tbody>
@@ -93,6 +95,24 @@ naslov %}
     </tbody>
   </table>
 </div>
+</div>
+  <div class="col-md-3 bg-light">
+    <h3 class="text-primary p-4 text-right">
+      <i class="fas fa-users"></i> Ukupan broj zvanica: {{ termin.popunjenaMesta() }}
+    </h3>
+    <hr>
+    <h4 class="text-right">
+      <i class="fas fa-drumstick-bite text-secondary"></i> Meniji koje je potrebno pripremiti:
+    </h4>
+    <ul class="list-group list-group-flush">
+      {% for meni in meniji %}
+      <li class="list-group-item text-right bg-light">
+        <h5>{{ meni.naziv }}:&emsp;{{ meni.komada }}</h5>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 {# Modal za brisanje termina #}
 <div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -136,7 +156,7 @@ naslov %}
   </div>
 </div>
 {# Kraj modala za brisanje termina #}
-<div class="row">
+<div class="row mt-2">
   <div class="col-lg-8">
     <h2>
       <i class="fas fa-file-signature text-secondary"></i> Ugovori za termin

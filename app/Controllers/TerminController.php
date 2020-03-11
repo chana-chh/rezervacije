@@ -6,6 +6,7 @@ use App\Classes\Logger;
 use App\Classes\Mailer;
 use App\Models\Termin;
 use App\Models\Sala;
+use App\Models\Meni;
 use App\Models\TipDogadjaja;
 
 class TerminController extends Controller
@@ -44,7 +45,13 @@ class TerminController extends Controller
         if ($id) {
             $model_termin = new Termin();
             $termin = $model_termin->find($id);
-            $this->render($response, 'termin/detalj.twig', compact('termin'));
+            $meniji_model = new Meni();
+            $sql = "SELECT SUM(u.broj_mesta) AS komada, m.naziv FROM ugovori AS u
+                    LEFT JOIN s_meniji m ON m.id = u.meni_id
+                    WHERE u.termin_id = {$id}
+                    GROUP BY u.meni_id;";
+            $meniji = $meniji_model->fetch($sql);
+            $this->render($response, 'termin/detalj.twig', compact('termin', 'meniji'));
         } else {
             return $response->withRedirect($this->router->pathFor('termin.pregled.get'));
         }
@@ -142,7 +149,7 @@ class TerminController extends Controller
                     <h2>Dana {$d}. godine od {$p} do {$k}</h2>
                     <h3>{$termin->opis}</h3>
                     <p><a href=\"{$link}\">Link do termina</a></p>
-                    <p style=\"color: red\">* Milimo Vas da ne odgovarate na ovu poruku</p>
+                    <p style=\"color: red\">* Molimo Vas da ne odgovarate na ovu poruku</p>
                     <p><strong>Prijatan dan</strong></p>";
             $this->log(Logger::DODAVANJE, $termin, 'opis');
 
