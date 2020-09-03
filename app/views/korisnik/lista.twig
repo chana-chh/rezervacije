@@ -42,6 +42,7 @@
   </thead>
   <tbody>
     {% for korisnik in data.data %}
+    {% if korisnik.nivo != 5000 %}
     <tr>
       <td class="text-danger">{{ korisnik.id }}</td>
       <td>{{ korisnik.ime }}</td>
@@ -58,33 +59,34 @@
         {% endif %}
       </td>
       <td class="text-right">
-          {% if korisnik.nivo == 100 %}
-            {% if auth.user.nivo == 1000 %}
-            <div class="btn-group btn-group-sm">
-              <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
-                data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
-                value="{{ korisnik.id }}" title="Brisanje odabrane sale">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-            {% endif %}
-          {% else %}
-            <div class="btn-group btn-group-sm">
-              <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
-                data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
-                value="{{ korisnik.id }}" title="Brisanje odabrane sale">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
+        {% if korisnik.nivo == 100 %}
+        {% if auth.user.nivo == 1000 %}
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
+            data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
+            value="{{ korisnik.id }}" title="Brisanje odabrane sale">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-warning btn-sm otvori-izmenu" data-toggle="modal" data-target="#izmenaModal"
+            data-id="{{ korisnik.id }}" title="Izmena podataka odabrane sale">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
+            value="{{ korisnik.id }}" title="Brisanje odabrane sale">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
         {% endif %}
       </td>
     </tr>
+    {% endif %}
     {% endfor %}
   </tbody>
 </table>
@@ -242,7 +244,7 @@
       <div class="form-group">
         <label for="lozinka" class="uk-form-label">Lozinka</label>
         <input class="form-control{{ errors.lozinka[0] ? ' is-invalid' : '' }}" type="password" name="lozinka"
-          id="lozinka" class="uk-input" autocomplete="new-password" required minlength="6"/>
+          id="lozinka" class="uk-input" autocomplete="new-password" required minlength="6" />
         <div class="valid-feedback">Odgovarajući podatak</div>
         <div class="invalid-feedback">
           {{ errors.lozinka[0] ? : 'Obavezno polje sa najmanje 6 karaktera' }}

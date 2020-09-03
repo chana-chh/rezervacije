@@ -13,3 +13,34 @@
 ## NAPOMENE
 	- Kod logovanja ugovora smo za kljucni podatak uzeli broj ugovora koji je ponekad prazan moramo da dodamo jos nesto
 	- Mozda generalno u Logger klasi treci parametar promeniti u arrey i omoguciti dodavanje vise polja
+
+
+# "BRISANJE KORISNIKA"
+
+### Auth.php
+login metoda
+```
+// Ako je korisnik nivo 5000 onda je "obrisan" (ne moze da se prijavi)
+if ($user->nivo == 5000) {
+	return false;
+}
+```
+
+### KorisnikKontroler.php
+brisanje metoda
+```
+// $success = $model->deleteOne($id);
+
+// Korisnik koji se "brise" dobija nivo 5000
+$success = $model->update(["nivo" => 5000], $id);
+```
+
+### lista.twig
+prikaz reda sa podacima korisnika
+```
+{% if korisnik.nivo != 5000 %}
+    <tr>
+		...
+	</tr>
+{% endif %}
+```

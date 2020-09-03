@@ -153,11 +153,11 @@ class TerminController extends Controller
                     <p><strong>Prijatan dan</strong></p>";
             $this->log(Logger::DODAVANJE, $termin, 'opis');
 
-            Mailer::sendMail(
-                [['email' => 'stashakg@gmail.com', 'name' => 'Stanislav']],
-                "Zakazan je novi termin u sali {$termin->sala()->naziv} za {$d}. godine",
-                $telo
-            );
+            // Mailer::sendMail(
+            //     [['email' => 'stashakg@gmail.com', 'name' => 'Stanislav']],
+            //     "Zakazan je novi termin u sali {$termin->sala()->naziv} za {$d}. godine",
+            //     $telo
+            // );
 
             $this->flash->addMessage('success', 'Termin je uspešno dodat.');
             return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $data['datum']]));

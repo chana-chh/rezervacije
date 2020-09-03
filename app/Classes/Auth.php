@@ -19,6 +19,12 @@ class Auth
         if (!$user) {
             return false;
         }
+
+        // Ako je korisnik nivo 5000 onda je "obrisan" (ne moze da se prijavi)
+        if ($user->nivo == 5000) {
+            return false;
+        }
+
         if ($this->checkPassword($password, $user->lozinka)) {
             $_SESSION['user'] = $user->id;
 

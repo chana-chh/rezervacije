@@ -78,7 +78,11 @@ class KorisnikController extends Controller
         $id = (int)$request->getParam('idBrisanje');
         $model = new Korisnik();
         $korisnik = $model->find($id);
-        $success = $model->deleteOne($id);
+        // $success = $model->deleteOne($id);
+
+        // Korisnik koji se "brise" dobija nivo 5000
+        $success = $model->update(["nivo" => 5000], $id);
+
         if ($success) {
             $this->log(Logger::BRISANJE, $korisnik, 'ime', $korisnik);
             $this->flash->addMessage('success', "Korisnik je uspešno obrisan.");
