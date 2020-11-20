@@ -1,0 +1,140 @@
+{% extends "templates/app.twig" %}
+{% block naslov %}
+<div class="row mt-md-2">
+  <div class="col">
+   <h1>
+      <i class="fas fa-file-signature text-secondary"></i> Pregled odloženih termina
+    </h1>
+    {% if data %}
+    <small><em class="text-warning">[filtrirano]</em></small>
+    {% else %}
+    <small><em class="text-success">[svi odloženi termini]</em></small>
+    {% endif %}
+  </div>
+  <div class="col justify-content-end text-right">
+    <div class="btn-group btn-group mt-3">
+      <button type="button" class="btn btn-secondary btn-sm" id="prikazi" title="Prikaži formu za filtriranje">
+        <i class="fas fa-filter"></i> Filter</button>
+      <a href="{{ path_for('termin.odlozeni') }}" class="btn btn-warning btn-sm pretraga_div">Svi odloženi termini</a>
+    </div>
+  </div>
+</div>
+<hr />
+<div class="card border-dark mb-3 pretraga_div" style="display: none;">
+    <div class="card-header">Filtriranje odloženih termina</div>
+    <div class="card-body text-dark">
+      <form action="{{ path_for('termin.odlozeni.pretraga') }}" method="POST">
+        {{ csrf|raw }}
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="sala">Sala:</label>
+            <select class="form-control" id="sala" name="sala">
+              <option value="0">... sala</option>
+              {% for sala in sale %}
+                <option value="{{ sala.id }}"  {{ sala.id == data.sala ? "selected" : "" }}>{{ sala.naziv }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="tip">Vrsta događaja:</label>
+            <select class="form-control" id="tip" name="tip">
+              <option value="0">... vrsta</option>
+              {% for tip in tipovi %}
+                <option value="{{ tip.id }}"  {{ tip.id == data.tip ? "selected" : "" }}>{{ tip.tip }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="opis">Opis:</label>
+            <input type="text" name="opis" id="opis" class="form-control"
+              value="{{ data.opis }}" autocomplete="off" placeholder="... opis">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="napomena">Napomena:</label>
+            <input type="text" name="napomena" id="napomena" class="form-control"
+              value="{{ data.napomena }}" autocomplete="off" placeholder="... napomena">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="datum">Datum: </label>
+            <input type="date" name="datum" id="datum" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col text-right">
+            <div class="btn-group">
+              <button type="submit" class="btn btn-info btn-sm">
+              <i class="fas fa-filter"></i> Filtriraj
+              </button>
+                <a href="{{ path_for('termin.odlozeni') }}" class="btn btn-outline-warning btn-sm">Svi odloženi termini</a>
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-sm table-striped" style="font-size: 0.875rem;">
+    <thead class="thead-dark">
+      <tr>
+        <th class="w-5" scope="col">ID</th>
+        <th class="w-10" scope="col">Sala</th>
+        <th class="w-15" scope="col">Vrsta</th>
+        <th class="w-5" scope="col">Datum</th>
+        <th class="w-20" scope="col">Opis</th>
+        <th class="w-20" scope="col">Napomena</th>
+        <th class="w-5" scope="col" style="text-align:right;">
+          <i class="fas fa-cogs text-warning"></i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for termin in termini.data %}
+      <tr>
+        <th scope="row" class="text-danger">{{ termin.id }}</th>
+        <td>{{ termin.sala.naziv }}</td>
+        <td>{{ termin.tip.tip }}</td>
+        <td>{{ termin.datum | date() }}</td>
+        <td>{{ termin.opis }}</td>
+        <td>{{ termin.napomena }}</td>
+        <td style="text-align:right;">
+          <div class="btn-group btn-group-sm">
+            <a class="btn btn-success btn-sm" href="{{ path_for('termin.vracanje', { id: termin.id }) }}" title="Aktiviranje termina"><i
+                class="fas fa-recycle"></i></a>
+          </div>
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="row mobilni">
+  <nav class="col">
+    <ul class="pagination pagination-sm">
+      {% for button in termini.links.buttons %}
+      <li class="page-item{{ button.current ? ' active' : '' }}">
+        <a class="page-link" href="{{ button.url }}">{{ button.page }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <p class="col justify-content-end text-right text-info"><strong>
+      Prikazani redovi od
+      <em>{{ termini.links.row_from }}</em> do
+      <em>{{ termini.links.row_to }}</em> od ukupno
+      <em>{{ termini.links.total_rows }}</em>
+    </strong>
+  </p>
+</div>
+{% endblock naslov %}
+{% block skripta %}
+  <script>
+    $(document).ready(function () {
+
+      $('#prikazi').click(function () {
+          $('.pretraga_div').toggle();
+      });
+
+    });
+  </script>
+{% endblock skripta %}
