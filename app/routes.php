@@ -49,6 +49,14 @@ $app->group('', function () {
     $this->get('/admin/logovi', '\App\Controllers\LogController:getLog')->setName('logovi');
     $this->get('/admin/logovi/pretraga', '\App\Controllers\LogController:getLogPretraga')->setName('logovi.pretraga');
     $this->post('/admin/logovi/pretraga', '\App\Controllers\LogController:postLogPretraga');
+    // Odlozeni termini
+    $this->get('/termin/odlozeni-termini', '\App\Controllers\TerminController:getTerminOdlozeni')->setName('termin.odlozeni');
+    $this->post('/termini/odlozeni-pretraga', '\App\Controllers\TerminController:postOdlozeniPretraga')->setName('termin.odlozeni.pretraga');
+    $this->get('/termini/odlozeni-pretraga', '\App\Controllers\TerminController:getOdlozeniPretraga')->setName('termin.odlozeni.pretraga.get');
+    $this->get('/termin/vracanje/{id}', '\App\Controllers\TerminController:getTerminOdlozeniVracanje')->setName('termin.vracanje');
+    // Podesavanja
+    $this->get('/podesavanja/detalj', '\App\Controllers\PodesavanjeController:getIzmena')->setName('podesavanja');
+    $this->post('/podesavanja/izmena', '\App\Controllers\PodesavanjeController:postIzmena')->setName('podesavanja.post');
 })->add(new UserLevelMiddleware($container, [0]));
 
 // VLASNIK
@@ -103,10 +111,12 @@ $app->group('', function () {
     $this->get('/termin/detalj[/{id}]', '\App\Controllers\TerminController:getTerminDetalj')->setName('termin.detalj.get');
     $this->get('/termin/dodavanje[/{datum}]', '\App\Controllers\TerminController:getTerminDodavanje')->setName('termin.dodavanje.get');
     $this->post('/termin/dodavanje', '\App\Controllers\TerminController:postTerminDodavanje')->setName('termin.dodavanje.post');
+    $this->post('/termin/postojeci', '\App\Controllers\TerminController:postTerminAjax')->setName('termin.ajax');
     $this->get('/termin/izmena/{id}', '\App\Controllers\TerminController:getTerminIzmena')->setName('termin.izmena.get');
     $this->post('/termin/izmena', '\App\Controllers\TerminController:postTerminIzmena')->setName('termin.izmena.post');
     $this->post('/termin/brisanje', '\App\Controllers\TerminController:postTerminBrisanje')->setName('termin.brisanje.post');
     $this->post('/termin/zakljucivanje', '\App\Controllers\TerminController:postTerminZakljucivanje')->setName('termin.zakljucivanje.post');
+    $this->get('/termin/odlaganje/{id}', '\App\Controllers\TerminController:getTerminOdlaganje')->setName('termin.odlaganje');
     //Meniji
     $this->get('/admin/meni', '\App\Controllers\MeniController:getMeni')->setName('meni');
     $this->get('/admin/meni/dodavanje', '\App\Controllers\MeniController:getMeniDodavanje')->setName('meni.dodavanje.get');

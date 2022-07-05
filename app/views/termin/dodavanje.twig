@@ -2,6 +2,32 @@
 {% block naslov %}
 <h1><i class="fas fa-calendar-plus"></i> Zakazivanje termina</h1>
 <hr />
+<div class="row mt-2">
+  <div class="col-lg-12">
+    <h4>Na ovaj dan su već rezervisani sledeći termini:</h4>
+    {% if postojeci is empty %}
+      <h5 id="poruka" class="text-danger">Nema planiranih događaja</h5>
+    {% else %}
+      <h5 id="poruka" style="display:none" class="text-danger">Nema planiranih događaja</h5>
+    {% endif %}
+    <ul class="list-group list-group-flush" id="postojeci">
+    {% for ter in postojeci %}
+      <li class="list-group-item" data-filtertext="{{ ter.sala_id }}">{{ ter.opis }} od {{ ter.pocetak|date("H:i") }} do {{ ter.kraj|date("H:i") }}
+        [ <i class="{{ ter.statusIkonica() }}"></i> - 
+        <span>
+          {% if ter.odlozen == 1 %} Termin je odložen 
+          {% else %}
+          {% if ter.status() == 0 %} Termin u pripremi
+          {% elseif  ter.ststatus() == 1 %} Zaključen termin 
+          {% else %} Informacija o terminu
+          {% endif %}
+          {% endif %}
+        </span> ]
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
 <div class="card border-dark">
   <div class="card-body">
     <form action="{{ path_for('termin.dodavanje.post') }}" method="POST" class="needs-validation" novalidate>
@@ -91,7 +117,9 @@
 </div>
 {% endblock naslov %} {% block sadrzaj %} {% endblock sadrzaj %} {% block
 traka%} {% endblock traka %} {% block skripta %}
+<script src="{{ base_url() }}/js/moment.min.js"></script>
 <script>
+$(document).ready(function(){
   (function() {
     "use strict";
     window.addEventListener(
@@ -117,5 +145,53 @@ traka%} {% endblock traka %} {% block skripta %}
       false
     );
   })();
+
+  $("#sala_id").change(function(){
+    var value = $(this).val();
+    $("ul").find("li").hide()
+    $.each($("ul").find("li"),function(){
+        if($(this).data("filtertext")==value)
+            $(this).show();
+    });
+    });
+
+     $("#datum").on("change", function () { 
+        var datum = $(this).val();
+
+        $('#postojeci').empty();
+        $("#sala_id").val([]);
+        var csrfName = $(".csrf_name").val();
+        var csrfValue = $(".csrf_value").val();
+
+        var csrfAndData = {
+          "csrf_name": csrfName,
+          "csrf_value": csrfValue,
+          "datum": datum
+        };
+
+        var ruta = ["{{ path_for('termin.ajax') }}"];
+
+        $.ajax({
+          url: ruta,
+          type: "POST",
+          data: csrfAndData,
+          success: function (data) {
+            $(".csrf_name").val(data.cname);
+            $(".csrf_value").val(data.cvalue);
+            if(data.postojeci_termini.length === 0){
+              $('#poruka').show();
+            }else{
+              $('#poruka').hide();
+            $.each(data.postojeci_termini, function () {
+                    var li = $('<li data-filtertext="' + this.sala_id + '">' + this.opis + ' od ' + this.pocetak + ' do ' + this.kraj + '[ <i class="' + this.ikona + '"></i> - <span> ' + this.tekst + '</span>]</li>');
+                    li.addClass('list-group-item');
+                    li.appendTo($("#postojeci"));
+              });
+            }
+          }
+        });
+      }); 
+    
+});
 </script>
 {% endblock skripta %}

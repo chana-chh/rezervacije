@@ -7,6 +7,7 @@ use App\Classes\Logger;
 use App\Models\Termin;
 use App\Models\Sala;
 use App\Models\TipDogadjaja;
+use App\Models\Podesavanje;
 
 class HomeController extends Controller
 {
@@ -17,8 +18,16 @@ class HomeController extends Controller
 
     public function getKalendar($request, $response)
     {
+        $model_podesavanje = new Podesavanje();
+        $settings = $model_podesavanje->find(1);
         $model_termin = new Termin();
-        $sql = "SELECT * FROM {$model_termin->getTable()} WHERE datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH);";
+        if ($settings->odlozeni == 1) {
+            $sql = "SELECT * FROM {$model_termin->getTable()}
+                WHERE datum > DATE_SUB(CURDATE(), INTERVAL {$settings->period_zakazivaci} MONTH);";
+        }else{
+            $sql = "SELECT * FROM {$model_termin->getTable()}
+                WHERE odlozen = 0 AND datum > DATE_SUB(CURDATE(), INTERVAL {$settings->period_zakazivaci} MONTH);";
+        }
         $termini = $model_termin->fetch($sql);
         $data_kal = [];
 

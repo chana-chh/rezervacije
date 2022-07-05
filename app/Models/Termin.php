@@ -95,6 +95,10 @@ class Termin extends Model
 
     public function statusIkonica()
     {
+        if ($this->odlozen == 1) {
+            return 'fas fa-ghost text-warning';
+        }
+        
         if ($this->status() == 0) {
             return 'fas fa-calendar-plus text-danger';
         }
@@ -112,6 +116,10 @@ class Termin extends Model
 
     public function statusBoja()
     {
+        if ($this->odlozen == 1) {
+            return '#808080';
+        }
+
         if ($this->status() == 0) {
             return '#F8D7DA';
         }

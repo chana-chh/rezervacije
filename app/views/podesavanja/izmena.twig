@@ -1,0 +1,83 @@
+{% extends "templates/app.twig" %}
+{% block stil %}
+<style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+</style>
+{% endblock stil %}
+
+{% block naslov %}
+<div class="row">
+  <div class="col">
+    <h1>
+      <i class="fas fa-cogs text-secondary"></i> Podešavanja
+    </h1>
+  </div>
+  <div class="col text-right pt-3">
+    <div class="btn-group btn-group-sm">
+      <button type="button" class="btn btn-secondary" onclick="window.history.back();"
+        title="Povratak na prethodnu stranu"><i class="fas fa-chevron-circle-left"></i> Nazad</button>
+    </div>
+  </div>
+</div>
+<hr />
+{% endblock naslov %}
+{% block sadrzaj %}
+<div class="card border-dark mb-3">
+  <div class="card-header text-primary">
+    <h4>
+      Ovo ono
+    </h4>
+  </div>
+  <div class="card-body text-dark">
+    <form action="{{ path_for('podesavanja.post') }}" method="POST" class="needs-validation" novalidate>
+      {{ csrf | raw }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="period_osoblje">Najstariji događaj koji osoblje može videti na kalendaru (meseci)</label>
+          <input type="number" class="form-control{{ errors.period_osoblje[0] ? ' is-invalid' : '' }}" name="period_osoblje" id="period_osoblje"
+            value="{{ old.period_osoblje ? : podesavanje.period_osoblje }}" min="0" step="1" max="36" autocomplete="off" required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.period_osoblje[0] ? : 'Obavezno polje' }}</div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="period_zakazivaci">Najstariji događaj koji zakazivači mogu videti na kalendaru (meseci)</label>
+          <input type="number" class="form-control{{ errors.period_zakazivaci[0] ? ' is-invalid' : '' }}" name="period_zakazivaci" id="period_zakazivaci"
+            value="{{ old.period_zakazivaci ? : podesavanje.period_zakazivaci }}" min="0" step="1" max="36" autocomplete="off" required>
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.period_zakazivaci[0] ? : 'Obavezno polje' }}</div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-row">
+        <div class="col-md-9">
+          <label class="mt-4 ml-3">
+            <input type="checkbox" name="odlozeni" id="odlozeni" title="Fizičko ili pravno lice"
+              {{ podesavanje.odlozeni == 0 ? "" :'checked="checked"'}}>
+            Prikaz odloženih termina
+          </label>
+        </div>
+      </div>
+      <hr>
+      <div class="form-row justify-content-between mt-2">
+        <div class="col-12 text-right align-self-end">
+          <button type="submit" class="btn btn-primary" title="Snimi izmene"><i class="fas fa-save"></i>
+            Snimi</button>
+          <a href="{{ path_for('podesavanja') }}" class="btn btn-secondary">
+            <i class="fas fa-ban"></i> Otkaži</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock sadrzaj %}
+
+{% block skripta %}
+{% endblock skripta %}

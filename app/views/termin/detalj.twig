@@ -10,9 +10,10 @@ naslov %}
         <i class="{{ termin.statusIkonica() }}"></i>
 
         <span>
-          {% if termin.status() == 0 %} Termin u pripremi {% endif %} {% if
-          termin.status() == 1 %} Zaključen termin {% endif %} {% if
-          termin.status() == 2 %} Informacija o terminu {% endif %}
+          {% if termin.odlozen == 1 %} Termin je odložen {% endif %}
+          {% if termin.status() == 0 %} Termin u pripremi {% endif %} 
+          {% if termin.status() == 1 %} Zaključen termin {% endif %} 
+          {% if termin.status() == 2 %} Informacija o terminu {% endif %}
         </span>
 
         ]</small
@@ -31,6 +32,9 @@ naslov %}
       >
       <a href="" class="btn btn-primary" id="zakljuci-termin">
         <i class="fas fa-check"></i> Zaključaj/otključaj termin
+      </a>
+      <a href="{{ path_for('termin.odlaganje', { id: termin.id }) }}" class="btn btn-danger">
+        <i class="fas fa-ghost"></i> Odloži termin
       </a>
       <a
         href="{{ path_for('termin.izmena.get', { id: termin.id }) }}"
@@ -336,8 +340,6 @@ naslov %}
           data = JSON.parse(data);
           document.querySelector(".csrf_name").value = data.csrf_name;
           document.querySelector(".csrf_value").value = data.csrf_value;
-          // promeniti ikonicu i text statusa u h1
-
           let tekst = "";
           if (data.status === 0) {
             tekst = " Termin u pripremi";

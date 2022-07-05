@@ -85,6 +85,8 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ path_for('admin.korisnik.lista') }}">Korisnici</a>
           <a class="dropdown-item" href="{{ path_for('logovi') }}">Logovi</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ path_for('termin.odlozeni') }}">Odloženi termini</a>
         </div>
       </li>
       {% endif %}
@@ -139,6 +141,10 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ path_for('admin.korisnik.lista') }}">Korisnici</a>
           <a class="dropdown-item" href="{{ path_for('logovi') }}">Logovi</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ path_for('termin.odlozeni') }}">Odloženi termini</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ path_for('podesavanja') }}">Podešavanja</a>
         </div>
       </li>
       {% endif %}

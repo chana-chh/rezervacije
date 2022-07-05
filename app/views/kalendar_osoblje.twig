@@ -170,11 +170,17 @@
       eventBorderColor: "#000000",
       eventTextColor: "#000000",
       eventClick: function(event, jsEvent, view) {
+        if (event.advancedUgovor !== null) {
         const loc = "{{ path_for('osoblje.termin') }}" + "/" + event.id;
-        window.location = loc;
+        window.location = loc;}
       },
       eventRender: function (event, element, view) {
         if (view.name == "month"){
+            element.tooltip({
+            title: event.advancedDetalj,
+            html: true,
+            container: "body"
+            });
             let title = element.find(".fc-title");
             element.find('.fc-time').hide();
             const html = `

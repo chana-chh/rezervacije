@@ -8,6 +8,7 @@ use App\Models\Termin;
 use App\Models\Sala;
 use App\Models\Meni;
 use App\Models\TipDogadjaja;
+use App\Models\Podesavanje;
 
 class TerminController extends Controller
 {
@@ -16,20 +17,34 @@ class TerminController extends Controller
         $datum = isset($args['datum']) ? $args['datum'] : null;
         $url_termin_dodavanje = $this->router->pathFor('termin.dodavanje.get');
 
+        $model_podesavanje = new Podesavanje();
+        $settings = $model_podesavanje->find(1);
         $model_termin = new Termin();
-        $sql = "SELECT * FROM {$model_termin->getTable()} WHERE datum > DATE_SUB(CURDATE(), INTERVAL 6 MONTH);";
+        if ($settings->odlozeni == 1) {
+            $sql = "SELECT * FROM {$model_termin->getTable()}
+                WHERE datum > DATE_SUB(CURDATE(), INTERVAL {$settings->period_zakazivaci} MONTH);";
+        }else{
+            $sql = "SELECT * FROM {$model_termin->getTable()}
+                WHERE odlozen = 0 AND datum > DATE_SUB(CURDATE(), INTERVAL {$settings->period_zakazivaci} MONTH);";
+        }
+        
         $termini = $model_termin->fetch($sql);
 
         $data = [];
 
         foreach ($termini as $termin) {
             $ikonica = $termin->statusIkonica();
+            $bojica = "";
+            if ($termin->odlozen == 1) {
+                $bojica = "#808080";
+            }
             $data[] = (object) [
                 "id" => $termin->id,
                 "title" => [$termin->sala()->naziv],
                 "start" => $termin->datum . ' ' . $termin->pocetak,
                 "end" => $termin->datum . ' ' . $termin->kraj,
                 "description" => $ikonica,
+                "advancedBoja" => $bojica,
                 "advancedTitle" => 'Napomena: ' . preg_replace('/\s+/', ' ', trim($termin->napomena))
             ];
         }
@@ -60,12 +75,50 @@ class TerminController extends Controller
     public function getTerminDodavanje($request, $response, $args)
     {
         $datum = isset($args['datum']) ? $args['datum'] : null;
+        $model_termin = new Termin();
+        $sql = "SELECT id, datum, opis, pocetak, kraj, zauzet, odlozen, sala_id FROM termini WHERE datum = :dat;";
+        $params = [':dat' => $datum];
+        $postojeci = $model_termin->fetch($sql, $params);
+       
         $model_sala = new Sala();
         $sale = $model_sala->all();
         $model_tip = new TipDogadjaja();
         $tipovi = $model_tip->all();
 
-        $this->render($response, 'termin/dodavanje.twig', compact('sale', 'tipovi', 'datum'));
+        $this->render($response, 'termin/dodavanje.twig', compact('sale', 'tipovi', 'datum', 'postojeci'));
+    }
+
+    public function postTerminAjax($request, $response)
+    {
+        $data = $request->getParams();
+        $datum = $data['datum'];
+        $cName = $this->csrf->getTokenName();
+        $cValue = $this->csrf->getTokenValue();
+
+        $model_termin = new Termin();
+        $sql = "SELECT id, datum, opis, pocetak, kraj, zauzet, odlozen, sala_id FROM termini WHERE datum = :dat;";
+        $params = [':dat' => $datum];
+        $postojeci_termini = $model_termin->fetch($sql, $params);
+          foreach ($postojeci_termini as $pos) {
+            if ($pos->odlozen == 1) {
+                $pos->ikona = 'fas fa-ghost text-warning';
+                $pos->tekst = 'Termin je odložen';
+            }else{
+                if ($pos->status() == 0) {
+                    $pos->ikona = 'fas fa-calendar-plus text-danger';
+                    $pos->tekst = 'Termin u pripremi';
+                }elseif ($pos->status() == 1) {
+                    $pos->ikona = 'fas fa-calendar-check text-success';
+                    $pos->tekst = 'Zaključen termin';
+                }else{
+                    $pos->ikona = 'fas fa-question-circle text-primary';
+                    $pos->tekst = 'Informacija o terminu';
+                }
+            }
+        }
+        $ar = ["cname" => $cName, "cvalue"=>$cValue, "postojeci_termini"=>$postojeci_termini];
+
+        return $response->withJson($ar);      
     }
 
     public function postTerminDodavanje($request, $response)
@@ -110,28 +163,42 @@ class TerminController extends Controller
             // Preklapanje termina
             $model_termin = new Termin();
             $preklapanje = false;
-            $sql = "SELECT datum, pocetak, kraj FROM termini WHERE datum = :dat AND sala_id = :sal";
+            $sql = "SELECT datum, pocetak, kraj, odlozen FROM termini WHERE datum = :dat AND sala_id = :sal";
             $params = [
             ':dat' => $data['datum'],
             ':sal' => $data['sala_id'],
             ];
             $postojeci_termini = $model_termin->fetch($sql, $params);
+            $preklapanje_odlozeni = false;
             // Uporedjivanje
             foreach ($postojeci_termini as $pt) {
                 $pt_pocetak = strtotime("{$pt->datum} {$pt->pocetak}");
                 $pt_kraj = strtotime("{$pt->datum} {$pt->kraj}");
                 if ($pocetak >= $pt_pocetak && $pocetak < $pt_kraj) {
                     $preklapanje = true;
+                    if($pt->odlozen == 1){
+                        $preklapanje_odlozeni = true;
+                    }
                 }
                 if ($kraj > $pt_pocetak && $kraj <= $pt_kraj) {
                     $preklapanje = true;
+                    if($pt->odlozen == 1){
+                        $preklapanje_odlozeni = true;
+                    }
                 }
                 if ($pocetak <= $pt_pocetak && $kraj >= $pt_kraj) {
                     $preklapanje = true;
+                    if($pt->odlozen == 1){
+                        $preklapanje_odlozeni = true;
+                    }
                 }
             }
 
             if ($preklapanje) {
+                if($preklapanje_odlozeni){
+                    $this->flash->addMessage('danger', 'Termin se preklapa sa nekim od odloženih termina. Obratite se administratoru.');
+                    return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
+                }
                 $this->flash->addMessage('danger', 'Termin se preklapa sa nekim od postojećih termina.');
                 return $response->withRedirect($this->router->pathFor('termin.dodavanje.get'));
             }
@@ -204,6 +271,130 @@ class TerminController extends Controller
         $this->log(Logger::IZMENA, $termin1, 'opis', $termin);
 
         return json_encode($data);
+    }
+
+    // Odlaganje termina
+    public function getTerminOdlaganje($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+        if ($id) {
+            $model = new Termin();
+            $termin = $model->find($id);
+            $model->update(['odlozen' => 1], $id);
+            $termin1 = $model->find($id);
+            $this->log(Logger::IZMENA, $termin1, 'opis', $termin);
+            return $response->withRedirect($this->router->pathFor('termin.pregled.get', ['datum' => $termin->datum]));
+        } else {
+            return $response->withRedirect($this->router->pathFor('termin.pregled.get'));
+        }
+    }
+
+    //Vracanje odlozenog termina
+    public function getTerminOdlozeniVracanje($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+        if ($id) {
+            $model = new Termin();
+            $termin = $model->find($id);
+            $model->update(['odlozen' => 0], $id);
+            $termin1 = $model->find($id);
+            $this->log(Logger::IZMENA, $termin1, 'opis', $termin);
+            return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $termin->id]));
+        } else {
+            return $response->withRedirect($this->router->pathFor('termin.odlozeni'));
+        }
+    }
+
+    // Odlozeni termini admin pregled
+    public function getTerminOdlozeni($request, $response, $args)
+    {
+        $query = [];
+        parse_str($request->getUri()->getQuery(), $query);
+        $page = isset($query['page']) ? (int)$query['page'] : 1;
+
+        $model_termin = new Termin();
+        $sql = "SELECT * FROM {$model_termin->getTable()}
+                WHERE odlozen = 1
+                ORDER BY datum ASC;";
+        $termini = $model_termin->paginate($page, 'page', $sql);
+
+        $model_sala = new Sala();
+        $model_tip = new TipDogadjaja();
+        $sale = $model_sala->all();
+        $tipovi = $model_tip->all();
+        $this->render($response, 'termin/pregled_odlozeni.twig', compact('termini', 'sale', 'tipovi'));
+    }
+
+    // Odlozeni pretraga
+    public function postOdlozeniPretraga($request, $response)
+    {
+        $_SESSION['DATA_ODLOZENI_PRETRAGA'] = $request->getParams();
+        return $response->withRedirect($this->router->pathFor('termin.odlozeni.pretraga.get'));
+    }
+
+    public function getOdlozeniPretraga($request, $response)
+    {
+        $data = $_SESSION['DATA_ODLOZENI_PRETRAGA'];
+        array_shift($data);
+        array_shift($data);
+
+        $data['opis'] = str_replace('%', '', $data['opis']);
+        $data['napomena'] = str_replace('%', '', $data['napomena']);
+
+        $opis = '%' . filter_var($data['opis'], FILTER_SANITIZE_STRING) . '%';
+        $napomena = '%' . filter_var($data['napomena'], FILTER_SANITIZE_STRING) . '%';
+
+        $where = " WHERE odlozen = 1 ";
+        $params = [];
+
+        if ($data['sala']) {
+            $where .= " AND ";
+            $where .= "sala_id = :sala";
+            $params[':sala'] = $data['sala'];
+        }
+
+        if ($data['tip']) {
+            $where .= " AND ";
+            $where .= "tip_dogadjaja_id = :tip_dogadjaja_id";
+            $params[':tip_dogadjaja_id'] = $data['tip'];
+        }
+
+        if (!empty($data['datum'])) {
+            $where .= " AND ";
+            $where .= "DATE(datum) = :datum";
+            $params[':datum'] = $data['datum'];
+        }
+
+        if (!empty($data['napomena'])) {
+            $where .= " AND ";
+            $where .= "napomena LIKE :napomena";
+            $params[':napomena'] = $napomena;
+        }
+
+        if (!empty($data['opis'])) {
+            $where .= " AND ";
+            $where .= "opis LIKE :opis";
+            $params[':opis'] = $opis;
+        }
+
+        $query = [];
+        parse_str($request->getUri()->getQuery(), $query);
+        $page = isset($query['page']) ? (int)$query['page'] : 1;
+
+        $model_termin = new Termin();
+        $sql = "SELECT * FROM {$model_termin->getTable()}
+                {$where}
+                ORDER BY datum ASC;";
+        // dd($sql, true, false);
+        // dd($params, true);
+        $termini = $model_termin->paginate($page, 'page', $sql, $params);
+
+        $model_sala = new Sala();
+        $model_tip = new TipDogadjaja();
+        $sale = $model_sala->all();
+        $tipovi = $model_tip->all();
+
+        $this->render($response, 'termin/pregled_odlozeni.twig', compact('termini', 'sale', 'tipovi', 'data'));
     }
 
     public function getTerminIzmena($request, $response, $args)
