@@ -29,7 +29,7 @@ naslov %}
   </div>
 </div>
 <div class="row mt-3">
-  <div class="col-12">
+<div class="col-10">
 <div class="alert alert-dark" role="alert">
   <h5>Detalji o terminu:&emsp;
     {{ termin.tip().tip }} u {{ termin.sala().naziv }} na dan
@@ -38,6 +38,14 @@ naslov %}
     {% if termin.opis %}<span> Opis: {{ termin.opis }}.</span> {% endif %}
     {% if termin.napomena %}<span class="font-italic">({{ termin.napomena | nl2br }})</span> {% endif %}
   </h5>
+</div>
+</div>
+<div class="col-2">
+<div class="alert alert-warning" role="alert">
+<h6><i class="fas fa-phone"></i> (telefoni)</h6>
+  {% for ugovor in ugovori %}
+  <h6>{{ ugovor.telefon }} - {{ ugovor.ime }}</h6>
+  {% endfor %}
 </div>
 </div>
 </div>
