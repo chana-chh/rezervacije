@@ -113,6 +113,13 @@
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.prezime[0] ? : 'Obavezno polje' }}</div>
         </div>
+          <div class="form-group col-md-3">
+          <label for="jmbg">JMBG</label>
+          <input type="text" class="form-control{{ errors.jmbg[0] ? ' is-invalid' : '' }}"
+            value="{{ old.jmbg ? : '' }}" name="jmbg" id="jmbg" autocomplete="off" pattern="(.){13,13}">
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.jmbg[0] ? : 'Maksimalno/minimalno 13 cifara jedinstvenog broja građanina' }}</div>
+        </div>
         <div class="form-group col-md-3">
           <label for="telefon">Telefon</label>
           <input type="text" class="form-control{{ errors.telefon[0] ? ' is-invalid' : '' }}"
@@ -120,6 +127,8 @@
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.telefon[0] ? : 'Obavezno polje' }}</div>
         </div>
+      </div>
+      <div class="form-row">
         <div class="form-group col-md-3">
           <label for="email">E-mail</label>
           <input type="email" class="form-control{{ errors.email[0] ? ' is-invalid' : '' }}"
@@ -127,8 +136,6 @@
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.email[0] ? : 'Obavezno polje' }}</div>
         </div>
-      </div>
-      <div class="form-row">
         <div class="form-group col-md-3">
           <label for="mesto_firme">Mesto</label>
           <input type="mesto_firme" class="form-control{{ errors.mesto_firme[0] ? ' is-invalid' : '' }}"
@@ -174,7 +181,7 @@
           <div class="invalid-feedback">{{ errors.mb_firme[0] ? : 'Obavezno polje' }}</div>
         </div>
       </div>
-      {# Pravno II #}
+      {# Pravno II 
       <div class="form-row fizicko_pravno" style="display: none;">
         <div class="form-group col-md-3">
           <label for="banka_firme">Banka</label>
@@ -190,7 +197,7 @@
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.racun_firme[0] ? : 'Obavezno polje' }}</div>
         </div>
-      </div>
+      </div> #}
       <hr class="fizicko_pravno" style="display: none;">
       <div class="form-row">
         <div class="col-md-3">

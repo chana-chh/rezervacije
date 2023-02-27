@@ -37,6 +37,7 @@ class UgovorController extends Controller
 
         if (empty($data['prezime']) &&
             empty($data['ime']) &&
+            empty($data['jmbg']) &&
             empty($data['naziv_firme']) &&
             empty($data['telefon']) &&
             empty($data['email']) &&
@@ -51,6 +52,7 @@ class UgovorController extends Controller
         $data['naziv_firme'] = str_replace('%', '', $data['naziv_firme']);
         $data['prezime'] = str_replace('%', '', $data['prezime']);
         $data['ime'] = str_replace('%', '', $data['ime']);
+        $data['jmbg'] = str_replace('%', '', $data['jmbg']);
         $data['telefon'] = str_replace('%', '', $data['telefon']);
         $data['email'] = str_replace('%', '', $data['email']);
         $data['napomena'] = str_replace('%', '', $data['napomena']);
@@ -59,6 +61,7 @@ class UgovorController extends Controller
         $naziv_firme = '%' . filter_var($data['naziv_firme'], FILTER_SANITIZE_STRING) . '%';
         $prezime = '%' . filter_var($data['prezime'], FILTER_SANITIZE_STRING) . '%';
         $ime = '%' . filter_var($data['ime'], FILTER_SANITIZE_STRING) . '%';
+        $jmbg = '%' . filter_var($data['jmbg'], FILTER_SANITIZE_STRING) . '%';
         $telefon = '%' . filter_var($data['telefon'], FILTER_SANITIZE_STRING) . '%';
         $email = '%' . filter_var($data['email'], FILTER_SANITIZE_STRING) . '%';
         $napomena = '%' . filter_var($data['napomena'], FILTER_SANITIZE_STRING) . '%';
@@ -93,6 +96,14 @@ class UgovorController extends Controller
             }
             $where .= "ime LIKE :ime";
             $params[':ime'] = $ime;
+        }
+
+        if (!empty($data['jmbg'])) {
+            if ($where !== " WHERE ") {
+                $where .= " AND ";
+            }
+            $where .= "jmbg LIKE :jmbg";
+            $params[':jmbg'] = $jmbg;
         }
 
         if (!empty($data['telefon'])) {
@@ -197,6 +208,7 @@ class UgovorController extends Controller
             'cena_menija' => ['required' => true,],
             'prezime' => ['required' => true,],
             'ime' => ['required' => true,],
+            'jmbg' => ['jmbg' => true,],
             'broj_mesta' => ['required' => true,],
             'broj_stolova' => ['required' => true,],
             'broj_mesta_po_stolu' => ['required' => true,],
@@ -313,6 +325,7 @@ class UgovorController extends Controller
             'cena_menija' => ['required' => true,],
             'prezime' => ['required' => true,],
             'ime' => ['required' => true,],
+            'jmbg' => ['jmbg' => true,],
             'broj_mesta' => ['required' => true,],
             'broj_stolova' => ['required' => true,],
             'broj_mesta_po_stolu' => ['required' => true,],

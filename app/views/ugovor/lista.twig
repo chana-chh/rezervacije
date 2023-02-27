@@ -58,6 +58,11 @@
         
         <div class="form-row">
         <div class="form-group col-md-2">
+        <label for="jmbg">JMBG: </label>
+        <input type="text" name="jmbg" id="jmbg" class="form-control"
+            value="{{ data.jmbg }}" autocomplete="off" placeholder="... jmbg">
+        </div>
+        <div class="form-group col-md-2">
         <label for="email">E-mail: </label>
         <input type="text" name="email" id="email" class="form-control"
             value="{{ data.email }}" autocomplete="off" placeholder="... email">
@@ -99,8 +104,9 @@
       <th class="w-8" scope="col">Broj</th>
       <th class="w-12" scope="col">Termin</th>
       <th class="w-10" scope="col">Iznos</th>
-      <th class="w-20" scope="col">Ime/naziv</th>
-      <th class="w-10" scope="col">Telefon</th>
+      <th class="w-12" scope="col">Ime/naziv</th>
+      <th class="w-10" scope="col">JMBG</th>
+      <th class="w-8" scope="col">Telefon</th>
       <th class="w-10" scope="col">E-mail</th>
       <th class="w-10" scope="col">Mesta</th>
       <th class="w-10" scope="col">Datum</th>
@@ -123,6 +129,7 @@
           <span>- {{ugovor.adresa_firme}}</span>
         {% endif %}
       </td>
+      <td>{{ ugovor.jmbg }}</td>
       <td>{{ ugovor.telefon }}</td>
       <td><a href="mailto:{{ ugovor.email }}">{{ ugovor.email }}</a></td>
       <td>{{ ugovor.broj_mesta }} ({{ ugovor.broj_stolova }}/{{ ugovor.broj_mesta_po_stolu }})</td>

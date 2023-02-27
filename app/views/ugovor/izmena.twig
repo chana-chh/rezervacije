@@ -117,14 +117,21 @@
           <div class="invalid-feedback">{{ errors.telefon[0] ? : 'Obavezno polje' }}</div>
         </div>
         <div class="form-group col-md-3">
+          <label for="jmbg">JMBG</label>
+          <input type="jmbg" class="form-control{{ errors.jmbg[0] ? ' is-invalid' : '' }}"
+            value="{{ old.jmbg ? : ugovor.jmbg }}" name="jmbg" id="jmbg" autocomplete="off" pattern="(.){13,13}">
+          <div class="valid-feedback">Odgovarajući podatak</div>
+          <div class="invalid-feedback">{{ errors.jmbg[0] ? : 'Maksimalno/minimalno 13 cifara jedinstvenog broja građanina' }}</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-3">
           <label for="email">E-mail</label>
           <input type="email" class="form-control{{ errors.email[0] ? ' is-invalid' : '' }}"
             value="{{ old.email ? : ugovor.email }}" name="email" id="email" autocomplete="off">
           <div class="valid-feedback">Odgovarajući podatak</div>
           <div class="invalid-feedback">{{ errors.email[0] ? : 'Obavezno polje' }}</div>
         </div>
-      </div>
-      <div class="form-row">
         <div class="form-group col-md-3">
           <label for="mesto_firme">Mesto</label>
           <input type="mesto_firme" class="form-control{{ errors.mesto_firme[0] ? ' is-invalid' : '' }}"
