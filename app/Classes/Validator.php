@@ -206,6 +206,8 @@ class Validator
 
     protected function jmbg($field, $value, $option)
     {
+        if ($value) {
+
         $len = strlen($value);
         if ($len != 13) {
             return false;
@@ -242,7 +244,10 @@ class Validator
         if ($kontrolni != $niz[12]) {
             return false;
         }
+        return true;}
+        else{
         return true;
+        }
     }
 
     public function sanitize(array $data)

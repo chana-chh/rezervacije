@@ -183,7 +183,7 @@ naslov %}
         <th class="w-5">Broj</th>
         <th class="w-10 text-right">Iznos</th>
         <th class="w-10 text-right">Dug</th>
-        <th class="w-20">Ime</th>
+        <th class="w-20">Ime/Naziv</th>
         <th class="w-10">Telefon</th>
         <th class="w-10">Email</th>
         <th class="w-10">Br mesta</th>
@@ -208,13 +208,15 @@ naslov %}
         >
           <strong>{{ ugovor.uplateDug() | number_format }}</strong>
         </td>
-        <td>{{ ugovor.punoIme() }}
+        <td>
           {% if ugovor.naziv_firme %}
-          <span>, {{ugovor.naziv_firme}}</span>
-        {% endif %}
-        {% if ugovor.adresa_firme %}
-          <span>- {{ugovor.adresa_firme}}</span>
-        {% endif %}
+            {{ugovor.naziv_firme}}
+          {% else %}
+            {{ ugovor.punoIme() }}
+                {% if ugovor.adresa_firme %}
+                  <span>- {{ugovor.adresa_firme}}</span>
+                {% endif %}
+          {% endif %}
         </td>
         <td>{{ ugovor.telefon }}</td>
         <td>
