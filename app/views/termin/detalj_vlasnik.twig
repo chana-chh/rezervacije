@@ -50,7 +50,11 @@
     </div>
   </div>
 </div>
-
+<div class="row d-none d-sm-flex">
+<div class="col">
+<small class="text-danger">Dodao u bazu korisnik {{ termin.korisnik.ime }} {{ termin.korisnik.prezime }} dana {{ termin.created_at|date() }}</small>
+</div>
+</div>
 <div class="row d-sm-none mobilni">
   <div class="col">
     <h3>
@@ -83,7 +87,11 @@
     </div>
   </div>
 </div>
-
+<div class="row d-sm-none mobilni">
+<div class="col">
+<small class="text-danger">Dodao u bazu korisnik {{ termin.korisnik.ime }} {{ termin.korisnik.prezime }} dana {{ termin.created_at|date() }}</small>
+</div>
+</div>
 <div class="row d-none d-sm-flex">
   <div class="col">
     <h3 class="text-warning text-right mt-3"><i class="fas fa-user-secret"></i></h3>

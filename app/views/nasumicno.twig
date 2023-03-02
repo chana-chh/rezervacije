@@ -1,0 +1,60 @@
+{% extends "templates/app.twig" %}
+{% block stil %}
+  <style>
+  @media (max-width: 575.98px) {
+  .mobilni{
+    font-size: 0.75rem !important;
+  }
+  .btn, .btn-sm{
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
+  }
+  }
+  </style>
+{% endblock stil %}
+{% block naslov %}
+<div class="row mt-md-2 d-none d-sm-flex">
+  <div class="col">
+    <h1>
+      <i class="fas fa-music text-warning"></i>&emsp;Pregled slučajno izabranih kompozicija
+    </h1>
+  </div>
+  <div class="col justify-content-end text-right">
+      <a href="{{ path_for('sokoj') }}" class="btn btn-secondary btn-sm">Sve kompozicije</a>
+  </div>
+</div>
+<div class="row mt-2 d-sm-none">
+  <div class="col">
+    <h4>
+      <i class="fas fa-music text-warning"></i>&emsp;Pregled slučajno izabranih kompozicija
+    </h4>
+  </div>
+  <div class="col justify-content-end text-right">
+      <a href="{{ path_for('sokoj') }}" class="btn btn-secondary btn-sm mt-2">Sve kompozicije</a>
+  </div>
+</div>
+<hr />
+<div class="table-responsive">
+  <table class="table mobilni">
+    <thead class="thead-dark">
+      <tr>
+        <th class="w-10" scope="col">ID</th>
+        <th class="w-40" scope="col">Izvođač</th>
+        <th class="w-50" scope="col">Kompozicija</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for kompozicija in sokoj %}
+      <tr>
+        <th scope="row" class="text-danger">{{ kompozicija.gg }}</th>
+        <td><strong>{{ kompozicija.izvodjac }}</strong></td>
+        <td>{{ kompozicija.kompozicija }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock naslov %} 
+

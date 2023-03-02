@@ -57,6 +57,13 @@ $app->group('', function () {
     // Podesavanja
     $this->get('/podesavanja/detalj', '\App\Controllers\PodesavanjeController:getIzmena')->setName('podesavanja');
     $this->post('/podesavanja/izmena', '\App\Controllers\PodesavanjeController:postIzmena')->setName('podesavanja.post');
+     //Sokoj
+    $this->get('/admin/sokoj', '\App\Controllers\SokojController:getLista')->setName('sokoj');
+    $this->post('/admin/sokoj/dodavanje', '\App\Controllers\SokojController:postDodavanje')->setName('sokoj.dodavanje');
+    $this->post('/admin/sokoj/brisanje', '\App\Controllers\SokojController:postBrisanje')->setName('sokoj.brisanje');
+    $this->post('/admin/sokoj/detalj', '\App\Controllers\SokojController:postDetalj')->setName('sokoj.detalj');
+    $this->post('/admin/sokoj/izmena', '\App\Controllers\SokojController:postIzmena')->setName('sokoj.izmena');
+    $this->get('/admin/sokoj/nasumicno', '\App\Controllers\SokojController:getSlucajni')->setName('sokoj.nasumicno');
 })->add(new UserLevelMiddleware($container, [0]));
 
 // VLASNIK
