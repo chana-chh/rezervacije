@@ -188,6 +188,10 @@ class MeniController extends Controller
         $id = (int)$request->getParam('idBrisanje');
         $modelMenija = new Meni();
         $meni = $modelMenija->find($id);
+        if (!empty($meni->ugovor())) {
+            $this->flash->addMessage('danger', "Za ovaj meni je vezan ugovor. Obrišite ugovor da biste obrisali meni.");
+            return $response->withRedirect($this->router->pathFor('meni'));
+        }
         $success = $modelMenija->deleteOne($id);
 
         if ($success) {

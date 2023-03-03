@@ -235,18 +235,7 @@ class UgovorController extends Controller
         //Dodavanje menija
             $model_t = new Termin();
             $t = $model_t->find($data['termin_id']);
-            $modelMenija = new Meni();
-            if ($data['naziv_firme']) {
-                $data_meni['naziv'] = date('d.m.Y', strtotime($t->datum)).'-'.$data['naziv_firme'];
-            }else{
-                $data_meni['naziv'] = date('d.m.Y', strtotime($t->datum)).'-'.$data['ime'].' '.$data['prezime'];
-            }
-            $data_meni['cena'] = $data['cena_menija'];
-            $modelMenija->insert($data_meni);
-            $id_menija = $modelMenija->lastId();
-            $meni = $modelMenija->find($id_menija);
-            $this->log(Logger::DODAVANJE, $meni, 'naziv');
-            $data['meni_id'] = $id_menija;
+
 
         // provera broja ugovora
         $model_ugovor = new Ugovor();
@@ -265,6 +254,19 @@ class UgovorController extends Controller
             $this->flash->addMessage('danger', 'Došlo je do greške prilikom dodavanja ugovora.');
             return $response->withRedirect($this->router->pathFor('termin.dodavanje.ugovor', ['termin_id' => (int) $data['termin_id']]));
         } else {
+            $modelMenija = new Meni();
+            if ($data['naziv_firme']) {
+                $data_meni['naziv'] = date('d.m.Y', strtotime($t->datum)).'-'.$data['naziv_firme'];
+            }else{
+                $data_meni['naziv'] = date('d.m.Y', strtotime($t->datum)).'-'.$data['ime'].' '.$data['prezime'];
+            }
+            $data_meni['cena'] = $data['cena_menija'];
+            $modelMenija->insert($data_meni);
+            $id_menija = $modelMenija->lastId();
+            $meni = $modelMenija->find($id_menija);
+            $this->log(Logger::DODAVANJE, $meni, 'naziv');
+            $data['meni_id'] = $id_menija;
+
             $data['korisnik_id'] = $this->auth->user()->id;
             unset($data['cena_menija']);
             $model_ugovor->insert($data);
