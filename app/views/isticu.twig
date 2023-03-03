@@ -1,0 +1,118 @@
+{% extends "templates/app.twig" %}
+{% block stil %}
+  <style>
+  @media (max-width: 575.98px) {
+  .mobilni{
+    font-size: 0.75rem !important;
+  }
+  .btn, .btn-sm{
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
+  }
+  }
+  </style>
+{% endblock stil %}
+{% block naslov %}
+<div class="row mt-md-2 d-none d-sm-flex">
+  <div class="col">
+    <h1>
+      <i class="fas fa-warning text-warning"></i>&emsp;Pregled termina kojima ističe ili je već istekla rezervacija
+    </h1>
+  </div>
+</div>
+<div class="row mt-2 d-sm-none">
+  <div class="col">
+    <h4>
+      <i class="fas fa-warning text-warning"></i>&emsp;Pregled termina kojima ističe ili je već istekla rezervacija
+    </h4>
+  </div>
+</div>
+<hr />
+<div class="table-responsive">
+  <table class="table mobilni">
+    <thead class="thead-dark">
+      <tr>
+        <th class="w-5" scope="col">ID</th>
+        <th class="w-10" scope="col">Sala</th>
+        <th class="w-15" scope="col">Vreme</th>
+        <th class="w-10" scope="col">Tip/vrsta</th>
+        <th class="w-10" scope="col">Kratak opis</th>
+        <th class="w-30" scope="col">Napomena</th>
+        <th class="w-10" scope="col">Kreiran</th>
+        <th class="w-10" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for istice in podsetnik %}
+      <tr>
+        <th scope="row" class="text-danger">{{ istice.id }}</th>
+        <td><strong>{{ istice.sala().naziv }}</strong></td>
+        <td> {{ istice.datum|date() }} od {{ istice.pocetak|date("H:i") }} do
+          {{ istice.kraj|date("H:i") }}</td>
+        <td>{{ istice.tip().tip }}</td>
+        <td>{{ istice.opis }}</td>
+        <td>{{ istice.napomena | nl2br }}</td>
+        <td class="text-danger">{{ istice.created_at|date() }}</td>
+        <td style="text-align:right;">
+          <div class="btn-group btn-group-sm">
+            <a class="btn btn-success btn-sm" href="{{ path_for('termin.detalj.get', { id: istice.id }) }}" title="Detaljni pregled odabranog termina"><i
+              class="fas fa-eye"></i></a>
+            <button class="btn btn-danger btn-sm otvori-brisanje" data-toggle="modal" data-target="#brisanjeModal"
+            data-id="{{ istice.id }}" title="Brisanje termina">
+            <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  {# Modal za brisanje #}
+  <div id="brisanjeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger">Upozorenje!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h4>Da li želite trajno da obrišete termin?</h4>
+          <p class="text-danger">* Ova akcija je nepovratna!</p>
+          <form id="brisanje-forma" action="{{ path_for('termin.brisanje.post') }}" method="POST">
+            {{ csrf|raw }}
+            <input type="hidden" id="modal_termin_brisanje_id" name="modal_termin_brisanje_id">
+            <hr style="margin-top: 30px;">
+
+            <div class="row justify-content-end" style="margin-top: 30px; padding: 10px;">
+              <div class="form-group">
+                <button id="btn-brisanje-obrisi" type="submit" class="btn btn-danger">
+                  <i class="fas fa-trash-alt"></i>&emsp;Obriši
+                </button>
+                <a class="btn btn-secondary" data-dismiss="modal">
+                  <i class="fas fa-ban"></i>&emsp;Otkaži
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {# Kraj modala za brisanje #}
+{% endblock naslov %}
+{% block skripta %}
+<script>
+  $(document).ready(function() {
+    $(".otvori-brisanje").on("click", function() {
+      var id = $(this).data("id");
+      $("#modal_termin_brisanje_id").val(id);
+    });
+  });
+</script>
+{% endblock skripta %}
+

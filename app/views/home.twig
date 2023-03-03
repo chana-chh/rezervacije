@@ -1,6 +1,12 @@
 {% extends "templates/app.twig" %}
 {% block naslov %}
 <div class="d-none d-sm-block">
+	{% if podsetnik|length > 1 %}
+	<div class="mt-5 alert alert-danger" role="alert">
+  		Postoji {{podsetnik|length}} termin/a koji su kreirani pre 15 ili više dana, a nisu zakazani niti odloženi!&emsp; 
+  		<a href="{{ path_for('termin.isticu') }}" class="btn btn-secondary">Pregled termina kojima ističe ili je već istekla rezervacija</a>
+	</div>
+	{% endif %}
 	<div class="row mt-5">
 		<div class="col text-center">
 			<img src="{{ base_url() }}/img/EEC-logo-znak.png" alt="logo EEC" class="img-fluid w-15">
@@ -19,6 +25,12 @@
 </div>
 {# Mobilni telefoni #}
 <div class="d-sm-none">
+	{% if podsetnik|length > 1 %}
+	<div class="mt-5 alert alert-danger" role="alert">
+  		Postoji {{podsetnik|length}} termin/a koji su kreirani pre 15 ili više dana, a nisu zakazani niti odloženi!&emsp; 
+  		<a href="{{ path_for('termin.isticu') }}" class="btn btn-secondary">Pregled termina kojima ističe ili je već istekla rezervacija</a>
+	</div>
+	{% endif %}
 	<div class="row mt-5">
 		<div class="col text-center">
 			<img src="{{ base_url() }}/img/EEC-logo-znak.png" alt="logo EEC" class="img-fluid w-30">

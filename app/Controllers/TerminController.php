@@ -493,4 +493,11 @@ class TerminController extends Controller
             return $response->withRedirect($this->router->pathFor('termin.detalj.get', ['id' => $id]));
         }
     }
+
+    public function getTerminIsticu($request, $response)
+    {
+        $model_termin = new Termin();
+        $podsetnik = $model_termin->podsetnik();
+        $this->render($response, 'isticu.twig', compact('podsetnik'));
+    }
 }

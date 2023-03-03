@@ -124,6 +124,7 @@ $app->group('', function () {
     $this->post('/termin/brisanje', '\App\Controllers\TerminController:postTerminBrisanje')->setName('termin.brisanje.post');
     $this->post('/termin/zakljucivanje', '\App\Controllers\TerminController:postTerminZakljucivanje')->setName('termin.zakljucivanje.post');
     $this->get('/termin/odlaganje/{id}', '\App\Controllers\TerminController:getTerminOdlaganje')->setName('termin.odlaganje');
+    $this->get('/termin/isticu', '\App\Controllers\TerminController:getTerminIsticu')->setName('termin.isticu');
     //Meniji
     $this->get('/admin/meni', '\App\Controllers\MeniController:getMeni')->setName('meni');
     $this->get('/admin/meni/dodavanje', '\App\Controllers\MeniController:getMeniDodavanje')->setName('meni.dodavanje.get');

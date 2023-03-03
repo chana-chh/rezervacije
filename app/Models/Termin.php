@@ -135,6 +135,16 @@ class Termin extends Model
         return null;
     }
 
+    public function podsetnik()
+    {
+
+           $sql = "SELECT * FROM {$this->table()}
+                WHERE zauzet = 0 AND odlozen = 0 AND created_at < now() - interval 15 DAY
+                ORDER BY created_at ASC;";
+
+            return $this->fetch($sql);
+    }
+
     public function __toString()
     {
         return 'Podaci iz modela: sala_id:' . $this->sala_id .

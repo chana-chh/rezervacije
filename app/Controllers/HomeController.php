@@ -13,7 +13,9 @@ class HomeController extends Controller
 {
     public function getHome($request, $response)
     {
-        $this->render($response, 'home.twig');
+        $model_termin = new Termin();
+        $podsetnik = $model_termin->podsetnik();
+        $this->render($response, 'home.twig', compact('podsetnik'));
     }
 
     public function getKalendar($request, $response)
