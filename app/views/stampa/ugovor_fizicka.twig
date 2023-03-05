@@ -10,42 +10,42 @@
 		<h4 class="text-center">UGOVOR O PRUŽANJU UGOSTITELJSKIH USLUGA</h4>
 
 		<p>
-			Zaključen dana {{ ugovor.datum | date() }}. godine, između ugovornih strana:
+			Zaključen dana {{ ugovor.datum|date() }}. godine, između ugovornih strana:
 		</p>
 		<ol class="mb-5">
 			<li>
-				<strong>EXCLUSIVE EVENT CENTER DOO KRAGUJEVAC,</strong>
+				<strong>BANJA KOMERC BEKAMENT DOO BANJA OGRANAK EXCLUSIVE EVENT CENTER + KRAGUJEVAC,</strong>
 				sa sedištem u <em>Kragujevcu</em>, na adresi <em>Miodraga Vlajića Šuke bb</em>,
-				matični broj <em>20079398</em>, PIB <em>104081435</em>,
-				tekući račun <em>160-0000000240392-95</em> kod <em>Banca Intesa</em>,
+				matični broj <em>06056091</em>, PIB <em>100997773</em>,
+				tekući račun <em>160-6000001521165-16</em> kod <em>Banca Intesa</em>,
 				koga zastupa direktor <em>Aleksandar Čolović</em> kao davalac usluga
-				(u daljem tekstu : <strong>Davalac usluga</strong>), i
+				(u daljem tekstu: <strong>Davalac usluga</strong>), i
 			</li>
 			<li>
 				<strong>{{ ugovor.ime }} {{ ugovor.prezime }}</strong> iz <em>{{ ugovor.mesto_firme }}</em>,
-				ulica <em>{{ ugovor.adresa_firme }}</em>, JMBG: <em>_________________________</em>,
-				kao korisnik usluga (u daljem tekstu : <strong>Korisnik usluga</strong>).
+				ulica <em>{{ ugovor.adresa_firme }}</em>, JMBG: <em>{{ ugovor.jmbg }}</em>,
+				kao korisnik usluga (u daljem tekstu: <strong>Korisnik usluga</strong>).
 			</li>
 		</ol>
 		<h5 class="text-center"><em>Član 1</em></h5>
 		<p>
 			Ovim ugovorom ugovorne strane međusobno regulišu prava i obaveze povodom održavanja svečanosti
-			"{{ ugovor.termin().opis }}" dana {{ ugovor.termin().datum | date() }}. godine u svečanoj Sali
-			"{{ ugovor.termin().sala().naziv }}" u sklopu poslovnog objekta "Exclusive Event Center" u Kragujevcu,
-			ulica Miodraga Vlajića Šuke bb.
+			"{{ ugovor.termin().tip().tip }}" dana {{ ugovor.termin().datum|date() }}. godine u svečanoj sali
+			"{{ ugovor.termin().sala().naziv }}" u sklopu poslovnog objekta "BANJA KOMERC BEKAMENT DOO BANJA
+			OGRANAK EXCLUSIVE EVENT CENTER + KRAGUJEVAC" u Kragujevcu, ulica Miodraga Vlajića Šuke bb.
 		</p>
 		<h5 class="text-center"><em>Član 2</em></h5>
 		<p>
 			Davalac usluga se obavezuje da za račun Korisnika usluga pripremi i servisira hranu i toči piće za ukupno
-			{{ ugovor.broj_mesta }} osoba u vremenu od {{ ugovor.termin().pocetak | date('H:i') }} časova
-			{{ ugovor.termin().datum | date() }}. godine do __________ časova ________________________. godine,
+			{{ ugovor.broj_mesta }} osoba u vremenu od {{ ugovor.termin().pocetak|date('H:i') }} časova
+			{{ ugovor.termin().datum|date() }}. godine do __________ časova ________________________. godine,
 			a prema set meniju "{{ ugovor.meni().naziv }}" i otvorenom šanku. Sadržaj set menija i bifea su sastavni
 			deo ovog ugovora.
 		</p>
 		<p>
 			Naknada za pružanje ugostiteljskih usluga iz prethodnog stava po jednoj osobi iznosi
-			{{ ugovor.meni().cena | number_format() }} dinara, odnosno u ukupnom iznosu od
-			{{ ugovor.iznos | number_format() }} dinara.
+			{{ ugovor.meni().cena|number_format() }} dinara.
+			{# , odnosno u ukupnom iznosu od {{ ugovor.iznos | number_format() }} dinara. #}
 		</p>
 		<p>
 			Korisnik usluga je finansiji dužnik po ovom ugovoru i jedino je odgovorno i ovlašćeno lice za prijavu
@@ -58,7 +58,7 @@
 		</p>
 		<p>
 			Korisnik usluga se obavezuje da najkasnije 5 dana pre održavanja svečanosti u pisanom obliku dostavi
-			tačan broj osoba (gostiju) za koje se ugostiteljska usluga odnosi (uz toleranciju do -10 % prisutnih
+			tačan broj osoba (gostiju) za koje se ugostiteljska usluga odnosi (uz toleranciju do -5 % prisutnih
 			gostiju u odnosu na konačan prijavljen broj gostiju), uvećano za broj članova muzičkog orkestra i drugih
 			osoba koje su angažovane od strane Korisnika usluga na svečanosti, a konzumenti su jelovnika.
 		</p>
@@ -107,14 +107,18 @@
 		<h5 class="text-center"><em>Član 6</em></h5>
 		<p>
 			Korisnik usluga se obavezuje da o svom trošku obezbedi muzički program i snosi troškove poreza i
-			doprinosa (porez na dohodak građana, doprinos za PIO, porez na zaradu i dr.) u skladu sa Zakonom
-			i da o tome obavesti nadležne organe.
+			doprinosa (porez na dohodak građana, doprinos za PIO, porez na zaradu i dr.) u skladu sa Članom 100/A
+			Zakona o porezu na dohodak građana.
 		</p>
 		<p>
+			Korisnik usluga je saglasan da snosi troškove autorske naknade za javno izvođenje muzičkih dela
+			prema važećim tarifama.
+		</p>
+		{# <p>
 			Korisnik usluga je u obavezi da sa muzičarima (koji moraju posedovati licencu za umetnike) zaključi
 			ugovor o nastupanju i dostavi kopiju istog Davaocu usluge pre početka svečanosti. Ukoliko izvođać ne
 			ispunjava zakonske uslove, sve finansije i prekršajne posledice padaju na teret Korisika usluga.
-		</p>
+		</p> #}
 		<h5 class="text-center"><em>Član 7</em></h5>
 		<p>
 			Ugovorne strane su se sporazumele da su lom i oštećenje inventara i drugih sredstava u poslovnom
@@ -147,9 +151,12 @@
 	<div class="col-12">
 		<h5 class="text-center"><em>Član 9</em></h5>
 		<p>
+			Korisnik usluga može angažovati po svom izboru, o svom trošku, dekoratera sale i fotografa.
+		</p>
+		{# <p>
 			Korisnik usluga može angažovati o svom trošku dekoratera sale po svom izboru, dok su usluge fotografisanja
 			i snimanja ekskluzivno poverene firmi Foto studio „Ilić“ Topola, o trošku Korisnika usluga.
-		</p>
+		</p> #}
 		<h5 class="text-center"><em>Član 10</em></h5>
 		<p>
 			Ovaj ugovor je sačinjen u 3 istovetna primerka, od kojih je jedan za Korisnika usluga, a 2 za Davaoca
@@ -172,7 +179,7 @@
 <hr>
 <div class="row mt-5 mb-5">
 	<div class="col-12">
-		Ugovorne strane ovim potvrđuju da je dana _____ / _____ / __________. godine, svečanosti iz Člana 1
+		Ugovorne strane ovim potvrđuju da je dana {{ ugovor.termin().datum|date() }}. godine, svečanosti iz Člana 1
 		ovog ugovora, prisustvovalo ukupno __________ gostiju.
 	</div>
 </div>
@@ -187,16 +194,81 @@
 		___________________________________
 	</div>
 </div>
+
+
+<div class="prn-page-break"></div>
+<div class="row prn-strana">
+	<div class="col-12">
+		<h4 class="text-center">ZAPISNIK</h4>
+		<h5 class="text-center">o utvrđenom brojnom stanju gostiju sa specifikacijom pruženih usluga i stavkama za naplatu</h5>
+		<br><br>
+		<p>Korisnik usluga: {{ ugovor.ime }} {{ ugovor.prezime }}, {{ ugovor.adresa_firme }}, {{ ugovor.mesto_firme }}</p>
+		<p>Mesto i adresa održavanja događaja: Kragujevac, Miodraga Vlajića Šuke bb</p>
+		<p>Sala: {{ ugovor.termin().sala().naziv }}</p>
+		<p>Datum: {{ ugovor.termin().datum|date() }}. godine</p>
+		<p>Veza: {{ ugovor.broj_ugovora }} od dana {{ ugovor.datum|date() }}. godine</p>
+		<p>Broj ugovorenih mesta: {{ ugovor.broj_mesta }}</p>
+		<p>Broj prisutnih gostiju, konzumenata menija: __________</p>
+		<p>Ugovorena cena menija : {{ ugovor.meni().cena|number_format() }} dinara</p>
+		<p>Specifikacija menija: "{{ ugovor.meni().naziv }}":</p>
+		<table class="table">
+			<thead>
+			<tr>
+				<th class="w-30">Hrana</th>
+				<th class="w-30">Piće</th>
+				<th class="w-40">Ostale usluge</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>
+					<br>___________________________________<br><br>
+					___________________________________<br><br>
+					___________________________________
+				</td>
+				<td>
+					<br>___________________________________<br><br>
+					___________________________________<br><br>
+					___________________________________
+				</td>
+				<td>
+					<br>__________________________________________________<br><br>
+					__________________________________________________<br><br>
+					__________________________________________________
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<br>
+		<h5 class="text-right">UKUPNO ZA NAPLATU : __________________________ dinara</h5>
+		<br><br>
+		<p>Saglasni sa gore navedenim podacima:</p><br><br>
+	</div>
+	<div class="col-4 text-center">
+		Davalac usluga<br><br><br>
+		___________________________________
+	</div>
+	<div class="col-4"></div>
+	<div class="col-4 text-center">
+		Korisnik usluga<br><br><br>
+		___________________________________
+	</div>
+</div>
+
 <footer class="text-center prn-footer w-100">
 	<hr>
-	<h5>Exclusive Event Center DOO</h5>
-	<p>Miodraga Vlajića Šuke bb. 34300 Kragujevac | +381 61 1912 357<br>
+	<h5>Banja Komerc Bekament DOO Banja ogranak Exclusive Event Center + Kragujevac</h5>
+	<p>
 		<small>
+		Miodraga Vlajića Šuke 18 A 34000 Kragujevac | <strong>Telefon:</strong> +381 61 1912 357 |
+		<strong>Mobilni:</strong> +381 63 661 700 | <strong>Mobilni: +381 63 318 700</strong><br>
 			<strong>Tekući račun:</strong> 160-0000000240392-95 Banca Intesa |
 			<strong>Matični broj:</strong> 20079398 |
 			<strong>Šifra delatnosti:</strong> 5610 |
 			<strong>PIB:</strong> 104081435
 		</small>
+		<br>
+		www.exclusive-event.rs | info@exclusive-event.rs
 	</p>
 </footer>
 {% endblock sadrzaj %}
