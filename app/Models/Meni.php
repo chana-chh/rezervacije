@@ -22,6 +22,7 @@ class Meni extends Model
     {
         return 'Podaci iz modela: naziv:' . $this->naziv .
         		', hladno_predjelo:' . $this->hladno_predjelo .
+                ', organizator:' . $this->organizator .
         		', sirevi:' . $this->sirevi .
         		', corba:' . $this->corba .
         		', glavno_jelo:' . $this->glavno_jelo .

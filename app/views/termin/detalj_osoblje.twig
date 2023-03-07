@@ -90,6 +90,13 @@ naslov %}
   <div class="col-md-12" style="font-size: 0.875rem;">
     <ul class="list-group list-group-horizontal-md ">
       <li class="list-group-item flex-fill">
+        <p class="font-italic text-success">Organizator donosi:</p>
+        {% set org = ugovor.meni.organizator|split(',')%}
+          {% for o in org %}
+            {{o}}<br>
+          {% endfor %}
+      </li>
+      <li class="list-group-item flex-fill">
         <p class="font-italic text-success">Hladno predjelo:</p>
         {% set predjela = ugovor.meni.hladno_predjelo|split(',')%}
           {% for p in predjela %}

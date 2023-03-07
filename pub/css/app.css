@@ -12,6 +12,14 @@ html, body {
   flex-shrink: none;
 }
 
+.w-3 {
+  width: 3% !important;
+}
+
+.w-4 {
+  width: 4% !important;
+}
+
 .w-5 {
   width: 5% !important;
 }

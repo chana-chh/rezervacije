@@ -64,6 +64,14 @@ class MeniController extends Controller
             if ($where !== " WHERE ") {
                 $where .= " OR ";
             }
+            $where .= "organizator LIKE :organizator";
+            $params[':organizator'] = $upit;
+        }
+
+        if (!empty($data['upit'])) {
+            if ($where !== " WHERE ") {
+                $where .= " OR ";
+            }
             $where .= "sirevi LIKE :sirevi";
             $params[':sirevi'] = $upit;
         }
@@ -150,6 +158,7 @@ class MeniController extends Controller
         ];
 
         $data['hladno_predjelo'] = rtrim($data['hladno_predjelo']);
+        $data['organizator'] = rtrim($data['organizator']);
         $data['sirevi'] = rtrim($data['sirevi']);
         $data['corba'] = rtrim($data['corba']);
         $data['glavno_jelo'] = rtrim($data['glavno_jelo']);
@@ -158,6 +167,7 @@ class MeniController extends Controller
         $data['karta_pica'] = rtrim($data['karta_pica']);
 
         $data['hladno_predjelo'] = rtrim($data['hladno_predjelo'], ';');
+        $data['organizator'] = rtrim($data['organizator'], ';');
         $data['sirevi'] = rtrim($data['sirevi'], ';');
         $data['corba'] = rtrim($data['corba'], ';');
         $data['glavno_jelo'] = rtrim($data['glavno_jelo'], ';');

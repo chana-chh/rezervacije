@@ -84,17 +84,18 @@
 <table class="table table-hover table-sm">
   <thead class="thead-dark">
     <tr>
-      <th class="w-3" scope="col">ID</th>
-      <th class="w-11" scope="col">Naziv</th>
-      <th class="w-7" scope="col">Cena</th>
-      <th class="w-10" scope="col">Hladno predjelo</th>
-      <th class="w-10" scope="col">Sirevi</th>
-      <th class="w-11" scope="col">Čorba</th>
-      <th class="w-11" scope="col">Glavno jelo</th>
+      <th class="w-4" scope="col">ID</th>
+      <th class="w-10" scope="col">Naziv</th>
+      <th class="w-8" scope="col">Cena</th>
+      <th class="w-8" scope="col">Organizator donosi</th>
+      <th class="w-8" scope="col">Hladno predjelo</th>
+      <th class="w-8" scope="col">Sirevi</th>
+      <th class="w-10" scope="col">Čorba</th>
+      <th class="w-10" scope="col">Glavno jelo</th>
       <th class="w-10" scope="col">Meso</th>
-      <th class="w-10" scope="col">Hleb</th>
-      <th class="w-10" scope="col">Karta pića</th>
-      <th class="w-7" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
+      <th class="w-8" scope="col">Hleb</th>
+      <th class="w-8" scope="col">Karta pića</th>
+      <th class="w-8" scope="col" style="text-align:right;"><i class="fas fa-cogs text-warning"></i></th>
     </tr>
   </thead>
   <tbody>
@@ -108,6 +109,7 @@
           </strong>
       </td>
       <td class="text-success">{{ me.cena|number_format(2, '.', ',')}}</td>
+      <td><small>{{ me.organizator|nl2br }}</small></td>
       <td><small>{{ me.hladno_predjelo|nl2br }}</small></td>
       <td><small>{{ me.sirevi|nl2br }}</small></td>
       <td><small>{{ me.corba|nl2br }}</small></td>

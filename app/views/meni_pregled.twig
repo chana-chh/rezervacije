@@ -56,22 +56,22 @@
 </div>
 <div class="row justify-content-center mobilni">
   <div class="col-5 bg-light text-dark">
+    {# Organizator #}
+    {% if meni.organizator %}
+    <h3 class="font-italic">Organizator donosi</h3>
+    <hr style="border-top: 1px dotted #8c8b8b">
+    {% set organ = meni.organizator|split(';')%}
+    <ul>
+      {% for o in organ %}
+      <li>{{o}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
     {# Predjelo #}
     {% if meni.hladno_predjelo %}
     <h3 class="font-italic">Hladno predjelo</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.hladno_predjelo|split(';')%}
-    <ul>
-      {% for p in predjela %}
-      <li>{{p}}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    {# Sirevi #}
-    {% if meni.sirevi %}
-    <h3 class="font-italic">Sirevi</h3>
-    <hr style="border-top: 1px dotted #8c8b8b">
-    {% set predjela = meni.sirevi|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
@@ -118,6 +118,17 @@
     <h3 class="font-italic">Hleb</h3>
     <hr style="border-top: 1px dotted #8c8b8b">
     {% set predjela = meni.hleb|split(';')%}
+    <ul>
+      {% for p in predjela %}
+      <li>{{p}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {# Sirevi #}
+    {% if meni.sirevi %}
+    <h3 class="font-italic">Sirevi</h3>
+    <hr style="border-top: 1px dotted #8c8b8b">
+    {% set predjela = meni.sirevi|split(';')%}
     <ul>
       {% for p in predjela %}
       <li>{{p}}</li>
