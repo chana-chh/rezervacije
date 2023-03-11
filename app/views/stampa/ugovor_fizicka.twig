@@ -11,37 +11,20 @@
 
 			<p>
 				Zaključen dana
-				{{ ugovor.datum|date() }}. godine, između ugovornih strana:
+				{{ "now"|date() }}. godine, između ugovornih strana:
 			</p>
 			<ol class="mb-5">
 				<li>
 					<strong>BANJA KOMERC BEKAMENT DOO BANJA OGRANAK EXCLUSIVE EVENT CENTER + KRAGUJEVAC,</strong>
-					sa sedištem u
-					<em>Kragujevcu</em>, na adresi
-					<em>Miodraga Vlajića Šuke bb</em>,
-					matični broj
-					<em>06056091</em>, PIB
-					<em>100997773</em>,
-					tekući račun
-					<em>160-6000001521165-16</em>
-					kod
-					<em>Banca Intesa</em>,
-					koga zastupa direktor
-					<em>Aleksandar Čolović</em>
-					kao davalac usluga
-					(u daljem tekstu:
-					<strong>Davalac usluga</strong>), i
+					sa sedištem u <em>Kragujevcu</em>, na adresi <em>Miodraga Vlajića Šuke bb</em>,
+					matični broj <em>06056091</em>, PIB <em>100997773</em>,
+					tekući račun <em>160-6000001521165-16</em> kod <em>Banca Intesa</em>,
+					koga zastupa direktor <em>Aleksandar Čolović</em> kao davalac usluga (u daljem tekstu: <strong>Davalac usluga</strong>), i
 				</li>
 				<li>
-					<strong>{{ ugovor.ime }}
-						{{ ugovor.prezime }}</strong>
-					iz
-					<em>{{ ugovor.mesto_firme }}</em>,
-																ulica
-					<em>{{ ugovor.adresa_firme }}</em>, JMBG:
-					<em>{{ ugovor.jmbg }}</em>,
-																kao korisnik usluga (u daljem tekstu:
-					<strong>Korisnik usluga</strong>).
+					<strong>{{ ugovor.ime }} {{ ugovor.prezime }}</strong> iz <em>{{ ugovor.mesto_firme }}</em>,
+					ulica <em>{{ ugovor.adresa_firme }}</em>, JMBG: <em>{{ ugovor.jmbg }}</em>,
+					kao korisnik usluga (u daljem tekstu: <strong>Korisnik usluga</strong>).
 				</li>
 			</ol>
 			<h5 class="text-center">
@@ -49,58 +32,50 @@
 			</h5>
 			<p>
 				Ovim ugovorom ugovorne strane međusobno regulišu prava i obaveze povodom održavanja svečanosti
-											"{{ ugovor.termin().tip().tip }}" dana
-				{{ ugovor.termin().datum|date() }}. godine u svečanoj sali
-											"{{ ugovor.termin().sala().naziv }}" u sklopu poslovnog objekta "BANJA KOMERC BEKAMENT DOO BANJA
-											OGRANAK EXCLUSIVE EVENT CENTER + KRAGUJEVAC" u Kragujevcu, ulica Miodraga Vlajića Šuke bb.
+				"{{ ugovor.termin().tip().tip }}" dana {{ ugovor.termin().datum|date() }}. godine u svečanoj sali
+				"{{ ugovor.termin().sala().naziv }}" u sklopu poslovnog objekta "BANJA KOMERC BEKAMENT DOO BANJA
+				OGRANAK EXCLUSIVE EVENT CENTER + KRAGUJEVAC" u Kragujevcu, ulica Miodraga Vlajića Šuke bb.
 			</p>
 			<h5 class="text-center">
 				<em>Član 2</em>
 			</h5>
 			<p>
 				Davalac usluga se obavezuje da za račun Korisnika usluga pripremi i servisira hranu i toči piće za ukupno
-				{{ ugovor.broj_mesta }}
-				osoba u vremenu od
-				{{ ugovor.termin().pocetak|date('H:i') }}
-				časova
-				{{ ugovor.termin().datum|date() }}. godine do __________ časova ________________________. godine,
-											a prema set meniju "{{ ugovor.meni().naziv }}" i otvorenom šanku. Sadržaj set menija i bifea su sastavni
-											deo ovog ugovora.
+				__________ osoba u vremenu od {{ ugovor.termin().pocetak|date('H:i') }} časova {{ ugovor.termin().datum|date() }}. godine
+				do __________ časova ________________________. godine, a prema set meniju "_______________" i otvorenom šanku.
+				Sadržaj set menija i bifea su sastavni deo ovog ugovora.
 			</p>
 			<p>
-				Naknada za pružanje ugostiteljskih usluga iz prethodnog stava po jednoj osobi iznosi
-				{{ ugovor.meni().cena|number_format() }}
-				dinara.
-				{# , odnosno u ukupnom iznosu od {{ ugovor.iznos | number_format() }} dinara. #}
+				Naknada za pružanje ugostiteljskih usluga iz prethodnog stava po jednoj osobi iznosi _______________ dinara.
 			</p>
 			<p>
 				Korisnik usluga je finansiji dužnik po ovom ugovoru i jedino je odgovorno i ovlašćeno lice za prijavu
-											broja i obračun gostiju i eventualno otkazivanje usluga.
+				broja i obračun gostiju i eventualno otkazivanje usluga.
 			</p>
 			<h5 class="text-center">
 				<em>Član 3</em>
 			</h5>
 			<p>
 				Korisnik usluga neopozivo naručuje ugostiteljske usluge iz prethodnog člana ovog ugovora i iste
-											ne može otkazati bez saglasnosti Davaoca usluga.
+				ne može otkazati bez saglasnosti Davaoca usluga.
 			</p>
 			<p>
 				Korisnik usluga se obavezuje da najkasnije 5 dana pre održavanja svečanosti u pisanom obliku dostavi
-											tačan broj osoba (gostiju) za koje se ugostiteljska usluga odnosi (uz toleranciju do -5 % prisutnih
-											gostiju u odnosu na konačan prijavljen broj gostiju), uvećano za broj članova muzičkog orkestra i drugih
-											osoba koje su angažovane od strane Korisnika usluga na svečanosti, a konzumenti su jelovnika.
+				tačan broj osoba (gostiju) za koje se ugostiteljska usluga odnosi (uz toleranciju do -5 % prisutnih
+				gostiju u odnosu na konačan prijavljen broj gostiju), uvećano za broj članova muzičkog orkestra i drugih
+				osoba koje su angažovane od strane Korisnika usluga na svečanosti, a konzumenti su jelovnika.
 			</p>
 			<p>
 				Ukoliko prisustvuje veći broj gostiju od prijavljenog broja, obračun će biti sačinjen prema broju
-											prisutnih gostiju u restoranu.
+				prisutnih gostiju u restoranu.
 			</p>
 			<p>
 				Korisnik usluga i Davalac usluga se obavezuju da po završetku svečanosti, istog dana medjusobno
-											usaglase tačan broj prisutnih gostiju.
+				usaglase tačan broj prisutnih gostiju.
 			</p>
 			<p>
 				Korisnik usluga se obavezuje da usluge iz Člana 2 ovog Ugovora izmiri uplatom na račun Davaoca usluga
-											najkasnije prvog radnog dana po održavanju svečanosti.
+				najkasnije prvog radnog dana po održavanju svečanosti.
 			</p>
 		</div>
 	</div>
@@ -112,72 +87,67 @@
 			</h5>
 			<p>
 				Ukoliko Korisnik usluga otkaže ugovorenu svečanost, dužan je da u roku od 3 (tri) dana od dana
-											otkazivanja svečanosti Davaocu usluga nadoknadi iznos u vrednosti od 10 % ukupno ugovorenog iznosa
-											iz Člana 2, stav 2, ovog ugovora.
+				otkazivanja svečanosti Davaocu usluga nadoknadi iznos u vrednosti od 10 % ukupno ugovorenog iznosa
+				iz Člana 2, stav 2, ovog ugovora.
 			</p>
 			<p>
 				Otkazivanje svečanosti se može izvršiti isključivo u pisanom (štampanom) obliku, uz overu svih
-											ugovornih strana.
+				ugovornih strana.
 			</p>
 			<h5 class="text-center">
 				<em>Član 5</em>
 			</h5>
 			<p>
 				Davalac usluga se obavezuje da servira dezerte (torte i kolači) koje donese Korisnik usluga, dok je
-											strogo zabranjeno unošenje druge vrste hrane van ugovorene.
+				strogo zabranjeno unošenje druge vrste hrane van ugovorene.
 			</p>
 			<p>
 				Korisnik usluga snosi odgovornost za higijensko-sanitarnu i veterinarsku ispravnost hrane koje donese
-											na svečanost u cilju služenja gostiju istim.
+				na svečanost u cilju služenja gostiju istim.
 			</p>
 			<p>
 				Korisniku usluga je zabranjeno unošenje životnih namirnica, gotovih jela i poslastica koje su bez
-											propisane deklaracije i koje su pripremljene od neidentifikovanog i neovlašćenog proizvodjača,
-											izrađene u kućnoj radinosti i sl. (prema Rešenju br.530-53-1077/2006-04 Sektora za sanitarni nadzor
-											i javno zdravlje, odeljenja Sanitarne inspekcije u Kragujevcu).
+				propisane deklaracije i koje su pripremljene od neidentifikovanog i neovlašćenog proizvodjača,
+				izrađene u kućnoj radinosti i sl. (prema Rešenju br.530-53-1077/2006-04 Sektora za sanitarni nadzor
+				i javno zdravlje, odeljenja Sanitarne inspekcije u Kragujevcu).
 			</p>
 			<h5 class="text-center">
 				<em>Član 6</em>
 			</h5>
 			<p>
 				Korisnik usluga se obavezuje da o svom trošku obezbedi muzički program i snosi troškove poreza i
-											doprinosa (porez na dohodak građana, doprinos za PIO, porez na zaradu i dr.) u skladu sa Članom 100/A
-											Zakona o porezu na dohodak građana.
+				doprinosa (porez na dohodak građana, doprinos za PIO, porez na zaradu i dr.) u skladu sa Članom 100/A
+				Zakona o porezu na dohodak građana.
 			</p>
 			<p>
 				Korisnik usluga je saglasan da snosi troškove autorske naknade za javno izvođenje muzičkih dela
-											prema važećim tarifama.
+				prema važećim tarifama.
 			</p>
-			{# <p>
-									Korisnik usluga je u obavezi da sa muzičarima (koji moraju posedovati licencu za umetnike) zaključi
-									ugovor o nastupanju i dostavi kopiju istog Davaocu usluge pre početka svečanosti. Ukoliko izvođać ne
-									ispunjava zakonske uslove, sve finansije i prekršajne posledice padaju na teret Korisika usluga.
-								</p> #}
 			<h5 class="text-center">
 				<em>Član 7</em>
 			</h5>
 			<p>
 				Ugovorne strane su se sporazumele da su lom i oštećenje inventara i drugih sredstava u poslovnom
-											objektu davaoca usluga strogo zabranjeni i u slučaju da isti prouzrokuju gosti korisnika usluga,
-											korisnik usluga je u obavezi da nadoknadi nastalu štetu davaocu usluga u skladu sa cenovnikom koji
-											je sastavni deo ovog ugovora.
+				objektu davaoca usluga strogo zabranjeni i u slučaju da isti prouzrokuju gosti korisnika usluga,
+				korisnik usluga je u obavezi da nadoknadi nastalu štetu davaocu usluga u skladu sa cenovnikom koji
+				je sastavni deo ovog ugovora.
 			</p>
 			<h5 class="text-center">
 				<em>Član 8</em>
 			</h5>
 			<p>
 				Davalac usluga se obavezuje da obezbedi održavanje reda u poslovnom prostoru. U slučaju da gosti remete
-											red u poslovnom prostoru, boravak drugih gostiju, kao i rad osoblja, Davalac usluga ima pravo da udalji
-											gosta iz objekta, odnosno prekine svečanost uz prethodno upozorenje Korisniku usluga, s tim što je
-											Korisnik usluga obavezan da izmiri celokupan iznos naknade za pružene ugostiteljske usluge bez obzira što
-											je svečanost krivicom Korisnika usluga kraće trajala od predviđene.
+				red u poslovnom prostoru, boravak drugih gostiju, kao i rad osoblja, Davalac usluga ima pravo da udalji
+				gosta iz objekta, odnosno prekine svečanost uz prethodno upozorenje Korisniku usluga, s tim što je
+				Korisnik usluga obavezan da izmiri celokupan iznos naknade za pružene ugostiteljske usluge bez obzira što
+				je svečanost krivicom Korisnika usluga kraće trajala od predviđene.
 			</p>
 			<p>
 				U slučaju teže povrede javnog reda i mira, Davalac usluga je dužan pozvati organe reda.
 			</p>
 			<p>
 				Za novac i dragocenosti gostiju u poslovnom objektu stara se sam gost, a za eventualni njihov nestanak
-											odgovoran je Korisnik usluga.
+				odgovoran je Korisnik usluga.
 			</p>
 			<p>
 				U slučaju da dodje do telesne povrede gosta, svu odgovornost snosi Korisnik usluga.
@@ -193,16 +163,11 @@
 			<p>
 				Korisnik usluga može angažovati po svom izboru, o svom trošku, dekoratera sale i fotografa.
 			</p>
-			{# <p>
-									Korisnik usluga može angažovati o svom trošku dekoratera sale po svom izboru, dok su usluge fotografisanja
-									i snimanja ekskluzivno poverene firmi Foto studio „Ilić“ Topola, o trošku Korisnika usluga.
-								</p> #}
 			<h5 class="text-center">
 				<em>Član 10</em>
 			</h5>
 			<p>
-				Ovaj ugovor je sačinjen u 3 istovetna primerka, od kojih je jedan za Korisnika usluga, a 2 za Davaoca
-											usluga.
+				Ovaj ugovor je sačinjen u 3 istovetna primerka, od kojih je jedan za Korisnika usluga, a 2 za Davaoca usluga.
 			</p>
 		</div>
 	</div>
@@ -221,9 +186,8 @@
 	<hr>
 	<div class="row mt-5 mb-5">
 		<div class="col-12">
-			Ugovorne strane ovim potvrđuju da je dana
-			{{ ugovor.termin().datum|date() }}. godine, svečanosti iz Člana 1
-								ovog ugovora, prisustvovalo ukupno __________ gostiju.
+			Ugovorne strane ovim potvrđuju da je dana {{ ugovor.termin().datum|date() }}. godine, svečanosti iz Člana 1
+			ovog ugovora, prisustvovalo ukupno __________ gostiju.
 		</div>
 	</div>
 	<div class="row">
@@ -245,27 +209,18 @@
 			<h4 class="text-center">ZAPISNIK</h4>
 			<h5 class="text-center">o utvrđenom brojnom stanju gostiju sa specifikacijom pruženih usluga i stavkama za naplatu</h5>
 			<br><br>
-			<p>Korisnik usluga:
-				{{ ugovor.ime }}
-				{{ ugovor.prezime }},
-				{{ ugovor.adresa_firme }},
-				{{ ugovor.mesto_firme }}</p>
+			<p>
+				Korisnik usluga:
+				{{ ugovor.ime }} {{ ugovor.prezime }}, {{ ugovor.adresa_firme }}, {{ ugovor.mesto_firme }}
+			</p>
 			<p>Mesto i adresa održavanja događaja: Kragujevac, Miodraga Vlajića Šuke bb</p>
-			<p>Sala:
-				{{ ugovor.termin().sala().naziv }}</p>
-			<p>Datum:
-				{{ ugovor.termin().datum|date() }}. godine</p>
-			<p>Veza:
-				{{ ugovor.broj_ugovora }}
-				od dana
-				{{ ugovor.datum|date() }}. godine</p>
-			<p>Broj ugovorenih mesta:
-				{{ ugovor.broj_mesta }}</p>
+			<p>Sala: {{ ugovor.termin().sala().naziv }}</p>
+			<p>Datum: {{ ugovor.termin().datum|date() }}. godine</p>
+			<p>Veza: _____________________ od dana {{ "now"|date() }}. godine</p>
+			<p>Broj ugovorenih mesta: __________</p>
 			<p>Broj prisutnih gostiju, konzumenata menija: __________</p>
-			<p>Ugovorena cena menija :
-				{{ ugovor.meni().cena|number_format() }}
-				dinara</p>
-			<p>Specifikacija menija: "{{ ugovor.meni().naziv }}":</p>
+			<p>Ugovorena cena menija : _____________________ dinara</p>
+			<p>Specifikacija menija: "_____________________":</p>
 			<table class="table">
 				<thead>
 					<tr>
@@ -314,22 +269,13 @@
 		<hr>
 		<h5>Banja Komerc Bekament DOO Banja ogranak Exclusive Event Center + Kragujevac</h5>
 		<p>
+			Miodraga Vlajića Šuke 18 A 34000 Kragujevac |
+			<strong>Telefon:</strong> +381 63 318 700<br>
 			<small>
-				Miodraga Vlajića Šuke 18 A 34000 Kragujevac |
-				<strong>Telefon:</strong>
-				+381 61 1912 357 |
-				<strong>Mobilni:</strong>
-				+381 63 661 700 |
-				<strong>Mobilni:</strong>
-				+381 63 318 700<br>
-				<strong>Tekući račun:</strong>
-				160-6000001521165-16 Banca Intesa |
-				<strong>Matični broj:</strong>
-				06056091 |
-				<strong>Šifra delatnosti:</strong>
-				5610 |
-				<strong>PIB:</strong>
-				100997773
+				<strong>Tekući račun:</strong> 160-6000001521165-16 Banca Intesa |
+				<strong>Matični broj:</strong> 06056091 |
+				<strong>Šifra delatnosti:</strong> 5610 |
+				<strong>PIB:</strong> 100997773
 			</small>
 			<br>
 			www.exclusive-event.rs | info@exclusive-event.rs

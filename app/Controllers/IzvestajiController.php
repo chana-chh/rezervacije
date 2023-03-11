@@ -53,25 +53,25 @@ class IzvestajiController extends Controller
             ];
 
             $sql = "SELECT ter.sala_id, sale.naziv, ter.datum,
-                            SUM(ugo.ug_broj_mesta) AS broj_mesta,
-                            SUM(ugo.ug_meni_cena) AS cena_menija,
-                            (SUM(ugo.ug_meni_cena) / SUM(ugo.ug_broj_mesta)) AS prosecna_cena_menija,
-                            SUM(ugo.ug_iznos) AS iznos,
-                            SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
-                            (SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug
-                    FROM termini AS ter
-                    JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
-                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos, (ug.broj_mesta * meni.cena) AS ug_meni_cena
-                        FROM ugovori AS ug
-                        LEFT JOIN
-                            (SELECT uplate.ugovor_id, uplate.iznos AS uplate_iznos
-                                FROM uplate) AS up
-                        ON up.ugovor_id = ug.id
-                        LEFT JOIN s_meniji AS meni ON meni.id = ug.meni_id) AS ugo
-                    ON ugo.termin_id = ter.id
-                    JOIN sale ON sale.id = ter.sala_id
-                    WHERE ter.datum BETWEEN :od AND :do
-                    GROUP BY ter.sala_id;";
+							SUM(ugo.ug_broj_mesta) AS broj_mesta,
+							SUM(ugo.ug_meni_cena) AS cena_menija,
+							(SUM(ugo.ug_meni_cena) / SUM(ugo.ug_broj_mesta)) AS prosecna_cena_menija,
+							SUM(ugo.ug_iznos) AS iznos,
+							SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
+							(SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug
+					FROM termini AS ter
+					JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
+								IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos, (ug.broj_mesta * meni.cena) AS ug_meni_cena
+						FROM ugovori AS ug
+						LEFT JOIN
+							(SELECT uplate.ugovor_id, SUM(uplate.iznos) AS uplate_iznos
+								FROM uplate GROUP BY uplate.ugovor_id) AS up
+						ON up.ugovor_id = ug.id
+						LEFT JOIN s_meniji AS meni ON meni.id = ug.meni_id GROUP BY ug.id) AS ugo
+					ON ugo.termin_id = ter.id
+					JOIN sale ON sale.id = ter.sala_id
+					WHERE ter.datum BETWEEN :od AND :do
+					GROUP BY ter.sala_id;";
             $model = new Tabela();
             $izvestaj = $model->fetch($sql, $params);
             $zbir_mesta = 0;
@@ -141,21 +141,21 @@ class IzvestajiController extends Controller
             ];
 
             $sql = "SELECT ter.tip_dogadjaja_id, s_tip_dogadjaja.tip, ter.datum, SUM(ugo.ug_broj_mesta) AS broj_mesta,
-                        SUM(ugo.ug_iznos) AS iznos, SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
-                        (SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug,
-                        SUM(ugo.ug_meni_cena) AS cena_menija,
-                        (SUM(ugo.ug_meni_cena) / SUM(ugo.ug_broj_mesta)) AS prosecna_cena_menija
-                    FROM termini AS ter
-                    JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
-                                IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos, (ug.broj_mesta * meni.cena) AS ug_meni_cena
-                        FROM ugovori AS ug
-                        LEFT JOIN
-                            (SELECT uplate.ugovor_id, uplate.iznos AS uplate_iznos
-                                FROM uplate) AS up
-                        ON up.ugovor_id = ug.id
-                        LEFT JOIN s_meniji AS meni ON meni.id = ug.meni_id) AS ugo
-                    ON ugo.termin_id = ter.id
-                    JOIN s_tip_dogadjaja ON s_tip_dogadjaja.id = ter.tip_dogadjaja_id
+						SUM(ugo.ug_iznos) AS iznos, SUM(ugo.ug_uplate_iznos) AS uplate_iznos,
+						(SUM(ugo.ug_iznos) - SUM(ugo.ug_uplate_iznos)) AS dug,
+						SUM(ugo.ug_meni_cena) AS cena_menija,
+						(SUM(ugo.ug_meni_cena) / SUM(ugo.ug_broj_mesta)) AS prosecna_cena_menija
+					FROM termini AS ter
+					JOIN (SELECT ug.id, ug.termin_id, ug.broj_mesta AS ug_broj_mesta, ug.broj_stolova AS ug_broj_stolova, ug.iznos AS ug_iznos,
+								IFNULL(up.uplate_iznos,0) AS ug_uplate_iznos, (ug.broj_mesta * meni.cena) AS ug_meni_cena
+						FROM ugovori AS ug
+						LEFT JOIN
+							(SELECT uplate.ugovor_id, SUM(uplate.iznos) AS uplate_iznos
+								FROM uplate GROUP BY uplate.ugovor_id) AS up
+						ON up.ugovor_id = ug.id
+						LEFT JOIN s_meniji AS meni ON meni.id = ug.meni_id GROUP BY ug.id) AS ugo
+					ON ugo.termin_id = ter.id
+					JOIN s_tip_dogadjaja ON s_tip_dogadjaja.id = ter.tip_dogadjaja_id
                     WHERE ter.datum BETWEEN :od AND :do
                     GROUP BY ter.tip_dogadjaja_id;";
             $model = new Tabela();
